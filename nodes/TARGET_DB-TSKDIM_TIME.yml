@@ -1,0 +1,245 @@
+fileVersion: 1
+id: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+name: TSKDIM_TIME
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: 260346a8-1f58-4355-ab7d-3f9b7d238bdf
+            stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+          sortOrder: desc
+    predTask: TSKWRK_TIME_TASK
+    rootTask: TGCR_ORDERS_FACT
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "30"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1a90ac64-4e25-4feb-a4d5-914c8abd5c83
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSurrogateKey: true
+        name: TSKDIM_TIME_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 260346a8-1f58-4355-ab7d-3f9b7d238bdf
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        hashDetails: null
+        isBusinessKey: true
+        name: TIME_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dc1fb0cd-64d2-4c54-abc7-8b40e7d64af2
+                stepCounter: 4f992f72-5ac8-4ef9-bd1c-182ef13914cc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d6a3b94f-b95d-47b8-8afc-2f3ae9581903
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: DATE
+        description: ""
+        hashDetails: null
+        isChangeTracking: true
+        name: DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5c0a882c-1826-422c-86f9-24cec8ff301a
+                stepCounter: 4f992f72-5ac8-4ef9-bd1c-182ef13914cc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ec7f197d-3653-4b9b-b1a1-e30ff952673d
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        hashDetails: null
+        name: DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ed4a9694-be18-477a-8031-323de2ee7e93
+                stepCounter: 4f992f72-5ac8-4ef9-bd1c-182ef13914cc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9bff37fe-12b3-447e-a405-a7cd06a1017f
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        hashDetails: null
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f0fa8b8b-4290-4ea4-998e-9af73c7d78ef
+                stepCounter: 4f992f72-5ac8-4ef9-bd1c-182ef13914cc
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f319937c-a33c-4385-844a-c6e20549bd40
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 69acdde0-945d-4188-8bea-a388b3075e4c
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 27a771c5-7e82-4383-bec6-b0f9f2ad92c6
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95882016-5b7d-418b-9a85-4c8c3889643b
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cc392be8-178e-4be8-8028-8d7b44043603
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8ae02200-41b6-4896-b3ce-ad36bded0eda
+          stepCounter: 1853a956-b74c-48f3-8f18-c9fa39e8b608
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          TSKWRK_TIME: 4f992f72-5ac8-4ef9-bd1c-182ef13914cc
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_TIME
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_TIME') }} "TSKWRK_TIME"
+        name: TSKDIM_TIME
+        noLinkRefs: []
+  name: TSKDIM_TIME
+  overrideSQL: false
+  schema: ""
+  sqlType: "149"
+  type: sql
+  version: 1
+type: Node
