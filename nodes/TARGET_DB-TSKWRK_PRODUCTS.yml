@@ -1,112 +1,122 @@
-steps:
-  TSKWRK_PRODUCTS-bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0:
-    operation:
-      config:
-        clusterKey: false
-        clusterKeyConfig:
-          items:
-            - {}
-        clusterKeyConfigExpressions:
-          items:
-            - {}
-        clusterKeyExpressions: false
-        devMode: true
-        flagSrcStream: false
-        groupByAll: false
-        insertStrategy: UNION
-        multiStreamBehavior: AND
-        orderby: false
-        orderbycolumn:
-          items:
-            - {}
-        predTask: TGCR_ORDERS_FACT
-        rootTask: TGCR_ORDERS_FACT
-        scheduleCRON: 5 0-23 * * * America/Los_Angeles
-        schedulePeriod: "60"
-        schedulePeriodOption: Predecessor
-        schedulingMode: Warehouse Task
-        selectDistinct: false
-        serverlessSize: MEDIUM
-        truncateBefore: false
-        whName: COMPUTE_WH
-      database: ""
-      deployEnabled: true
-      description: ""
-      isMultisource: false
-      locationName: TARGET_DB
-      materializationType: task
-      metadata:
-        appliedNodeTests: []
-        columns:
-          - columnReference:
-              columnCounter: cfdca72f-a95f-48c4-a720-b90123aecba8
-              stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
-            dataType: NUMBER(38,0)
-            description: ""
-            hashDetails: null
-            name: PRODUCT_ID
-            nullable: false
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 38f598c9-995d-4eea-b5d0-7ad1a397db15
-                    stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
-                transform: ""
-          - columnReference:
-              columnCounter: a53e6557-7c3b-42af-a307-0dfb775d4feb
-              stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
-            dataType: VARCHAR(255)
-            description: ""
-            hashDetails: null
-            name: PRODUCT_NAME
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: bc826634-0c9d-41c1-b665-afe49269e14e
-                    stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
-                transform: ""
-          - columnReference:
-              columnCounter: ea1e6134-e4aa-4255-babe-790f34d5b260
-              stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
-            dataType: VARCHAR(100)
-            description: ""
-            hashDetails: null
-            name: BRAND
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 9dd48010-c67d-4977-95dd-4f0a0175222a
-                    stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
-                transform: ""
-          - columnReference:
-              columnCounter: 0a27f769-1841-43be-b4d0-0975e2a187db
-              stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
-            dataType: VARCHAR(50)
-            description: ""
-            hashDetails: null
-            name: COLOUR
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 4e298a2d-ac17-4e0f-b144-5126385fb4e9
-                    stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
-                transform: ""
-        cteString: ""
-        enabledColumnTestIDs: []
-        sourceMapping:
-          - aliases:
-              PRODUCTS: 9871c326-1030-4ade-bab1-bf7cee8fdaba
-            customSQL:
-              customSQL: ""
-            dependencies:
-              - locationName: SOURCE_DATA
-                nodeName: PRODUCTS
-            join:
-              joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            name: TSKWRK_PRODUCTS
-            noLinkRefs: []
-      name: TSKWRK_PRODUCTS
-      overrideSQL: false
-      schema: ""
-      sqlType: "151"
-      type: sql
-    stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
+fileVersion: 1
+id: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
+name: TSKWRK_PRODUCTS
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_ORDERS_FACT
+    rootTask: TGCR_ORDERS_FACT
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: false
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cfdca72f-a95f-48c4-a720-b90123aecba8
+          stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        hashDetails: null
+        name: PRODUCT_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38f598c9-995d-4eea-b5d0-7ad1a397db15
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a53e6557-7c3b-42af-a307-0dfb775d4feb
+          stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        hashDetails: null
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bc826634-0c9d-41c1-b665-afe49269e14e
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea1e6134-e4aa-4255-babe-790f34d5b260
+          stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        hashDetails: null
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9dd48010-c67d-4977-95dd-4f0a0175222a
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a27f769-1841-43be-b4d0-0975e2a187db
+          stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        hashDetails: null
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4e298a2d-ac17-4e0f-b144-5126385fb4e9
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          PRODUCTS: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+        name: TSKWRK_PRODUCTS
+        noLinkRefs: []
+  name: TSKWRK_PRODUCTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
