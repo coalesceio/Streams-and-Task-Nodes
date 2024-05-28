@@ -213,7 +213,7 @@ operation:
             nodeName: TSKWRK_ORDERS_DIM_PRO_TIME_STORE
         join:
           joinCondition: |-
-
+            
             FROM {{ ref('TARGET_DB', 'TSKWRK_ORDERS_DIM_PRO_TIME_STORE') }} "TSKWRK_ORDERS_DIM_PRO_TIME_STORE"
         name: TSKFCT_ORDERS_DIM_PRO_TIME_STORE
         noLinkRefs: []
