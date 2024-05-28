@@ -1,0 +1,130 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Fact With Task == #}
+{# == Node Type Description    : This node loads data into fact table == #}
+
+
+{# Target Table Info #}
+{% set targetTableDatabase = ref_no_link(node.location.name, node.name).split('.')[0] %} 
+{% set targetTableSchema = ref_no_link(node.location.name, node.name).split('.')[1] %} 
+{% set fullyQualifiedTargetTableName = ref_no_link(node.location.name, node.name) %}
+
+{# Development mode -To test the SQL the task will execute to make sure it runs without errors and returns the expected data #}
+
+{% if config.devMode == true %}
+    {{ stage('Load Data - Development Mode') }}
+    {% set has_business_key = columns | selectattr('isBusinessKey') | list | length > 0 %}
+
+    {% if has_business_key %}        
+        /* With Business Key */
+        MERGE INTO {{ fullyQualifiedTargetTableName }} "TGT" USING (
+            {% for source in sources %}
+                /* Combine Sources if needed */
+                {% if loop.first %}
+                    SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+                    {% for col in source.columns  %}
+                        {% if (col.isSystemUpdateDate or col.isSystemCreateDate) %}
+                            {{ col.transform }} AS "{{ col.name }}"
+                        {% else %}
+                            "{{ col.name }}" AS "{{ col.name }}"
+                        {% endif %}
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                    FROM (
+                {% endif %}
+                (SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+                {% for col in source.columns if not (col.isSurrogateKey or col.isSystemCreateDate or col.isSystemUpdateDate ) %}
+                    {{ get_source_transform(col) }} AS "{{ col.name }}"{% if not loop.last %}, {% endif %}
+                {% endfor %}
+                {{ source.join }}
+                {% if config.groupByAll %}GROUP BY ALL{% endif %}
+                {{ sortorder_by_colv() }})
+                {% if not loop.last %}
+                    {{ config.insertStrategy }}
+                {% endif %}
+                {% if loop.last %}
+                    )
+                {% endif %}
+            {% endfor %}
+        ) AS "SRC"
+        ON
+        {% for col in columns if col.isBusinessKey -%}
+            {% if not loop.first %}
+                AND
+            {% endif %}
+            "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
+        {% endfor %}
+        WHEN MATCHED
+        {% for col in columns if not (col.isBusinessKey or
+                                                col.isSystemUpdateDate or
+                                                col.isSystemCreateDate) %}
+            {% if loop.first %}
+                AND (
+            {% else %}
+                OR
+            {% endif %}
+            NVL( CAST("SRC"."{{ col.name }}" as STRING), '**NULL**') <> NVL( CAST("TGT"."{{ col.name }}" as STRING), '**NULL**')
+            {% if loop.last %}
+                )
+            {% endif %}
+        {% endfor %}
+        THEN UPDATE SET
+        {%- for col in columns if not (col.isBusinessKey or col.isSystemCreateDate) %}
+                "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor %}
+        WHEN NOT MATCHED THEN
+        INSERT (
+        {%- for col in columns if not col.isSurrogateKey %}
+            "{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor -%}
+        )
+        VALUES (
+        {%- for col in columns if not col.isSurrogateKey %}
+            "SRC"."{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor -%}
+        )
+    {% else %}
+        /* No Business Key */
+        INSERT INTO {{ fullyQualifiedTargetTableName }}
+        (
+            {% for col in columns %}
+                "{{ col.name }}"
+                {%- if not loop.last -%},{% endif %}
+            {% endfor %}
+        )
+    
+        {% for source in sources %}
+            /* Combine Sources if needed */
+            {% if loop.first %}
+                SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+                {% for col in columns  %}
+                    "{{ col.name }}" AS "{{ col.name }}"
+                    {% if not loop.last %}, {% endif %}
+                {% endfor %}
+                FROM (
+            {% endif %}
+            (SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+            {% for col in source.columns if not col.isSurrogateKey %}
+                {{ get_source_transform(col) }} AS "{{ col.name }}"{% if not loop.last %}, {% endif %}
+            {% endfor %}
+            {{ source.join }}
+            {% if config.groupByAll %}GROUP BY ALL{% endif %}
+            {{ sortorder_by_colv() }})
+            {% if not loop.last %}
+                {{ config.insertStrategy }}
+            {% endif %}
+            {% if loop.last %}
+                )
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endif %}

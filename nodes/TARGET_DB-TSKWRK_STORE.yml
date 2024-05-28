@@ -1,0 +1,122 @@
+fileVersion: 1
+id: 83c2ff7a-be94-422a-9db2-f9087110a7a4
+name: TSKWRK_STORE
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_ORDERS_FACT
+    rootTask: TGCR_ORDERS_FACT
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: false
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 52af7243-9ab6-437f-b321-8564c4e9a561
+          stepCounter: 83c2ff7a-be94-422a-9db2-f9087110a7a4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        hashDetails: null
+        name: STORE_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 310d5c4e-a6f1-4ccb-b947-4d99a06b7fce
+                stepCounter: ae71b352-cd41-486d-9d87-efb6acf130b0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a38972ad-280f-4434-94e1-4a64b2fa2552
+          stepCounter: 83c2ff7a-be94-422a-9db2-f9087110a7a4
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        hashDetails: null
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 22dc766d-dd05-4c6f-b275-4ecbdd80ffc8
+                stepCounter: ae71b352-cd41-486d-9d87-efb6acf130b0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2ff2bcc4-5b44-4007-8dac-cfbcb3cf00d7
+          stepCounter: 83c2ff7a-be94-422a-9db2-f9087110a7a4
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        hashDetails: null
+        name: STORE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b431608-f9b4-4c60-91e0-3e0d879854aa
+                stepCounter: ae71b352-cd41-486d-9d87-efb6acf130b0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a224a64-f32c-48cc-a916-ee572d045f0a
+          stepCounter: 83c2ff7a-be94-422a-9db2-f9087110a7a4
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        hashDetails: null
+        name: PHONE_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6b4188b7-f0c5-4ac6-a1c0-c617f5309cba
+                stepCounter: ae71b352-cd41-486d-9d87-efb6acf130b0
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STORE: ae71b352-cd41-486d-9d87-efb6acf130b0
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: STORE
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'STORE') }} "STORE"
+        name: TSKWRK_STORE
+        noLinkRefs: []
+  name: TSKWRK_STORE
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
