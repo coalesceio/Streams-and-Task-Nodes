@@ -1059,3 +1059,6 @@ This is executed in following stages:
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/StreamandInsertorMerge-152/run.sql.j2)
 
 [Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
+
+
+[<img src="https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/c1c65350-9f97-4307-8a75-75447dc1b252" alt="Git Logo" height="40">](https://github.com/coalesceio/Streams-and-Task-Nodes)
