@@ -2,14 +2,14 @@
 
 The Coalesce Stream and Task Node Types Package includes:
 
-* [WORK WITH TASK](#work-with-task)
-* [DIMENSION WITH TASK](#dimension-with-task)
-* [FACT WITH TASK](#fact-with-task)
-* [TASK DAG CREATE ROOT](#task-dag-create-root)
-* [TASK DAG RESUME ROOT](#task-dag-resume-root)
-* [STREAM](#stream)
-* [STREAM AND INSERT OR MERGE](#stream-and-insert-or-merge)
-* [CODE](#code)
+* [Work with Task](#work-with-task)
+* [Dimension with Task](#dimension-with-task)
+* [Fact with Task](#fact-with-task)
+* [Task DAG Create Root](#task-dag-create-root)
+* [Task DAG Resume Root](#task-dag-resume-root)
+* [Stream](#stream)
+* [Stream and Insert or Merge](#stream-and-insert-or-merge)
+* [Code](#code)
 
 # Work with Task
 
