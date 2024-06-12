@@ -69,7 +69,7 @@ With the Development Mode set to `false` there are four config groups:
     * True - Allows you to specify the column based on which clustering is to be done.
 	    *  **Allow Expressions Cluster Key**: True/False.  Add an expression to the specified cluster key.
     * False – No clustering done
- * **Truncate Before**: [Missing]
+ * **Truncate Before**: Specifies that the target table should be truncated before inserting the values into the table.
 
 <h4 id="work-with-task-general-options">Work With Task General Options </h4>
 
@@ -471,7 +471,7 @@ With the Development Mode set to `false` Scheduling Options is added.
     * True - Allows you to specify the column based on which clustering is to be done.
 	    *  **Allow Expressions Cluster Key**: True/False.  Add an expression to the specified cluster key.
     * False – No clustering done
- * **Truncate Before**: [Missing]
+ * **Truncate Before**: Specifies that the target table should be truncated before inserting the values into the table.
 
 <h4 id="fact-with-task-general-options">Fact With Task General Options </h4>
 
@@ -776,7 +776,7 @@ The Stream has two configuration groups:
 	    * **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
 			* True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
 			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: [Missing content]
+		* **Redeployment Behavior**: Options to determine redeployment behavior.
     * **View**:
 	   * **Append Only Stream**: True / False Toggle to set what type of stream is created.
 		    * True - Specifies an append-only stream.
@@ -784,9 +784,7 @@ The Stream has two configuration groups:
 		* **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
 		    * True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
 			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: [Missing content]
-    * **External Table**: [Missing content. When I change to external table in the UI, it only shows redeployment behavior]
-  
+		* **Redeployment Behavior**: Options to determine redeployment behavior.
 
 ### Stream System Columns
 
@@ -889,7 +887,7 @@ More information about Streams can be found in the official [Snowflake's Introdu
 	    * **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
 			* True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
 			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: [Missing content]
+		* **Redeployment Behavior**: Options to determine redeployment behavior.
     * **View**:
 	   * **Append Only Stream**: True / False Toggle to set what type of stream is created.
 		    * True - Specifies an append-only stream.
@@ -897,9 +895,7 @@ More information about Streams can be found in the official [Snowflake's Introdu
 		* **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
 		    * True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
 			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: [Missing content]
-    * **External Table**: [Missing content. When I change to external table in the UI, it only shows redeployment behavior]
-
+		* **Redeployment Behavior**: Options to determine redeployment behavior.
 
 #### Stream-Insert or Merge Target Loading Options
 
