@@ -3,15 +3,17 @@ id: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
 name: TSKWRK_PRODUCTS
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: a53e6557-7c3b-42af-a307-0dfb775d4feb
+            stepCounter: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: true
+    devMode: false
     flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
@@ -28,7 +30,7 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: false
+    truncateBefore: true
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
