@@ -23,8 +23,8 @@ operation:
             columnCounter: 96b41de3-9214-41fc-be38-29a6166a2ab9
             stepCounter: ffe4dbf7-61f2-468f-b4a7-7ddd7f6c3126
           sortOrder: desc
-    predTask: TGCR_PRODUCTS
-    rootTask: TGCR_PRODUCTS
+    predTask: TGCR_ORDERS_FACT
+    rootTask: TGCR_ORDERS_FACT
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
