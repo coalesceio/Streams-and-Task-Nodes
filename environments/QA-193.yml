@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "192"
+id: "193"
 mappingDefinitions:
   SOURCE_DATA:
     database: ANANDHIS_DEV
@@ -7,5 +7,5 @@ mappingDefinitions:
   TARGET_DB:
     database: ANANDHIS_DEV
     schema: TARGET_DEV
-name: TEST_DEV
+name: QA
 type: Environment
