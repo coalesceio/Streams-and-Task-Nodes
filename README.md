@@ -22,6 +22,7 @@ Tasks can also be used independently to generate periodic reports by inserting o
 More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro). 
 
 ### Work With Task Node Configuration
+
 The Work with Task node has two or three configuration groups depending on config options selected.
 
 With the option Development Mode set to `true` there are three config groups:
