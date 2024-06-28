@@ -12,7 +12,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: transient table
+    createas: table
     devMode: false
     flagSrcStream: true
     groupByAll: false
@@ -25,7 +25,7 @@ operation:
       items:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    redeploymentBehavior: Create At Existing Stream
+    redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
