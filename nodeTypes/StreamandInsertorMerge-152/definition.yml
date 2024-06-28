@@ -4,14 +4,14 @@ isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
-  nodeMetadataSpec: |+
+  nodeMetadataSpec: |-
     capitalized: Stream and Insert or Merge
     short: SIM
     tagColor: black
     plural: Streams and Merges
-
+     
     deployStrategy: advanced
-
+     
     config:
     - groupName: General Options
       items:
@@ -20,20 +20,29 @@ metadata:
         type: toggleButton
         isRequired: true
         default: true
-
+     
+      - displayName: Create As
+        attributeName: createas
+        type: dropdownSelector
+        default: table
+        options:
+        - table
+        - transient table
+        isRequired: true
+     
       - type: toggleButton
         attributeName: selectDistinct
         displayName: Distinct
         default: false
         enableIf: "{% if config.groupByAll %} false {% else %} true {% endif %}"
-
+     
       - type: toggleButton
         attributeName: groupByAll
         displayName: Group By All
         enableIf: "{% if config.selectDistinct %} false {% else %} true {% endif %}"
         default: false
-
-
+     
+     
     - groupName: Stream Options
       items:
       - displayName: Source Object
@@ -45,22 +54,22 @@ metadata:
           - External Table
           - View
         isRequired: true
-
+     
       - displayName: Append Only Stream
         attributeName: appendOnly
         type: toggleButton
         default: false
         isRequired: true
         enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
-
+     
       - displayName: Show Initial Rows
         attributeName: initialRows
         type: toggleButton
         default: true
         isRequired: true
         enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
-
-
+     
+     
       - displayName: Redeployment Behavior
         attributeName: redeploymentBehavior
         type: dropdownSelector
@@ -70,7 +79,7 @@ metadata:
           - Create If Not Exists
           - Create At Existing Stream
         isRequired: true
-
+     
     - groupName: Target Loading Options
       items:
       - displayName: Load Type
@@ -81,30 +90,30 @@ metadata:
           - Insert
           - Merge
         isRequired: true
-
-      - type: tabular 
+     
+      - type: tabular
         displayName: 'Table Key(s)'
         attributeName: partitionBy
         columns:
-      
+     
         -  type: columnDropdownSelector
            displayName: Column Name
            attributeName: partColName
            isRequired: false
-            
+           
         isRequired: false
         enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
-
+     
       - type: tabular
         displayName: 'Record Date / Timestamp'
         attributeName: orderBy
         columns:
-      
+     
         -  type: columnDropdownSelector
            displayName: Column Name
            attributeName: colName
            isRequired: false
-        
+       
         -  type: dropdownSelector
            displayName: Sort Order
            attributeName: sortOrd
@@ -113,62 +122,62 @@ metadata:
            - desc
            - asc
            isRequired: false
-        
+       
         isRequired: false
         enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
      
       # Cluster Key-Determine if a node is to be clustered or not #
-      
+     
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key
         default: false
         isRequired: true
-
+     
       - type: toggleButton
         attributeName: clusterKeyExpressions
         displayName: Allow Expressions in Cluster Key
         default: false
         isRequired: true
         enableIf: "{% if config.clusterKey %} true {% else %} false {% endif %}"
-
+     
       - type: tabular
         displayName: 'Cluster Key'
         attributeName: clusterKeyConfig
         columns:
-
+     
         -  type: columnDropdownSelector
            displayName: Column Name
            attributeName: columnName
            isRequired: false
-      
+     
         isRequired: false
         enableIf: "{% if (config.clusterKey and not config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
-
+     
       - type: tabular
         displayName: 'Cluster Key'
         attributeName: clusterKeyConfigExpressions
         columns:
-
+     
         -  type: columnDropdownSelector
            displayName: Column Name
            attributeName: columnNameExpressions
            isRequired: false
-      
+     
         -  type: textBox
            displayName: Expression
            attributeName: sqlExpression
            default: "ex. trunc(<column_name>, -5)"
            isRequired: false
-      
+     
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
-
+     
     - groupName: Scheduling Options
-
+     
     # Schedule mode-Specifies whether a warehouse or serverless compute is used to run the task #
-
-      enableIf: "{% if config.devMode == true %} false {% else %} true {% endif %}" 
+     
+      enableIf: "{% if config.devMode == true %} false {% else %} true {% endif %}"
       items:
       - displayName: Scheduling Mode
         attributeName: schedulingMode
@@ -178,24 +187,24 @@ metadata:
           - Warehouse Task
           - Serverless Task
         isRequired: true
-
+     
     # Checks whether source streams have data before executing a task #
-
+     
       - displayName: When Source Stream has Data Flag
         attributeName: flagSrcStream
         type: toggleButton
         default: true
         isRequired: true
-
+     
     # Warehouse name  you want the task to run #
-
+     
       - displayName: Select Warehouse on which to run task
         attributeName: whName
         type: textBox
         default: '<WAREHOUSE_NAME>'
         isRequired: false
         enableIf: "{% if config.schedulingMode == 'Warehouse Task' %} true {% else %} false {% endif %}"
-
+     
       - displayName: Select initial serverless Warehouse size
         attributeName: serverlessSize
         type: dropdownSelector
@@ -209,9 +218,9 @@ metadata:
           - XXLARGE
         isRequired: false
         enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
-
+     
     # Way to schedule the task to run #
-
+     
       - displayName: Task Schedule
         attributeName: schedulePeriodOption
         type: dropdownSelector
@@ -221,35 +230,35 @@ metadata:
           - CRON
           - Predecessor
         isRequired: true
-
+     
       - displayName: Enter task schedule using minutes
         attributeName: schedulePeriod
         type: textBox
         default: '60'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Minutes' %} true {% else %} false {% endif %}"
-
+     
       - displayName: Enter task schedule using CRON
         attributeName: scheduleCRON
         type: textBox
-        default: '5 0-23 * * * America/Los_Angeles'
+        placeholder: '5 0-23 * * * America/Los_Angeles'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
-
+     
       - displayName: Enter predecessor task(s) separated by a comma
         attributeName: predTask
         type: textBox
         default: 'DATA_TRANSFORMATION_ROOT_TASK'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
-
+     
       - displayName: Enter root task name
         attributeName: rootTask
         type: textBox
         default: 'DATA_TRANSFORMATION_ROOT_TASK'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
-
+     
     - groupName: Hidden Config
       enableIf: "false"
       items:
@@ -259,6 +268,5 @@ metadata:
         options:
         - task
         isRequired: false
-
 name: Stream and Insert or Merge
 type: NodeType

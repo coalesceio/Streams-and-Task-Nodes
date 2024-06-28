@@ -12,6 +12,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    createas: table
     devMode: false
     flagSrcStream: true
     groupByAll: false
