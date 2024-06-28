@@ -865,11 +865,15 @@ More information about Streams can be found in the official [Snowflake's Introdu
 
 #### Stream-Insert or Merge General Options
 
-![SIM_GO](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/ae40d3c8-8b22-4003-b17e-f5c6e5a8b775)
+![SIM-GO](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/169126315/51559454-e26f-42bd-8814-171f6c02cff9)
+
 
 * **Development Mode**: True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action. Prior to creating a task, it is helpful to test the SQL the task will execute to make sure it runs without errors and returns the expected data.
     * True - A table will be created and SQL will execute as a Run action.
     * False - After sufficiently testing the SQL as a Run action setting Development Mode to false will wrap the SQL statement in a task with options specified in Scheduling Options.
+- **CREATE AS**: In this dropdown you can select if you want to create target object as 'Table' or 'Transient Table' .
+  - Table - A permanent table in Snowflake with data retention and fail-safe features for long-term storage and data protection.
+  - Transient Table- A temporary table in Snowflake without data retention and fail-safe features, suitable for intermediate data processing.
 * **DISTINCT**: True/False toggle that determines whether to add DISTINCT to SQL Query.
     * True - Group by All is invisible. DISTINCT data is chosen for processing
     * False- Group by All is visible
@@ -979,8 +983,11 @@ When deployed for the first time into an environment the Stream and Insert or Me
 **Create Stream**
 This stage will execute a CREATE OR REPLACE statement and create a Stream in the target environment.
 
-**Create Stage Table**
+**Create Work Table/Transient Table**
 This stage will create a table that will be loaded by the task.
+
+**Target Table Initial Load**
+Loads initial data into table
 
 **Create Task**
 This stage will create a task that will load the target table on the schedule specified.
@@ -993,8 +1000,11 @@ After the task has been created it needs to be resume so that the task runs on t
 **Create Stream**
 This stage will execute a CREATE OR REPLACE statement and create a Stream in the target environment.
 
-**Create Stage Table**
+**Create Work Table/Transient Table**
 This stage will create a table that will be loaded by the ask.
+
+**Target Table Initial Load**
+Loads initial data into table
 
 **Suspend Root Task**
 To add a task into a DAG of task the root task needs to be put into a suspended state.
@@ -1008,7 +1018,27 @@ The task node has no ALTER capabilities. All task enabled nodes are CREATE OR RE
 
 ### Stream-Insert or Merge Redeployment
 
-After the Stream has deployed for the first time into a target environment, subsequent deployments with different deployment behavior will result in a CREATE stream statement being issued and a new stream will be created followed by CREATE TASK and RESUME TASK statements.
+| Redeployment Behavior | Stage Executed |
+|---|---|
+| Create Stream if not exists| Re-Create Stream at existing offset|
+| Create or Replace | Create Stream|
+| Create at existing stream |  Re-Create Stream at existing offset |
+
+#### Table
+
+There are few column or table changes like Change in table name,Dropping existing column, Alter Column data type,Adding a new column if made in isolation or all-together will result in an ALTER statement to modify the Work Table in the target environment.
+The following stages are executed:
+
+* **Rename Table| Alter Column | Delete Column | Add Column | Edit table description**: Alter table statement is executed to perform the alter operation.
+* **Target Inital Load** :If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO."
+
+If the materialization type is changed from transient table to table or vie versa,the following stages are executed
+* **Drop table/transient table**
+* **Create Work table/transient table**
+* **Target Inital Load** :If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO."
+
+#### Task
+Redeployment with changes in the stream or table will result in the creation and resumption of the task.
 
 ### Stream-Insert or Merge Undeployment
 
