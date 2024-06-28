@@ -1,6 +1,6 @@
 fileVersion: 1
-id: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
-name: SIM_EMP_SAMP
+id: 3e0e3902-d9dd-48a0-b739-8f42a3fc1942
+name: SIM_ORDERS_FACT
 operation:
   config:
     appendOnly: false
@@ -12,23 +12,22 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    createas: transient table
     devMode: false
     flagSrcStream: true
     groupByAll: false
     initialRows: true
-    insertOnly: false
     loadType: Insert
-    multiStreamBehavior: AND
     orderBy:
       items:
         - {}
     partitionBy:
       items:
         - {}
-    predTask: ""
-    redeploymentBehavior: Create or Replace
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
@@ -47,94 +46,88 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 11a406fc-ab6c-4d46-b2bc-4c9b30b59127
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: 5bd5e545-a913-4a39-92f6-567a2744333c
+          stepCounter: 3e0e3902-d9dd-48a0-b739-8f42a3fc1942
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
-        name: EMPLOYEEID
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: ea01dd7b-4ae6-4bcc-9e9d-55871a22deea
-                stepCounter: 133c3384-0b34-43bf-b791-a58f1027760a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: bff31ce2-ace8-48ef-a6e2-cdd5d8ac079c
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
-        config: {}
-        dataType: VARCHAR(50)
-        description: ""
-        hashDetails: null
-        name: FIRSTNAME
+        name: PRODUCT_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e1bed272-76e8-4b0f-8bfc-efd88327fd2e
-                stepCounter: 133c3384-0b34-43bf-b791-a58f1027760a
+              - columnCounter: 995cc615-9f0c-49c3-86a7-16dcd29d1481
+                stepCounter: d321d571-a1ca-41a1-958a-9b58b033905d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 406a3f92-31b8-4e0b-89a2-15b352d3f231
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
-        config: {}
-        dataType: VARCHAR(50)
-        description: ""
-        hashDetails: null
-        name: LASTNAME
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 9a95d557-b82a-4cdc-9c75-6d538a51efe2
-                stepCounter: 133c3384-0b34-43bf-b791-a58f1027760a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 565e2495-02c7-4469-bcdb-91076c841974
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: 77ee2f9b-f79e-4fcb-844b-525953f0ca5c
+          stepCounter: 3e0e3902-d9dd-48a0-b739-8f42a3fc1942
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
-        name: DEPARTMENTID
+        name: STORE_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 0c0cd734-75f6-436e-ac08-96471306948a
-                stepCounter: 133c3384-0b34-43bf-b791-a58f1027760a
+              - columnCounter: b3e78e79-1f47-4b51-8e5f-4f2604f21300
+                stepCounter: d321d571-a1ca-41a1-958a-9b58b033905d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c419daa5-8be0-4eed-a4b2-dbda5c7c333b
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: 7ced6f63-6972-4862-9e91-cb1ce70831c0
+          stepCounter: 3e0e3902-d9dd-48a0-b739-8f42a3fc1942
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TIME_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 352242ea-893f-4028-90b0-735b2e6088c2
+                stepCounter: d321d571-a1ca-41a1-958a-9b58b033905d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6cad9e9c-24be-4bdf-ace8-9925f20c5aee
+          stepCounter: 3e0e3902-d9dd-48a0-b739-8f42a3fc1942
         config: {}
         dataType: NUMBER(10,2)
         description: ""
-        hashDetails: null
-        name: SALARY
+        name: ORDERS_DOLLARS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 92c2084d-0de4-4c25-a086-817cd6f7eeb1
-                stepCounter: 133c3384-0b34-43bf-b791-a58f1027760a
+              - columnCounter: 5ab7328b-6c6d-49fa-a0f6-a5dfa269636e
+                stepCounter: d321d571-a1ca-41a1-958a-9b58b033905d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 55379134-fdb4-4b60-ac61-5e1dc08ecdbf
+          stepCounter: 3e0e3902-d9dd-48a0-b739-8f42a3fc1942
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDERS_QUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ae4c6aae-4b87-4ea6-a696-4f92c28a2612
+                stepCounter: d321d571-a1ca-41a1-958a-9b58b033905d
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          EMP_SAMP: 133c3384-0b34-43bf-b791-a58f1027760a
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
-            nodeName: EMP_SAMP
+            nodeName: ORDERS_FACT
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'EMP_SAMP') }} "EMP_SAMP"
-        name: SIM_EMP_SAMP
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS_FACT') }} "ORDERS_FACT"
+        name: SIM_ORDERS_FACT
         noLinkRefs: []
-  name: SIM_EMP_SAMP
+  name: SIM_ORDERS_FACT
   overrideSQL: false
   schema: ""
   sqlType: "152"
