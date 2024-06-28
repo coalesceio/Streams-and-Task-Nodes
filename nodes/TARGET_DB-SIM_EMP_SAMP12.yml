@@ -1,6 +1,6 @@
 fileVersion: 1
-id: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
-name: SIM_EMP_SAMP
+id: b44f115a-1acc-4858-ac7d-658b1cd5caf4
+name: SIM_EMP_SAMP12
 operation:
   config:
     appendOnly: false
@@ -12,24 +12,22 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: table
+    createas: transient table
     devMode: false
     flagSrcStream: true
     groupByAll: false
     initialRows: true
-    insertOnly: false
     loadType: Insert
-    multiStreamBehavior: AND
     orderBy:
       items:
         - {}
     partitionBy:
       items:
         - {}
-    predTask: ""
-    redeploymentBehavior: Create or Replace
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
@@ -48,12 +46,11 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 11a406fc-ab6c-4d46-b2bc-4c9b30b59127
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: f0d7618b-a9f4-4b4c-9207-1ae5aeed428e
+          stepCounter: b44f115a-1acc-4858-ac7d-658b1cd5caf4
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
         name: EMPLOYEEID
         nullable: false
         sourceColumnReferences:
@@ -63,12 +60,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bff31ce2-ace8-48ef-a6e2-cdd5d8ac079c
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: c5bdc28b-6d4a-4190-8d37-0c2e292697cb
+          stepCounter: b44f115a-1acc-4858-ac7d-658b1cd5caf4
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        hashDetails: null
         name: FIRSTNAME
         nullable: true
         sourceColumnReferences:
@@ -78,12 +74,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 406a3f92-31b8-4e0b-89a2-15b352d3f231
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: 68ee3a31-d1e6-4d32-b4e8-78cb32f47577
+          stepCounter: b44f115a-1acc-4858-ac7d-658b1cd5caf4
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        hashDetails: null
         name: LASTNAME
         nullable: true
         sourceColumnReferences:
@@ -93,12 +88,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 565e2495-02c7-4469-bcdb-91076c841974
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: f218ac83-9bf1-416c-afa6-e5c04e6912f4
+          stepCounter: b44f115a-1acc-4858-ac7d-658b1cd5caf4
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
         name: DEPARTMENTID
         nullable: true
         sourceColumnReferences:
@@ -108,12 +102,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c419daa5-8be0-4eed-a4b2-dbda5c7c333b
-          stepCounter: bb45da69-b9ac-48fb-bbaf-c494424e8d7c
+          columnCounter: 3390c284-c5d8-42a7-bafc-c412625a5f41
+          stepCounter: b44f115a-1acc-4858-ac7d-658b1cd5caf4
         config: {}
         dataType: NUMBER(10,2)
         description: ""
-        hashDetails: null
         name: SALARY
         nullable: true
         sourceColumnReferences:
@@ -121,11 +114,24 @@ operation:
               - columnCounter: 92c2084d-0de4-4c25-a086-817cd6f7eeb1
                 stepCounter: 133c3384-0b34-43bf-b791-a58f1027760a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3bb16995-488a-4a0d-9a08-f3e79c0dd646
+          stepCounter: b44f115a-1acc-4858-ac7d-658b1cd5caf4
+        config: {}
+        dataType: VARCHAR(40)
+        description: ""
+        name: COUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a091fe7c-c4cf-470d-90bb-c45e964a73f5
+                stepCounter: 133c3384-0b34-43bf-b791-a58f1027760a
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          EMP_SAMP: 133c3384-0b34-43bf-b791-a58f1027760a
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
@@ -133,9 +139,9 @@ operation:
             nodeName: EMP_SAMP
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'EMP_SAMP') }} "EMP_SAMP"
-        name: SIM_EMP_SAMP
+        name: SIM_EMP_SAMP12
         noLinkRefs: []
-  name: SIM_EMP_SAMP
+  name: SIM_EMP_SAMP12
   overrideSQL: false
   schema: ""
   sqlType: "152"
