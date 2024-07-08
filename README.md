@@ -786,6 +786,10 @@ The Stream has two configuration groups:
 		    * True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
 			* False - The stream returns any DML changes to the source object since the most recent offset.
 		* **Redeployment Behavior**: Options to determine redeployment behavior.
+    * **External table**:
+                * **Redeployment Behavior**: Options to determine redeployment behavior.
+    * **External iceberg table**:
+               * **Redeployment Behavior**: Options to determine redeployment behavior.
 
 ### Stream System Columns
 
