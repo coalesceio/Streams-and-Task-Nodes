@@ -83,7 +83,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
     {% endif %}
 
-    {% if currentState == undefined or nsVariables.colchanges == 1 %}
+    {% if currentState == undefined or nsVariables.colchanges == 1 or currentState.storageLocations | length == 0%}
         {{ stage('Create Fact Table', true, "sql", "alter") }}
         CREATE OR REPLACE TABLE {{ fullyQualifiedTargetTableName }}
         (
