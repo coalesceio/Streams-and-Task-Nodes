@@ -17,6 +17,7 @@ does not permit copying or modification for any other purpose.
     {% set sourceStorageLocation = desiredState.sources[0].dependencies[0].node.location.name %}
     {% set sourceDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='database') | first %}
     {% set sourceSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='schema') | first %}
+
     {% set sourceTableName = desiredState.sources[0].dependencies[0].node.name %}
     {% set fullyQualifiedSourceTableName = '"' + sourceDatabaseName + '"."' + sourceSchemaName + '"."' + sourceTableName + '"' %}
     {% set refLink = "{{ ref('" + sourceStorageLocation + "', '" + sourceTableName + "') }}" %}
@@ -129,7 +130,7 @@ does not permit copying or modification for any other purpose.
 {% endif %}
  
  
-{% elif desiredState == undefined %}
+{% elif desiredState == undefined and currentState.storageLocations | length > 0%}
  
     {# Source Stream Location and Name #}
     {% set streamTargetLocationName = currentState.node.location.name %}
@@ -229,7 +230,7 @@ select 1 = 0
                
         {% endif %}
  
-        {% if currentState == undefined %}
+        {% if currentState == undefined or currentState.storageLocations | length == 0%}
             {{ stage('Create Work '+ ' {{desiredState.config.createas}}' , true, "sql", "create") }}
             CREATE OR REPLACE {{desiredState.config.createas}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
@@ -242,15 +243,16 @@ select 1 = 0
                     {%- if not loop.last -%}, {% endif %}
                 {% endfor %}
             )
-            {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+                {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'
+                {% endif %}
  
-        {% if desiredState.config.clusterKey == true %}
-            {{ stage('Apply Table Clustering', true, "sql", "create") }}
-            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
- 
-            {{ stage('Resume Recluster Table', true, "sql", "create") }}
-            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
-        {% endif %}
+            {% if desiredState.config.clusterKey == true %}
+                {{ stage('Apply Table Clustering', true, "sql", "create") }}
+                ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
+    
+                {{ stage('Resume Recluster Table', true, "sql", "create") }}
+                ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
+            {% endif %}
  
         {% elif currentState != undefined and currentState.config.createas == desiredState.config.createas %}
  

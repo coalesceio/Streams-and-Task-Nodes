@@ -22,7 +22,7 @@ does not permit copying or modification for any other purpose.
     {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
 
-    {% if currentState == undefined %}
+    {% if currentState == undefined or currentState.storageLocations | length == 0%}
         {# Figure out cluster key #}
         {% set nsVariables = namespace(finalClusterKey="") %}
         {% if desiredState.config.clusterKey == true %}
@@ -185,7 +185,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {# Rename / Move Object #}
-        {% if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
+        {% if (nsVariables.storageLocationTest == false  or currentState.node.name != desiredState.node.name) %}
             {{ stage('Rename and / or Move Table', true, "sql", "alter") }}
             ALTER TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
             RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}

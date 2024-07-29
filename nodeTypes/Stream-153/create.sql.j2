@@ -106,7 +106,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
 
 
-{% elif desiredState == undefined %}
+{% elif desiredState == undefined and currentState.storageLocations | length > 0 %}
 
     {# Source Stream Location and Name #}
     {% set streamTargetLocationName = currentState.node.location.name %}
