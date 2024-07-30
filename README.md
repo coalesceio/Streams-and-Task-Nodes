@@ -1096,6 +1096,10 @@ There are four configs within the **Node Properties** group.
 * **Catalog namespace**:Optionally specifies the namespace (for example, my_glue_database) for the AWS Glue Data Catalog source.Option available if AWS Glue catalog is chosen.
 * **Catalog table name**:Name of the catalog table.Option available if AWS Glue catalog is chosen.
 * **Metadata filepath**:Specifies the relative path of the Iceberg metadata file to use for column definitions.Option available if Object Storage Catalog is chosen.
+* **Schedule refresh**: True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action. Prior to creating a task, it is helpful to test the SQL the task will execute to make sure it runs without errors and returns the expected data.
+    * False - A table will be created and SQL will execute as a Run action.
+    * True - After sufficiently testing the SQL as a Run action, setting Schedule refresh Mode to true will wrap the SQL statement in a task with options specified in Scheduling Options.
+
 
 <h3 id="iceberg-task-scheduling-options">Scheduling Options</h3>
 
