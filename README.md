@@ -1122,26 +1122,95 @@ If schedule refresh mode is set to true then Scheduling Options can be used to c
  * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table.You can also grant SYSADMIN roles to EXTERNAL VOLUME,CATALOG INTEGRATION created.
  * An EXTERNAL VOLUME,CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
 
- ### External Iceberg table Initial Deployment
+#### Iceberg tables  With Task Deployment Parameters
 
-When deployed for the first time into an environment the Dynamic Table Latest Record Version node will execute the below stage:
+The Iceberg tables  With Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+
+The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
+
+When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run the task will be used when creating the task.
+
+```json
+{
+    "targetTaskWarehouse": "DEV ENVIRONMENT"
+}
+```
+
+When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
+
+For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
+
+```json
+{
+    "targetTaskWarehouse": "compute_wh"
+}
+```
+
+ ### Iceberg tables with task Initial Deployment
+
+When deployed for the first time into an environment the Work with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task:
+
+#### Iceberg tables with task No Predecessor Task Deployment
 
 * **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
+* **Create Task**: This stage will create a task that will load the target table on the schedule specified
+* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule
+ 
+#### Iceberg tables with task Predecessor Task Deployment
 
-### External Iceberg table Redeployment
+* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
+* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state
+* **Create Task**: This stage will create a task that will load the target table on the schedule specified
+
+If a task is part of a DAG of tasks, the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+The task node has no ALTER capabilities. All task enabled nodes are CREATE OR REPLACE only though this is subject to change.
+
+### Iceberg tables with Task Redeployment
+
 #### Recreating a Snowflake Iceberg table
 
 If any changes in config options like external volume,baselocation ,node properties ,column  results in recreating iceberg table during redeployment
 
 * **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
+  
+#### Iceberg tables With Task Recreating the Task Redeployment
+
+After the Task has deployed for the first time into a target environment, subsequent deployments with changes in task schedule, warehouse, or scheduling options will result in a CREATE TASK AND RESUME TASK statements being issued
+
+The following stages are executed:
+
+####  Iceberg tables With Task No Predecessor Task Redeployment
+
+* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
+* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule.
+	 
+#### Iceberg tables With Task Predecessor Task Redeployment
+
+* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state.
+* **Create Task**: This stage will create a task that will load the target table on the schedule specified
+
 
 ###  External Iceberg table Undeployment
 
-If a snowflake iceberg table is dropped from the workspace and commited to GIT results in table dropped from target environment.
-This is executed as a single stage:
+If a snowflake iceberg table with task  is dropped from the workspace and commited to GIT results in table and task dropped from target environment.
+This is executed in the below stages:
 
 * **Drop Iceberg Table**
-  
+
+#### Iceberg tables With Task No Predecessor Task Undeployment
+
+* **Drop Iceberg Table**
+* **Drop Current Task**: This stage will drop the task.
+
+#### Iceberg tables With Task Predecessor Task Undeployment
+
+* **Drop Iceberg Table**
+* **Suspend Root Task**: To drop a task from a DAG of task the root task needs to be put into a suspended state.
+* **Drop Task**: This stage will drop the task.
+
+If a task is part of a DAG of tasks the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
 <h1 id="code">Code</h1>
 
 ## Code
