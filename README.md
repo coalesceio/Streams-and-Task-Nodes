@@ -1055,7 +1055,9 @@ This is executed in following stages:
 * Drop Table
 * Drop Current Task
   
-<h2 id="iceberg-table-with-task">Iceberg table with Task</h2>
+<h2 id="iceberg-tables-with-task">Iceberg table with Task</h2>
+
+Iceberg tables with task node is an external iceberg table node wrapped with a task functionality.
 
 An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats.[Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
 
@@ -1063,16 +1065,17 @@ An Iceberg table that uses an external catalog provides limited Snowflake platfo
 
 You can use this option to create an Iceberg table registered in the AWS Glue Data Catalog or to create a table from Iceberg metadata files in object storage.
 
-### External Iceberg table Configuration
+### Iceberg table with task Configuration
 
-The Snowflake Iceberg table has two configuration groups:
+The Snowflake Iceberg table has three configuration groups:
 
-* [Node Properties](#external-iceberg-table-node-properties)
-* [Iceberg Options](#external-iceberg-table-options)
+* [Node Properties](#iceberg-table-node-properties)
+* [Iceberg Options](#iceberg-table-options)
+* [Scheduling Options](#iceberg-task-scheduling-options)
 
 Go to the node and select the **Config tab** to see the Node Properties,Iceberg Options.
 
-<h3 id="external-iceberg-table-node-properties">External Iceberg table node properties</h3>
+<h3 id="iceberg-table-node-properties">Iceberg table with task node properties</h3>
 
 There are four configs within the **Node Properties** group.
 
@@ -1083,7 +1086,7 @@ There are four configs within the **Node Properties** group.
   * If TRUE the node will be deployed or redeployed when changes are detected.
   * If FALSE the node will not be deployed or the node will be dropped during redeployment.
 
-<h3 id="external-iceberg-table-options">Iceberg Options</h3>
+<h3 id="iceberg-table-options">Iceberg Options</h3>
 
 * **Type of Catalog**:Specify the type of catalog
                     *AWS Glue
@@ -1094,9 +1097,29 @@ There are four configs within the **Node Properties** group.
 * **Catalog table name**:Name of the catalog table.Option available if AWS Glue catalog is chosen.
 * **Metadata filepath**:Specifies the relative path of the Iceberg metadata file to use for column definitions.Option available if Object Storage Catalog is chosen.
 
+<h3 id="iceberg-task-scheduling-options">Scheduling Options</h3>
+
+If schedule refresh mode is set to true then Scheduling Options can be used to configure how and when the task will run.
+
+* **Scheduling Mode**: Specifies whether a warehouse or serverless compute is used to run the task 
+    * Warehouse Task - User managed warehouse will execute tasks. 
+    * Serverless Task - Utilize serverless compute to execute tasks.
+* **Select Warehouse on which to run task**: Visible if Scheduling Mode is set to Warehouse Task
+    * Enter the name of the warehouse you want the task to run on without quotes
+* **Select initial serverless Warehouse size**: Visible when Scheduling Mode is set to Serverless Task
+    * Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times.
+* **Task Schedule**: Select how you want to schedule the task to run
+    * **Minutes** - Allows you to specify a minute interval for running task
+    * **Cron** - Allows you to specify a CRON schedule for running task
+    * **Predecessor** - Allows you to specify a predecessor task to determine when a task should execute
+* **Enter task schedule using minutes**: Only visible when Task Schedule is set to Minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.
+* **Enter task schedule using Cron**: Only visible when Task Schedule is set to Cron. Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.
+* **Enter predecessor task(s) separated by a comma**: Only visible when Task Schedule is set to Predecessor. One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor tasks separate the task names using a comma and no spaces.
+* **Enter root task name**: Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor tasks separate the task names using a comma and no spaces.
+
  ## Prerequisites
  
- * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table
+ * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table.You can also grant SYSADMIN roles to EXTERNAL VOLUME,CATALOG INTEGRATION created.
  * An EXTERNAL VOLUME,CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
 
  ### External Iceberg table Initial Deployment
