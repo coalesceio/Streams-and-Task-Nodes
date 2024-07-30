@@ -52,6 +52,7 @@ metadata:
         options:
           - Table
           - External Table
+          - External Iceberg Table
           - View
         isRequired: true
      
