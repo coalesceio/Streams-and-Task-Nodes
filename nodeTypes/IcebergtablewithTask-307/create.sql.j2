@@ -1,0 +1,211 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Iceberg tables with task == #}
+{# == Node Type Description    :  == #}
+
+
+# Create Iceberg table first
+
+{% if desiredState == currentState %}
+
+{{ stage('Nothing to do.') }}
+select 1 = 0
+
+{% elif (desiredState and currentState == undefined) or (currentState != desiredState and currentState != undefined and desiredState != undefined)%}
+
+
+          {%set extvol = '' %}
+          {%set catalogval = '' %}
+          {%set catalogtablename ='' %}
+          {%set catalogdbname ='' %}
+          {%set metafilepath ='' %}
+          {%set baseloc ='' %}
+
+        #External volume
+           {%if desiredState.config.extvol != '' %}
+            {%set extvol =  desiredState.config.extvolume %}
+          {%endif%}
+        
+        #Catalogintegration
+
+          {%if desiredState.config.catint != '' %}
+            {%set catalogval =   desiredState.config.catint %}
+          {%else%}
+            {%set catalogval =   'SNOWFLAKE' %}
+          {%endif%}
+
+        #Catalogtablename
+
+          {%if desiredState.config.cattable != '' and config.tcatalog == 'AWS Glue' %}
+            {%set catalogtablename = desiredState.config.cattable %}
+          {%endif%}
+
+        #Catalogdbname
+          {%if desiredState.config.catdb != '' and desiredState.config.tcatalog == 'AWS Glue' %}
+            {%set catalogdbname = desiredState.config.catdb %}
+          {%endif%}
+
+        #Metadatafilepath
+          {%if desiredState.config.metafilepath != '' and desiredState.config.tcatalog == 'Object storage' %}
+            {%set metafilepath =  desiredState.config.metafilepath %}
+          {%endif%}
+
+        
+    
+         {{ stage('Create Iceberg Table', true, "sql", "alter") }}
+         
+         CREATE OR REPLACE ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+
+        
+        {%if extvol != '' %} EXTERNAL_VOLUME = '{{extvol}}' {%endif%}
+        {%if catalogval != '' %} CATALOG = '{{catalogval}}' {%endif%}
+        {%if catalogtablename != ''%}CATALOG_TABLE_NAME = '{{catalogtablename}}' {%endif%}
+        {%if catalogdbname != ''%}CATALOG_NAMESPACE = '{{catalogdbname}}' {%endif%}
+        {%if metafilepath != ''%} METADATA_FILE_PATH= '{{metafilepath}}'{%endif%}
+        
+	    {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'
+      
+    {% endif %}		    
+ 
+{%elif  currentState != undefined and desiredState == undefined%}
+
+    {# Table or View Name #}
+    {% set targetObjectDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+    {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+    {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+           
+        {{ stage('Drop iceberg table', true, "sql", "drop") }}
+         DROP ICEBERG TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
+	  
+{%else%}
+
+{{ stage('Nothing to do.') }}
+select 1 = 0
+	  
+{%endif%}
+
+{# Create Task Second #}
+{% if desiredState == currentState %}
+
+    {{ stage('No task edits.') }}
+    select 1 = 0
+
+{% elif (desiredState and currentState == undefined) or (currentState != desiredState and currentState != undefined and desiredState != undefined)  %}
+
+        {# Target Table Info #}
+        {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
+        {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
+        {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
+
+
+        {% if desiredState.config.schrefresh == true %}
+            {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
+                {%- set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + desiredState.config.rootTask + '"' -%} 
+                {{ stage('Suspend Root Task', true, "sql", "alter") }}
+                ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+            {%- endif -%}
+
+            {{ stage('Create Task', true, "sql", "alter") }}
+            {# Set Namespace Variables #}
+            {% set nsVariables = namespace(taskWhenRun="") %}
+            {% set nsVariables = namespace(poll="WHEN ") %}
+
+            {# Task Info #}
+            {% set taskName = desiredState.node.name + '_TASK'  %}
+            {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+
+            {# Task Type #}
+            {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
+                {# Can be updated during deployment via a parameter to account for different warehouse names in different deployments #}
+                {% if desiredState.parameters.targetTaskWarehouse == 'DEV ENVIRONMENT' %}
+                    {% set taskType = 'WAREHOUSE = ' + desiredState.config.whName %}
+                {% else %}
+                    {% set taskType = 'WAREHOUSE = ' + desiredState.parameters.targetTaskWarehouse %}
+                {% endif %}
+            {%- else -%}
+                {%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize -%} 
+            {%- endif -%}
+
+            {# Schedule Type #}
+            {%- if desiredState.config.schedulePeriodOption == 'Minutes' -%} 
+                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + desiredState.config.schedulePeriod + ' MINUTE' + "'" -%} 
+            {% elif desiredState.config.schedulePeriodOption == 'CRON' %}
+                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON +"'" %}
+            {%- else -%}
+                {%- set nsVariables.taskWhenRun = 'AFTER ' -%}
+                {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
+
+                {%- for p in predecessorTasks -%}
+                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '.' + p -%}
+                    {%- if not loop.last -%} 
+                        {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
+                    {%- endif %}
+                {% endfor %}    
+            {%- endif -%}
+
+            CREATE OR REPLACE TASK 
+                {{ fullyQualifiedTaskName }} 
+                {{ taskType}} 
+                {{ nsVariables.taskWhenRun }} 
+                {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
+            AS 
+            {%if desiredState.config.tcatalog == 'AWS Glue' %}
+		
+		          ALTER ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} REFRESH
+
+	        {%elif desiredState.config.tcatalog == 'Object storage' %}
+        
+		          ALTER ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} REFRESH '{{desiredState.config.metafilepath}}'
+
+	       {%endif%}
+
+
+            {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
+                {{ stage('Resume Task', true, "sql", "alter") }}
+                ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
+            {%- endif -%}
+
+        {% else %}
+            {{ stage('Scheduled refresh Off - No Task.') }}
+            select 1 = 0
+        
+        {%- endif -%}
+
+{% elif currentState != undefined and desiredState == undefined %}
+
+    {# Target Table Info #}
+    {% set targetTableDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+    {% set targetTableSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+    {% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+
+    {% if currentState.config.schrefresh == true %}
+        {# FQ Root Task name #}
+        {% set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + currentState.config.rootTask + '"'%}
+
+        {# Task Info #}
+        {% set taskName = currentState.node.name + '_TASK'  %}
+        {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+
+        {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%} 
+        {{ stage('Suspend Root Task', true, "sql", "drop") }}
+            ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
+        {{ stage('Drop Current Task', true, "sql", "drop") }}
+            DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+        {%- else -%}
+        {{ stage('Drop Current Task', true, "sql", "drop") }}
+            DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+        {%- endif -%}
+    {%- endif -%}
+
+{%- else -%}
+
+{{ stage('No task edits.  Unknown state.') }}
+select 1 = 0
+
+{% endif %}

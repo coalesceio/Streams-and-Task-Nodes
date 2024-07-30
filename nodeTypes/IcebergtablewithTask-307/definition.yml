@@ -1,0 +1,157 @@
+fileVersion: 1
+id: "307"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Iceberg table with Task
+    short: TSKICT
+    plural: Iceberg tables
+    tagColor: '#EB3562'
+
+    deployStrategy: advanced
+
+    config:
+
+    - groupName: Iceberg Options
+      items:
+
+      - displayName: Type of catalog
+        attributeName: tcatalog
+        type: dropdownSelector
+        default: AWS Glue
+        options:
+          - AWS Glue
+          - Object storage
+        isRequired: true
+      
+      - displayName: Snowflake EXTERNAL VOLUME Name
+        attributeName: extvolume
+        type: textBox
+        default: "my_ext_vol"
+
+      - displayName: Catalog integration
+        attributeName: catint
+        type: textBox
+
+      - displayName: Catalog table name
+        attributeName: cattable
+        type: textBox
+        default: "my_cat_table"
+        enableIf: "{% if config.tcatalog == 'AWS Glue'  %} true {% else %} false {% endif %}"
+      
+      - displayName: Catalog namespace
+        attributeName: catdb
+        type: textBox
+        default: "my_cat_table"
+        enableIf: "{% if config.tcatalog == 'AWS Glue'  %} true {% else %} false {% endif %}"
+
+      - displayName: Metadata file path
+        attributeName: metafilepath
+        type: textBox
+        default: "metafilepath/"
+        enableIf: "{% if config.tcatalog == 'Object storage'  %} true {% else %} false {% endif %}"
+          
+      - displayName: Schedule refresh
+        attributeName: schrefresh
+        type: toggleButton
+        isRequired: true
+        default: true
+
+    - groupName: Task Scheduling Options
+
+     # Schedule mode-specifies whether a warehouse or serverless compute is used to run the task #
+
+      enableIf: "{% if config.schrefresh == true %} true {% else %} false {% endif %}" 
+      items:
+      - displayName: Scheduling Mode
+        attributeName: schedulingMode
+        type: dropdownSelector
+        default: Warehouse Task
+        options:
+          - Warehouse Task
+          - Serverless Task
+        isRequired: true
+
+      # Warehouse name you want the task to run #
+
+      - displayName: Select Warehouse on which to run task
+        attributeName: whName
+        type: textBox
+        default: '<WAREHOUSE_NAME>'
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Warehouse Task' %} true {% else %} false {% endif %}"
+
+      - displayName: Select initial serverless Warehouse size
+        attributeName: serverlessSize
+        type: dropdownSelector
+        default: 'MEDIUM'
+        options:
+          - XSMALL
+          - SMALL
+          - MEDIUM
+          - LARGE
+          - XLARGE
+          - XXLARGE
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
+
+      # Way to schedule the task to run #
+
+      - displayName: Task Schedule
+        attributeName: schedulePeriodOption
+        type: dropdownSelector
+        default: Predecessor
+        options:
+          - Minutes
+          - CRON
+          - Predecessor
+        isRequired: true
+
+      - displayName: Enter task schedule using minutes
+        attributeName: schedulePeriod
+        type: textBox
+        default: '60'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Minutes' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter task schedule using CRON
+        attributeName: scheduleCRON
+        type: textBox
+        default: '5 0-23 * * * America/Los_Angeles'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter predecessor task(s) separated by a comma
+        attributeName: predTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter root task name
+        attributeName: rootTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+    - groupName: Hidden Config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: task
+        options:
+        - task
+        isRequired: false
+
+    systemColumns:
+    - displayName: 'DATA'
+      transform: 'This column is not part of target iceberg table'
+      dataType:  STRING
+      placement: beginning
+      attributeName: dummycolumn
+name: Iceberg table with Task
+type: NodeType
