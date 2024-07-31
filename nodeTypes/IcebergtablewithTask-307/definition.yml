@@ -30,10 +30,12 @@ metadata:
         attributeName: extvolume
         type: textBox
         default: "my_ext_vol"
+        isRequired: true
 
       - displayName: Catalog integration
         attributeName: catint
         type: textBox
+        isRequired: true
 
       - displayName: Catalog table name
         attributeName: cattable
