@@ -1,4 +1,4 @@
-# STREAMS AND TASK NODES
+# Streams and Task Nodes
 
 The Coalesce Stream and Task Node Types Package includes:
 
@@ -1265,4 +1265,3 @@ If a task is part of a DAG of tasks the DAG needs to include a node type called 
 [Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
 
 
-[<img src="https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/c1c65350-9f97-4307-8a75-75447dc1b252" alt="Git Logo" height="40">](https://github.com/coalesceio/Streams-and-Task-Nodes)
