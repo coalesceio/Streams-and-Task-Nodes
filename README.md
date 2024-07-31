@@ -1073,7 +1073,7 @@ The Snowflake Iceberg table has three configuration groups:
 * [Iceberg Options](#iceberg-table-options)
 * [Scheduling Options](#iceberg-task-scheduling-options)
 
-Go to the node and select the **Config tab** to see the Node Properties,Iceberg Options.
+Go to the node and select the **Config tab** to see the Node Properties,Iceberg Options and Scheduling Options.
 
 <h3 id="iceberg-table-node-properties">Iceberg table with task node properties</h3>
 
