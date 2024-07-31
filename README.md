@@ -1125,7 +1125,11 @@ If schedule refresh mode is set to true then Scheduling Options can be used to c
  
  * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table.You can also grant SYSADMIN roles to EXTERNAL VOLUME,CATALOG INTEGRATION created.
  * An EXTERNAL VOLUME,CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
+   
+### Iceberg tables with Task - System Columns
 
+* **DATA** - Column added for deployment but column is not added to iceberg table as columns specifications are not required for External Iceberg tables.
+  
 #### Iceberg tables  With Task Deployment Parameters
 
 The Iceberg tables  With Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
