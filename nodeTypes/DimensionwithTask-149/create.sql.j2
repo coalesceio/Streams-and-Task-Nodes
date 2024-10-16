@@ -59,7 +59,7 @@ does not permit copying or modification for any other purpose.
 
             {% for r in column %}
                 {% if expression[loop.index0] == "" %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                 {% else %}
                     {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
                 {% endif %}
@@ -74,7 +74,7 @@ does not permit copying or modification for any other purpose.
             {%- set nsVariables = namespace(clusterValues=[]) %}
 
             {% for r in column %}
-                {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
             {% endfor %}
 
             {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
@@ -360,7 +360,7 @@ does not permit copying or modification for any other purpose.
 
                 {% for r in column %}
                     {% if expression[loop.index0] == "" %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                     {% else %}
                         {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
                     {% endif %}
@@ -375,7 +375,7 @@ does not permit copying or modification for any other purpose.
                 {%- set nsVariables = namespace(clusterValues=[]) %}
 
                 {% for r in column %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                 {% endfor %}
 
                 {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}

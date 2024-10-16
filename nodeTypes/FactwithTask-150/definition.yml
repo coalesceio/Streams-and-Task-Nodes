@@ -42,13 +42,13 @@ metadata:
         attributeName: clusterKey
         displayName: Cluster Key
         default: false
-        isRequired: true
+        isRequired: false
 
       - type: toggleButton
         attributeName: clusterKeyExpressions
         displayName: Allow Expressions in Cluster Key
         default: false
-        isRequired: true
+        isRequired: false
         enableIf: "{% if config.clusterKey %} true {% else %} false {% endif %}"
 
       - type: tabular
@@ -75,9 +75,9 @@ metadata:
            isRequired: false
       
         -  type: textBox
-           displayName: Expression
+           displayName: Expression(Column name to be enclosed within double quotes)
            attributeName: sqlExpression
-           default: "ex. trunc(<column_name>, -5)"
+           default: "ex. trunc(\"<column_name>\", -5)"
            isRequired: false
       
         isRequired: false
