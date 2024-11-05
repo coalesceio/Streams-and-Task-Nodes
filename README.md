@@ -92,7 +92,7 @@ With the Development Mode set to `false` there are four config groups:
 
 If development mode is set to `false` then Scheduling Options can be used to configure how and when the task will run.
 
-![Task_Scheduling_Options]([https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/cb8cb62c-c4f1-4c22-87c2-3781a5328dfd](https://github.com/user-attachments/assets/2f8bc6c3-117c-4130-9619-45ee50feebef)
+![Task Scheduling Options](https://github.com/user-attachments/assets/2f8bc6c3-117c-4130-9619-45ee50feebef)
 
 * **Scheduling Mode**: Specifies whether a warehouse or serverless compute is used to run the task 
     * Warehouse Task - User managed warehouse will execute task. 
