@@ -19,16 +19,13 @@ operation:
     flagSrcStream: true
     groupByAll: false
     initialRows: true
-    loadType: Merge
+    loadType: Insert
     orderBy:
       items:
-        - colName: null
-          sortOrd: null
+        - {}
     partitionBy:
       items:
-        - partColName:
-            columnCounter: 63d3d8f6-d822-42c8-bea1-e24fc23522d1
-            stepCounter: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+        - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
