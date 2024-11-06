@@ -19,7 +19,7 @@ operation:
     tcatalog: Object storage
     whName: COMPUTE_WH
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: Iceberg table
   isMultisource: false
   locationName: TARGET_DB

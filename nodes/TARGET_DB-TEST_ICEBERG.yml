@@ -4,7 +4,7 @@ name: TEST_ICEBERG
 operation:
   database: ""
   dataset: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: TARGET_DB
   metadata:

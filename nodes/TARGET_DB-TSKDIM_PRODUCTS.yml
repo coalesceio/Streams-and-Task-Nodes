@@ -41,7 +41,7 @@ operation:
     truncateBefore: false
     whName: COMPUTE
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB

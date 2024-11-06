@@ -5,7 +5,7 @@ operation:
   config:
     rootTask: TGCR_ORDERS_FACT
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB

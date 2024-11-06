@@ -28,7 +28,7 @@ operation:
     truncateBefore: false
     whName: COMPUTE_WH
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB
@@ -197,7 +197,7 @@ operation:
             nodeName: TSKDIM_TIME
         join:
           joinCondition: |-
-            
+
             FROM {{ ref('TARGET_DB', 'TSKDIM_ORDERS_FACT') }} "TSKDIM_ORDERS_FACT"
             INNER JOIN {{ ref('TARGET_DB', 'TSKDIM_PRODUCTS') }} "TSKDIM_PRODUCTS"
             ON "TSKDIM_PRODUCTS"."PRODUCT_NAME" = "TSKDIM_ORDERS_FACT"."PRODUCT_ID"
