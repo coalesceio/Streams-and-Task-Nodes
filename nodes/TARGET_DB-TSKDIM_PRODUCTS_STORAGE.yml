@@ -93,7 +93,7 @@ operation:
         config: {}
         dataType: VARCHAR(100)
         description: ""
-        name: BRAND
+        name: COLOUR_NEW_COL
         nullable: true
         sourceColumnReferences:
           - columnReferences:
