@@ -13,7 +13,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: true
+    devMode: false
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
