@@ -1,11 +1,14 @@
 fileVersion: 1
 id: "198"
 mappingDefinitions:
+  COALESCE_LOC:
+    database: POONAMM_DEV
+    schema: EDW_QA
   SOURCE_DATA:
-    database: ANANDHIS_DEV
+    database: POONAMM_DEV
     schema: SOURCE_DATA
   TARGET_DB:
-    database: ANANDHIS_DEV
-    schema: TARGET
+    database: POONAMM_DEV
+    schema: EDW_QA
 name: QA
 type: Environment

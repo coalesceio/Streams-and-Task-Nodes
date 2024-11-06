@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
-name: TSKDIM_PRODUCTS
+id: c767ce84-4e98-43c9-bc18-a2bf054ae680
+name: TSKDIM_PRODUCTS1
 operation:
   config:
     clusterKey: true
@@ -10,15 +10,15 @@ operation:
     clusterKeyConfigExpressions:
       items:
         - columnNameExpressions:
-            columnCounter: af25927d-325d-40b2-a4d7-17166ab83ad5
-            stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
-          sqlExpression: ""
-        - columnNameExpressions:
-            columnCounter: d7cc5bc6-199f-4075-bd1f-cedac1517cee
-            stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+            columnCounter: d2ee4fbd-1382-4e6a-91d1-f06c16ed86a3
+            stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
           sqlExpression: trunc("PRODUCT_ID", -5)
+        - columnNameExpressions:
+            columnCounter: cde04354-7ea5-44c5-9c0c-9f1accd543cc
+            stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
+          sqlExpression: ""
     clusterKeyExpressions: true
-    devMode: false
+    devMode: true
     flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
@@ -26,20 +26,16 @@ operation:
     orderby: false
     orderbycolumn:
       items:
-        - sortColName:
-            columnCounter: d7cc5bc6-199f-4075-bd1f-cedac1517cee
-            stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
-          sortOrder: desc
-    predTask: TSKWRK_PRODUCTS_TASK
-    rootTask: TGCR_ORDERS_FACT
+        - {}
+    predTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
+    rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: false
-    whName: COMPUTE
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -54,26 +50,25 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 5165c779-4612-49a2-aca5-90f2383ecba9
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: ade19dda-1a07-4e7f-8df3-4fec0a2f1258
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: NUMBER
         defaultValue: ""
         description: ""
         isSurrogateKey: true
-        name: TSKDIM_PRODUCTS_KEY
+        name: TSKDIM_PRODUCTS1_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d7cc5bc6-199f-4075-bd1f-cedac1517cee
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: d2ee4fbd-1382-4e6a-91d1-f06c16ed86a3
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
         isBusinessKey: true
         name: PRODUCT_ID
         nullable: false
@@ -84,12 +79,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: af25927d-325d-40b2-a4d7-17166ab83ad5
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: cde04354-7ea5-44c5-9c0c-9f1accd543cc
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: VARCHAR(255)
         description: ""
-        hashDetails: null
         isChangeTracking: true
         name: PRODUCT_NAME
         nullable: true
@@ -100,12 +94,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8b869108-e355-494e-82a1-8639e29efcf9
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: a9158605-1a36-4428-8c1f-c127a32abf1c
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: VARCHAR(100)
         description: ""
-        hashDetails: null
         name: BRAND
         nullable: true
         sourceColumnReferences:
@@ -115,12 +108,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: cabf0902-bc07-453d-9b63-0e86a817f3f8
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: 795de4ce-d45a-4389-8664-7a4be84c3fe1
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        hashDetails: null
         name: COLOUR
         nullable: true
         sourceColumnReferences:
@@ -133,8 +125,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: eeb2ac42-8775-4c80-b6b3-fdd979f6ab8c
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: 9747f9fb-067f-4a76-bba0-8a248b01a790
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -150,8 +142,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8a176b06-c7b5-4312-a9a2-9cd04ba7d910
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: a91a7ed7-653b-4b00-b764-43ba3a7316d6
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: VARCHAR
         defaultValue: ""
@@ -167,8 +159,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 17d53f5f-4cc3-4bde-9575-95f022f6e138
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: 4eb0b216-9751-4906-b8c5-26b53a122df1
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -184,8 +176,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b905e497-6f48-45cb-809a-57f436360622
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: d033a7a0-2e7b-4de8-a207-2862245df681
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -201,8 +193,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7761903d-c942-4daa-b8ae-8227fbde1e62
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: fb61e6b0-de40-48ba-aa8a-47d9aa7bb1cd
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -218,8 +210,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7d3b16bd-2468-4384-bca2-b83dc569ed00
-          stepCounter: 04e8ea56-dc9b-4e61-8fe4-594029417fe8
+          columnCounter: 1a2b2d2e-52ad-4968-b087-6c2df8fea84e
+          stepCounter: c767ce84-4e98-43c9-bc18-a2bf054ae680
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -233,8 +225,7 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          TSKWRK_PRODUCTS: bc74b43f-6cb9-4cbb-b153-3c4ff23d6ba0
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
@@ -242,9 +233,9 @@ operation:
             nodeName: TSKWRK_PRODUCTS
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_PRODUCTS') }} "TSKWRK_PRODUCTS"
-        name: TSKDIM_PRODUCTS
+        name: TSKDIM_PRODUCTS1
         noLinkRefs: []
-  name: TSKDIM_PRODUCTS
+  name: TSKDIM_PRODUCTS1
   overrideSQL: false
   schema: ""
   sqlType: "149"

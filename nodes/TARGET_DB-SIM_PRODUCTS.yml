@@ -1,0 +1,127 @@
+fileVersion: 1
+id: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+name: SIM_PRODUCTS
+operation:
+  config:
+    appendOnly: false
+    clusterKey: true
+    clusterKeyConfig:
+      items:
+        - columnName:
+            columnCounter: 10f62c45-35a5-4da2-bb0f-ffd8f8843049
+            stepCounter: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Merge
+    orderBy:
+      items:
+        - colName: null
+          sortOrd: null
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 63d3d8f6-d822-42c8-bea1-e24fc23522d1
+            stepCounter: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create At Existing Stream
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Serverless Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63d3d8f6-d822-42c8-bea1-e24fc23522d1
+          stepCounter: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38f598c9-995d-4eea-b5d0-7ad1a397db15
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 51de70d9-5e89-4069-8144-f55736f648b9
+          stepCounter: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bc826634-0c9d-41c1-b665-afe49269e14e
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 10f62c45-35a5-4da2-bb0f-ffd8f8843049
+          stepCounter: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9dd48010-c67d-4977-95dd-4f0a0175222a
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4913f54c-3efc-4fb0-9574-e33701d2ed4c
+          stepCounter: 9b06ecbd-a03f-4dad-b3cb-c0a34442771f
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4e298a2d-ac17-4e0f-b144-5126385fb4e9
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+        name: SIM_PRODUCTS
+        noLinkRefs: []
+  name: SIM_PRODUCTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node

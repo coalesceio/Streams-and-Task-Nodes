@@ -3,9 +3,12 @@ id: f8dcca07-dc2e-46d0-9744-c472154b9ade
 name: ICT_GLUE_TASK
 operation:
   config:
+    basename: null
     catdb: test_de
     catint: gluecatalogtest
     cattable: test_iceberg
+    clusterKey: false
+    devMode: false
     extvolume: glueextvol
     metafilepath: metafilepath/
     predTask: TGCR_CUSTOMER
@@ -16,7 +19,7 @@ operation:
     schedulingMode: Serverless Task
     schrefresh: true
     serverlessSize: MEDIUM
-    tcatalog: AWS Glue
+    tcatalog: Snowflake
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
@@ -58,7 +61,7 @@ operation:
   name: ICT_GLUE_TASK
   overrideSQL: false
   schema: ""
-  sqlType: "307"
+  sqlType: "356"
   type: sql
   version: 1
 type: Node

@@ -112,12 +112,9 @@ does not permit copying or modification for any other purpose.
 
         {# Change Node Name or Change Storage Location #}
         {# Storage Location Tests #}
-        {# Only need to account for updated Storage Location mappings   #}
-        {# Current Namespace Varialbes #}
-        {% set nsVariables = namespace(nsCurrentDepStorageLocations="") %}
-        {% set nsVariables = namespace(nsCurrentSourceStorageLocations="") %}
-        {% set nsVariables = namespace(nsCurrentTargetStorageLocations="") %}
-        {% set nsVariables = namespace(nsCurrentUsedStorageLocations="") %}
+        {# Only need to account for updated Storage Location mappings   #}     
+        {# Current and Desired Namespace Varialbes initialisation #}
+        {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
 
         {# Current State Storage Location Info #}
         {% for source in currentState.sources %}
@@ -159,7 +156,7 @@ does not permit copying or modification for any other purpose.
                 {% if loop.first %}
                     {% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
                 {% else %}
-                    {% set nsVariables.nnsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
+                    {% set nsVariables.nsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
                 {% endif %}
             {% endfor %}
             

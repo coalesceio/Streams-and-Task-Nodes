@@ -172,7 +172,7 @@ select 1 = 0
  
                 {% for r in column %}
                     {% if expression[loop.index0] == "" %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues   + ['"'+r+'"'] %}
                     {% else %}
                         {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
                     {% endif %}
@@ -187,7 +187,7 @@ select 1 = 0
                 {%- set nsVariables = namespace(clusterValues=[]) %}
  
                 {% for r in column %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues  + ['"'+r+'"'] %}
                 {% endfor %}
  
                 {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
@@ -263,10 +263,7 @@ select 1 = 0
             {# Storage Location Tests #}
             {# Only need to account for updated Storage Location mappings   #}
             {# Current Namespace Varialbes #}
-            {% set nsVariables = namespace(nsCurrentDepStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentSourceStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentTargetStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentUsedStorageLocations="") %}
+			{% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
  
             {# Current State Storage Location Info #}
             {% for source in currentState.sources %}
@@ -308,7 +305,7 @@ select 1 = 0
                     {% if loop.first %}
                         {% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
                     {% else %}
-                        {% set nsVariables.nnsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
+                        {% set nsVariables.nsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
                     {% endif %}
                 {% endfor %}
                
@@ -511,7 +508,7 @@ select 1 = 0
  
                     {% for r in column %}
                         {% if expression[loop.index0] == "" %}
-                            {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                            {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                         {% else %}
                             {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
                         {% endif %}
@@ -526,7 +523,7 @@ select 1 = 0
                     {%- set nsVariables = namespace(clusterValues=[]) %}
  
                     {% for r in column %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                     {% endfor %}
  
                     {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}

@@ -1,6 +1,9 @@
 fileVersion: 1
 id: "194"
 mappingDefinitions:
+  COALESCE_LOC:
+    database: ""
+    schema: ""
   SOURCE_DATA:
     database: ANANDHIS_DEV
     schema: SOURCE_DATA

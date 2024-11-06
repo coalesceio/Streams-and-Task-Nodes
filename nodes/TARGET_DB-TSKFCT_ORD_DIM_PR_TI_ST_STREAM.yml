@@ -3,14 +3,23 @@ id: d0cfd238-b015-4ebf-a781-3f700eada53e
 name: TSKFCT_ORD_DIM_PR_TI_ST_STREAM
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: e1be56d9-260e-43e2-9002-54fb43796a5c
+            stepCounter: d0cfd238-b015-4ebf-a781-3f700eada53e
     clusterKeyConfigExpressions:
       items:
-        - {}
-    clusterKeyExpressions: false
+        - columnNameExpressions:
+            columnCounter: e1be56d9-260e-43e2-9002-54fb43796a5c
+            stepCounter: d0cfd238-b015-4ebf-a781-3f700eada53e
+          sqlExpression: ""
+        - columnNameExpressions:
+            columnCounter: e6ee734a-a240-4576-946e-cf6b80804b5e
+            stepCounter: d0cfd238-b015-4ebf-a781-3f700eada53e
+          sqlExpression: trunc("TIME_ID", -5)
+    clusterKeyExpressions: true
     devMode: false
     flagSrcStream: true
     groupByAll: false
