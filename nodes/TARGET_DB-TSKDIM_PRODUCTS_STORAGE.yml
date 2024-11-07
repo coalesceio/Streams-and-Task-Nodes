@@ -3,17 +3,15 @@ id: 7dfcdc3b-a444-4797-ad98-1ec6cc35e921
 name: TSKDIM_PRODUCTS_STORAGE
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: f9d7ea3f-432a-4574-b904-ceb23df50fa6
-            stepCounter: 7dfcdc3b-a444-4797-ad98-1ec6cc35e921
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: false
+    devMode: true
     flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION

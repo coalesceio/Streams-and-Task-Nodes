@@ -16,7 +16,7 @@ operation:
     clusterKeyExpressions: false
     createas: table
     devMode: false
-    flagSrcStream: true
+    flagSrcStream: false
     groupByAll: false
     initialRows: true
     loadType: Insert
