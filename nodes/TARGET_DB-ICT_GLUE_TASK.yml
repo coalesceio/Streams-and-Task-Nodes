@@ -61,7 +61,7 @@ operation:
   name: ICT_GLUE_TASK
   overrideSQL: false
   schema: ""
-  sqlType: "356"
+  sqlType: "307"
   type: sql
   version: 1
 type: Node
