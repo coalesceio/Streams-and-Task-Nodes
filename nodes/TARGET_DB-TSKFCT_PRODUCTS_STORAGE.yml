@@ -90,7 +90,7 @@ operation:
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        name: COLOUR_NEW_COL
+        name: COLOUR
         nullable: true
         sourceColumnReferences:
           - columnReferences:
