@@ -32,7 +32,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: THIS IS TABLE TEST
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -59,7 +59,7 @@ operation:
           stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
         config: {}
         dataType: VARCHAR(255)
-        description: ""
+        description: THIS IS PRODUCT NAME
         name: PRODUCT_NAME
         nullable: true
         sourceColumnReferences:
@@ -86,9 +86,23 @@ operation:
           columnCounter: d6241f4b-5899-4709-82df-a0e58650be23
           stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(199)
         description: ""
         name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7cd1a288-4538-4e1f-b509-863bed094079
+          stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
