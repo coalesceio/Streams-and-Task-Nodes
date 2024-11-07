@@ -33,7 +33,7 @@ does not permit copying or modification for any other purpose.
 
                 {% for r in column %}
                     {% if expression[loop.index0] == "" %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                     {% else %}
                         {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
                     {% endif %}
@@ -48,7 +48,7 @@ does not permit copying or modification for any other purpose.
                 {%- set nsVariables = namespace(clusterValues=[]) %}
 
                 {% for r in column %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                 {% endfor %}
 
                 {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
@@ -82,12 +82,9 @@ does not permit copying or modification for any other purpose.
 
         {# Change Node Name or Change Storage Location #}
         {# Storage Location Tests #}
-        {# Only need to account for updated Storage Location mappings   #}
-        {# Current Namespace Varialbes #}
-        {% set nsVariables = namespace(nsCurrentDepStorageLocations="") %}
-        {% set nsVariables = namespace(nsCurrentSourceStorageLocations="") %}
-        {% set nsVariables = namespace(nsCurrentTargetStorageLocations="") %}
-        {% set nsVariables = namespace(nsCurrentUsedStorageLocations="") %}
+        {# Only need to account for updated Storage Location mappings   #}     
+        {# Current and Desired Namespace Varialbes initialisation #}
+        {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
 
         {# Current State Storage Location Info #}
         {% for source in currentState.sources %}
@@ -129,7 +126,7 @@ does not permit copying or modification for any other purpose.
                 {% if loop.first %}
                     {% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
                 {% else %}
-                    {% set nsVariables.nnsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
+                    {% set nsVariables.nsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
                 {% endif %}
             {% endfor %}
             
@@ -184,12 +181,17 @@ does not permit copying or modification for any other purpose.
             {% set clusterTest = true %}
         {% endif %}
 
-        {# Rename / Move Object #}
-        {% if (nsVariables.storageLocationTest == false  or currentState.node.name != desiredState.node.name) %}
-            {{ stage('Rename and / or Move Table', true, "sql", "alter") }}
-            ALTER TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-            RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-        {% endif %}
+{# Rename / Move Object #}
+            {% if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
+                {{ stage('Rename and / or Move Table', true, "sql", "alter") }}
+                {% set srcSchName = currentState.node.location.name %}
+                {% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
+                {% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
+
+                ALTER TABLE  "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
+                RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+            {% endif %}
+
 
         {# Change table description #}
         {% if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
@@ -332,7 +334,7 @@ does not permit copying or modification for any other purpose.
 
                 {% for r in column %}
                     {% if expression[loop.index0] == "" %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                     {% else %}
                         {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
                     {% endif %}
@@ -347,7 +349,7 @@ does not permit copying or modification for any other purpose.
                 {%- set nsVariables = namespace(clusterValues=[]) %}
 
                 {% for r in column %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
                 {% endfor %}
 
                 {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
