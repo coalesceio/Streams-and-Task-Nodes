@@ -81,6 +81,34 @@ operation:
               - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
                 stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d28e6840-fe55-4ea4-b701-7578bc02cc49
+          stepCounter: 6aa65b51-087a-4287-8780-2634ddbd95fc
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR_NEW
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cbb02571-2225-4406-ab34-892d321bae49
+          stepCounter: 6aa65b51-087a-4287-8780-2634ddbd95fc
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: COLOUR_TEST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
