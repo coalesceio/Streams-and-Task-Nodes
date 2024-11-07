@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "198"
+id: "297"
 mappingDefinitions:
   COALESCE_LOC:
     database: ANANDHIS_DEV
@@ -10,5 +10,5 @@ mappingDefinitions:
   TARGET_DB:
     database: POONAMM_DEV
     schema: EDW_QA_1
-name: QA
+name: QA_1
 type: Environment
