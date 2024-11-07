@@ -24,8 +24,8 @@ operation:
     rootTask: TGCR_ORDERS_FACT
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
-    schedulingMode: Warehouse Task
+    schedulePeriodOption: Minutes
+    schedulingMode: Serverless Task
     selectDistinct: false
     serverlessSize: MEDIUM
     truncateBefore: false
