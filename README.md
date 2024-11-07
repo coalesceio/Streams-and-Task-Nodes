@@ -1,4 +1,5 @@
-# Streams and Task Nodes
+<!-- markdownlint-disable MD033 -->
+# Streams and Tasks Package
 
 The Coalesce Stream and Task Node Types Package includes:
 
@@ -9,10 +10,10 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Task DAG Resume Root](#task-dag-resume-root)
 * [Stream](#stream)
 * [Stream and Insert or Merge](#stream-and-insert-or-merge)
-* [Iceberg tables with Task](#iceberg-tables-with-task)
-* [Code](#code)
 
-<h2 id="work-with-task">Work With Task </h2>
+---
+
+## Work with Task
 
 The Coalesce Work with Task UDN is a work node that wraps the standard Coalesce Work node with a Task.
 
@@ -20,99 +21,60 @@ Tasks can be combined with Coalesce Stream node (table streams) for continuous E
 
 Tasks can also be used independently to generate periodic reports by inserting or merging rows into a report table or performing other periodic work.
 
-More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro). 
+More information about Tasks can be found in [Snowflake Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro).
 
-### Work With Task Node Configuration
+### Work with Task Node Configuration
 
-The Work with Task node has two or three configuration groups depending on config options selected.
+The Work with Task node has two or three configuration groups depending on config options selected:
 
-With the option Development Mode set to `true` there are three config groups:
-
-* [Node Properties](#work-with-task-node-properties)
+* [Node Properties](#work-with-task-properties)
 * [Options](#work-with-task-options)
-* [General Options](#work-with-task-general-options)
+* [Scheduling Options](#work-with-task-scheduling-options) - Visible when Development Mode is false
 
+#### Work with Task Properties
 
-![Work_with_dev_true](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/abdec4df-3ea7-414c-a9ce-8c4e834c016e)
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-
-With the Development Mode set to `false` there are four config groups:
-
-* [Node Properties](#work-with-task-node-properties)
-* [Options](#work-with-task-options)
-* [General Options](#work-with-task-general-options)
-* [Scheduling Options](#work-with-task-scheduling-options)
-
-
-![Work_with_dev_false](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/650874b5-7cb2-446d-b842-a7fc662ede2c)
-
-<h4 id="work-with-task-node-properties">Work With Task Node Properties </h4>
-
-* **Storage Location**: Storage Location where the Stream will be created.
-* **Node Type**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled**:
-  * If TRUE the node will be deployed / redeployed when changes are detected.
-  * If FALSE the node will not be deployed or will be dropped during redeployment.
- 
-<h4 id="work-with-task-options">Work With Task Options</h4>
+#### Work with Task Options
 
 ![Worktask-opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/2582e574-e368-4c00-8172-b259a86a4548)
 
-* **Development Mode**: True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action. Prior to creating a task, it is helpful to test the SQL the task will execute to make sure it runs without errors and returns the expected data.
-    * True - A table will be created and SQL will execute as a Run action.
-    * False - After sufficiently testing the SQL as a Run action setting Development Mode to false will wrap the SQL statement in a task with options specified in Scheduling Options.
-* **Multi Source**: True / False toggle that is Coalesce implementation of SQL UNIONs.
-    * True - Multiple sources can be combined in a single node. The sources are combined using the option specified in the Multi Source Strategy.
-	    * UNION - Combines with duplicate elimination.
-		* UNION ALL - Combines without duplicate elimination.
-    * False - Single source node or multiple sources combined using a join.
-* **Cluster key**: True/False to determine whether Dimension is to be clustered or not.
-    * True - Allows you to specify the column based on which clustering is to be done.
-	    *  **Allow Expressions Cluster Key**: True/False.  Add an expression to the specified cluster key.
-    * False – No clustering done
- * **Truncate Before**: Specifies that the target table should be truncated before inserting the values into the table.
+| **Option** | **Description** |
+|------------|----------------|
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action.<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options |
+| **Multi Source** | True / False toggle that is Coalesce implementation of SQL UNIONs<br/>**True** - Multiple sources can be combined using:<br/>- UNION - Combines with duplicate elimination<br/>- UNION ALL - Combines without duplicate elimination<br/>**False** - Single source node or multiple sources combined using a join |
+| **Cluster key** | True/False toggle that determines if clustering is enabled<br/>**True** - Specify clustering column and optionally allow expressions<br/>**False** - No clustering |
+| **Truncate Before** | True / False toggle that determines if table should be truncated before insert<br/>**True** - Uses INSERT OVERWRITE<br/>**False** - Uses INSERT to append data |
 
-<h4 id="work-with-task-general-options">Work With Task General Options </h4>
+#### Work with Task General Options
 
 ![Work with Task-GO](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/cb8cb62c-c4f1-4c22-87c2-3781a5328dfd)
 
-* **DISTINCT**: True/False toggle that determines whether to add DISTINCT to SQL Query.
-    * True - Group by All is invisible. DISTINCT data is chosen for processing.
-    * False- Group by All is visible.
-* **GROUP BY ALL**: True/False toggle that determines whether to add GROUP BY ALL to SQL Query.
-    * True - DISTINCT is invisible. Data is grouped by all columns for processing.
-    * False- DISTINCT is visible.
-* **Order By** : True/False toggle that determines whether to add “ORDER BY” to SQL query along with the column and sort order.
-    * True -Sort column and sort order drop down are visible and are required to form order by clause.
-    * False-Sort column and sort order drop down are invisible.
+| **Option** | **Description** |
+|------------|----------------|
+| **Distinct** | True/False toggle that determines whether to add DISTINCT to SQL Query<br/>**True** - Group by All is invisible. DISTINCT data is chosen<br/>**False** - Group by All is visible |
+| **Group by All** | True/False toggle that determines whether to add GROUP BY ALL to SQL Query<br/>**True** - DISTINCT is invisible. Data grouped by all columns<br/>**False** - DISTINCT is visible |
+| **Order By** | True/False toggle that determines whether to add ORDER BY to SQL Query<br/>**True** - Sort column and order options visible<br/>**False** - Sort options invisible |
 
+#### Work with Task Scheduling Options
 
-<h4 id="work-with-task-scheduling-options">Work With Task Scheduling Options</h4>
+![Task Scheduling Options](https://github.com/user-attachments/assets/2f8bc6c3-117c-4130-9619-45ee50feebef)
 
-If development mode is set to `false` then Scheduling Options can be used to configure how and when the task will run.
-
-* **Scheduling Mode**: Specifies whether a warehouse or serverless compute is used to run the task 
-    * Warehouse Task - User managed warehouse will execute task. 
-    * Serverless Task - Utilize serverless compute to execute task.
-* **When Source Stream has Data Flag**: True / False toggle that checks whether source streams have data before executing a task.
-    * True - Only run task if source stream has capture change data
-    * False - Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false.
-* **Multiple Stream has Data Logic**: True / False toggle is enabled if Source Stream has Data Flag is set to true.
-    * **AND** - If there are multiple streams task will run if all streams have data
-    * **OR** - If there are multiple streams task will run if one or more streams has data
-* **Select Warehouse on which to run task**: Visible if Scheduling Mode is set to Warehouse Task.
-    * Enter the name of the warehouse you want the task to run on without quotes
-* **Select initial serverless Warehouse size**: Visible when Scheduling Mode is set to Serverless Task.
-    * Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times.
-* **Task Schedule**: Select how you want to schedule the task to run
-    * **Minutes** - Allows you to specify a minute interval for running task
-    * **Cron** - Allows you to specify a CRON schedule for running task
-    * **Predecessor** - Allows you to specify a predecessor task to determine when a task should execute
-* **Enter task schedule using minutes**: Only visible when Task Schedule is set to Minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.
-* **Enter task schedule using Cron**: Only visible when Task Schedule is set to Cron. Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.
-* **Enter predecessor tasks separated by a comma**: Only visible when Task Schedule is set to Predecessor. One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.
-* **Enter root task name**: Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
+| **When Source Stream has Data Flag** | True/False toggle to check for stream data<br/>**True** - Only run task if source stream has capture change data<br/>**False** -  Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false. |
+| **Multiple Stream has Data Logic** | AND/OR logic when multiple streams (visible if Stream has Data Flag is true)<br/>**AND** - If there are multiple streams task will run if all streams have data<br/>**OR** -  If there are multiple streams task will run if one or more streams has data |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
+| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
 
 #### Example of Serverless Task with Multiple Predecessors and Root Task
 
@@ -130,7 +92,7 @@ If development mode is set to `false` then Scheduling Options can be used to con
 
 #### Work With Task Deployment Parameters
 
-The Stage with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Work with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
 
 The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
 
@@ -153,77 +115,79 @@ For example, with the below setting for the parameter in a QA environment, the t
 ```
 
 #### Work With Task Initial Deployment
-When deployed for the first time into an environment the Work with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task:
 
-#### Work With Task No Predecessor Task Deployment
+When deployed for the first time into an environment the Work with Task node will execute the following stages:
 
-* **Create Target Table**: This stage will create a table that will be loaded by the ask
+For tasks without predecessors:
 
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Target Table** | Creates table that will be loaded by the task |
+| **Create Task** | Creates task that will load the target table on schedule |
+| **Resume Task** | Resumes the task so it runs on schedule |
 
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule
+For tasks with predecessors:
 
-#### Work With Task Predecessor Task Deployment
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Target Table** | Creates table that will be loaded by the task |
+| **Suspend Root Task** | Suspends root task for DAG modification |
+| **Create Task** | Creates task that will load the target table on schedule |
 
-* **Create Target Table**: This stage will create a table that will be loaded by the ask
+If a task is part of a DAG of tasks, the DAG needs to include a node type called "Task DAG Resume Root." This node will resume the root node once all the dependent tasks have been created as part of a deployment.
 
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state
+The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change.
 
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified
+#### Work With Task Redeployment
 
-If a task is part of a DAG of tasks, the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+After initial deployment, changes in task schedule, warehouse, or scheduling options will result in a CREATE or RESUME
 
-The task node has no ALTER capabilities. All task enabled nodes are CREATE OR REPLACE only though this is subject to change.
+For tasks without predecessors:
 
-### Work With Task Redeployment
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Task** | Recreates task with new schedule |
+| **Resume Task** | Resumes task with new schedule |
 
-#### Work With Task Recreating the Task Redeployment
+For tasks with predecessors:
 
-After the Task has deployed for the first time into a target environment, subsequent deployments with changes in task schedule, warehouse, or scheduling options will result in a CREATE TASK AND RESUME TASK statements being issued
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task for DAG modification |
+| **Create Task** | Recreates task with new schedule |
 
-The following stages are executed:
+#### Work With Task Altering Tables
 
-####  Work With Task No Predecessor Task Redeployment
+Subsequent deployments with changes in table like add or drop column and change in data type will result in an ALTER table statement followed by CREATE TASK AND RESUME TASK statements being issued.
 
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule.
-	 
-#### Work With Task Predecessor Task Redeployment
-
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state.
-
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified
-	   
-#### Work With Task Altering the Tables
-
-After the Task has deployed for the first time into a target environment, subsequent deployments with changes in table like add/drop column and change in data type will result in an ALTER table statement followed by CREATE TASK AND RESUME TASK statements being issued.
-
-The following stages are executed:
-
-* **Change Column Attributes/Delete Column/Add Column/Change table description**: Alter table statement is executed to perform the alter operation accordingly.
-* **Create Task**
-* **Resume Task**
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Change Column Attributes/Delete Column/Add Column/Change table description** | Alter table statement is executed to perform the alter operation. |
+| **Create Task** | Recreates task with new schedule |
+| **Resume Task** | Resumes task with new schedule |
 
 ### Work With Task Undeployment
 
 If a Work with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then all objects created by the node in the target environment will be dropped.
 
-#### Work With Task No Predecessor Task Undeployment
+For tasks without predecessors:
 
-* **Drop Table**: This stage will drop the table originally created to be loaded by the task.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** |  Drop the table originally created to be loaded by the task. |
+| **Drop Current Task** | Drop the task |
 
-* **Drop Current Task**: This stage will drop the task.
+For tasks with predecessors:
 
-#### Work With Task Predecessor Task Undeployment
-
-* **Drop Table**: This stage will drop the table originally created to be loaded by the task
-
-* **Suspend Root Task**: To drop a task from a DAG of task the root task needs to be put into a suspended state.
-
-* **Drop Task**: This stage will drop the task.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** | Drop the table |
+| **Suspend Root Task** | Drop a task from a DAG of task the root task needs to be put into a suspended state. |
+| **Drop Task** | Drops the task |
 
 If a task is part of a DAG of tasks the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+---
 
 ## Dimension With Task
 
@@ -233,110 +197,74 @@ Tasks can be combined with Coalesce Stream node (table streams) for continuous E
 
 Tasks can also be used independently to generate periodic reports by inserting or merging rows into a report table or performing other periodic work.
 
-More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro). 
+More information about Tasks can be found in [Snowflake Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro).
 
-###  Dimension With Task Node Configuration
+### Dimension With Task Node Configuration
 
-The Dimension with Task node has two or three configuration groups depending on config options selected.
-
-With the option Development Mode set to true there are three config groups:
+The Dimension with Task node has two or three configuration groups depending on config options selected:
 
 * [Node Properties](#dimension-with-task-node-properties)
 * [Options](#dimension-with-task-options)
 * [General Options](#dimension-with-task-general-options)
+* [Scheduling Options](#dimension-with-task-scheduling-options) - Visible when Development Mode is false
 
-![Work_with_dev_true](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/266cf7e8-fee3-42b3-b562-b8d6995396d5)
+#### Dimension With Task Node Properties
 
-With the Development Mode set to false there are four config groups:
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-* [Node Properties](#dimension-with-task-node-properties)
-* [Options](#dimension-with-task-dimension-work-options)
-* [General Options](#dimension-with-task-general-options)
-* [Scheduling Options](#dimension-with-task-scheduling-options)
-
-![Work_with_dev_false](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/02f6675c-bcd9-4d22-b68e-e93dd9c5a2c1)
-
-<h4 id="dimension-with-task-node-properties">Dimension With Task Node Properties </h4>
-
-* **Storage Location**: Storage Location where the Stream will be created.
-* **Node Type**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled**:
-  * If TRUE the node will be deployed / redeployed when changes are detected.
-  * If FALSE the node will not be deployed or will be dropped during redeployment.
-
-<h4 id="dimension-with-task-options">Dimension With Task Options</h4>
+#### Dimension With Task Options
 
 ![Dimension_task_opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/3dfa88ac-b46b-4e92-9639-d45e5a6c242e)
 
+| **Option** | **Description** |
+|------------|----------------|
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options |
+| **Multi Source** | True / False toggle that is Coalesce implementation of SQL UNIONs<br/>**True** - Multiple sources can be combined using:<br/>- UNION - Combines with duplicate elimination<br/>- UNION ALL - Combines without duplicate elimination<br/>**False** - Single source node or multiple sources combined using a join |
+| **Business key** | Required column for both Type 1 and Type 2 Dimensions |
+| **Change tracking** | Required column for Type 2 Dimension |
+| **Cluster key** | True/False toggle that determines if clustering is enabled<br/>**True** - Specify clustering column and optionally allow expressions<br/>**False** - No clustering |
 
-* **Development Mode**: True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action. Prior to creating a task, it is helpful to test the SQL the task will execute to make sure it runs without errors and returns the expected data.
-    * True - A table will be created and SQL will execute as a Run action.
-    * False - After sufficiently testing the SQL as a Run action, setting Development Mode to false will wrap the SQL statement in a task with options specified in Scheduling Options.
-* **Multi Source**: True / False toggle that is Coalesce implementation of SQL UNIONs.
-    * True - Multiple sources can be combined in a single node. The sources are combined using the option specified in the Multi Source Strategy.
-	    * UNION - Combines with duplicate elimination.
-		* UNION ALL - Combines without duplicate elimination.
-    * False - Single source node or multiple sources combined using a join.
-* **Business key**: It is a required column for both Type 1 and Type 2 Dimensions.
-* **Change tracking**: It is a required column for Type 2 Dimension.
-* **Cluster key**: True/False to determine whether Dimension is to be clustered or not.
-    * True - Allows you to specify the column based on which clustering is to be done.
-	    *  **Allow Expressions Cluster Key**: True/False.  Add an expression to the specified cluster key.
-    * False – No clustering done
-
-<h4 id="dimension-with-task-general-options">Dimension With Task General Options </h4>
-
+#### Dimension With Task General Options
 
 ![Work with Task-GO](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/cb8cb62c-c4f1-4c22-87c2-3781a5328dfd)
 
-* **DISTINCT**: True/False toggle that determines whether to add DISTINCT to SQL Query.
-    * True - Group by All is invisible. DISTINCT data is chosen for processing.
-    * False- Group by All is visible.
-* **GROUP BY ALL**: True/False toggle that determines whether to add GROUP BY ALL to SQL Query.
-    * True - DISTINCT is invisible. Data is grouped by all columns for processing.
-    * False- DISTINCT is visible.
-* **Order By** : True/False toggle that determines whether to add “ORDER BY” to SQL query along with the column and sort order.
-    * True -Sort column and sort order drop down are visible and are required to form order by clause.
-    * False-Sort column and sort order drop down are invisible.
+| **Option** | **Description** |
+|------------|----------------|
+| **Distinct** | True/False toggle that determines whether to add DISTINCT to SQL Query<br/>**True** - Group by All is invisible. DISTINCT data is chosen<br/>**False** - Group by All is visible |
+| **Group by All** | True/False toggle that determines whether to add GROUP BY ALL to SQL Query<br/>**True** - DISTINCT is invisible. Data grouped by all columns<br/>**False** - DISTINCT is visible |
+| **Order By** | True/False toggle that determines whether to add ORDER BY to SQL Query<br/>**True** - Sort column and order options visible<br/>**False** - Sort options invisible |
 
+#### Dimension With Task Scheduling Options
 
-<h4 id="dimension-with-task-scheduling-options">Dimension With Task Scheduling Options</h4>
+If Development Mode is set to false, use Scheduling Options to configure how and when the task will run.
 
-If development mode is set to `false` then Scheduling Options can be used to configure how and when the task will run.
+![Task Scheduling Options](https://github.com/user-attachments/assets/2f8bc6c3-117c-4130-9619-45ee50feebef)
 
-* **Scheduling Mode**: Specifies whether a warehouse or serverless compute is used to run the task 
-    * Warehouse Task - User managed warehouse will execute task. 
-    * Serverless Task - Utilize serverless compute to execute task.
-* **When Source Stream has Data Flag**: True / False toggle that checks whether source streams have data before executing a task.
-    * True - Only run task if source stream has capture change data
-    * False - Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false.
-* **Multiple Stream has Data Logic**: True / False toggle is enabled if Source Stream has Data Flag is set to true.
-    * **AND** - If there are multiple streams task will run if all streams have data
-    * **OR** - If there are multiple streams task will run if one or more streams has data
-* **Select Warehouse on which to run task**: Visible if Scheduling Mode is set to Warehouse Task.
-    * Enter the name of the warehouse you want the task to run on without quotes
-* **Select initial serverless Warehouse size**: Visible when Scheduling Mode is set to Serverless Task.
-    * Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times.
-* **Task Schedule**: Select how you want to schedule the task to run
-    * **Minutes** - Allows you to specify a minute interval for running task
-    * **Cron** - Allows you to specify a CRON schedule for running task
-    * **Predecessor** - Allows you to specify a predecessor task to determine when a task should execute
-* **Enter task schedule using minutes**: Only visible when Task Schedule is set to Minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.
-* **Enter task schedule using Cron**: Only visible when Task Schedule is set to Cron. Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.
-* **Enter predecessor tasks separated by a comma**: Only visible when Task Schedule is set to Predecessor. One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.
-* **Enter root task name**: Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.
-
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
+| **When Source Stream has Data Flag** | True/False toggle to check for stream data<br/>**True** - Only run task if source stream has capture change data<br/>**False** -  Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false. |
+| **Multiple Stream has Data Logic** | AND/OR logic when multiple streams (visible if Stream has Data Flag is true)<br/>**AND** - If there are multiple streams task will run if all streams have data<br/>**OR** -  If there are multiple streams task will run if one or more streams has data |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
+| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
 
 ### Dimension With Task Deployment
 
-#### Dimension With Task Deployment Parameters
+#### Dimenson With Task Deployment Parameters
 
-The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Dimenson with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
 
 The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
 
-When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run task will be used when creating the task.
+When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run the task will be used when creating the task.
 
 ```json
 {
@@ -355,66 +283,79 @@ For example, with the below setting for the parameter in a QA environment, the t
 ```
 
 #### Dimension With Task Initial Deployment
-When deployed for the first time into an environment the Dimension with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task:
 
-#### Dimension With Task No Predecessor Task Deployment
+When deployed for the first time into an environment the Dimension with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task.
 
-* **Create Target Table**: This stage will create a table that will be loaded by the task.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule.
+For tasks without predecessor:
 
-####  Dimension With Task Predecessor Task Deployment
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Target Table** | Creates table that will be loaded by the task |
+| **Create Task** | Creates task that will load the target table on schedule |
+| **Resume Task** | Resumes the task so it runs on schedule |
 
-* **Create Target Table**: This stage will create a table that will be loaded by the task.
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
+For tasks with predecessor:
 
-If a task is part of a DAG of tasks the DAG needs to include a node type called `Task Dag Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Target Table** | Creates table that will be loaded by the task |
+| **Suspend Root Task** | Suspends root task for DAG modification |
+| **Create Task** | Creates task that will load the target table on schedule |
 
-The task node has no ALTER capabilities. All task enabled nodes are CREATE OR REPLACE only though this is subject to change.
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task DAG Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change.
 
 ### Dimension With Task Redeployment
 
-#### Dimension With Task Recreating the Task Redeployment
+After initial deployment, changes in task schedule, warehouse, or scheduling options will result in a CREATE or RESUME TASK.
 
-After the Task has deployed for the first time into a target environment, subsequent deployments with changes in task schedule,warehouse or scheduling options will result in a CREATE TASK AND RESUME TASK statements being issued.
+For tasks without predecessor:
 
-#### Dimension With Task No Predecessor Task Redeployment
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Task** | Recreates task with a new schedule |
+| **Resume Task** | Resumes task with a new schedule |
 
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule.
-	 
-#### Dimension With Task Predecessor Task Redeployment
+For tasks with predecessor:
 
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-	   
-#### Dimension With Task Altering the Tables Redeployment
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task for DAG modification |
+| **Create Task** | Recreates task with new schedule |
 
-After the Task has deployed for the first time into a target environment, subsequent deployments with changes in table like add/drop column,change in data type will result in an ALTER table statement followed by CREATE TASK AND RESUME TASK statements being issued.
+#### Dimension With Task Altering Tables
 
-The following stages are executed:
+Subsequent deployments with changes in table such as add or drop column and change in data type will result in an ALTER table statement followed by CREATE TASK AND RESUME TASK statements being issued.
 
-* **Change Column Attributes/Delete Column/Add Column/Change table description**: Alter table statement is executed to perform the alter operation accordingly.
-* **Create Task**
-* **Resume Task**
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Change Column Attributes/Delete Column/Add Column/Change table description** | Alter table statement is executed to perform the alter operation. |
+| **Create Task** | Recreates task with new schedule |
+| **Resume Task** | Resumes task with new schedule |
 
 ### Dimension With Task Undeployment
 
-If a Dimension with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher-level environment then all objects created by the node in the target environment will be dropped.
+If a Work with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then all objects created by the node in the target environment will be dropped.
 
-#### Dimension With Task No Predecessor Task Undeployment
+For tasks without predecessor:
 
-* **Drop Table**: This stage will drop the table originally created to be loaded by the task.
-* **Drop Current Task**: This stage will drop the task.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** | Drop the table originally created to be loaded by the task. |
+| **Drop Current Task** | Drops the task |
 
-#### Dimension With Task Predecessor Task Undeployment
+For tasks with predecessor:
 
-* **Drop Table**: This stage will drop the table originally created to be loaded by the task.
-* **Suspend Root Task**: To drop a task from a DAG of task the root task needs to be put into a suspended state.
-* **Drop Task**: This stage will drop the task.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** | Drop the table originally created to be loaded by the task. |
+| **Suspend Root Task** | Drop a task from a DAG of task the root task needs to be put into a suspended state. |
+| **Drop Task** | Drop the task |
 
 If a task is part of a DAG of tasks the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+---
 
 ## Fact With Task
 
@@ -424,98 +365,62 @@ Tasks can be combined with Coalesce Stream node (table streams) for continuous E
 
 Tasks can also be used independently to generate periodic reports by inserting or merging rows into a report table or performing other periodic work.
 
-More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro). 
+More information about Tasks can be found in [Snowflake Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro).
 
 ### Fact With Task Node Configuration
-The Work with Task node has two or three configuration groups depending on config options selected.
 
-With the option Development Mode set to `true` there are three config groups:
-
-* [Node Properties](#fact-with-task-node-properties)
-* [Options](#fact-with-task-options)
-* [General Options](#fact-with-task-general-options)
-
-![Work_with_dev_true](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/abdec4df-3ea7-414c-a9ce-8c4e834c016e)
-
-
-With the Development Mode set to `false` Scheduling Options is added.
+The Fact with Task node has two or three configuration groups depending on config options selected:
 
 * [Node Properties](#fact-with-task-node-properties)
 * [Options](#fact-with-task-options)
-* [General Options](#fact-with-task-general-options)
-* [Scheduling Options](#fact-with-task-scheduling-options)
+* [Scheduling Options](#fact-with-task-scheduling-options) - Visible when Development Mode is false
 
+#### Fact With Task Node Properties
 
-![Work_with_dev_false](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/650874b5-7cb2-446d-b842-a7fc662ede2c)
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-<h4 id="fact-with-task-node-properties">Fact With Task Node Properties </h4>
+#### Fact With Task Options
 
-* **Storage Location**: Storage Location where the Stream will be created.
-* **Node Type**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled**:
-  * If TRUE the node will be deployed / redeployed when changes are detected.
-  * If FALSE the node will not be deployed or will be dropped during redeployment.
- 
-<h4 id="fact-with-task-options">Fact With Task Options</h4>
+![Dimension_task_opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/3dfa88ac-b46b-4e92-9639-d45e5a6c242e)
 
-![Worktask-opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/2582e574-e368-4c00-8172-b259a86a4548)
+| **Option** | **Description** |
+|------------|----------------|
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options |
+| **Multi Source** | True / False toggle that is Coalesce implementation of SQL UNIONs<br/>**True** - Multiple sources can be combined using:<br/>- UNION - Combines with duplicate elimination<br/>- UNION ALL - Combines without duplicate elimination<br/>**False** - Single source node or multiple sources combined using a join |
+| **Cluster key** | True/False toggle that determines if clustering is enabled<br/>**True** - Specify clustering column and optionally allow expressions<br/>**False** - No clustering |
+| **Truncate Before** | Specifies that the target table should be truncated before inserting the values into the table. |
 
-* **Development Mode**: True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action. Prior to creating a task, it is helpful to test the SQL the task will execute to make sure it runs without errors and returns the expected data.
-    * True - A table will be created and SQL will execute as a Run action.
-    * False - After sufficiently testing the SQL as a Run action setting Development Mode to false will wrap the SQL statement in a task with options specified in Scheduling Options.
-* **Multi Source**: True / False toggle that is Coalesce implementation of SQL UNIONs.
-    * True - Multiple sources can be combined in a single node. The sources are combined using the option specified in the Multi Source Strategy.
-	    * UNION - Combines with duplicate elimination.
-		* UNION ALL - Combines without duplicate elimination.
-    * False - Single source node or multiple sources combined using a join.
-* **Cluster key**: True/False to determine whether Dimension is to be clustered or not.
-    * True - Allows you to specify the column based on which clustering is to be done.
-	    *  **Allow Expressions Cluster Key**: True/False.  Add an expression to the specified cluster key.
-    * False – No clustering done
- * **Truncate Before**: Specifies that the target table should be truncated before inserting the values into the table.
-
-<h4 id="fact-with-task-general-options">Fact With Task General Options </h4>
+#### Fact With Task General Options
 
 ![Work with Task-GO](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/cb8cb62c-c4f1-4c22-87c2-3781a5328dfd)
 
-* **DISTINCT**: True/False toggle that determines whether to add DISTINCT to SQL Query.
-    * True - Group by All is invisible. DISTINCT data is chosen for processing.
-    * False- Group by All is visible.
-* **GROUP BY ALL**: True/False toggle that determines whether to add GROUP BY ALL to SQL Query.
-    * True - DISTINCT is invisible. Data is grouped by all columns for processing.
-    * False- DISTINCT is visible.
-* **Order By** : True/False toggle that determines whether to add “ORDER BY” to SQL query along with the column and sort order.
-    * True -Sort column and sort order drop down are visible and are required to form order by clause.
-    * False-Sort column and sort order drop down are invisible.
+| **Option** | **Description** |
+|------------|----------------|
+| **Distinct** | True/False toggle that determines whether to add DISTINCT to SQL Query<br/>**True** - Group by All is invisible. DISTINCT data is chosen<br/>**False** - Group by All is visible |
+| **Group by All** | True/False toggle that determines whether to add GROUP BY ALL to SQL Query<br/>**True** - DISTINCT is invisible. Data grouped by all columns<br/>**False** - DISTINCT is visible |
+| **Order By** | True/False toggle that determines whether to add ORDER BY to SQL Query<br/>**True** - Sort column and order options visible<br/>**False** - Sort options invisible |
 
+#### Fact With Task Scheduling Options
 
-<h4 id="fact-with-task-scheduling-options">Fact With Task Scheduling Options</h4>
+If Development Mode is set to false, use Scheduling Options to configure how and when the task will run.
 
-If development mode is set to `false` then Scheduling Options can be used to configure how and when the task will run.
+![Task Scheduling Options](https://github.com/user-attachments/assets/2f8bc6c3-117c-4130-9619-45ee50feebef)
 
-* **Scheduling Mode**: Specifies whether a warehouse or serverless compute is used to run the task 
-    * Warehouse Task - User managed warehouse will execute task. 
-    * Serverless Task - Utilize serverless compute to execute task.
-* **When Source Stream has Data Flag**: True / False toggle that checks whether source streams have data before executing a task.
-    * True - Only run task if source stream has capture change data
-    * False - Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false.
-* **Multiple Stream has Data Logic**: True / False toggle is enabled if Source Stream has Data Flag is set to true.
-    * **AND** - If there are multiple streams task will run if all streams have data
-    * **OR** - If there are multiple streams task will run if one or more streams has data
-* **Select Warehouse on which to run task**: Visible if Scheduling Mode is set to Warehouse Task.
-    * Enter the name of the warehouse you want the task to run on without quotes
-* **Select initial serverless Warehouse size**: Visible when Scheduling Mode is set to Serverless Task.
-    * Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times.
-* **Task Schedule**: Select how you want to schedule the task to run
-    * **Minutes** - Allows you to specify a minute interval for running task
-    * **Cron** - Allows you to specify a CRON schedule for running task
-    * **Predecessor** - Allows you to specify a predecessor task to determine when a task should execute
-* **Enter task schedule using minutes**: Only visible when Task Schedule is set to Minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.
-* **Enter task schedule using Cron**: Only visible when Task Schedule is set to Cron. Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.
-* **Enter predecessor tasks separated by a comma**: Only visible when Task Schedule is set to Predecessor. One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.
-* **Enter root task name**: Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.
-
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
+| **Multiple Stream has Data Flag** | True / False toggle that checks whether source streams have data before executing a task.<br/> **True**: Only run task if source stream has capture change data <br/> **False**:  Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false.|
+| **Multiple Stream has Data Logic** | AND/OR logic when multiple streams (visible if Stream has Data Flag is true)<br/>**AND** - If there are multiple streams task will run if all streams have data<br/>**OR** -  If there are multiple streams task will run if one or more streams has data |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
+| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
 
 ### Fact With Task Deployment
 
@@ -525,7 +430,7 @@ The Fact with Task includes an environment parameter that allows you to specify 
 
 The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
 
-When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run the task will be used when creating the task.
+When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run task will be used when creating the task.
 
 ```json
 {
@@ -545,66 +450,78 @@ For example, with the below setting for the parameter in a QA environment, the t
 
 #### Fact With Task Initial Deployment
 
-When deployed for the first time into an environment the Fact with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task:
+When deployed for the first time into an environment the Fact with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task.
 
-#### Fact With Task No Predecessor Task Initial Deployment
+For tasks without predecessors:
 
-* **Create Target Table**: This stage will create a table that will be loaded by the task.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Target Table** | Creates table that will be loaded by the task |
+| **Create Task** | Creates task that will load the target table on schedule |
+| **Resume Task** | Resumes the task so it runs on schedule |
 
-#### Fact With Task Predecessor Task Initial Deployment
+For tasks with predecessors:
 
-* **Create Target Table**: This stage will create a table that will be loaded by the ask
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Target Table** | Creates table that will be loaded by the task |
+| **Suspend Root Task** | Suspends root task for DAG modification |
+| **Create Task** | Creates task that will load the target table on schedule |
 
-If a task is part of a DAG of tasks the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task DAG Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
 
-The task node has no ALTER capabilities. All task enabled nodes are CREATE OR REPLACE only though this is subject to change.
+The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change.
 
-### Fact With Task Redeployment
+#### Fact With Task Redeployment
 
-After the Task has deployed for the first time into a target environment, subsequent deployments with changes in task schedule,warehouse or scheduling options will result in a CREATE TASK AND RESUME TASK statements being issued
+After initial deployment, changes to task schedule, warehouse, or scheduling options will result in a CREATE and RESUME TASK.
 
-The following stages are executed:
+For tasks without predecessors:
 
-#### Fact With Task Redeployment No Predecessor Task
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Task** | Recreates task with new schedule |
+| **Resume Task** | Resumes task with new schedule |
 
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule.
-	 
-#### Fact With Task Redeployment Predecessor Task
+For tasks with predecessors:
 
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-	   
-####  Fact With Task Altering the tables
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task for DAG modification |
+| **Create Task** | Creates task that will load the target table on schedule |
 
-After the Task has deployed for the first time into a target environment, subsequent deployments with changes in table like add/drop column,change in data type will result in an ALTER table statement followed by CREATE TASK AND RESUME TASK statements being issued.
+#### Fact With Task Altering the Tables
 
-The following stages are executed:
+Changes to add or drop column, or change in data type will result in a ALTER, CREATE, AND RESUME TASK.
 
-* **Change Column Attributes/Delete Column/Add Column/Change table description**: Alter table statement is executed to perform the alter operation accordingly.
-* **Create Task**
-* **Resume Task**
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Alter Table** | Modifies table structure |
+| **Create Task** | Recreates task |
+| **Resume Task** | Resumes updated task |
 
 ### Fact With Task Undeployment
 
-If a Fact with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then all objects created by the node in the target environment will be dropped.
+If a Fact with Task node is deleted from a Workspace, and that Workspace is committed to Git and that commit is deployed to a higher-level environment, then all objects created by the node in the target environment will be dropped.
 
-#### Fact With Task Undeployment No Predecessor Task
+For tasks without predecessors:
 
-* **Drop Table**: This stage will drop the table originally created to be loaded by the task/
-* **Drop Current Task**: This stage will drop the task.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** | Drop the table created to be loaded by the task |
+| **Drop Current Task** | Removes the task |
 
-#### Fact With Task Undeployment Predecessor Task
+For tasks with predecessors:
 
-* **Drop Table**: This stage will drop the table originally created to be loaded by the task.
-* **Suspend Root Task**: To drop a task from a DAG of task the root task needs to be put into a suspended state.
-* **Drop Task**: This stage will drop the task.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** | Drop the table created to be loaded by the task |
+| **Suspend Root Task** | Suspends root task |
+| **Drop Task** | Removes the task |
 
-If a task is part of a DAG of tasks the DAG needs to include a node type called Task Dag Resume Root. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task Dag Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+---
 
 ## Task DAG Create Root
 
@@ -614,353 +531,41 @@ The root task should have a defined schedule that initiates a run of the DAG. Ea
 
 Tasks can also be used independently to generate periodic reports by inserting or merging rows into a report table or perform other periodic work.
 
-More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro). 
+More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro).
 
 ### Task DAG Create Root Node Configuration
+
+The Task DAG Create Root node has two configuration groups:
 
 * [Node Properties](#task-dag-create-root-node-properties)
 * [Scheduling Options](#task-dag-create-root-scheduling-options)
 
-![Task_dag_create_root_config](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/873b2da2-44c8-423d-a005-8f5ab42f659b)
+#### Task DAG Create Root Node Properties
 
-<h4 id="task-dag-create-root-node-properties">Task DAG Create Root Node Properties</h4>
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-* **Storage Location**: Storage Location where the Stream will be created.
-* **Node Type**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled**:
-  * If TRUE the node will be deployed / redeployed when changes are detected.
-  * If FALSE the node will not be deployed or will be dropped during redeployment.
-
-<h4 id="task-dag-create-root-scheduling-options">Task DAG Create Root Scheduling Options</h4>
-
-The Scheduling Options can be used to configure how and when the task will run.
-
-There are 4 to 5 options that can be selected depending on combinations of configs that are selected:
+#### Task DAG Create Root Scheduling Options
 
 ![Task_dag_create_root_scheduling_options](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/79323e3a-4674-4676-9441-4497e1788680)
 
-* **Scheduling Options**: Specifies whether a warehouse or serverless compute is used to run the task 
-    * Warehouse Task - User managed warehouse will execute task. 
-    * Serverless Task - Utilize serverless compute to execute task.
-* **Select Warehouse on which to run task**: Visible if Scheduling Mode is set to Warehouse Task
-    * Enter the name of the warehouse you want the task to run on without quotes
-* **Select initial serverless Warehouse size**: Visible when Scheduling Mode is set to Serverless Task
-    * Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times.
-* **Task Schedule**: Select how you want to schedule the task to run
-    * **Minutes** - Allows you to specify a minute interval for running task
-    * **Cron** - Allows you to specify a CRON schedule for running task
-* **Enter root task SQL**: The SQL statement associated to be run when a standalone root task to be executed.
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task** - User managed warehouse executes tasks<br/>- **Serverless Task** - Uses serverless compute |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. <br/> Name of warehouse to run task on without quotes |
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task <br/> Initial compute size for serverless tasks. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- Minutes - Specify interval in minutes<br/>- Cron - Use cron expression |
+| **Enter root task SQL** | The SQL statement to be run when a standalone root task executes |
 
 ### Task DAG Create Root Deployment
 
-### Task DAG Create Root Deployment Parameters
-The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+#### Task DAG Create Root Deployment Parameters
 
 The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
-
-When set to`DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run the task will be used when creating the task.
-
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
-
-### Task DAG Create Root Initial Deployment
-When deployed for the first time into an environment the Task DAG Create Root node will execute two stages.
-
-#### Task DAG Create Root Task
-
-* **Suspend Root Task**: To create a root task, the root task needs to be put into a suspended state
-* **Create Root Task**: This stage will create a task that will execute the Root SQL on the schedule specified
-
-If a task is part of a DAG of tasks the DAG needs to include a node type called Task Dag Resume Root. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
-
-### Task DAG Create Root Redeployment
-
-After the Task has deployed for the first time into a target environment, subsequent deployments will execute two stages Suspend Root Task and Create Root task
-
-###  Task DAG Create Root Undeployment
-
-If a Dimension with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher-level environment then two stages are executed
-
-* **Suspend Root task**
-* **Drop current task**
-
-## Task DAG Resume Root
-
-The Coalesce Task DAG Resume Root UDN is a node type that helps to resume the root task and its dependents or child tasks. Recursively resumes all dependent tasks tied to a specified root task in a DAG using the root task name specified.
-
-The root task should have a defined schedule that initiates a run of the DAG. Each of the other tasks has at least one defined predecessor to link the tasks in the DAG. A child task runs only after all of its predecessor tasks run successfully to completion.
-
-Tasks can also be used independently to generate periodic reports by inserting or merging rows into a report table or perform other periodic work.
-
-More information about Tasks can be found in the official Snowflake documentation here - (https://docs.snowflake.com/en/user-guide/tasks-intro).
-
-### Task DAG Resume Root Node Configuration
-
-* [Node Properties](#task-dag-resume-root-node-properties)
-* [Scheduling Options](#task-dag-resume-root-scheduling-options)
-
-![Task_dag_create_root_config](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/39067a1a-a617-4488-a0e7-cc5a4fbb2a25)
-
-<h4 id="task-dag-resume-root-node-properties">Task DAG Resume Root Node Node Properties</h4>
-
-* **Storage Location**: Storage Location where the Stream will be created.
-* **Node Type**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled**:
-  * If TRUE the node will be deployed / redeployed when changes are detected.
-  * If FALSE the node will not be deployed or will be dropped during redeployment.
-  
-<h4 id="task-dag-resume-root-scheduling-options"> Task DAG Resume Root Scheduling Options </h4>
-
-The Scheduling Options prompts to mention the root task which needs to be resumed. It recursively resumes all dependent tasks tied to a specified root task
-
-![Task_dag_resume_root_scheduling_options](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/1dadf5e1-b846-4f2f-b09a-1a3722e60cdf)
-
-### Task DAG Resume Root Deployment
-
-#### Task DAG Resume RootInitial Deployment
-When deployed for the first time into an environment the Dimension with Task node will execute:
-
-**Try Enable Root Task**: to resume root and all its dependents.
-
-If a task is part of a DAG of tasks the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
-
-#### Task DAG Resume Root Undeployment
-
-If a Dimension with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher-level environment then two stages are executed
-
-# Stream
-
-The Coalesce Stream UDN is a node that allows you to develop and deploy a stream on top of a table, view or external table.
-
-A stream logically takes an initial snapshot of every row in the source object (e.g. table, external table, or the underlying tables for a view) by initializing a point in time (called an offset) as the current transactional version of the object. The change tracking system utilized by the stream then records information about the DML changes after this snapshot was taken. Change records provide the state of a row before and after the change. Change information mirrors the column structure of the tracked source object and includes additional metadata columns that describe each change event.
-
-More information about Streams can be found in the official [Snowflake's Introduction to Streams](https://docs.snowflake.com/en/user-guide/streams-intro).
-
-### Stream Node Configuration
-The Stream has two configuration groups:
-
-* [Node Properties](#stream-node-properties)
-* [Stream Options](#stream-options)
-
-![Str-opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/97ee7db3-3a4d-46d2-9908-d21fe811fdce)
-
-<h4 id="stream-node-properties"> Stream Node Properties </h4>
-
-* **Storage Location**: Storage Location where the Stream will be created.
-* **Node Type**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled**:
-  * If TRUE the node will be deployed / redeployed when changes are detected.
-  * If FALSE the node will not be deployed or will be dropped during redeployment.
-
-<h4 id="stream-options"> Stream Options </h4>
-
-* **Source Object**: The type of object the stream will be created on. One of three options is required to be selected and this selection drives what other configs are available:
-    * **Table**
-	    * **Append Only Stream**: True / False Toggle to set what type of stream is created.
-		    * True - Specifies an append-only stream.
-		    * False - Specifies a standard stream.
-	    * **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
-			* True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
-			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: Options to determine redeployment behavior.
-    * **View**:
-	   * **Append Only Stream**: True / False Toggle to set what type of stream is created.
-		    * True - Specifies an append-only stream.
-		    * False - Specifies a standard stream.
-		* **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
-		    * True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
-			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: Options to determine redeployment behavior.
-    * **External table**:
-                * **Redeployment Behavior**: Options to determine redeployment behavior.
-    * **External iceberg table**:
-               * **Redeployment Behavior**: Options to determine redeployment behavior.
-
-### Stream System Columns
-
-A Stream UDN adds three system columns to the output of the node.
-
-* **METADATA$ACTION**
-* **METADATA$ISUPDATE**
-* **METADATA$ROW_ID**
-
-These columns can be used together to track INSERT, UPDATE and DELETE operations against a source object.
-
-#### METADATA$ACTION
-Indicates the DML operation (INSERT, DELETE) recorded.
-
-#### METADATA$ISUPDATE
-Indicates whether the operation was part of an UPDATE statement. Updates to rows in the source object are represented as a pair of DELETE and INSERT records in the stream with a metadata column METADATA$ISUPDATE values set to TRUE.
-
-#### METADATA$ROW_ID
-Specifies the unique and immutable ID for the row, which can be used to track changes to specific rows over time.
-
-###  Stream Deployment
-
-#### Stream Deployment Parameters
-No deployment parameters are required.
-
-#### Stream Initial Deployment
-When deployed for the first time into an environment the Stream node will execute stage:
-
-**Create Stream**
-This stage will execute a CREATE OR REPLACE statement and create a Stream in the target environment.
-
-### Stream Redeployment
-
-After the Stream has deployed for the first time into a target environment, subsequent deployments will result in a new stream creation based on redeployment behavior chosen.
-
-| Redeployment Behavior | Stage Executed |
-|---|---|
-| Create Stream if not exists| Re-Create Stream at existing offset|
-| Create or Replace | Create Stream|
-| Create at existing stream |  Re-Create Stream at existing offset |
-
-
-### Stream Undeployment
-
-If a Stream Node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then the Stream in the target environment will be dropped.
-
-This is executed as a single stage:
-
-* **Drop Stream**
-
-## Stream-Insert or Merge
-
-The Coalesce Streams and Insert or Merge UDN is a node that allows you to develop and deploy a stream on top of a table, view or external table.Also,provides option to create a target table to insert or merge data from source with a task on top of it.
-
-A stream logically takes an initial snapshot of every row in the source object (e.g. table, external table, or the underlying tables for a view) by initializing a point in time (called an offset) as the current transactional version of the object. The change tracking system utilized by the stream then records information about the DML changes after this snapshot was taken. Change records provide the state of a row before and after the change. Change information mirrors the column structure of the tracked source object and includes additional metadata columns that describe each change event.
-
-More information about Streams can be found in the official [Snowflake's Introduction to Streams](https://docs.snowflake.com/en/user-guide/streams-intro).
-
-### Stream-Insert or Merge Node Configuration
-
-* [Node Properties](#node-properties)
-* [General Options](#general-options)
-* [Stream Options](#stream-options)
-* [Target Loading Options](#target-loading-options)
-* [Scheduling Options](#scheduling-options)
-
-![SIM_Opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/0389b770-60d3-48ec-b944-4ff7a8f1b938)
-
-<h4> Stream-Insert or Merge Node Properties </h4>
-
-* **Storage Location**: Storage Location where the Stream will be created.
-* **Node Type**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled**:
-  * If TRUE the node will be deployed / redeployed when changes are detected.
-  * If FALSE the node will not be deployed or will be dropped during redeployment.
-
-#### Stream-Insert or Merge General Options
-
-![SIM-GO](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/169126315/51559454-e26f-42bd-8814-171f6c02cff9)
-
-
-* **Development Mode**: True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action. Prior to creating a task, it is helpful to test the SQL the task will execute to make sure it runs without errors and returns the expected data.
-    * True - A table will be created and SQL will execute as a Run action.
-    * False - After sufficiently testing the SQL as a Run action setting Development Mode to false will wrap the SQL statement in a task with options specified in Scheduling Options.
-- **CREATE AS**: In this dropdown you can select if you want to create target object as 'Table' or 'Transient Table' .
-  - Table - A permanent table in Snowflake with data retention and fail-safe features for long-term storage and data protection.
-  - Transient Table- A temporary table in Snowflake without data retention and fail-safe features, suitable for intermediate data processing.
-* **DISTINCT**: True/False toggle that determines whether to add DISTINCT to SQL Query.
-    * True - Group by All is invisible. DISTINCT data is chosen for processing
-    * False- Group by All is visible
-* **GROUP BY ALL**: True/False toggle that determines whether to add GROUP BY ALL to SQL Query.
-    * True - DISTINCT is invisible. Data is grouped by all columns for processing
-    * False- DISTINCT is visible
-	
-#### Stream-Insert or Merge Stream Options
-
-
-* **Source Object**: The type of object the stream will be created on. One of three options is required to be selected and this selection drives what other configs are available:
-    * **Table**
-	    * **Append Only Stream**: True / False Toggle to set what type of stream is created.
-		    * True - Specifies an append-only stream.
-		    * False - Specifies a standard stream.
-	    * **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
-			* True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
-			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: Options to determine redeployment behavior.
-    * **View**:
-	   * **Append Only Stream**: True / False Toggle to set what type of stream is created.
-		    * True - Specifies an append-only stream.
-		    * False - Specifies a standard stream.
-		* **Show Initial Rows**: True / False Toggle to specify the records to return the first time the stream is consumed.
-		    * True - The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset; that is, the normal stream behavior.
-			* False - The stream returns any DML changes to the source object since the most recent offset.
-		* **Redeployment Behavior**: Options to determine redeployment behavior.
-
-#### Stream-Insert or Merge Target Loading Options
-
-![SIM_TL](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/31950bef-b62a-4f47-b7ff-b4e20f95ac4e)
-
-* **Load Type**:
-    * **Insert**:The data is inserted into the target table from source.
-    * **Merge**:The latest record changes in the source are merged into target.
-* **Table key(s)**: Enabled if target load type is Merge.The business key(s) column(s) based on which the data is merged into Target table.
-* **Record Date/Timestamp**:Enabled if target load type is Merge.Date/TImestamp column based on which latest record is merged into Target table.
-* **Cluster key**: True/False to determine whether Dimension is to be clustered or not.
-    * True - Allows you to specify the column based on which clustering is to be done.
-	    *  **Allow Expressions Cluster Key**: True/False.  Add an expression to the specified cluster key.
-    * False – No clustering done
-	
-#### Stream-Insert or Merge Scheduling Options
-
-If development mode is set to false then Scheduling Options can be used to configure how and when the task will run.
-
-![SIM_scheduling](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/8cc53638-8d41-4869-9358-51b41d68e04e)
-
-
-* **Scheduling Mode**: Specifies whether a warehouse or serverless compute is used to run the task 
-    * Warehouse Task - User managed warehouse will execute tasks. 
-    * Serverless Task - Utilize serverless compute to execute tasks.
-* **When Source Stream has Data Flag**: True / False toggle that checks whether source streams have data before executing a task.
-    * True - Only run task if source stream has capture change data
-    * False - Run tasks on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false.
-* **Select Warehouse on which to run task**: Visible if Scheduling Mode is set to Warehouse Task
-    * Enter the name of the warehouse you want the task to run on without quotes
-* **Select initial serverless Warehouse size**: Visible when Scheduling Mode is set to Serverless Task
-    * Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times.
-* **Task Schedule**: Select how you want to schedule the task to run
-    * **Minutes** - Allows you to specify a minute interval for running task
-    * **Cron** - Allows you to specify a CRON schedule for running task
-    * **Predecessor** - Allows you to specify a predecessor task to determine when a task should execute
-* **Enter task schedule using minutes**: Only visible when Task Schedule is set to Minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.
-* **Enter task schedule using Cron**: Only visible when Task Schedule is set to Cron. Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.
-* **Enter predecessor task(s) separated by a comma**: Only visible when Task Schedule is set to Predecessor. One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor tasks separate the task names using a comma and no spaces.
-* **Enter root task name**: Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor tasks separate the task names using a comma and no spaces.
-
-### Stream-Insert or Merge System Columns
-
-A Stream UDN adds three system columns to the output of the node. These columns can be used together to track INSERT, UPDATE and DELETE operations against a source object.
-
-* `METADATA$ACTION`: Indicates the DML operation (INSERT, DELETE) recorded.
-* `METADATA$ISUPDATE`: Indicates whether the operation was part of an UPDATE statement. Updates to rows in the source object are represented as a pair of DELETE and INSERT records in the stream with a metadata column METADATA$ISUPDATE values set to TRUE.
-* `METADATA$ROW_ID`: Specifies the unique and immutable ID for the row, which can be used to track changes to specific rows over time.
-
-### Stream-Insert or Merge Deployment
-
-#### Stream-Insert or Merge Deployment Parameters
-The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
-
-The parameter name is targetTaskWarehouse and the default value is `DEV ENVIRONMENT`.
 
 When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run task will be used when creating the task.
 
@@ -980,159 +585,397 @@ For example, with the below setting for the parameter in a QA environment, the t
 }
 ```
 
-### Stream-Insert or Merge Initial Deployment
-When deployed for the first time into an environment the Stream and Insert or Merge node will execute four to six stages dependent on whether or not the task schedule relies on a predecessor task:
+#### Task DAG Create Root Initial Deployment
 
-#### Stream-Insert or Merge  Deployment No Predecessor Task
+When deployed for the first time into an environment, the following stages execute:
 
-**Create Stream**
-This stage will execute a CREATE OR REPLACE statement and create a Stream in the target environment.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task for creation |
+| **Create Root Task** | Creates task that will execute Root SQL on schedule |
 
-**Create Work Table/Transient Table**
-This stage will create a table that will be loaded by the task.
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task Dag Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
 
-**Target Table Initial Load**
-Loads initial data into table
+#### Task DAG Create Root Redeployment
 
-**Create Task**
-This stage will create a task that will load the target table on the schedule specified.
+After the Task has deployed for the first time into a target environment, subsequent deployments will execute two stages:
 
-**Resume Task**
-After the task has been created it needs to be resume so that the task runs on the schedule.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task |
+| **Create Root Task** | Recreates root task |
 
-#### Stream-Insert or Merge  Deployment Predecessor Task
+### Task DAG Create Root Undeployment
 
-**Create Stream**
-This stage will execute a CREATE OR REPLACE statement and create a Stream in the target environment.
+When a Task DAG Create Root node is deleted, two stages are executed:
 
-**Create Work Table/Transient Table**
-This stage will create a table that will be loaded by the ask.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root task** | Suspends root task |
+| **Drop current task** | Removes the task |
 
-**Target Table Initial Load**
-Loads initial data into table
+---
 
-**Suspend Root Task**
-To add a task into a DAG of task the root task needs to be put into a suspended state.
+## Task DAG Resume Root
 
-**Create Task**
-This stage will create a task that will load the target table on the schedule specified.
+The Coalesce Task DAG Resume Root UDN is a node type that helps to resume the root task and its dependents or child tasks. Recursively resumes all dependent tasks tied to a specified root task in a DAG using the root task name specified.
 
-If a task is part of a DAG of tasks the DAG needs to include a node type called Task Dag Resume Root. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+The root task should have a defined schedule that initiates a run of the DAG. Each of the other tasks has at least one defined predecessor to link the tasks in the DAG. A child task runs only after all of its predecessor tasks run successfully to completion.
 
-The task node has no ALTER capabilities. All task enabled nodes are CREATE OR REPLACE only though this is subject to change.
+Tasks can also be used independently to generate periodic reports by inserting or merging rows into a report table or perform other periodic work.
 
-### Stream-Insert or Merge Redeployment
+More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro).
 
-| Redeployment Behavior | Stage Executed |
-|---|---|
-| Create Stream if not exists| Re-Create Stream at existing offset|
-| Create or Replace | Create Stream|
-| Create at existing stream |  Re-Create Stream at existing offset |
+### Task DAG Resume Root Node Configuration
 
-#### Table
+The Task DAG Resume Root node has two configuration groups:
 
-There are few column or table changes like Change in table name,Dropping existing column, Alter Column data type,Adding a new column if made in isolation or all-together will result in an ALTER statement to modify the Work Table in the target environment.
-The following stages are executed:
+* [Node Properties](#task-dag-resume-root-node-properties)
+* [Scheduling Options](#task-dag-resume-root-scheduling-options)
 
-* **Rename Table| Alter Column | Delete Column | Add Column | Edit table description**: Alter table statement is executed to perform the alter operation.
-* **Target Inital Load** :If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO."
+#### Task DAG Resume Root Node Properties
 
-If the materialization type is changed from transient table to table or vie versa,the following stages are executed
-* **Drop table/transient table**
-* **Create Work table/transient table**
-* **Target Inital Load** :If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO."
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-#### Task
-Redeployment with changes in the stream or table will result in the creation and resumption of the task.
+#### Task DAG Resume Root Scheduling Options
 
-### Stream-Insert or Merge Undeployment
+![Task_dag_resume_root_scheduling_options](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/1dadf5e1-b846-4f2f-b09a-1a3722e60cdf)
 
-If a Stream Node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then the Stream in the target environment will be dropped.
+| **Option** | **Description** |
+|------------|----------------|
+| **Enter root task name** | Name of the root task to be resumed - recursively resumes all dependent tasks tied to this specified root task |
 
-This is executed in following stages:
+### Task DAG Resume Root Deployment
 
-* Drop Stream
-* Drop Table
-* Drop Current Task
-  
-<h2 id="iceberg-tables-with-task">Iceberg table with Task</h2>
+#### Task DAG Resume Root Initial Deployment
 
-Iceberg tables with task node is an external iceberg table node wrapped with a task functionality.
+When deployed for the first time into an environment the following stage executes:
 
-An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats.[Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Try Enable Root Task** | Resumes root task and all its dependents |
+
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task Dag Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+#### Task DAG Resume Root Undeployment
+
+If a Dimension with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher-level environment then two stages are executed.
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** | Removes the table |
+| **Drop Current Task** | Removes the task |
+
+---
+
+## Stream
+
+The Coalesce Stream UDN is a node that allows you to develop and deploy a stream on top of a table, view or external table.
+
+A stream logically takes an initial snapshot of every row in the source object (e.g. table, external table, or the underlying tables for a view) by initializing a point in time (called an offset) as the current transactional version of the object. The change tracking system utilized by the stream then records information about the DML changes after this snapshot was taken. Change records provide the state of a row before and after the change. Change information mirrors the column structure of the tracked source object and includes additional metadata columns that describe each change event.
+
+More information about Streams can be found in the official [Snowflake Introduction to Streams](https://docs.snowflake.com/en/user-guide/streams-intro).
+
+### Stream Node Configuration
+
+The Stream has two configuration groups:
+
+* [Node Properties](#stream-node-properties)
+* [Stream Options](#stream-options)
+
+#### Stream Node Properties
+
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+
+#### Stream Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>**Append Only Stream**: <br>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**View**:<br/>**Append Only Stream**: <br>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/>**True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**External table**:<br/>Redeployment Behavior: Options for redeployment<br/><hr/>**External iceberg table**:<br/>Redeployment Behavior: Options for redeployment |
+
+### Stream System Columns
+
+A Stream UDN adds three system columns to the output of the node. These columns can be used together to track INSERT, UPDATE and DELETE operations against a source object.
+
+| **Column** | **Description** |
+|------------|----------------|
+| **METADATA$ACTION** | Indicates the DML operation (INSERT, DELETE) recorded |
+| **METADATA$ISUPDATE** | Indicates whether the operation was part of an UPDATE statement. Updates to rows in the source object are represented as a pair of DELETE and INSERT records in the stream with a metadata column METADATA$ISUPDATE values set to TRUE.|
+| **METADATA$ROW_ID** | Specifies the unique and immutable ID for the row, used to track changes over time |
+
+### Stream Deployment
+
+#### Stream Deployment Parameters
+
+No deployment parameters are required.
+
+#### Stream Initial Deployment
+
+When deployed for the first time into an environment the Stream node executes:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Stream** | Executes a CREATE OR REPLACE statement to create a Stream in the target environment |
+
+#### Stream Redeployment
+
+After initial deployment, subsequent deployments will create a new stream based on the selected redeployment behavior:
+
+| **Redeployment Behavior** | **Stage Executed** |
+|--------------------------|-------------------|
+| Create Stream if not exists | Re-Create Stream at existing offset |
+| Create or Replace | Create Stream |
+| Create at existing stream | Re-Create Stream at existing offset |
+
+### Stream Undeployment
+
+When a Stream Node is deleted from a Workspace and that commit is deployed, the following stage executes:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Stream** | Removes the stream from the target environment |
+
+---
+
+## Stream and Insert or Merge
+
+The Coalesce Streams and Insert or Merge UDN is a node that allows you to develop and deploy a stream on top of a table, view or external table. Also, provides option to create a target table to insert or merge data from source with a task on top of it.
+
+A stream logically takes an initial snapshot of every row in the source object (e.g. table, external table, or the underlying tables for a view) by initializing a point in time (called an offset) as the current transactional version of the object. The change tracking system utilized by the stream then records information about the DML changes after this snapshot was taken. Change records provide the state of a row before and after the change. Change information mirrors the column structure of the tracked source object and includes additional metadata columns that describe each change event.
+
+More information about Streams can be found in the official [Snowflake's Introduction to Streams](https://docs.snowflake.com/en/user-guide/streams-intro).
+
+### Stream and Insert or Merge Node Configuration
+
+The Stream and Insert or Merge node has the following configuration groups:
+
+* [Node Properties](#stream-and-insert-or-merge-node-properties)
+* [General Options](#stream-and-insert-or-merge-general-options)
+* [Stream Options](#stream-and-insert-or-merge-stream-options)
+* [Target Loading Options](#stream-and-insert-or-merge-target-loading-options)
+* [Scheduling Options](#stream-and-insert-or-merge-scheduling-options)
+
+#### Stream and Insert or Merge Node Properties
+
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+
+#### Stream and Insert or Merge General Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options |
+| **CREATE AS** | Choose target object type:<br/>- Table - Permanent table with data retention and fail-safe<br/>- Transient Table - Temporary table without data retention |
+| **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
+| **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
+
+#### Stream and Insert or Merge Stream Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Redeployment Behavior: Options for redeployment<br/>**View**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Redeployment Behavior: Options for redeployment |
+
+#### Stream and Insert or Merge Target Loading Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Load Type** | Choose data loading method:<br/>**Insert** - Data inserted from source<br/>**Merge** - Latest record changes merged into target |
+| **Table keys** | Business key columns for merging data (enabled for Merge load type) |
+| **Record Date/Timestamp** | Date/Timestamp column for latest record merging (enabled for Merge load type) |
+| **Cluster key** | True/False toggle for clustering<br/>**True** - Specify clustering column and expressions. - **Allow Expressions Cluster Key**: Add an expression to the specified cluster key.<br/>**False** - No clustering |
+
+#### Stream and Insert or Merge Scheduling Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
+| **When Source Stream has Data Flag** | True/False toggle to check for stream data<br/>**True** - Only run task if source stream has capture change data<br/>**False** -  Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false. |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
+| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+
+### Stream and Insert or Merge System Columns
+
+| **Column** | **Description** |
+|------------|----------------|
+| **METADATA$ACTION** | Indicates the DML operation (INSERT, DELETE) recorded |
+| **METADATA$ISUPDATE** | Indicates whether operation was UPDATE (shown as DELETE/INSERT pair with TRUE value) |
+| **METADATA$ROW_ID** | Unique and immutable row ID for change tracking |
+
+### Stream and Insert or Merge Deployment
+
+#### Stream and Insert or Merge Deployment Parameters
+
+The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+
+The parameter name is `targetTaskWarehouse` with default value `DEV ENVIRONMENT`.
+
+```json
+{
+    "targetTaskWarehouse": "DEV ENVIRONMENT"
+}
+```
+
+When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
+
+For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
+
+```json
+{
+    "targetTaskWarehouse": "compute_wh"
+}
+```
+
+#### Stream and Insert or Merge Initial Deployment
+
+For tasks without predecessors:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Stream** | Creates Stream in target environment |
+| **Create Work Table/Transient Table** | Creates table loaded by task |
+| **Target Table Initial Load** | Loads initial data |
+| **Create Task** | Creates scheduled task |
+| **Resume Task** | Enables task execution |
+
+For tasks with predecessors:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Stream** | Creates Stream in target environment |
+| **Create Work Table/Transient Table** | Creates target table |
+| **Target Table Initial Load** | Loads initial data |
+| **Suspend Root Task** | Suspends root task |
+| **Create Task** | Creates scheduled task |
+
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task DAG Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change
+
+#### Stream and Insert or Merge Redeployment
+
+Stream redeployment behavior:
+
+| **Redeployment Behavior** | **Stage Executed** |
+|--------------------------|-------------------|
+| **Create Stream if not exists** | Re-Create Stream at existing offset |
+| **Create or Replace** | Create Stream |
+| **Create at existing stream** | Re-Create Stream at existing offset |
+
+Table changes execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Rename Table/Alter Column/Delete Column/Add Column/Edit description** | Alters table as needed |
+| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO." |
+
+If the materialization type is changed from one type to another(transient table/table) the following stages execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table/Transient Table** | Drop the target table|
+| **Create Work/Transient table**| Create the target table|
+| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO." |
+
+Task changes:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Task** | Creates scheduled task |
+| **Resume Task**| Resumes the task|
+
+### Stream and Insert or Merge Undeployment
+
+When node is deleted, the following stages execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Stream** | Removes the stream |
+| **Drop Table** | Drop the table |
+| **Drop Current Task** | Drop the task |
+
+---
+
+## Iceberg Tables With Task
+
+The Iceberg Tables with Task node is an external Iceberg table node wrapped with task functionality.
+
+An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats. [Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
 
 An Iceberg table that uses an external catalog provides limited Snowflake platform support with read-only access. With this table type, Snowflake uses a catalog integration to retrieve information about your Iceberg metadata and schema.
 
-You can use this option to create an Iceberg table registered in the AWS Glue Data Catalog or to create a table from Iceberg metadata files in object storage.
+### Iceberg Tables With Task Prerequisites
 
-### Iceberg table with task Configuration
+* The Role in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' in order to successfully create an Iceberg table. You can also grant SYSADMIN roles to EXTERNAL VOLUME, CATALOG INTEGRATION created.
+* An EXTERNAL VOLUME, CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
 
-The Snowflake Iceberg table has three configuration groups:
+### Iceberg Tables With Task Node Configuration
 
-* [Node Properties](#iceberg-table-node-properties)
-* [Iceberg Options](#iceberg-table-options)
-* [Scheduling Options](#iceberg-task-scheduling-options)
+The Iceberg Tables with Task node has three configuration groups:
 
-Go to the node and select the **Config tab** to see the Node Properties,Iceberg Options and Scheduling Options.
+* [Node Properties](#iceberg-tables-with-task-node-properties)
+* [Iceberg Options](#iceberg-tables-with-task-options)
+* [Scheduling Options](#iceberg-tables-with-task-scheduling-options)
 
-<h3 id="iceberg-table-node-properties">Iceberg table with task node properties</h3>
+#### Iceberg Tables With Task Node Properties
 
-There are four configs within the **Node Properties** group.
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Dynamic Table will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-* **Storage Location(required)**: Storage Location where the Dynamic Table will be created.
-* **Node Type(required)**: Name of template used to create node objects.
-* **Description**: A description of the node's purpose.
-* **Deploy Enabled(required)**:
-  * If TRUE the node will be deployed or redeployed when changes are detected.
-  * If FALSE the node will not be deployed or the node will be dropped during redeployment.
+#### Iceberg Tables With Task Options
 
-<h3 id="iceberg-table-options">Iceberg Options</h3>
+| **Option** | **Description** |
+|------------|----------------|
+| **Type of Catalog** | Specify catalog type:<br/>- AWS Glue<br/>- Object Storage |
+| **Snowflake EXTERNAL VOLUME name** | Identifier for external volume storing metadata files and data. .[External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in Snowflake as a prerequisite. |
+| **Catalog integration** | Identifier for [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) |
+| **Catalog namespace** | Namespace for AWS Glue Data Catalog source (for AWS Glue) |
+| **Catalog table name** | Name of catalog table (for AWS Glue) |
+| **Metadata filepath** | Relative path of Iceberg metadata file for column definitions (for Object Storage) |
+| **Schedule refresh** | True/False toggle for task creation<br/>**True** - Setting Schedule refresh Mode to true will wrap the SQL statement in a task with options specified in Scheduling Options.<br/>**False** - A table will be created and SQL will execute as a Run action. |
 
-* **Type of Catalog**:Specify the type of catalog
-                    *AWS Glue
-                    *Object Storage
-* **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format.[External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in snowflake as a prerequisite.
-* **Catalog integration**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.
-* **Catalog namespace**:Optionally specifies the namespace (for example, my_glue_database) for the AWS Glue Data Catalog source.Option available if AWS Glue catalog is chosen.
-* **Catalog table name**:Name of the catalog table.Option available if AWS Glue catalog is chosen.
-* **Metadata filepath**:Specifies the relative path of the Iceberg metadata file to use for column definitions.Option available if Object Storage Catalog is chosen.
-* **Schedule refresh**: True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action. Prior to creating a task, it is helpful to test the SQL the task will execute to make sure it runs without errors and returns the expected data.
-    * False - A table will be created and SQL will execute as a Run action.
-    * True - After sufficiently testing the SQL as a Run action, setting Schedule refresh Mode to true will wrap the SQL statement in a task with options specified in Scheduling Options.
+#### Iceberg Tables With Task Scheduling Options
 
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
+| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
 
-<h3 id="iceberg-task-scheduling-options">Scheduling Options</h3>
+### Iceberg Tables With Task System Columns
 
-If schedule refresh mode is set to true then Scheduling Options can be used to configure how and when the task will run.
+| **Column** | **Description** |
+|------------|----------------|
+| **DATA** | Column added for deployment but not added to Iceberg table as columns specifications are not required |
 
-* **Scheduling Mode**: Specifies whether a warehouse or serverless compute is used to run the task 
-    * Warehouse Task - User managed warehouse will execute tasks. 
-    * Serverless Task - Utilize serverless compute to execute tasks.
-* **Select Warehouse on which to run task**: Visible if Scheduling Mode is set to Warehouse Task
-    * Enter the name of the warehouse you want the task to run on without quotes
-* **Select initial serverless Warehouse size**: Visible when Scheduling Mode is set to Serverless Task
-    * Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times.
-* **Task Schedule**: Select how you want to schedule the task to run
-    * **Minutes** - Allows you to specify a minute interval for running task
-    * **Cron** - Allows you to specify a CRON schedule for running task
-    * **Predecessor** - Allows you to specify a predecessor task to determine when a task should execute
-* **Enter task schedule using minutes**: Only visible when Task Schedule is set to Minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.
-* **Enter task schedule using Cron**: Only visible when Task Schedule is set to Cron. Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.
-* **Enter predecessor task(s) separated by a comma**: Only visible when Task Schedule is set to Predecessor. One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor tasks separate the task names using a comma and no spaces.
-* **Enter root task name**: Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor tasks separate the task names using a comma and no spaces.
+### Iceberg Tables With Task Deployment
 
- ## Prerequisites
- 
- * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table.You can also grant SYSADMIN roles to EXTERNAL VOLUME,CATALOG INTEGRATION created.
- * An EXTERNAL VOLUME,CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
-   
-### Iceberg tables with Task - System Columns
+#### Iceberg Tables With Task Deployment Parameters
 
-* **DATA** - Column added for deployment but column is not added to iceberg table as columns specifications are not required for External Iceberg tables.
-  
-#### Iceberg tables  With Task Deployment Parameters
-
-The Iceberg tables  With Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Iceberg tables With Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
 
 The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
 
@@ -1154,82 +997,91 @@ For example, with the below setting for the parameter in a QA environment, the t
 }
 ```
 
- ### Iceberg tables with task Initial Deployment
+#### Iceberg Tables With Task Initial Deployment
 
-When deployed for the first time into an environment the Work with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task:
+For tasks without predecessors:
 
-#### Iceberg tables with task No Predecessor Task Deployment
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create/Replace Iceberg Table** | Create Iceberg Table in target environment |
+| **Create Task** | Creates scheduled task |
+| **Resume Task** | Resume task |
 
-* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule
- 
-#### Iceberg tables with task Predecessor Task Deployment
+For tasks with predecessors:
 
-* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create/Replace Iceberg Table** | Create Iceberg Table in target environment |
+| **Suspend Root Task** | Suspends root task |
+| **Create Task** | Creates scheduled task |
 
-If a task is part of a DAG of tasks, the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+If a task is part of a DAG of tasks, the DAG needs to include a node type called "Task DAG Resume Root." This node will resume the root node once all the dependent tasks have been created as part of a deployment.
 
-The task node has no ALTER capabilities. All task enabled nodes are CREATE OR REPLACE only though this is subject to change.
+The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change.
 
-### Iceberg tables with Task Redeployment
+#### Iceberg Tables With Task Redeployment
 
-#### Recreating a Snowflake Iceberg table
+Changes in configuration options will execute a CREATE or REPLACE. Changes such as:
 
-If any changes in config options like external volume,baselocation ,node properties ,column  results in recreating iceberg table during redeployment
+* Volume
+* Base location
+* Node properties
+* Columns
 
-* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
-  
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Iceberg Table** | Recreates table with new configuration |
+
 #### Iceberg tables With Task Recreating the Task Redeployment
 
-After the Task has deployed for the first time into a target environment, subsequent deployments with changes in task schedule, warehouse, or scheduling options will result in a CREATE TASK AND RESUME TASK statements being issued
+Changes such as task schedule, warehouse, or scheduling options will result in a CREATE TASK AND RESUME TASK statements being issued.
 
-The following stages are executed:
+For tasks without predecessors:
 
-####  Iceberg tables With Task No Predecessor Task Redeployment
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Task** | Recreates task with new schedule |
+| **Resume Task** | Resumes updated task |
 
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified.
-* **Resume Task**: After the task has been created it needs to be resume so that the task runs on the schedule.
-	 
-#### Iceberg tables With Task Predecessor Task Redeployment
+For tasks with predecessors:
 
-* **Suspend Root Task**: To add a task into a DAG of task the root task needs to be put into a suspended state.
-* **Create Task**: This stage will create a task that will load the target table on the schedule specified
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task |
+| **Create Task** | Creates scheduled task |
 
+### Iceberg Tables With Task Undeployment
 
-###  External Iceberg table Undeployment
+If a Snowflake Iceberg Table with a task is dropped from the workspace and committed to Git, it results in the table and task being dropped from the target environment.
 
-If a snowflake iceberg table with task  is dropped from the workspace and commited to GIT results in table and task dropped from target environment.
-This is executed in the below stages:
+For tasks without predecessors:
 
-* **Drop Iceberg Table**
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Iceberg Table** | Drop the table |
+| **Drop Current Task** | Drop the task |
 
-#### Iceberg tables With Task No Predecessor Task Undeployment
+For tasks with predecessors:
 
-* **Drop Iceberg Table**
-* **Drop Current Task**: This stage will drop the task.
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Iceberg Table** | Drop the table |
+| **Suspend Root Task** | Suspends root task |
+| **Drop Task** | Removes the task |
 
-#### Iceberg tables With Task Predecessor Task Undeployment
+If a task is part of a DAG of tasks, the DAG needs to include a node type called "Task DAG Resume Root." This node will resume the root node once all the dependent tasks have been created as part of a deployment.
 
-* **Drop Iceberg Table**
-* **Suspend Root Task**: To drop a task from a DAG of task the root task needs to be put into a suspended state.
-* **Drop Task**: This stage will drop the task.
-
-If a task is part of a DAG of tasks the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
-
-<h1 id="code">Code</h1>
+---
 
 ## Code
 
-### Work with Task
+### Work with Task Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/run.sql.j2)
 
-### Dimension with Task 
+### Dimension with Task
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/create.sql.j2)
@@ -1241,27 +1093,25 @@ If a task is part of a DAG of tasks the DAG needs to include a node type called 
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/FactwithTask-150/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/FactwithTask-150/run.sql.j2)
 
-###  Task DAG Create Root 
+### Task DAG Create Root Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGCreateRoot-154/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGCreateRoot-154/create.sql.j2)
 
-### Task DAG Resume Root
+### Task DAG Resume Root Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGResumeRoot-155/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGResumeRoot-155/create.sql.j2)
 
-### Stream
+### Stream Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/Stream-153/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/Stream-153/create.sql.j2)
 
-### Stream and Insert or Merge
+### Stream and Insert or Merge Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/StreamandInsertorMerge-152/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/StreamandInsertorMerge-152/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/StreamandInsertorMerge-152/run.sql.j2)
 
 [Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
-
-
