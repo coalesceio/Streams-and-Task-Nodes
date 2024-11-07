@@ -97,6 +97,20 @@ operation:
               - columnCounter: 4e298a2d-ac17-4e0f-b144-5126385fb4e9
                 stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a581c7b-755c-4c75-8cd7-ed24b572b865
+          stepCounter: 98df0f60-1966-47d3-a67a-9b2ed147d9e1
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR_TEST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4e298a2d-ac17-4e0f-b144-5126385fb4e9
+                stepCounter: 9871c326-1030-4ade-bab1-bf7cee8fdaba
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
