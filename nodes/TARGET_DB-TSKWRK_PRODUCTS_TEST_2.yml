@@ -1,6 +1,6 @@
 fileVersion: 1
 id: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
-name: TSKWRK_PRODUCTS_TEST_1
+name: TSKWRK_PRODUCTS_TEST_2
 operation:
   config:
     clusterKey: false
@@ -106,9 +106,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: TSKWRK_PRODUCTS_TEST_1
+        name: TSKWRK_PRODUCTS_TEST_2
         noLinkRefs: []
-  name: TSKWRK_PRODUCTS_TEST_1
+  name: TSKWRK_PRODUCTS_TEST_2
   overrideSQL: false
   schema: ""
   sqlType: "151"
