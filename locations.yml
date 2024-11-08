@@ -1,5 +1,7 @@
 defaultStorageMapping: TARGET_DB
 fileVersion: 1
 locations:
+  - COALESCE_LOC
   - SOURCE_DATA
   - TARGET_DB
+  - TARGET_DB_TEST

@@ -1,6 +1,6 @@
 fileVersion: 1
-id: b7fd9ea4-472c-412b-acc1-b3c9f49a0b92
-name: SIM_ICT_PRODUCTS
+id: d431d3da-bdaa-4e9e-a0de-fb99911d3225
+name: SIM_PRODUCTS1
 operation:
   config:
     appendOnly: false
@@ -28,13 +28,13 @@ operation:
     redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
-    schedulePeriod: "6000"
+    schedulePeriod: "60"
     schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
+    schedulingMode: Serverless Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: External Iceberg Table
-    whName: COMPUTE_WH
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -46,59 +46,59 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a41427e7-f9d8-43e2-8ed5-a02d0c2e2f36
-          stepCounter: b7fd9ea4-472c-412b-acc1-b3c9f49a0b92
+          columnCounter: e04630e4-0493-496e-978c-8b98e36d19fb
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
         dataType: NUMBER(38,0)
         description: ""
         name: PRODUCT_ID
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 7010f2f3-88a6-45a7-a2be-1dd61773e20d
-                stepCounter: 50fafe28-d711-463e-8d8d-87fc30a5a1f2
+              - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6a567a8e-ee1f-49be-b664-2d450d4ea221
-          stepCounter: b7fd9ea4-472c-412b-acc1-b3c9f49a0b92
+          columnCounter: a72743f8-d9c4-4c8b-90c4-be8ba54a6ffd
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(255)
         description: ""
         name: PRODUCT_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 37c93edf-87bc-4927-b5d2-96e44a0c0da7
-                stepCounter: 50fafe28-d711-463e-8d8d-87fc30a5a1f2
+              - columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a83b445c-71f5-4ab8-ad1e-b95ede3aa01a
-          stepCounter: b7fd9ea4-472c-412b-acc1-b3c9f49a0b92
+          columnCounter: eca1cb19-065c-46ac-bcb0-83ac19df41ba
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(100)
         description: ""
         name: BRAND
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 87f8a195-1cf4-4b56-904d-e9361213d78f
-                stepCounter: 50fafe28-d711-463e-8d8d-87fc30a5a1f2
+              - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bd04a246-7d7d-4454-9dde-9bd1c58a1573
-          stepCounter: b7fd9ea4-472c-412b-acc1-b3c9f49a0b92
+          columnCounter: dfb5a0d9-1ba6-40b4-b830-57e1bff3867d
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(50)
         description: ""
         name: COLOUR
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9d87c99c-38b8-49cb-ba35-669a560ec070
-                stepCounter: 50fafe28-d711-463e-8d8d-87fc30a5a1f2
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
@@ -108,12 +108,12 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
-            nodeName: ICT_PRODUCTS
+            nodeName: PRODUCTS
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'ICT_PRODUCTS') }} "ICT_PRODUCTS"
-        name: SIM_ICT_PRODUCTS
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+        name: SIM_PRODUCTS1
         noLinkRefs: []
-  name: SIM_ICT_PRODUCTS
+  name: SIM_PRODUCTS1
   overrideSQL: false
   schema: ""
   sqlType: "152"
