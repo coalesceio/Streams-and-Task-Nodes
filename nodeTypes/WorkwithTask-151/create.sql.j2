@@ -112,12 +112,7 @@ does not permit copying or modification for any other purpose.
         {% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
 
         {# Desired Namespace Variables #}
-        {% set nsVariables = namespace(nsDesiredDepStorageLocations="") %}
-        {% set nsVariables = namespace(nsDesiredSourceStorageLocations="") %}
-        {% set nsVariables = namespace(nsDesiredTargetStorageLocations="") %}
-        {% set nsVariables = namespace(nsDesiredUsedStorageLocations="") %}
-
-        {% set nsVariables = namespace(storageLocationTest="") %}
+        {% set nsVariables = namespace(nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest="") %}
 
         {# Desired State Storage Location Info #}
         {% for source in desiredState.sources %}
