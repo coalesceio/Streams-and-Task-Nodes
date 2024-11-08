@@ -1,14 +1,12 @@
 fileVersion: 1
-id: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+id: bed47c8b-84b1-463d-9ab6-2de31d077911
 name: TSKFCT_PRODUCTS_1
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 8464c6b0-3059-47ad-86e2-6469a2ce85e3
-            stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -25,7 +23,7 @@ operation:
     predTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "70"
+    schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -33,17 +31,17 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: this is description
+  description: This is table description
   isMultisource: false
-  locationName: TARGET_DB_TEST
+  locationName: TARGET_DB
   materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 07701b65-2ce2-45d3-ab9c-ce193fb54d15
-          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+          columnCounter: 0cff765c-11e5-4c73-8d03-9258000b8a66
+          stepCounter: bed47c8b-84b1-463d-9ab6-2de31d077911
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -57,8 +55,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 257fe51a-4450-4b1b-8979-76bd41c8baea
-          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+          columnCounter: 5d035952-03ab-44c3-9187-d771d3af1432
+          stepCounter: bed47c8b-84b1-463d-9ab6-2de31d077911
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -71,10 +69,10 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 88be33db-32a3-4be3-a116-b2c7f12fd498
-          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+          columnCounter: bd8d4d55-bd9e-4f76-ba6b-edcdf7ed3800
+          stepCounter: bed47c8b-84b1-463d-9ab6-2de31d077911
         config: {}
-        dataType: VARCHAR(150)
+        dataType: VARCHAR(100)
         description: ""
         name: BRAND
         nullable: true
@@ -85,25 +83,25 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8464c6b0-3059-47ad-86e2-6469a2ce85e3
-          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+          columnCounter: bc5072a1-f255-4962-b9bf-571d8e0f02b9
+          stepCounter: bed47c8b-84b1-463d-9ab6-2de31d077911
         config: {}
-        dataType: VARCHAR(100)
-        description: ""
-        name: BRAND1
+        dataType: VARCHAR(50)
+        description: New Column
+        name: COLOUR
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 99791084-0e21-421a-8087-a8b5e65485bc
+              - columnCounter: 24079100-1ca2-4ff1-97c5-a5b512e59abf
                 stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: af7bc94b-c73f-4e9f-9d43-24dab9f658d9
-          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+          columnCounter: 9c376d0f-aaf6-4bc1-b555-dc6f35e8a8e8
+          stepCounter: bed47c8b-84b1-463d-9ab6-2de31d077911
         config: {}
         dataType: VARCHAR(50)
-        description: this is description
+        description: ""
         name: COLOUR_NEW
         nullable: true
         sourceColumnReferences:
@@ -116,8 +114,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e6514d21-7748-40e3-a190-6af1df0c383c
-          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+          columnCounter: 5e6bfca8-8a3d-4268-862c-b8b08c2867ab
+          stepCounter: bed47c8b-84b1-463d-9ab6-2de31d077911
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -133,8 +131,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: f32631f2-9427-49c5-9401-5112f0c5310a
-          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+          columnCounter: 4e5523a4-7faf-4eef-b0a2-0f1585194bbe
+          stepCounter: bed47c8b-84b1-463d-9ab6-2de31d077911
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
