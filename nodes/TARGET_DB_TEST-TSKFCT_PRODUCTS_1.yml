@@ -3,10 +3,12 @@ id: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
 name: TSKFCT_PRODUCTS_1
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 8464c6b0-3059-47ad-86e2-6469a2ce85e3
+            stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -23,7 +25,7 @@ operation:
     predTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
+    schedulePeriod: "70"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -31,9 +33,9 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: This is table description
+  description: this is description
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DB_TEST
   materializationType: task
   metadata:
     appliedNodeTests: []
@@ -72,7 +74,7 @@ operation:
           columnCounter: 88be33db-32a3-4be3-a116-b2c7f12fd498
           stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(150)
         description: ""
         name: BRAND
         nullable: true
@@ -83,16 +85,16 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bf10fd11-11f6-4543-a499-c5d85a416557
+          columnCounter: 8464c6b0-3059-47ad-86e2-6469a2ce85e3
           stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
-        dataType: VARCHAR(50)
-        description: New Column
-        name: COLOUR
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 24079100-1ca2-4ff1-97c5-a5b512e59abf
+              - columnCounter: 99791084-0e21-421a-8087-a8b5e65485bc
                 stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
             transform: ""
       - appliedColumnTests: {}
@@ -101,7 +103,7 @@ operation:
           stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
         dataType: VARCHAR(50)
-        description: ""
+        description: this is description
         name: COLOUR_NEW
         nullable: true
         sourceColumnReferences:
