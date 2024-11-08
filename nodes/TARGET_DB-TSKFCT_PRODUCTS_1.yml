@@ -1,14 +1,12 @@
 fileVersion: 1
-id: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
-name: TSKFCT_PRODUCTS
+id: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
+name: TSKFCT_PRODUCTS_1
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: b87a4010-93ec-4c1d-91ae-8b6f17509ddb
-            stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -25,7 +23,7 @@ operation:
     predTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "70"
+    schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -35,15 +33,15 @@ operation:
   deployEnabled: true
   description: This is table description
   isMultisource: false
-  locationName: TARGET_DB_TEST
+  locationName: TARGET_DB
   materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 934b304e-1c32-4c27-941f-d311e2f391f7
-          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+          columnCounter: 07701b65-2ce2-45d3-ab9c-ce193fb54d15
+          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -52,13 +50,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: eef3c724-9197-427d-bde3-eab504d6f2d7
+                stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1ab02fbd-f84e-4671-b79c-84afe80ed796
-          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+          columnCounter: 257fe51a-4450-4b1b-8979-76bd41c8baea
+          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -66,58 +64,58 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 45d0e98d-944f-4e2d-94c5-08e5c134f03d
+                stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b87a4010-93ec-4c1d-91ae-8b6f17509ddb
-          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+          columnCounter: 88be33db-32a3-4be3-a116-b2c7f12fd498
+          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
-        dataType: VARCHAR(150)
+        dataType: VARCHAR(100)
         description: ""
         name: BRAND
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 99791084-0e21-421a-8087-a8b5e65485bc
+                stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e60637c1-fb50-452e-84e0-3e7c1364a766
-          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+          columnCounter: bf10fd11-11f6-4543-a499-c5d85a416557
+          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
         dataType: VARCHAR(50)
-        description: This is col description
+        description: New Column
         name: COLOUR
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 24079100-1ca2-4ff1-97c5-a5b512e59abf
+                stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3112cef7-3eb4-420b-929c-94704efe135c
-          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+          columnCounter: af7bc94b-c73f-4e9f-9d43-24dab9f658d9
+          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        name: COLOUR1
+        name: COLOUR_NEW
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: f5308718-fdac-4e6c-847a-0849a24151da
+                stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 25106ac2-fda3-4ce6-9d71-11c24d940552
-          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+          columnCounter: e6514d21-7748-40e3-a190-6af1df0c383c
+          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -133,8 +131,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7917ef43-46d3-4128-84e6-f8ec3be3361f
-          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+          columnCounter: f32631f2-9427-49c5-9401-5112f0c5310a
+          stepCounter: d40f8cda-c200-4cff-a51b-e1203d6b7a0f
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -152,13 +150,13 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SOURCE_DATA
-            nodeName: PRODUCTS
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_PRODUCTS_1
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: TSKFCT_PRODUCTS
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_PRODUCTS_1') }} "TSKWRK_PRODUCTS_1"
+        name: TSKFCT_PRODUCTS_1
         noLinkRefs: []
-  name: TSKFCT_PRODUCTS
+  name: TSKFCT_PRODUCTS_1
   overrideSQL: false
   schema: ""
   sqlType: "150"
