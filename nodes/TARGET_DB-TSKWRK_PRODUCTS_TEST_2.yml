@@ -87,7 +87,7 @@ operation:
           stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
         config: {}
         dataType: VARCHAR(50)
-        description: This is color column
+        description: ""
         name: COLOUR
         nullable: true
         sourceColumnReferences:
@@ -101,7 +101,7 @@ operation:
           stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
         config: {}
         dataType: VARCHAR(50)
-        description: This is color column
+        description: ""
         name: COLOUR_NEW
         nullable: true
         sourceColumnReferences:
