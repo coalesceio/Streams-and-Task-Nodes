@@ -3,10 +3,12 @@ id: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
 name: TSKFCT_PRODUCTS
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: b87a4010-93ec-4c1d-91ae-8b6f17509ddb
+            stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -23,7 +25,7 @@ operation:
     predTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
+    schedulePeriod: "70"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -31,9 +33,9 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DB_TEST
   materializationType: task
   metadata:
     appliedNodeTests: []
@@ -72,7 +74,7 @@ operation:
           columnCounter: b87a4010-93ec-4c1d-91ae-8b6f17509ddb
           stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(150)
         description: ""
         name: BRAND
         nullable: true
@@ -87,8 +89,22 @@ operation:
           stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
         config: {}
         dataType: VARCHAR(50)
-        description: ""
+        description: This is col description
         name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3112cef7-3eb4-420b-929c-94704efe135c
+          stepCounter: 3e0aea2f-d6cb-4d00-8c4b-5caffffb5658
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
