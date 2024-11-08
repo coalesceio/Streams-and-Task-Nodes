@@ -18,6 +18,7 @@ does not permit copying or modification for any other purpose.
 
 {% elif desiredState %}
 
+						   
     {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
     {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
@@ -117,6 +118,7 @@ does not permit copying or modification for any other purpose.
         {# Storage Location Tests #}
         {# Only need to account for updated Storage Location mappings   #}     
          {# Current and Desired Namespace Varialbes initialisation #}
+
          {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
 
         {# Current State Storage Location Info #}
@@ -143,15 +145,6 @@ does not permit copying or modification for any other purpose.
 
         {% set currentStorageLocations = (nsVariables.nsCurrentUsedStorageLocations).split(',') | list %}
         {% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
-
-        {# Desired Namespace Variables #}
-        {% set nsVariables = namespace(nsDesiredDepStorageLocations="") %}
-        {% set nsVariables = namespace(nsDesiredSourceStorageLocations="") %}
-        {% set nsVariables = namespace(nsDesiredTargetStorageLocations="") %}
-        {% set nsVariables = namespace(nsDesiredUsedStorageLocations="") %}
-
-        {% set nsVariables = namespace(storageLocationTest="") %}
-        
 
         {# Desired State Storage Location Info #}
         {% for source in desiredState.sources %}
@@ -184,9 +177,16 @@ does not permit copying or modification for any other purpose.
         
         {% for name in desiredUniqueStorageLocations if nsVariables.storageLocationTest == true %}
             {# Current mappings #}
+           {%if currentState.storageLocations|length == 0%}
+              
+              {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | string %}
+              {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | string %}
+               {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
+            {%elif name in currentUniqueStorageLocations %}
             {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
             {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
             {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
+			{%endif%}		 
             
             {# Desired mappings #}
             {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
@@ -218,9 +218,14 @@ does not permit copying or modification for any other purpose.
         {# Rename / Move Object #}
         {% if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
             {{ stage('Rename and / or Move Table', true, "sql", "alter") }}
-            ALTER TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-            RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                {% set srcSchName = currentState.node.location.name %}
+                {% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
+                {% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
+
+                ALTER TABLE  "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
+                RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         {% endif %}
+
 
         {# Change table description #}
         {% if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
@@ -228,6 +233,7 @@ does not permit copying or modification for any other purpose.
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             SET COMMENT = '{{ desiredState.node.description | escape }}'
         {% endif %}
+
 
         {# Drop Columns #}
         {% set nsVariables = namespace(colchanges=0) %}
@@ -613,6 +619,7 @@ select 1 = 0
                 {% endif %}
             {% endfor %}
         {% endif %}
+										 
 
         {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
             {{ stage('Resume Created Task', true, "sql", "alter") }}
