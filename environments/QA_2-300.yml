@@ -10,5 +10,8 @@ mappingDefinitions:
   TARGET_DB:
     database: POONAMM_DEV
     schema: EDW_QA_2
+  TARGET_DB_TEST:
+    database: POONAMM_DEV
+    schema: EDW_QA_1
 name: QA_2
 type: Environment

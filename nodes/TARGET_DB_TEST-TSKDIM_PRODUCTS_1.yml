@@ -3,10 +3,12 @@ id: 448bf7d1-aff1-4212-96a7-4d13b6038b5c
 name: TSKDIM_PRODUCTS_1
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 09055b78-0d1c-4ced-8ff1-74378f5bedd4
+            stepCounter: 448bf7d1-aff1-4212-96a7-4d13b6038b5c
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -23,7 +25,7 @@ operation:
     predTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
+    schedulePeriod: "70"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -31,9 +33,9 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: This is table description
+  description: This is table description new
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DB_TEST
   materializationType: task
   metadata:
     appliedNodeTests: []
@@ -104,7 +106,7 @@ operation:
           columnCounter: e69fadbb-dc8b-43fb-a026-8db6031e20f8
           stepCounter: 448bf7d1-aff1-4212-96a7-4d13b6038b5c
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(60)
         description: New Column
         name: COLOUR
         nullable: true
@@ -115,12 +117,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4d81ab33-23cd-4135-a77e-01cdaf7eecc0
+          columnCounter: e9166737-76ad-46f1-a471-c569835c59b8
           stepCounter: 448bf7d1-aff1-4212-96a7-4d13b6038b5c
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        name: COLOUR_NEW
+        name: COLOUR_NEW1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
