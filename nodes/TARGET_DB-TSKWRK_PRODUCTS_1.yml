@@ -89,7 +89,7 @@ operation:
           stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
         config: {}
         dataType: VARCHAR(50)
-        description: "'New Column'"
+        description: New Column
         name: COLOUR
         nullable: true
         sourceColumnReferences:
