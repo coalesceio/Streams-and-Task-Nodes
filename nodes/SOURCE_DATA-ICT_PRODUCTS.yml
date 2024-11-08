@@ -5,7 +5,7 @@ operation:
   database: ""
   dataset: ""
   deployEnabled: true
-  description: null
+  description: ""
   locationName: SOURCE_DATA
   metadata:
     columns:
@@ -92,4 +92,5 @@ operation:
   sqlType: Source
   table: ICT_PRODUCTS
   type: sourceInput
+  version: 1
 type: Node

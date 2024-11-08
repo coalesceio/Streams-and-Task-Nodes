@@ -71,7 +71,7 @@ operation:
           - columnReferences:
               - columnCounter: b3e78e79-1f47-4b51-8e5f-4f2604f21300
                 stepCounter: d321d571-a1ca-41a1-958a-9b58b033905d
-            transform: ""
+            transform: "\"ORDERS_FACT\".\"STORE_ID\"*2"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 7ced6f63-6972-4862-9e91-cb1ce70831c0
@@ -117,14 +117,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          ORDERS_FACT: d321d571-a1ca-41a1-958a-9b58b033905d
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: ORDERS_FACT
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS_FACT') }} "ORDERS_FACT"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'ORDERS_FACT') }} "ORDERS_FACT"
+            where "ORDERS_FACT"."PRODUCT_ID" != 10000
         name: SIM_ORDERS_FACT
         noLinkRefs: []
   name: SIM_ORDERS_FACT
