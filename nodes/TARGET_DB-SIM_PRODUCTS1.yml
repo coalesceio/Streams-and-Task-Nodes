@@ -1,15 +1,13 @@
 fileVersion: 1
-id: e20ad5c8-2eac-40c1-947d-2bde6634a5b9
-name: SIM_PRODUCTS
+id: d431d3da-bdaa-4e9e-a0de-fb99911d3225
+name: SIM_PRODUCTS1
 operation:
   config:
     appendOnly: false
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 74722d22-8765-4f72-8b6d-86f0d7ea78cf
-            stepCounter: e20ad5c8-2eac-40c1-947d-2bde6634a5b9
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -30,7 +28,7 @@ operation:
     redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
-    schedulePeriod: "70"
+    schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -39,7 +37,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: This is description
+  description: ""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -48,13 +46,13 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d6a1c032-59dd-4b7a-aa2e-844174254e80
-          stepCounter: e20ad5c8-2eac-40c1-947d-2bde6634a5b9
+          columnCounter: e04630e4-0493-496e-978c-8b98e36d19fb
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
         dataType: NUMBER(38,0)
         description: ""
         name: PRODUCT_ID
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
@@ -62,12 +60,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7026c9c4-17ce-41b9-bc7a-c36e8eb4c52d
-          stepCounter: e20ad5c8-2eac-40c1-947d-2bde6634a5b9
+          columnCounter: a72743f8-d9c4-4c8b-90c4-be8ba54a6ffd
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
         dataType: VARCHAR(255)
         description: ""
-        name: PRODUCT_NAME_1
+        name: PRODUCT_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -76,10 +74,10 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 74722d22-8765-4f72-8b6d-86f0d7ea78cf
-          stepCounter: e20ad5c8-2eac-40c1-947d-2bde6634a5b9
+          columnCounter: eca1cb19-065c-46ac-bcb0-83ac19df41ba
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
-        dataType: VARCHAR(110)
+        dataType: VARCHAR(100)
         description: ""
         name: BRAND
         nullable: true
@@ -90,26 +88,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d2700f5d-10fd-4269-bfa7-29bf89ee3aea
-          stepCounter: e20ad5c8-2eac-40c1-947d-2bde6634a5b9
-        config: {}
-        dataType: VARCHAR(50)
-        description: This is description
-        name: COLOUR
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: d117720a-c449-4a3c-8484-c077d2d8c05d
-          stepCounter: e20ad5c8-2eac-40c1-947d-2bde6634a5b9
+          columnCounter: dfb5a0d9-1ba6-40b4-b830-57e1bff3867d
+          stepCounter: d431d3da-bdaa-4e9e-a0de-fb99911d3225
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        name: COLOUR1
+        name: COLOUR
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -127,9 +111,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: SIM_PRODUCTS
+        name: SIM_PRODUCTS1
         noLinkRefs: []
-  name: SIM_PRODUCTS
+  name: SIM_PRODUCTS1
   overrideSQL: false
   schema: ""
   sqlType: "152"
