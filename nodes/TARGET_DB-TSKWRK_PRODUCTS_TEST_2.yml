@@ -32,7 +32,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is Product work Task Table
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -87,8 +87,22 @@ operation:
           stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
         config: {}
         dataType: VARCHAR(50)
-        description: ""
+        description: This is color column
         name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b60c2d01-f943-4714-b136-a242b71aa8f0
+          stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is color column
+        name: COLOUR_NEW
         nullable: true
         sourceColumnReferences:
           - columnReferences:
