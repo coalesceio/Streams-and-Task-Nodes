@@ -1,12 +1,14 @@
 fileVersion: 1
 id: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
-name: TSKWRK_PRODUCTS
+name: TSKWRK_PRODUCTS_1
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 45d0e98d-944f-4e2d-94c5-08e5c134f03d
+            stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -23,7 +25,7 @@ operation:
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
+    schedulePeriod: "70"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -32,7 +34,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -87,8 +89,22 @@ operation:
           stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
         config: {}
         dataType: VARCHAR(50)
-        description: ""
+        description: "'New Column'"
         name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f5308718-fdac-4e6c-847a-0849a24151da
+          stepCounter: 6791aa0c-0ac1-4a34-a3fc-37c0da1b0b21
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR_NEW
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -106,9 +122,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: TSKWRK_PRODUCTS
+        name: TSKWRK_PRODUCTS_1
         noLinkRefs: []
-  name: TSKWRK_PRODUCTS
+  name: TSKWRK_PRODUCTS_1
   overrideSQL: false
   schema: ""
   sqlType: "151"
