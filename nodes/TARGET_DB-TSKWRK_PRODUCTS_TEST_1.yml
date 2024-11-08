@@ -1,6 +1,6 @@
 fileVersion: 1
-id: bbe05a92-e04c-48e1-8924-56544e6ebc10
-name: TSKWRK_PRODUCTS_NEW
+id: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
+name: TSKWRK_PRODUCTS_TEST_1
 operation:
   config:
     clusterKey: false
@@ -32,7 +32,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: THIS IS TABLE TEST
+  description: ""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -41,8 +41,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d0e33bc4-ece9-4a3f-8f0c-8e454a17b91e
-          stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
+          columnCounter: d195854e-95a4-4c0b-843d-0f4d404512cb
+          stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -55,11 +55,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 30e4325f-563f-4753-90b1-b8e16d1ecd23
-          stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
+          columnCounter: 7e9457dd-ef1d-4f70-b9a2-e79e4bc2a19f
+          stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
         config: {}
         dataType: VARCHAR(255)
-        description: THIS IS PRODUCT NAME
+        description: ""
         name: PRODUCT_NAME
         nullable: true
         sourceColumnReferences:
@@ -69,12 +69,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 38ab4b6e-8386-4a67-a3a4-a35c8b69a10d
-          stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
+          columnCounter: 6f166fc9-b237-4e4f-bd71-7fa0e6bb0e73
+          stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
         config: {}
         dataType: VARCHAR(100)
         description: ""
-        name: BRAND_NEW
+        name: BRAND
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -83,26 +83,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d6241f4b-5899-4709-82df-a0e58650be23
-          stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
-        config: {}
-        dataType: VARCHAR(199)
-        description: ""
-        name: COLOUR
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 7cd1a288-4538-4e1f-b509-863bed094079
-          stepCounter: bbe05a92-e04c-48e1-8924-56544e6ebc10
+          columnCounter: 4aec8ad3-0e71-443e-9dd2-5d431aeec667
+          stepCounter: e3cb02fb-8f08-44a0-bab6-3b55e3ab2b13
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        name: COLOUR1
+        name: COLOUR
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -120,9 +106,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: TSKWRK_PRODUCTS_NEW
+        name: TSKWRK_PRODUCTS_TEST_1
         noLinkRefs: []
-  name: TSKWRK_PRODUCTS_NEW
+  name: TSKWRK_PRODUCTS_TEST_1
   overrideSQL: false
   schema: ""
   sqlType: "151"
