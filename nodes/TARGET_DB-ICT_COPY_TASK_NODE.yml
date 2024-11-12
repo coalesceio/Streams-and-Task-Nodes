@@ -3,7 +3,7 @@ id: b4960a1b-2b42-4fb0-9292-e02809639c50
 name: ICT_COPY_TASK_NODE
 operation:
   config:
-    basename: HEALTHPOLIARIS
+    basename: BASELOC
     catint: polaris_int_tst
     clusterKey: true
     clusterKeyConfig:
@@ -22,7 +22,7 @@ operation:
     errornumber: ""
     externalURI: Enter external URI-Ex:s3://snowflake-docs
     extlocation: false
-    extvolume: sf_iceberg_polaristst
+    extvolume: sficebergextvol1
     fieldDelim: ","
     fieldEnclosed: \042
     fileFormatLoc: COALESCE_LOC
@@ -54,7 +54,7 @@ operation:
     stageStorageLocationName: COALESCE_LOC
     storageintegration: ""
     stripouterarray: false
-    tcatalog: Polaris
+    tcatalog: Snowflake
     timeformat: ""
     timestampformat: ""
     trimSpace: true
