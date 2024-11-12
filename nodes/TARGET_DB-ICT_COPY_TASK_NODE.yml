@@ -44,9 +44,9 @@ operation:
     rootTask: ICT_COPY_TASK_NODE_TASK_ROOT
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Minutes
+    schedulePeriodOption: CRON
     schedulingMode: Serverless Task
-    serverlessSize: SMALL
+    serverlessSize: MEDIUM
     sizeLimit: ""
     skipBlankLines: false
     skipHeader: "1"
