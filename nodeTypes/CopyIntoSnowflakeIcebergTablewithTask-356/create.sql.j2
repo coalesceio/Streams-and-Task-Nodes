@@ -1,0 +1,639 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Copy-Into Iceberg tables == #}
+{# == Node Type Description    : This node creates an Iceberg target table to load data from internal or external stages using Copy-Into == #}
+
+
+# Create table first
+{% if desiredState == currentState %}
+
+{{ stage('Nothing to do.') }}
+select 1 = 0
+
+{% elif currentState == undefined or currentState.storageLocations|length == 0%}
+
+
+          {%set extvol = '' %}
+          {%set baseloc ='' %}
+
+        #External volume
+          {%if desiredState.config.extvol != '' %}
+            {%set extvol =  desiredState.config.extvolume %}
+          {%endif%}
+        
+
+        #Baselocation
+        {%if desiredState.config.basename != '' %}
+            {%set baseloc =  desiredState.config.basename %}
+        {%endif%}
+
+        #Catalog sync
+        {%if desiredState.config.catint != '' and desiredState.config.tcatalog == 'Polaris' %}
+           {%set catsync = desiredState.config.catint %}
+        {%endif%}
+
+        #Figure out cluster key
+
+        {% set nsVariables = namespace(finalClusterKey="") %}
+        {% if desiredState.config.clusterKey == true %}
+            {% if desiredState.config.clusterKeyExpressions == true %}
+                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% if expression[loop.index0] == "" %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                    {% else %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                    {% endif %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% else %}
+
+                {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% endif %}
+        {% endif %}
+
+    
+         {{ stage('Create Iceberg Table', true, "sql", "create") }}
+         
+         CREATE OR REPLACE ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+        (
+          {% for col in desiredState.columns %}
+           "{{ col.name }}" {{icebergcoldatatype( col.dataType)}}
+           {% if col.isSurrogateKey %}
+               identity
+           {% endif %}
+           {%- if not col.nullable %} NOT NULL
+               {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+           {% endif %}
+           {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+           {%- if not loop.last -%}, {% endif %}
+          {% endfor %})
+        
+          {%if desiredState.config.clusterKey == true%} {{ nsVariables.finalClusterKey }}   {%endif%}
+    
+         CATALOG  =   'SNOWFLAKE'
+        {%if extvol != '' %} EXTERNAL_VOLUME = '{{extvol}}' {%endif%}
+        {%if baseloc != '' %} BASE_LOCATION = '{{baseloc}}'{%endif%} 
+        {%if catsync != '' and desiredState.config.tcatalog == 'Polaris' %} CATALOG_SYNC = '{{catsync}}' {%endif%}
+
+
+	    {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'
+      
+    {% endif %}		    
+
+{%elif currentState!=undefined and currentState!=desiredState and desiredState!=undefined%}
+       
+
+      {% if 
+        clusterKeyTest == false or
+        clusterKeyExpressionsTest == false or
+        clusterKeyConfigTest == false or
+        clusterKeyConfigExpressionsTest == false %}
+
+             {% set clusterTest = false %}
+        {% else %}
+             {% set clusterTest = true %}
+        {% endif %}
+
+
+        
+        {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
+        {% set extvoltest = currentState.config.extvolume == desiredState.config.extvolume %}
+        {% set baseloctest = currentState.config.basename == desiredState.config.basename%}
+
+                
+        {% set ns = namespace(
+    colchanges = 0,
+    colchangescdt = 0,
+    acolchanges = 0,
+    dcolchanges = 0,
+    targetlocationtest =true
+) %}
+            
+        {#Target location test#}
+         {%set currenttargetlocation = currentState.node.location.name %}
+         {%set desiredtargetlocation = desiredState.node.location.name %}
+          
+          
+            {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', currenttargetlocation) | map(attribute='database') | first %}
+            {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', currenttargetlocation) | map(attribute='schema') | first %}
+            {% set tcurrentDatabaseSchema = currentDatabase + '.' + currentSchema %}
+              
+    
+            {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredtargetlocation) | map(attribute='database') | first %}
+            {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredtargetlocation) | map(attribute='schema') | first %}
+            {% set tdesiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
+            
+        {%if tdesiredDatabaseSchema != tcurrentDatabaseSchema  %}
+
+         {%set ns.targetlocationtest = false %}
+        {%endif%}      
+
+            {# Drop Columns #}
+            
+            {% for dropCurCol in currentState.columns %}
+                {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
+                     {% set ns.dcolchanges = ns.dcolchanges + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {# Add Columns #}
+            
+            {% for addDesCol in desiredState.columns %}
+                {% if addDesCol.id not in currentState.columns | map(attribute="id") %}
+                   {% set ns.acolchanges = ns.acolchanges + 1 %}
+                {%endif%}
+            {% endfor %}
+
+ 
+            {% for alterCurCol in currentState.columns %}  
+    
+             {% if alterCurCol.id in desiredState.columns | map(attribute="id") %}
+ 
+
+                    {% set currentDatatype = alterCurCol.dataType %}
+                    {% set currentNullable = alterCurCol.nullable %}
+                    {% set currentDefaultValue = alterCurCol.defaultValue %}
+                    {% set currentDescription = alterCurCol.description %}
+
+
+                    {% set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
+                    {% set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
+                    {% set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
+                    {% set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
+                    {% set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
+            
+
+                    {% set datatypeTest = currentDatatype == desiredDatatype %}
+                    {% set nullableTest = currentNullable == desiredNullable %}
+                    {% set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
+                    {% set descriptionTest = currentDescription == desiredDescription %}
+                        {% if (
+                            nullableTest == false  or
+                            defaultValueTest == false or
+                            descriptionTest == false) %}
+                        {% set ns.colchanges = ns.colchanges + 1 %}
+                                                       
+                    {% endif %}
+                    {%if 'OBJECT' not in alterCurCol.dataType and 'MAP' not in alterCurCol.dataType and 'ARRAY'  not in alterCurCol.dataType  %} 
+
+                    {% if datatypeTest == false  %}
+                        {% set ns.colchanges = ns.colchanges + 1 %}                                                 
+                    {% endif %}
+                    {%else%}
+                    
+                    {% if datatypeTest == false  %}
+                        {% set ns.colchangescdt = ns.colchangescdt + 1 %}                                                 
+                    {% endif %}
+                   
+                   {% endif %}
+              {%endif%} 
+            {% endfor %}
+
+
+
+        {# Create Iceberg table-redeployment #}
+
+{% if  currentState.node.name != desiredState.node.name or currentState.node.location.name!= desiredState.node.location.name or baseloctest == false  or ns.colchanges > 0 or ns.acolchanges >0 or ns.dcolchanges > 0 or nodeCommentTest == false or extvoltest == false or clusterTest == false or  ns.targetlocationtest  == false%}
+
+                
+          {%set extvol = '' %}
+          {%set catalogval = '' %}
+          {%set catalogtablename ='' %}
+          {%set catalogdbname ='' %}
+          {%set metafilepath ='' %}
+          {%set baseloc ='' %}
+        
+        #External volume
+        {%if desiredState.config.extvol != '' %}
+            {%set extvol =  desiredState.config.extvolume %}
+        {%endif%}
+
+        #Baselocation
+        {%if desiredState.config.basename != '' %}
+            {%set baseloc =  desiredState.config.basename %}
+        {%endif%}
+
+        #Catalog sync
+        {%if desiredState.config.catint != '' and desiredState.config.tcatalog == 'Polaris' %}
+           {%set catsync = desiredState.config.catint %}
+        {%endif%}
+
+        #Figure out cluster key
+
+        {% set nsVariables = namespace(finalClusterKey="") %}
+        {% if desiredState.config.clusterKey == true %}
+            {% if desiredState.config.clusterKeyExpressions == true %}
+                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% if expression[loop.index0] == "" %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                    {% else %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                    {% endif %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% else %}
+
+                {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% endif %}
+        {% endif %}
+
+        {%if currentState.node.name != desiredState.node.name or ns.targetlocationtest == false%}
+
+           {{ stage('Drop Iceberg Table at previous target location', true, "sql", "alter") }}
+
+           DROP ICEBERG TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+        {%endif%}
+         
+        {{ stage('Create Iceberg Table', true, "sql", "alter") }}
+
+         CREATE OR REPLACE ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+         (
+          {% for col in desiredState.columns %}
+           "{{ col.name }}" {{icebergcoldatatype( col.dataType)}}
+           {% if col.isSurrogateKey %}
+               identity
+           {% endif %}
+           {%- if not col.nullable %} NOT NULL
+               {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+           {% endif %}
+           {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+           {%- if not loop.last -%}, {% endif %}
+          {% endfor %}
+           )
+          {%if desiredState.config.clusterKey == true%} {{ nsVariables.finalClusterKey }}   {%endif%}
+        
+        
+        {%if extvol != '' %} EXTERNAL_VOLUME = '{{extvol}}' {%endif%}
+        {%if baseloc != '' %} BASE_LOCATION = '{{baseloc}}'{%endif%}
+        {%if catsync != '' and desiredState.config.tcatalog == 'Polaris' %} CATALOG_SYNC = '{{catsync}}' {%endif%}
+        CATALOG  =   'SNOWFLAKE'
+        
+	    {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'	
+        {%endif%}  
+
+ {%elif  currentState.node.name == desiredState.node.name and
+ currentState.node.location.name == desiredState.node.location.name  and ns.colchangescdt > 0 %}
+
+
+{% set ns1 = namespace(renamefield = false,element_names1 = [],element_names2 = []) %}
+
+     
+     {% for alterCurCol in currentState.columns %}  
+         {% if alterCurCol.id in desiredState.columns | map(attribute="id") %}
+
+                    {% set currentDatatype = alterCurCol.dataType %}
+                    {% set desiredColname = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
+                    {% set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
+
+            
+        {%if 'OBJECT'  in alterCurCol.dataType or 'MAP'  in alterCurCol.dataType or 'ARRAY'   in alterCurCol.dataType  %} 
+
+            {%if 'ARRAY' not in alterCurCol.dataType %}
+
+                    {%if 'OBJECT'  in alterCurCol.dataType %}
+                      {% set elements1 = currentDatatype[7:-1].split(',') %}
+                      {% set elements2 = desiredDatatype[7:-1].split(',') %}
+                    {%elif 'MAP'  in alterCurCol.dataType %}
+                      {% set elements1 = currentDatatype[4:-1].split(',') %}
+                      {% set elements2 = desiredDatatype[4:-1].split(',') %}
+                    {%endif%}
+                    
+                    
+                    {% for element in elements1 %}
+                       {% set element_name = element.split()[0] %}
+                       {% set ns1.element_names1 = ns1.element_names1 + [element_name] %}
+                    {% endfor %}
+
+                    
+                    {% for element in elements2 %}
+                        {% set element_name = element.split()[0] %}
+                        {% set ns1.element_names2 = ns1.element_names2 + [element_name] %}
+                    {% endfor %} 
+                     
+                     {%set ele1 = ns1.element_names1|count %}
+                     {%set ele2 = ns1.element_names2|count %}
+                    {%if ele1 == ele2 %}
+                    {% for name1 in ns1.element_names1 %}
+                      {% if name1 not in ns1.element_names2%}
+
+                        {%set  ns1.renamefield = true %}
+                      {% endif %}
+                    {% endfor %}
+                    {%endif%}
+            {%endif%}
+
+
+                    {%if ns1.renamefield == true %}
+					
+					    {{ stage('Alter structured data type in Iceberg Table', true, "sql", "alter") }}
+                        
+                        ALTER ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}ALTER COLUMN {{ desiredColname }} SET DATA TYPE {{ desiredDatatype }} RENAME FIELDS
+                    {%else%}
+
+                        {{ stage('Alter structured data type in Iceberg Table', true, "sql", "alter") }}
+						
+                        ALTER ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}ALTER COLUMN {{ desiredColname }} SET DATA TYPE {{ desiredDatatype }}
+                    {%endif%}
+
+                                                           
+                {% endif %}                   
+         {% endif %}
+      {% endfor %}
+
+
+
+ {%endif%} 
+
+
+{%elif  currentState != undefined and desiredState == undefined%}
+
+    {# Table or View Name #}
+    {% set targetObjectDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+    {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+    {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+           
+        {{ stage('Drop iceberg table', true, "sql", "drop") }}
+         DROP ICEBERG TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
+	  
+{%else%}
+
+{{ stage('Nothing to do.') }}
+select 1 = 0
+	  
+{%endif%}
+
+{# Create Task Second #}
+{% if desiredState == currentState %}
+
+    {{ stage('No task edits.') }}
+    select 1 = 0
+
+{% elif desiredState %}
+
+	
+        {# Target Table Info #}
+        {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
+        {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
+        {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
+		{% set srcSchName = desiredState.node.location.name %}
+		{% set db = desiredState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
+		{% set sch = desiredState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
+
+		{# Internal or External Stage locations #}
+
+        {% set stageStorageLocationName = desiredState.config.stageStorageLocationName %}
+        {% set dbStage = desiredState.storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='database') | first %}
+        {% set schStage = desiredState.storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='schema') | first %}
+        {% set ns = namespace(counter=1, countercol=1, colist="") %}	
+
+        {# File format locations #}
+
+        {% set fileFormatLocationName = desiredState.config.fileFormatLoc %}
+        {% set dbff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='database') | first %}
+        {% set schff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='schema') | first %}
+
+
+        {# File pattern #}
+
+        {%- if desiredState.config.filePattern | length > 0 -%} 
+            {%- set filePatternSQL = 'PATTERN = ' + desiredState.config.filePattern -%} 
+        {%- else -%}
+            {%- set filePatternSQL = "" -%} 
+        {%- endif -%}
+
+        {# File name #}
+
+        {%- if desiredState.config.fileNames | length > 0 %} 
+            {% set fileNameSQL = 'FILES = (' + desiredState.config.fileNames + ')' %} 
+        {%- else -%}
+            {% set fileNameSQL = "" %} 
+        {% endif %}
+
+
+
+        {% if desiredState.config.devMode == false %}
+            {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
+                {%- set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + desiredState.config.rootTask + '"' -%} 
+                {{ stage('Suspend Root Task', true, "sql", "alter") }}
+                ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+            {%- endif -%}
+
+			{%- if desiredState.parameters.loadType == 'Reload'  or config.truncateBefore == true -%}
+				{{ stage('Truncate Target Table') }}
+				TRUNCATE TABLE IF EXISTS "{{ db }}"."{{ sch }}"."{{ node.name }}"
+			{% endif %}
+            {{ stage('Create Task', true, "sql", "alter") }}
+            {# Set Namespace Variables #}
+            {% set nsVariables = namespace(taskWhenRun="") %}
+            {% set nsVariables = namespace(poll="WHEN ") %}
+
+            {# Task Info #}
+            {% set taskName = desiredState.node.name + '_TASK'  %}
+            {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+
+            {# Task Type #}
+            {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
+                {# Can be updated during deployment via a parameter to account for different warehouse names in different deployments #}
+                {% if desiredState.parameters.targetTaskWarehouse == 'DEV ENVIRONMENT' %}
+                    {% set taskType = 'WAREHOUSE = ' + desiredState.config.whName %}
+                {% else %}
+                    {% set taskType = 'WAREHOUSE = ' + desiredState.parameters.targetTaskWarehouse %}
+                {% endif %}
+            {%- else -%}
+                {%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize -%} 
+            {%- endif -%}
+
+            {# Schedule Type #}
+            {%- if desiredState.config.schedulePeriodOption == 'Minutes' -%} 
+                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + desiredState.config.schedulePeriod + ' MINUTE' + "'" -%} 
+            {% elif desiredState.config.schedulePeriodOption == 'CRON' %}
+                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON +"'" %}
+            {%- else -%}
+                {%- set nsVariables.taskWhenRun = 'AFTER ' -%}
+                {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
+
+                {%- for p in predecessorTasks -%}
+                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '.' + p -%}
+                    {%- if not loop.last -%} 
+                        {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
+                    {%- endif %}
+                {% endfor %}    
+            {%- endif -%}
+
+
+            CREATE OR REPLACE TASK 
+                {{ fullyQualifiedTaskName }} 
+                {{ taskType}} 
+                {{ nsVariables.taskWhenRun }} 
+            AS 
+			{%if desiredState.config.intextstage %}
+             COPY INTO "{{ db }}"."{{ sch }}"."{{ desiredState.node.name }}" (
+            {%- for col in desiredState.columns %}
+                "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+            {%- endfor %}
+			)
+			FROM (SELECT
+			
+            {%- for col in desiredState.sources[0].columns %}
+	           {% if not( col.sysLdTs or col.sysFlNm or col.sysFlRwNm or col.sysFlLtMd or col.sysFlScTm or col.sysJSON or col.transform != "" ) %}
+                      {%if (desiredState.config.fileType == 'JSON') or (desiredState.config.fileType == 'PARQUET') or (desiredState.config.fileType == 'ORC') or (desiredState.config.fileType == 'AVRO')   %}
+                         ${{ ns.counter}}:{{col.name}}::{{ col.dataType}}  AS "{{ col.name }}" 
+                      {%else%}
+                        ${{ ns.counter}}::{{ col.dataType}}   AS "{{ col.name }}"  
+                        {% set ns.counter = ns.counter + 1 %}       
+                      {%endif%}       
+	           {% else %}
+	                  {{ get_source_transform(col) }} AS "{{ col.name }}" 
+	           {%endif%}
+            {%- if not loop.last -%}, {% endif %}
+            {%- endfor %}
+
+           FROM '@{{ dbStage }}.{{ schStage }}.{{ desiredState.config.stageName }}') 
+           {{fileNameSQL}}
+           {{ filePatternSQL }}
+
+			{%elif desiredState.config.extlocation %}  
+          
+			 COPY INTO "{{ db }}"."{{ sch }}"."{{ desiredState.node.name }}"        
+			{%if ns.countercol == 1 %}  (SRC)
+			{%elif ns.countercol >1 and desiredState.config.fileType in ('CSV') %}
+			(   {%- for col in sources[0].columns %}
+					{% if not( col.sysLdTs or col.sysFlNm or col.sysFlRwNm or col.sysFlLtMd or col.sysFlScTm or col.sysJSON )%}
+						{% set ns.colist = ns.colist ~ col.name ~ ',' %}
+					{%endif%}
+				{%- endfor %}
+				{{ ns.colist.rstrip(',') }} )
+			{%endif%}
+			FROM '{{desiredState.config.externalURI}}'
+			STORAGE_INTEGRATION = {{desiredState.config.storageintegration}}
+      
+			{%endif%}
+         
+
+          {%- if desiredState.config.fileFormatType == 'File Format Name' %}
+            
+              FILE_FORMAT = (FORMAT_NAME = '{{ dbff }}.{{ schff }}.{{ desiredState.config.fileFormatName}}')
+     
+            
+		{%else%}
+            FILE_FORMAT = ( TYPE = {{ desiredState.config.fileType}}
+             {% if desiredState.config.compression != "" %}
+              COMPRESSION = {{ desiredState.config.compression }}
+             {%endif%}			 
+             {% if desiredState.config.recDelim and desiredState.config.fileType in ('CSV')%}
+              RECORD_DELIMITER = '{{ desiredState.config.recDelim}}'
+             {%endif%}
+            {% if desiredState.config.fieldDelim and desiredState.config.fileType in ('CSV')%}
+              FIELD_DELIMITER = '{{ desiredState.config.fieldDelim}}'
+            {%endif%}
+          {% if desiredState.config.fieldEnclosed and desiredState.config.fileType in ('CSV')%}
+               FIELD_OPTIONALLY_ENCLOSED_BY ='{{ desiredState.config.fieldEnclosed }}'
+          {%endif%}
+          {% if desiredState.config.skipBlankLines and desiredState.config.fileType in ('CSV')%}
+             SKIP_BLANK_LINES =  {{ desiredState.config.skipBlankLines }}
+          {%endif%}
+          {% if desiredState.config.skipHeader and desiredState.config.fileType in ('CSV')%}
+             SKIP_HEADER = {{desiredState.config.skipHeader}}
+          {%endif%}
+          {% if desiredState.config.trimSpace and desiredState.config.fileType not in ('XML') %}
+              TRIM_SPACE = {{ desiredState.config.trimSpace }}
+          {%endif%}
+          {% if desiredState.config.replaceinvalidcharacters%}
+              REPLACE_INVALID_CHARACTERS = {{desiredState.config.replaceinvalidcharacters}}
+          {%endif%}
+          {% if desiredState.config.stripouterarray and desiredState.config.fileType in ('JSON')%}
+              STRIP_OUTER_ARRAY = {{desiredState.config.stripouterarray}}
+          {%endif%}
+            {% if desiredState.config.dateformat != "AUTO" and desiredState.config.dateformat != ""   and desiredState.config.fileType in ('JSON','CSV')%}
+              DATE_FORMAT = '{{desiredState.config.dateformat}}'
+	       {% elif desiredState.config.dateformat == "AUTO" %}
+	         DATE_FORMAT = AUTO
+           {%endif%}
+             {% if desiredState.config.timeformat != "AUTO" and desiredState.config.timeformat != ""   and desiredState.config.fileType in ('JSON','CSV')%}
+              TIME_FORMAT = '{{desiredState.config.timeformat}}'
+	       {% elif desiredState.config.timeformat == "AUTO" %}
+	         TIME_FORMAT = AUTO
+           {%endif%}
+           {% if desiredState.config.timestampformat != "AUTO" and desiredState.config.timestampformat != ""   and desiredState.config.fileType in ('JSON','CSV')%}
+              TIMESTAMP_FORMAT = '{{desiredState.config.timestampformat}}'
+	         {% elif desiredState.config.timestampformat == "AUTO" %}
+	         TIMESTAMP_FORMAT = AUTO
+           {%endif%})
+        {%endif%}
+
+        {% if desiredState.config.onError != "" %}
+            {% if desiredState.config.onError in ('SKIP_FILE_<num>') %}
+              {% set onErrorReplaced = desiredState.config.onError | replace('<num>', desiredState.config.errornumber|string) %}
+               ON_ERROR = {{ onErrorReplaced }}
+            {%elif desiredState.config.onError in ('SKIP_FILE_<num>%') %}
+              {% set onErrorReplaced = desiredState.config.onError | replace('<num>', desiredState.config.errornumber|string) %}
+               ON_ERROR = '{{ onErrorReplaced }}'
+            {%else%}
+               ON_ERROR = {{ desiredState.config.onError }}
+            {%endif%}
+        {%endif%}
+
+        {% if desiredState.config.sizeLimit != "" %}
+             SIZE_LIMIT = {{ desiredState.config.sizeLimit }}
+        {%endif%}
+        {% if desiredState.config.returnFailedOnly != "" %}
+             RETURN_FAILED_ONLY = {{ desiredState.config.returnFailedOnly }}
+        {%endif%}
+        {% if desiredState.config.loadUncertainFiles != ""%}
+              LOAD_UNCERTAIN_FILES = {{ desiredState.config.loadUncertainFiles }}
+        {%endif%}
+        {% if desiredState.config.purgeBehavior != "" %}
+              PURGE =  {{ desiredState.config.purgeBehavior }}
+        {%endif%}
+        {% if desiredState.config.enforceLength != ""%}
+              ENFORCE_LENGTH = {{ desiredState.config.enforceLength }}
+        {%endif%}
+        {% if desiredState.config.truncateColumns != ""%}
+              TRUNCATECOLUMNS = {{ desiredState.config.truncateColumns }}
+        {%endif%}
+        {%if  desiredState.config.extlocation and ns.countercol>1 and desiredState.config.fileType not in ('CSV') %}
+             MATCH_BY_COLUMN_NAME = CASE_SENSITIVE        
+        {%endif%}
+        {%- if desiredState.parameters.loadType == 'Reload' -%}
+		     FORCE=TRUE
+		    {%endif%}
+	{%endif%}
+{%endif%}
