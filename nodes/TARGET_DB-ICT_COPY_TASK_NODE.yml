@@ -1,0 +1,190 @@
+fileVersion: 1
+id: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+name: ICT_COPY_TASK_NODE
+operation:
+  config:
+    basename: baseloc
+    catint: ""
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    compression: ""
+    dateformat: ""
+    devMode: false
+    enforceLength: "TRUE"
+    errornumber: ""
+    externalURI: Enter external URI-Ex:s3://snowflake-docs
+    extlocation: false
+    extvolume: sficebergextvol1
+    fieldDelim: ","
+    fieldEnclosed: \042
+    fileFormatLoc: ANANDHIS_DEV.TARGET
+    fileFormatName: PARQUETFILEFORMAT
+    fileFormatType: File Format Name
+    fileNames: ""
+    filePattern: " '.*[.]parquet' "
+    fileType: PARQUET
+    forceLoad: "TRUE"
+    intextstage: true
+    loadUncertainFiles: "TRUE"
+    onError: CONTINUE
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    purgeBehavior: "TRUE"
+    recDelim: |+
+
+    replaceinvalidcharacters: false
+    returnFailedOnly: "FALSE"
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Serverless Task
+    serverlessSize: MEDIUM
+    sizeLimit: ""
+    skipBlankLines: false
+    skipHeader: "1"
+    stageName: STAGE_LOC
+    stageStorageLocationName: ANANDHIS_DEV.TARGET
+    storageintegration: ""
+    stripouterarray: false
+    tcatalog: Snowflake
+    timeformat: ""
+    timestampformat: ""
+    trimSpace: false
+    truncateBefore: false
+    truncateColumns: "TRUE"
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b1661a7-04dd-41d5-8ecf-3c63e2545603
+          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        name: SRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: $1
+        sysJSON: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c77c63fe-6567-49fb-bb10-23ff08523138
+          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+        config: {}
+        dataType: TIMESTAMP_NTZ
+        defaultValue: ""
+        description: ""
+        name: LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+        sysLdTs: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab44e9a9-baa5-46ed-a9e8-4c21f839a8b9
+          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        name: FILENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$FILENAME
+        sysFlNm: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9168b585-af03-4129-a2ef-6827c1c10a0c
+          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+        config: {}
+        dataType: BIGINT
+        defaultValue: ""
+        description: ""
+        name: FILE_ROW_NUMBER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$FILE_ROW_NUMBER
+        sysFlRwNm: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a3153068-db94-42ba-bfb7-fbfddc81ccd0
+          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+        config: {}
+        dataType: TIMESTAMP_NTZ
+        defaultValue: ""
+        description: ""
+        name: FILE_LAST_MODIFIED
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$FILE_LAST_MODIFIED
+        sysFlLtMd: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 76da8eaa-0a37-4005-a15f-32c35ec07571
+          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+        config: {}
+        dataType: TIMESTAMP_NTZ
+        defaultValue: ""
+        description: ""
+        name: SCAN_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$START_SCAN_TIME
+        sysFlScTm: true
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: ICT_COPY_TASK_NODE
+        noLinkRefs: []
+  name: ICT_COPY_TASK_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "356"
+  type: sql
+  version: 1
+type: Node
