@@ -1,26 +1,15 @@
 fileVersion: 1
-id: 16c83cc6-0222-4a90-bdf2-28e83d7d3239
-name: ICT_COPY_TASK_NODE_NEW
+id: c4a95b4d-89a6-479c-a6c1-6822bae21885
+name: TSKCOPY_NODE
 operation:
   config:
-    basename: BASELOC
-    catint: ""
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
     compression: ""
     dateformat: ""
-    devMode: false
-    enforceLength: "TRUE"
+    devMode: true
+    enforceLength: "FALSE"
     errornumber: ""
     externalURI: Enter external URI-Ex:s3://snowflake-docs
     extlocation: false
-    extvolume: sficebergextvol1
     fieldDelim: ","
     fieldEnclosed: \042
     fileFormatLoc: ANANDHIS_DEV.TARGET
@@ -32,13 +21,13 @@ operation:
     forceLoad: "FALSE"
     intextstage: true
     loadUncertainFiles: "FALSE"
-    onError: CONTINUE
+    onError: SKIP_FILE
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    purgeBehavior: "TRUE"
+    purgeBehavior: "FALSE"
     recDelim: |+
 
     replaceinvalidcharacters: false
-    returnFailedOnly: "TRUE"
+    returnFailedOnly: "FALSE"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
@@ -48,15 +37,13 @@ operation:
     sizeLimit: ""
     skipBlankLines: false
     skipHeader: "1"
-    stageName: STAGE_LOCAL
-    stageStorageLocationName: ANANDHIS_DEV.TARGET
+    stageName: STAGE_LOC
+    stageStorageLocationName: COALESCE_LOC
     storageintegration: ""
     stripouterarray: false
-    tcatalog: Snowflake
     timeformat: ""
     timestampformat: ""
     trimSpace: false
-    truncateBefore: false
     truncateColumns: "FALSE"
     whName: <WAREHOUSE_NAME>
   database: ""
@@ -73,10 +60,10 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b64f50c1-9fe3-4396-b2d4-6942558fddc7
-          stepCounter: 16c83cc6-0222-4a90-bdf2-28e83d7d3239
+          columnCounter: 4b38320b-d53e-41e7-8324-d96f72d0a933
+          stepCounter: c4a95b4d-89a6-479c-a6c1-6822bae21885
         config: {}
-        dataType: STRING
+        dataType: VARIANT
         defaultValue: ""
         description: ""
         name: SRC
@@ -90,8 +77,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c2551f58-29c8-4334-b9c9-c0e2df76a0a9
-          stepCounter: 16c83cc6-0222-4a90-bdf2-28e83d7d3239
+          columnCounter: e23799c0-6321-4d7c-8700-0be32e6cafb9
+          stepCounter: c4a95b4d-89a6-479c-a6c1-6822bae21885
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -107,8 +94,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a8b88aef-e192-4195-b981-6f33fcb1bee7
-          stepCounter: 16c83cc6-0222-4a90-bdf2-28e83d7d3239
+          columnCounter: 30879968-c4d5-48df-b172-0139542487b0
+          stepCounter: c4a95b4d-89a6-479c-a6c1-6822bae21885
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -124,10 +111,10 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e8962499-8869-4bd6-9ff2-8604be161615
-          stepCounter: 16c83cc6-0222-4a90-bdf2-28e83d7d3239
+          columnCounter: f8acc7c2-dcb5-4fa1-8fa4-9c9c4dbb15f6
+          stepCounter: c4a95b4d-89a6-479c-a6c1-6822bae21885
         config: {}
-        dataType: BIGINT
+        dataType: NUMBER
         defaultValue: ""
         description: ""
         name: FILE_ROW_NUMBER
@@ -141,8 +128,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c2b7c5c7-3212-4755-bdd4-fbf753acf52d
-          stepCounter: 16c83cc6-0222-4a90-bdf2-28e83d7d3239
+          columnCounter: e06fecee-73ec-438c-a1fa-4503f6f7268f
+          stepCounter: c4a95b4d-89a6-479c-a6c1-6822bae21885
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -158,8 +145,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c7f59ba1-7519-4e27-b9df-b25f4fa6e3f7
-          stepCounter: 16c83cc6-0222-4a90-bdf2-28e83d7d3239
+          columnCounter: f21f3db7-e6c5-4b8e-9ee6-28156631240b
+          stepCounter: c4a95b4d-89a6-479c-a6c1-6822bae21885
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -179,12 +166,12 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: ICT_COPY_TASK_NODE_NEW
+        name: TSKCOPY_NODE
         noLinkRefs: []
-  name: ICT_COPY_TASK_NODE_NEW
+  name: TSKCOPY_NODE
   overrideSQL: false
   schema: ""
-  sqlType: "356"
+  sqlType: "354"
   type: sql
   version: 1
 type: Node

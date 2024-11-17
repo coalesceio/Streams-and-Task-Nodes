@@ -273,45 +273,10 @@ select 1 = 0
 
 {% elif desiredState %}
 
-	
         {# Target Table Info #}
         {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
         {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
         {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
-		{% set srcSchName = desiredState.node.location.name %}
-		{% set db = desiredState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
-		{% set sch = desiredState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
-
-		{# Internal or External Stage locations #}
-
-        {% set stageStorageLocationName = desiredState.config.stageStorageLocationName %}
-        {% set dbStage = desiredState.storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='database') | first %}
-        {% set schStage = desiredState.storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='schema') | first %}
-        {% set ns = namespace(counter=1, countercol=1, colist="") %}	
-
-        {# File format locations #}
-
-        {% set fileFormatLocationName = desiredState.config.fileFormatLoc %}
-        {% set dbff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='database') | first %}
-        {% set schff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='schema') | first %}
-
-
-        {# File pattern #}
-
-        {%- if desiredState.config.filePattern | length > 0 -%} 
-            {%- set filePatternSQL = 'PATTERN = ' + desiredState.config.filePattern -%} 
-        {%- else -%}
-            {%- set filePatternSQL = "" -%} 
-        {%- endif -%}
-
-        {# File name #}
-
-        {%- if desiredState.config.fileNames | length > 0 %} 
-            {% set fileNameSQL = 'FILES = (' + desiredState.config.fileNames + ')' %} 
-        {%- else -%}
-            {% set fileNameSQL = "" %} 
-        {% endif %}
-
 
 
         {% if desiredState.config.devMode == false %}
@@ -359,17 +324,39 @@ select 1 = 0
                 {% endfor %}    
             {%- endif -%}
 
+            {# When Stream has data logic #}
+            {# Source Stream Location and Name #}
+            {% if desiredState.config.flagSrcStream == true %}
+                {% for source in desiredState.sources %}
+                    {% for dep in source.dependencies %}
+                        {% if (dep.node.materializationType == 'stream') %}
+                            {% set streamStorageLocation = dep.node.location.name %}
+                            {% set streamSourceDatabase = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='database') | first %}
+                            {% set streamSourceSchema = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='schema') | first %}
+                            {% set streamSourceName = dep.node.name %}
 
-			{%- if desiredState.parameters.loadType == 'Reload' -%}
+                            {%- if nsVariables.poll == 'WHEN ' -%}
+                                {% set nsVariables.poll = nsVariables.poll + 'SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+                            {% else %}
+                                {% set nsVariables.poll = nsVariables.poll + desiredState.config.multiStreamBehavior + ' SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+                            {%- endif -%}
+                        {%- endif -%}
+                    {% endfor %}
+                {% endfor %}
+            {% endif -%}
 
-				{{ stage('Truncate Target Table') }}
-				TRUNCATE TABLE IF EXISTS "{{ db }}"."{{ sch }}"."{{ node.name }}"
+            {# To mimic truncate behavior #}
+            {% if desiredState.config.truncateBefore == true %}
+                {% set truncateBehavior = 'INSERT OVERWRITE' %}
+            {% else %}
+                {% set truncateBehavior = 'INSERT' %}
+            {% endif -%}
 
-			{% endif %}
             CREATE OR REPLACE TASK 
                 {{ fullyQualifiedTaskName }} 
                 {{ taskType}} 
                 {{ nsVariables.taskWhenRun }} 
+                {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
             AS 
 			{%if desiredState.config.intextstage %}
              COPY INTO "{{ db }}"."{{ sch }}"."{{ desiredState.node.name }}" (
@@ -503,5 +490,47 @@ select 1 = 0
         {%- if desiredState.parameters.loadType == 'Reload' -%}
 		     FORCE=TRUE
 		    {%endif%}
-	{%endif%}
-{%endif%}
+
+            {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
+                {{ stage('Resume Task', true, "sql", "alter") }}
+                ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
+            {%- endif -%}
+
+        {% else %}
+            {{ stage('Development Mode - No Task.') }}
+            select 1 = 0
+        
+        {%- endif -%}
+
+{% elif currentState != undefined and desiredState == undefined %}
+
+    {# Target Table Info #}
+    {% set targetTableDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+    {% set targetTableSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+    {% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+
+    {% if currentState.config.devMode == false %}
+        {# FQ Root Task name #}
+        {% set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + currentState.config.rootTask + '"'%}
+
+        {# Task Info #}
+        {% set taskName = currentState.node.name + '_TASK'  %}
+        {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+
+        {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%} 
+        {{ stage('Suspend Root Task', true, "sql", "drop") }}
+            ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
+        {{ stage('Drop Current Task', true, "sql", "drop") }}
+            DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+        {%- else -%}
+        {{ stage('Drop Current Task', true, "sql", "drop") }}
+            DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+        {%- endif -%}
+    {%- endif -%}
+
+{%- else -%}
+
+{{ stage('No task edits.  Unknown state.') }}
+select 1 = 0
+
+{% endif %}

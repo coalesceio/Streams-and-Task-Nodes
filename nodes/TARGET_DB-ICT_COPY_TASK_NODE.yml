@@ -15,7 +15,7 @@ operation:
     clusterKeyExpressions: false
     compression: ""
     dateformat: ""
-    devMode: false
+    devMode: true
     enforceLength: "TRUE"
     errornumber: ""
     externalURI: Enter external URI-Ex:s3://snowflake-docs
@@ -49,7 +49,7 @@ operation:
     skipBlankLines: false
     skipHeader: "1"
     stageName: STAGE_LOC
-    stageStorageLocationName: ANANDHIS_DEV.TARGET
+    stageStorageLocationName: COALESCE_LOC
     storageintegration: ""
     stripouterarray: false
     tcatalog: Snowflake
