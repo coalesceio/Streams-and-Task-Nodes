@@ -5,7 +5,7 @@ operation:
   config:
     compression: ""
     dateformat: ""
-    devMode: true
+    devMode: false
     enforceLength: "FALSE"
     errornumber: ""
     externalURI: Enter external URI-Ex:s3://snowflake-docs

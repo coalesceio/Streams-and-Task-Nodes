@@ -15,7 +15,7 @@ operation:
     clusterKeyExpressions: false
     compression: ""
     dateformat: ""
-    devMode: true
+    devMode: false
     enforceLength: "TRUE"
     errornumber: ""
     externalURI: Enter external URI-Ex:s3://snowflake-docs
