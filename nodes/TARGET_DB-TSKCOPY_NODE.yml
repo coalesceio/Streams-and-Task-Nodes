@@ -51,7 +51,7 @@ operation:
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: transient table
   metadata:
     appliedNodeTests: []
     columns:
@@ -84,7 +84,7 @@ operation:
         defaultValue: ""
         description: ""
         name: LOAD_TIMESTAMP
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences: []
             transform: current_timestamp()::timestamp_ntz
