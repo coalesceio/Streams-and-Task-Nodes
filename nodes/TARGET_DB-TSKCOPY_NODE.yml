@@ -117,7 +117,7 @@ operation:
         dataType: NUMBER
         defaultValue: ""
         description: ""
-        name: FILE_ROW_NUMBER
+        name: FILE_ROW_NUMBER1
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
