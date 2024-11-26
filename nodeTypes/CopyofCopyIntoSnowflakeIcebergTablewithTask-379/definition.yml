@@ -1,0 +1,473 @@
+fileVersion: 1
+id: "379"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Copy of Copy Into Iceberg task
+    short: 'ICT_COPY_TASK'
+    tagColor: '#C2105B'
+    isDisabled: false
+    plural: Copy Into
+
+    deployStrategy: advanced
+
+    config:
+    - groupName: Iceberg Options
+      items:
+
+      - displayName: Type of catalog
+        attributeName: tcatalog
+        type: dropdownSelector
+        default: Snowflake
+        options:
+          - Snowflake
+          - Polaris
+        isRequired: true
+     
+      - displayName: Snowflake EXTERNAL VOLUME Name
+        attributeName: extvolume
+        type: textBox
+        isRequired: true
+        default: "my_ext_vol"
+
+      - displayName: Base location name
+        attributeName: basename
+        type: textBox
+        isRequired: true
+        default: "locname"
+
+      - displayName: Catalog integration
+        attributeName: catint
+        type: textBox
+        enableIf: "{% if config.tcatalog == 'Polaris'  %} true {% else %} false {% endif %}"
+
+      - displayName: Development Mode
+        attributeName: devMode
+        type: toggleButton
+        isRequired: true
+        default: false
+        
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: false
+
+      - type: toggleButton
+        attributeName: clusterKey
+        displayName: Cluster Key
+        default: false
+        
+      - type: toggleButton
+        attributeName: clusterKeyExpressions
+        displayName: Allow Expressions in Cluster Key
+        default: false
+        isRequired: false
+        enableIf: "{% if config.clusterKey %} true {% else %} false {% endif %}"
+
+      - type: tabular
+        displayName: 'Cluster Key'
+        attributeName: clusterKeyConfig
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: columnName
+           isRequired: false
+      
+        isRequired: false
+        enableIf: "{% if (config.clusterKey and not config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+
+      - type: tabular
+        displayName: 'Cluster Key'
+        attributeName: clusterKeyConfigExpressions
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: columnNameExpressions
+           isRequired: false
+      
+        -  type: textBox
+           displayName: Expression (Column name to be enclosed within double quotes)
+           attributeName: sqlExpression
+           default: "ex. trunc(<column_name>, -5)"
+           isRequired: false
+      
+        isRequired: false
+        enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+
+    - groupName: Source Data
+      items:
+
+      - displayName: Internal or External Stage
+        attributeName: intextstage
+        type: toggleButton
+        isRequired: false 
+        enableIf: "{% if config.extlocation %} false {% else %} true {% endif %}"    	
+    	
+      - displayName: External location
+        attributeName: extlocation
+        type: toggleButton
+        isRequired: false  
+        enableIf: "{% if config.intextstage %} false {% else %} true {% endif %}"
+    	  
+      - displayName: Coalesce Storage Location of stage
+        attributeName: stageStorageLocationName
+        type: textBox
+        default: 'Enter Storage Location name'
+        enableIf: "{% if config.intextstage %} true {% else %} false {% endif %}"
+        isRequired: true
+
+      - displayName: Stage Name
+        attributeName: stageName
+        type: textBox
+        default: 'Enter stage name-stage_name/folder_name/'
+        enableIf: "{% if config.intextstage %} true {% else %} false {% endif %}"
+        isRequired: true
+
+      - displayName: File Name(s) (Optional - Ex:'a.csv','b.csv' )
+        attributeName: fileNames
+        type: textBox
+        enableIf: "{% if config.intextstage %} true {% else %} false {% endif %}"
+        isRequired: false
+
+      - displayName: File Pattern (Optional - Ex:'.*hea.*[.]csv')
+        attributeName: filePattern
+        type: textBox
+        enableIf: "{% if config.intextstage %} true {% else %} false {% endif %}"
+        isRequired: false
+
+      - displayName: External URI
+        attributeName: externalURI
+        type: textBox
+        default: 'Enter external URI-Ex:s3://snowflake-docs'
+        enableIf: "{% if config.extlocation %} true {% else %} false {% endif %}"
+        isRequired: false
+
+      - displayName: Storage Integration
+        attributeName: storageintegration
+        type: textBox
+        enableIf: "{% if config.extlocation %} true {% else %} false {% endif %}"
+        isRequired: false
+
+    - groupName: File Format
+      items:
+      - displayName: File Format Definition
+        attributeName: fileFormatType
+        type: dropdownSelector
+        default: "File Format Name"
+        options:
+        - File Format Name
+        - File Format Values
+
+      - displayName: File Format Name
+        attributeName: fileFormatName
+        type: textBox
+        default: ""
+        isRequired: false
+        enableIf: "{% if config.fileFormatType == 'File Format Name' %} true {% else %} false {% endif %}"
+
+      - displayName: File Format Location
+        attributeName: fileFormatLoc
+        type: textBox
+        default: ""
+        isRequired: false
+        enableIf: "{% if config.fileFormatType == 'File Format Name' %} true {% else %} false {% endif %}"
+
+      - displayName: File Type
+        attributeName: fileType
+        type: dropdownSelector
+        default: CSV
+        options:
+        - "CSV"
+        - "PARQUET"
+        - "JSON"
+        - "AVRO"
+        - "ORC"
+        - "XML"
+        isRequired: false
+        ##enableIf: "{% if config.fileFormatType != 'File Format Name' %} true {% else %} false {% endif %}"
+
+      - displayName: Compression
+        attributeName: compression
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType not in ('ORC')) %} true {% else %} false {% endif %}"
+        type: dropdownSelector
+        options:
+        - "AUTO"
+        - "GZIP"
+        - "BZ2"
+        - "BROTLI"
+        - "ZSTD"
+        - "DEFLATE"
+        - "RAW_DEFLATE"
+        - "NONE"
+        isRequired: false
+
+      - displayName: Record delimiter
+        attributeName: recDelim
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "\n"
+        isRequired: false
+
+      - displayName: Field delimiter
+        attributeName: fieldDelim
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: ","
+        isRequired: false
+
+      - displayName: Field optionally enclosed by
+        attributeName: fieldEnclosed
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "\\042"
+        isRequired: false
+
+      - displayName: Number of header lines to skip
+        attributeName: skipHeader
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "1"
+        isRequired: false
+
+      - displayName: Skip blank lines
+        attributeName: skipBlankLines
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        type: toggleButton
+        isRequired: false
+
+      - displayName: Trim space
+        attributeName: trimSpace
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType not in ('XML')) %} true {% else %} false {% endif %}"
+        type: toggleButton
+        isRequired: false
+
+      - displayName: Replace invalid characters
+        attributeName: replaceinvalidcharacters
+        enableIf: "{% if (config.fileFormatType != 'File Format Name') %} true {% else %} false {% endif %}"
+        type: toggleButton
+        isRequired: false    
+
+      - displayName: Strip Outer Array
+        attributeName: stripouterarray
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('JSON')) %} true {% else %} false {% endif %}"
+        type: toggleButton
+        isRequired: false   
+
+        
+      - displayName: Date format
+        attributeName: dateformat
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('JSON','CSV')) %} true {% else %} false {% endif %}"
+        isRequired: false
+
+      - displayName: Time format
+        attributeName: timeformat
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('JSON','CSV')) %} true {% else %} false {% endif %}"
+        isRequired: false
+
+      - displayName: Timestamp format
+        attributeName: timestampformat
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('JSON','CSV')) %} true {% else %} false {% endif %}"
+        isRequired: false
+
+    - groupName: Scheduling Options
+
+      # Schedule mode-specifies whether a warehouse or serverless compute is used to run the task #
+
+      enableIf: "{% if config.devMode == false %} true {% else %} false {% endif %}"
+      items:
+        - displayName: Scheduling Mode
+          attributeName: schedulingMode
+          type: dropdownSelector
+          default: Warehouse Task
+          options:
+            - Warehouse Task
+            - Serverless Task
+          isRequired: true
+
+        # Warehouse name you want the task to run #
+
+        - displayName: Select Warehouse on which to run task
+          attributeName: whName
+          type: textBox
+          default: "<WAREHOUSE_NAME>"
+          isRequired: false
+          enableIf: "{% if config.schedulingMode == 'Warehouse Task' %} true {% else %} false {% endif %}"
+
+        - displayName: Select initial serverless Warehouse size
+          attributeName: serverlessSize
+          type: dropdownSelector
+          default: "MEDIUM"
+          options:
+            - XSMALL
+            - SMALL
+            - MEDIUM
+            - LARGE
+            - XLARGE
+            - XXLARGE
+          isRequired: false
+          enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
+
+        # Way to schedule the task to run #
+
+        - displayName: Task Schedule
+          attributeName: schedulePeriodOption
+          type: dropdownSelector
+          default: Minutes
+          options:
+            - Minutes
+            - CRON
+            - Predecessor
+          isRequired: true
+
+        - displayName: Enter task schedule using minutes
+          attributeName: schedulePeriod
+          type: textBox
+          default: "60"
+          isRequired: false
+          enableIf: "{% if config.schedulePeriodOption == 'Minutes' %} true {% else %} false {% endif %}"
+
+        - displayName: Enter task schedule using CRON
+          attributeName: scheduleCRON
+          type: textBox
+          default: "5 0-23 * * * America/Los_Angeles"
+          isRequired: false
+          enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
+
+        - displayName: Enter predecessor task(s) separated by a comma
+          attributeName: predTask
+          type: textBox
+          default: "DATA_TRANSFORMATION_ROOT_TASK"
+          isRequired: false
+          enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+        - displayName: Enter root task name
+          attributeName: rootTask
+          type: textBox
+          default: "DATA_TRANSFORMATION_ROOT_TASK"
+          isRequired: false
+          enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+    - groupName: Copy Options
+      items:
+
+      - displayName: On Error Behavior
+        attributeName: onError
+        type: dropdownSelector
+        options:
+        - "CONTINUE"
+        - "SKIP_FILE"
+        - "SKIP_FILE_<num>"
+        - "SKIP_FILE_<num>%"
+        - "ABORT_STATEMENT"
+        isRequired: false
+
+      - displayName: Specify the number of errors that can be skipped
+        attributeName: errornumber
+        type: textBox
+        enableIf: "{% if config.onError in('SKIP_FILE_<num>','SKIP_FILE_<num>%') or config.onError1 in('SKIP_FILE_<num>','SKIP_FILE_<num>%') %} true {% else %} false {% endif %}"
+        isRequired: false
+
+      - displayName: Size Limit
+        attributeName: sizeLimit
+        type: textBox
+        isRequired: false
+
+      - displayName: Purge Behavior
+        attributeName: purgeBehavior
+        type: dropdownSelector
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+        
+      - displayName: Return Failed Only
+        attributeName: returnFailedOnly
+        type: dropdownSelector
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+
+      - displayName: Enforce Length
+        attributeName: enforceLength
+        type: dropdownSelector
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+
+      - displayName: Truncate Columns
+        attributeName: truncateColumns
+        type: dropdownSelector
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+
+      - displayName: Force
+        attributeName: forceLoad
+        type: dropdownSelector
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+        enableIf: "{% if parameters.loadType != 'Reload'  %} true {% else %} false {% endif %}"
+
+      - displayName: Load Uncertain Files
+        attributeName: loadUncertainFiles
+        type: dropdownSelector
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+
+      
+        
+
+
+    systemColumns:
+
+    - displayName: SRC
+      transform: '$1'
+      dataType: STRING
+      placement: end
+      attributeName: sysJSON
+
+    - displayName: LOAD_TIMESTAMP
+      transform: 'current_timestamp()::timestamp_ntz'
+      dataType: TIMESTAMP_NTZ
+      placement: end
+      attributeName: sysLdTs
+
+    - displayName: FILENAME
+      transform: 'METADATA$FILENAME'
+      dataType: STRING
+      placement: end
+      attributeName: sysFlNm
+
+    - displayName: FILE_ROW_NUMBER
+      transform: 'METADATA$FILE_ROW_NUMBER'
+      dataType: BIGINT
+      placement: end
+      attributeName: sysFlRwNm
+
+    - displayName: FILE_LAST_MODIFIED
+      transform: 'METADATA$FILE_LAST_MODIFIED'
+      dataType: TIMESTAMP_NTZ
+      placement: end
+      attributeName: sysFlLtMd
+
+    - displayName: SCAN_TIME
+      transform: 'METADATA$START_SCAN_TIME'
+      dataType: TIMESTAMP_NTZ
+      placement: end
+      attributeName: sysFlScTm
+name: Copy of Copy Into Snowflake Iceberg Table with Task
+type: NodeType

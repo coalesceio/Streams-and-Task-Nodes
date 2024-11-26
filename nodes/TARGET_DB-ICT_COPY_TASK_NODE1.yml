@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
-name: ICT_COPY_TASK_NODE
+id: 5b2a45a1-d268-42a0-bca8-d252b39b9be1
+name: ICT_COPY_TASK_NODE1
 operation:
   config:
     basename: baseloc
@@ -73,8 +73,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 0b1661a7-04dd-41d5-8ecf-3c63e2545603
-          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+          columnCounter: 871c686a-66af-435f-8c21-efc21244f15d
+          stepCounter: 5b2a45a1-d268-42a0-bca8-d252b39b9be1
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -90,8 +90,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c77c63fe-6567-49fb-bb10-23ff08523138
-          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+          columnCounter: 1e54d719-4265-4dc1-8d26-ba492d5bbfa3
+          stepCounter: 5b2a45a1-d268-42a0-bca8-d252b39b9be1
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -107,8 +107,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: ab44e9a9-baa5-46ed-a9e8-4c21f839a8b9
-          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+          columnCounter: 24512c43-0b68-4096-b170-dd107308dc0c
+          stepCounter: 5b2a45a1-d268-42a0-bca8-d252b39b9be1
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -124,8 +124,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 9168b585-af03-4129-a2ef-6827c1c10a0c
-          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+          columnCounter: 8f13f12b-6b50-42a7-b60a-a15abcfc4ea9
+          stepCounter: 5b2a45a1-d268-42a0-bca8-d252b39b9be1
         config: {}
         dataType: BIGINT
         defaultValue: ""
@@ -141,8 +141,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a3153068-db94-42ba-bfb7-fbfddc81ccd0
-          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+          columnCounter: 6bd76dff-e3b0-4ef8-9a52-f1bc0bc477fa
+          stepCounter: 5b2a45a1-d268-42a0-bca8-d252b39b9be1
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -158,8 +158,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 76da8eaa-0a37-4005-a15f-32c35ec07571
-          stepCounter: 9c85375e-d3bc-4d4d-bba7-3d2a125992da
+          columnCounter: 6ec27cbb-2fbf-4383-a12d-0cf3d017d3b9
+          stepCounter: 5b2a45a1-d268-42a0-bca8-d252b39b9be1
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -179,9 +179,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: ICT_COPY_TASK_NODE
+        name: ICT_COPY_TASK_NODE1
         noLinkRefs: []
-  name: ICT_COPY_TASK_NODE
+  name: ICT_COPY_TASK_NODE1
   overrideSQL: false
   schema: ""
   sqlType: "379"
