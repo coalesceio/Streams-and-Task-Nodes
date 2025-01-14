@@ -5,7 +5,7 @@ operation:
   config:
     appendOnly: false
     initialRows: true
-    redeploymentBehavior: Create or Replace
+    redeploymentBehavior: Create If Not Exists
     sourceType: Dynamic Table
   database: ""
   deployEnabled: true
