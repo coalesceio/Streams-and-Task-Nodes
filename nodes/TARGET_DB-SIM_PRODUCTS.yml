@@ -1,0 +1,122 @@
+fileVersion: 1
+id: de4d1706-6a90-4e43-beb5-981ee71cd2de
+name: SIM_PRODUCTS
+operation:
+  config:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Dynamic Table
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dee568e7-c2bc-4b6c-a53d-ec0e4f952cd9
+          stepCounter: de4d1706-6a90-4e43-beb5-981ee71cd2de
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 301f082f-517c-4d05-afb0-50a0793da571
+                stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8c2d0ff6-7299-456e-93f3-410a70cc70e6
+          stepCounter: de4d1706-6a90-4e43-beb5-981ee71cd2de
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 469b3c94-d47d-4f17-8253-f3bc9c8087fe
+                stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1abb67dd-466a-4efc-a50c-e9491221c940
+          stepCounter: de4d1706-6a90-4e43-beb5-981ee71cd2de
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c69e95d3-2916-47d7-b6ee-0826970631b7
+                stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 25b6ff70-1878-406e-bdb0-2966ed073b9a
+          stepCounter: de4d1706-6a90-4e43-beb5-981ee71cd2de
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c58cda3e-d63d-4ce3-9d73-8656a569f840
+                stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: DT_WRK_PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_PRODUCTS') }} "DT_WRK_PRODUCTS"
+        name: SIM_PRODUCTS
+        noLinkRefs: []
+  name: SIM_PRODUCTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node

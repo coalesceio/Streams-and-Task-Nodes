@@ -40,6 +40,9 @@ does not permit copying or modification for any other purpose.
     {% elif desiredState.config.sourceType == 'Directory Table' %} 
         {% set streamType = 'STAGE' %}
         {% set streamSourceObjectName = desiredState.config.stageName %}
+    {% elif desiredState.config.sourceType == 'Dynamic Table' %} 
+        {% set streamType = 'DYNAMIC TABLE' %}
+        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
     {% else %} 
         {% set streamType = 'VIEW' %}
         {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
@@ -57,7 +60,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
 
     {# Stream Initial Row Behavior #}
-    {% if (streamType == 'TABLE' and desiredState.config.sourceType != 'External Iceberg Table') or streamType == 'VIEW' %} 
+    {% if (streamType == 'TABLE' and desiredState.config.sourceType != 'External Iceberg Table') or streamType == 'VIEW' or streamType == 'DYNAMIC TABLE' %} 
         {% if desiredState.config.initialRows == true %} 
             {% set streamInitialRowsMode = 'SHOW_INITIAL_ROWS = TRUE' %}
         {% else %} 
