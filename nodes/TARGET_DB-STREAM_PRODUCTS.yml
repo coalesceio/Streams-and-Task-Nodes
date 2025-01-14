@@ -8,7 +8,7 @@ operation:
     redeploymentBehavior: Create At Existing Stream
     sourceType: Dynamic Table
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB
