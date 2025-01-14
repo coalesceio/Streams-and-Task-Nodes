@@ -21,6 +21,7 @@ metadata:
         default: Table
         options:
           - Table
+          - Dynamic Table
           - External Table
           - External Iceberg Table
           - View
@@ -38,7 +39,7 @@ metadata:
         type: toggleButton
         default: true
         isRequired: true
-        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'Dynamic Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
 
       - displayName: Redeployment Behavior
         attributeName: redeploymentBehavior
