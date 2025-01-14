@@ -1,5 +1,5 @@
 fileVersion: 1
-id: ac269469-42f3-423f-b0b4-fcd5ee34669d
+id: 75454b14-6d0c-4ed1-8bae-9072c6433124
 name: DT_WRK_PRODUCTS
 operation:
   config:
@@ -25,7 +25,7 @@ operation:
     selectDistinct: false
     warehouseName: dev_wh_xs
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
@@ -35,8 +35,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 301f082f-517c-4d05-afb0-50a0793da571
-          stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+          columnCounter: e563a982-0a47-43cc-8780-9cb769e1938a
+          stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -49,8 +49,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 469b3c94-d47d-4f17-8253-f3bc9c8087fe
-          stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+          columnCounter: 480973f6-4b69-4e27-9231-da9fdfe11e69
+          stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -63,8 +63,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c69e95d3-2916-47d7-b6ee-0826970631b7
-          stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+          columnCounter: 919d2923-0cac-412b-b9f9-ba02fe869956
+          stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -77,8 +77,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c58cda3e-d63d-4ce3-9d73-8656a569f840
-          stepCounter: ac269469-42f3-423f-b0b4-fcd5ee34669d
+          columnCounter: 30e42460-6656-424d-9c72-f0bb701702be
+          stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
         config: {}
         dataType: VARCHAR(50)
         description: ""
