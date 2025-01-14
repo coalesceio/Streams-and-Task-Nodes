@@ -13,7 +13,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: true
+    devMode: false
     flagSrcStream: true
     groupByAll: false
     initialRows: true
@@ -29,8 +29,8 @@ operation:
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
-    schedulingMode: Warehouse Task
+    schedulePeriodOption: Minutes
+    schedulingMode: Serverless Task
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Dynamic Table
