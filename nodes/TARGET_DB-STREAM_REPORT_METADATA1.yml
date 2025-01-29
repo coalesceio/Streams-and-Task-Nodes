@@ -1,0 +1,277 @@
+fileVersion: 1
+id: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+name: STREAM_REPORT_METADATA1
+operation:
+  config:
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create At Existing Stream
+    sourceType: Directory Table
+    stageName: mystage
+    storageLocation: POONAMM_DEV.EDW_QA.
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: stream
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a78e73e6-8d6b-403c-ba6e-865c49ab6a83
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: FILE_URL
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 81723ef1-1464-49f9-8fa4-31977d5b6be5
+                stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 77b2bad8-4c3b-4ebb-861c-68b907ceac37
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: AUTHOR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 276da6e5-c5e7-4cd6-a226-abd3184290de
+                stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 025bc0ec-5280-4ae5-ae1d-859e07932074
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: DATE
+        description: ""
+        name: PUBLISH_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 59eab697-3808-404f-b10a-199f0feb8c67
+                stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 60e74bb7-1a34-40a0-9779-b208a149a251
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: DATE
+        description: ""
+        name: APPROVED_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 98070044-6cf2-419d-a910-75fbb671251a
+                stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 57c1dccb-9750-4885-8abb-038d6ab80ff8
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d7631cb-809a-409d-8919-c41aaef21dc6
+                stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7f6c267c-15eb-428b-985c-5c5349eef6d5
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: NUM_OF_PAGES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 824e6faf-b9f8-4cc0-a376-ef3cd1cf2bfd
+                stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e4bcf138-7e3f-4b39-85a3-19b79848d06f
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: RELATIVE_PATH
+        nullable: true
+        relativePath: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f8e50e3d-3575-443c-9960-7384a4c1a6d0
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SIZE
+        nullable: true
+        size: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ec69adc-9afb-4608-b99a-5008ba1339ea
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: TIMESTAMP_TZ(3)
+        defaultValue: ""
+        description: ""
+        lastModified: true
+        name: LAST_MODIFIED
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b5881d0c-9644-44c5-b99e-c6e6cb682c86
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        md5: true
+        name: MD5
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 54028231-8d46-4456-928f-40dd11d1a331
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        etag: true
+        name: ETAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 88f38f2c-b1f3-42dc-8066-b9b6c0f5ff2e
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        fileUrl: true
+        name: FILE_URL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: de52f769-7980-4dd1-bb8a-335b421978c8
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: ""
+        metadataAction: true
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8d640fc9-c111-44dd-ac17-5c9cdfca42bb
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        metadataIsUpdate: true
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ad8601c1-e665-404f-becf-19155cbf0354
+          stepCounter: 2d71a8e7-b5f9-4b8b-a309-15dcdb1e5215
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: ""
+        metadataRowID: true
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: COALESCE_LOC
+            nodeName: REPORT_METADATA
+        join:
+          joinCondition: FROM {{ ref('COALESCE_LOC', 'REPORT_METADATA') }} "REPORT_METADATA"
+        name: STREAM_REPORT_METADATA1
+        noLinkRefs: []
+  name: STREAM_REPORT_METADATA1
+  overrideSQL: false
+  schema: ""
+  sqlType: "428"
+  type: sql
+  version: 1
+type: Node

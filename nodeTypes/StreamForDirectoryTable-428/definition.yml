@@ -1,0 +1,129 @@
+fileVersion: 1
+id: "428"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Stream For Directory Table
+    short: STREAM
+    tagColor: "#808B96"
+    plural: Streams
+
+    deployStrategy: advanced
+
+    config:
+    - groupName: Stream Options
+      items:
+      - displayName: Source Object
+        attributeName: sourceType
+        type: dropdownSelector
+        default: Directory Table
+        options:
+          - Directory Table
+          - Table
+          - Dynamic Table
+          - External Table
+          - External Iceberg Table
+          - View
+        isRequired: true
+      - displayName: Storage Location
+        attributeName: storageLocation
+        type: textBox
+        default: ''
+        isRequired: false
+      - displayName: Stage Name
+        attributeName: stageName
+        type: textBox
+        default: ''
+        isRequired: false
+      - displayName: Append Only Stream
+        attributeName: appendOnly
+        type: toggleButton
+        default: false
+        isRequired: true
+        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
+
+      - displayName: Show Initial Rows
+        attributeName: initialRows
+        type: toggleButton
+        default: true
+        isRequired: true
+        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'Dynamic Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
+
+      - displayName: Redeployment Behavior
+        attributeName: redeploymentBehavior
+        type: dropdownSelector
+        default: Create At Existing Stream
+        options:
+          - Create or Replace
+          - Create If Not Exists
+          - Create At Existing Stream
+        isRequired: true
+
+    - groupName: Hidden Config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: stream
+        options:
+        - stream
+        isRequired: false
+
+    systemColumns:
+    - displayName: RELATIVE_PATH
+      transform: ''
+      dataType: VARCHAR(16777216)
+      placement: end
+      attributeName: relativePath
+      
+    - displayName: SIZE
+      transform: ''
+      dataType: NUMBER(38,0)
+      placement: end
+      attributeName: size
+      
+    - displayName: LAST_MODIFIED
+      transform: ''
+      dataType: TIMESTAMP_TZ(3)
+      placement: end
+      attributeName: lastModified
+      
+    - displayName: MD5
+      transform: ''
+      dataType: VARCHAR(16777216)
+      placement: end
+      attributeName: md5
+      
+    - displayName: ETAG
+      transform: ''
+      dataType: VARCHAR(16777216)
+      placement: end
+      attributeName: etag
+      
+    - displayName: FILE_URL
+      transform: ''
+      dataType: VARCHAR(16777216)
+      placement: end
+      attributeName: fileUrl
+      
+    - displayName: METADATA$ACTION
+      transform: ''
+      dataType: VARCHAR(1)
+      placement: end
+      attributeName: metadataAction
+      
+    - displayName: METADATA$ISUPDATE
+      transform: ''
+      dataType: BOOLEAN
+      placement: end
+      attributeName: metadataIsUpdate
+
+    - displayName: METADATA$ROW_ID
+      transform: ''
+      dataType: VARCHAR(1)
+      placement: end
+      attributeName: metadataRowID
+name: Stream For Directory Table
+type: NodeType

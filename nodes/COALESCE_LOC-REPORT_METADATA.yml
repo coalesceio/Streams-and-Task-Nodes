@@ -1,0 +1,134 @@
+fileVersion: 1
+id: e8ba2763-ff34-423c-8dcf-e6cf05665919
+name: REPORT_METADATA
+operation:
+  database: ""
+  dataset: ""
+  deployEnabled: true
+  description: ""
+  locationName: COALESCE_LOC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 81723ef1-1464-49f9-8fa4-31977d5b6be5
+          stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: FILE_URL
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 276da6e5-c5e7-4cd6-a226-abd3184290de
+          stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: AUTHOR
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59eab697-3808-404f-b10a-199f0feb8c67
+          stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+        config: {}
+        dataType: DATE
+        defaultValue: ""
+        description: ""
+        name: PUBLISH_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 98070044-6cf2-419d-a910-75fbb671251a
+          stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+        config: {}
+        dataType: DATE
+        defaultValue: ""
+        description: ""
+        name: APPROVED_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3d7631cb-809a-409d-8919-c41aaef21dc6
+          stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: GEOGRAPHY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 824e6faf-b9f8-4cc0-a376-ef3cd1cf2bfd
+          stepCounter: e8ba2763-ff34-423c-8dcf-e6cf05665919
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: NUM_OF_PAGES
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    join:
+      joinCondition: FROM {{ ref('COALESCE_LOC', 'REPORT_METADATA') }}
+  name: REPORT_METADATA
+  schema: ""
+  sqlType: Source
+  table: REPORT_METADATA
+  type: sourceInput
+  version: 1
+type: Node

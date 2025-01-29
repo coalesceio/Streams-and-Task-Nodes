@@ -1,0 +1,131 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Stream == #}
+{# == Node Type Description    : This node creates and deploys a stream on top of a table, view or external table.
+== #}
+{#Release date:20250114  Released By:PM  Description: Added support for Dynamic Table as a source #}
+{% if desiredState %}
+
+    {# Source Object Location and Name #}
+    {% set sourceStorageLocation = desiredState.sources[0].dependencies[0].node.location.name %}
+    {% set sourceDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='database') | first %}
+    {% set sourceSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='schema') | first %}
+    {% set sourceTableName = desiredState.sources[0].dependencies[0].node.name %}
+    {% set fullyQualifiedSourceTableName = '"' + sourceDatabaseName + '"."' + sourceSchemaName + '"."' + sourceTableName + '"' %}
+    {% set refLink = "{{ ref('" + sourceStorageLocation + "', '" + sourceTableName + "') }}" %}
+	{% set stageStorageLocation =  desiredState.config.storageLocation | string %}
+	{% set stageNameVar =  desiredState.config.stageName | string %}
+	{% if desiredState.config.sourceType == 'Directory Table' %} 
+    {% set refLink = stageStorageLocation + stageNameVar  %}
+	{% endif %}
+	
+    {# Target Stream Location and Name #}
+    {% set streamTargetLocationName = desiredState.node.location.name %}
+    {% set streamTargetDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
+    {% set streamTargetSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
+    {% set streamName = desiredState.node.name %}
+    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
+    {# Stream Type #}
+    {% if desiredState.config.sourceType == 'Table' %} 
+        {% set streamType = 'TABLE' %}
+        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
+    {% elif desiredState.config.sourceType == 'External Table' %} 
+        {% set streamType = 'EXTERNAL TABLE' %}
+        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
+    {% elif desiredState.config.sourceType == 'External Iceberg Table' %} 
+        {% set streamType = 'TABLE' %}
+        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
+    {% elif desiredState.config.sourceType == 'Directory Table' %} 
+        {% set streamType = 'STAGE' %}
+        {% set streamSourceObjectName = desiredState.config.stageName %}
+    {% elif desiredState.config.sourceType == 'Dynamic Table' %} 
+        {% set streamType = 'DYNAMIC TABLE' %}
+        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
+    {% else %} 
+        {% set streamType = 'VIEW' %}
+        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
+    {% endif %}
+
+    {# Stream Append Behavior #}
+    {% if (streamType == 'TABLE' and desiredState.config.sourceType != 'External Iceberg Table') or streamType == 'VIEW' %} 
+        {% if desiredState.config.appendOnly == true %} 
+            {% set streamAppendMode = 'APPEND_ONLY = TRUE' %}
+        {% else %} 
+            {% set streamAppendMode = 'APPEND_ONLY = FALSE' %}
+        {% endif %}
+    {% else %}
+        {% set streamAppendMode = '' %}
+    {% endif %}
+
+    {# Stream Initial Row Behavior #}
+    {% if (streamType == 'TABLE' and desiredState.config.sourceType != 'External Iceberg Table') or streamType == 'VIEW' or streamType == 'DYNAMIC TABLE' %} 
+        {% if desiredState.config.initialRows == true %} 
+            {% set streamInitialRowsMode = 'SHOW_INITIAL_ROWS = TRUE' %}
+        {% else %} 
+            {% set streamInitialRowsMode = 'SHOW_INITIAL_ROWS = FALSE' %}
+        {% endif %}
+    {% else %}
+        {% set streamInitialRowsMode = '' %}
+    {% endif %}
+
+    {# Stream Insert Only Behavior #}
+    {% if streamType == 'EXTERNAL TABLE' or desiredState.config.sourceType == 'External Iceberg Table' %}      
+            {% set streamInsertOnlyMode = 'INSERT_ONLY = TRUE' %}
+    {% else %}
+        {% set streamInsertOnlyMode = '' %}
+    {% endif %}
+{% endif %}
+
+{# Create Stream first #}
+{% if desiredState or desiredState == currentState %}
+
+    {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
+        {{ stage('Create Stream', true, "sql", "alter") }}
+        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+            ON {{ streamType }} {{ refLink }}
+
+    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
+        {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
+        CREATE STREAM IF NOT EXISTS {{ fullyQualifiedStreamName }}
+            ON {{ streamType }} {{ refLink }}
+            {{ streamAppendMode }}
+
+
+    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
+        {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
+        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+            ON {{ streamType }} {{ refLink }}
+
+
+    {% else %}
+        {{ stage('Unknown state.', true, "sql", "alter") }}
+        select 1 = 0
+    {% endif %}
+
+
+{% elif desiredState == undefined and currentState.storageLocations | length > 0 %}
+
+    {# Source Stream Location and Name #}
+    {% set streamTargetLocationName = currentState.node.location.name %}
+    {% set streamTargetDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
+    {% set streamTargetSchemaName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
+    {% set streamName = currentState.node.name %}
+    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
+    {{ stage('Drop Stream', true, "sql", "drop") }}
+    DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
+
+{%- else -%}
+
+    {{ stage('Unknown state.  Nothing to do.') }}
+    select 1 = 0
+
+{% endif %}
+
