@@ -6,7 +6,7 @@
     {% endfor %}
 	{% set stageStorageLocation =  config.storageLocation | string %}
 	{% set stageNameVar =  config.stageName | string %}
-	{% set refLink = stageStorageLocation + stageNameVar  %}
+	{% set refLink = "{{ ref_no_link('" + stageStorageLocation + "', '" + stageNameVar + "') }}" %}
 		{{ stage('Refresh Stage') }}
 		ALTER STAGE {{refLink}} REFRESH
 		{{ stage('View Directory Table') }}

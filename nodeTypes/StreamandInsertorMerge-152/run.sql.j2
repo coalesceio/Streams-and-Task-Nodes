@@ -30,7 +30,17 @@ does not permit copying or modification for any other purpose.
 
     {% set tableColumnIds = columns | map(attribute='id') | list %}
     {% set tableColumnNames = columns | map(attribute='name') | list %}
-
+    {% set ret_clause = get_clause( sources[0].join ).lstrip()%}
+    {% set upper_query = ret_clause | upper %}
+    {% if 'ORDER BY' in upper_query %}
+	   {% set index = upper_query.find('ORDER BY') %}
+	   {% set before_order_by = ret_clause[:index] %}
+	   {% set after_order_by = ret_clause[index:]%}
+       {% set ret_clause = before_order_by  %}
+    {% else %}
+       {% set before_order_by = ret_clause %}
+       {% set after_order_by = '' %}
+    {% endif %}
     {# Merge partition by and order by #}
     {%- if config.loadType == 'Merge' -%} 
         {% set tableColumnNamesUpdate = tableColumnNames | reject('in', config.partitionBy.get('items') | map(attribute='partColName.name')) | list %}
@@ -93,33 +103,56 @@ does not permit copying or modification for any other purpose.
             INSERT INTO {{ fullyQualifiedTargetTableName }}
             SELECT  {% if config.selectDistinct %} DISTINCT {% endif %}
                     {% for id in tableColumnIds %}
-                    {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+
                     {% set columnTransformation = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
                     {%- if columnTransformation == "" -%}
+                    {% set col =  sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+                    {{ columnTransformation  }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
             FROM {{ fullyQualifiedStreamName }}
-            {% if config.groupByAll %}GROUP BY ALL{% endif %}
+			{% if config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
+			{% if ret_clause|trim !='' %}
+			{{ret_clause}}
+			{% endif %}
+			{%- else -%}
+			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{{join_clause}}
+			{% endif %}            
+			{% if config.groupByAll %}GROUP BY ALL{% endif %}
+			{{after_order_by}}
             {% else -%}
             MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
             -- Select Statement Preparing Data for Merge
             (SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
                     {% for id in tableColumnIds %}
-                    {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+
                     {% set columnTransformation = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
                     {%- if columnTransformation == "" -%}
+                    {% set col =  sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+                    {{ columnTransformation }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
             FROM {{ fullyQualifiedStreamName }}
-            {% if config.groupByAll %}GROUP BY ALL{% endif %}
-            QUALIFY {{ nsVariables.rowNumber }} = 1) src
-             
+			{% if config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
+			{% if ret_clause|trim !='' %}
+			{{ret_clause}}
+			{% endif %}
+			{%- else -%}
+			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{{join_clause}}
+			{% endif %}           
+			{% if config.groupByAll %}GROUP BY ALL{% endif %}
+            QUALIFY {{ nsVariables.rowNumber }} = 1
+			{{after_order_by}}
+			) src
+           
             -- Join Condition
             ON {% for col in nsVariables.tableKey -%}
                 src."{{ col }}" = tgt."{{ col }}"

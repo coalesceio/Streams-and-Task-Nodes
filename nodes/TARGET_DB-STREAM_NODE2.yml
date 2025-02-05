@@ -1,10 +1,8 @@
 fileVersion: 1
-id: 25f45388-2183-4dae-b176-d8d363f6f08c
-name: STREAM_NODE
+id: 9a5222de-8615-4410-b057-ee722c1865f8
+name: STREAM_NODE2
 operation:
   config:
-    appendOnly: false
-    initialRows: true
     redeploymentBehavior: Create At Existing Stream
     sourceType: Directory Table
     stageName: MYSTAGE
@@ -23,8 +21,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6e714af0-12b7-48ad-b654-402d87d6173b
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: edf19171-a36c-46b2-9069-ff7f2848d08b
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: VARCHAR(16777216)
         defaultValue: ""
@@ -40,8 +38,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 566b9e0d-6d39-4ee2-92d8-798333386320
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: 1cab046f-5026-4dfd-80f3-a740c71aaf2f
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -57,8 +55,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 5e63c635-3b03-44d7-a2b5-3b97cc3a4181
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: 72338d19-c678-472f-9342-d74129dab83c
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: TIMESTAMP_TZ(3)
         defaultValue: ""
@@ -74,8 +72,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: cc369e42-e1fd-449f-acda-bc66861a40de
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: fa3c7156-8645-40a1-9d60-63eecbe55eb6
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: VARCHAR(16777216)
         defaultValue: ""
@@ -91,8 +89,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b08174a6-1cbd-4645-921b-e603b3a51e3a
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: a041ad93-4d9b-43b8-81c1-8ed392aee59e
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: VARCHAR(16777216)
         defaultValue: ""
@@ -108,8 +106,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: f010de5b-47a5-4a15-8bbd-d1f67114fb69
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: 3a519b66-8f51-4ad0-9986-5b32038220c1
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: VARCHAR(16777216)
         defaultValue: ""
@@ -125,8 +123,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a0ae0543-32eb-41f3-9958-c835c60ffa69
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: af1b97e6-6e1a-4199-9dc3-cb0c702948cb
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: VARCHAR(1)
         defaultValue: ""
@@ -142,8 +140,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a4f1929e-6896-497b-bdc0-59f0b5ec90b1
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: 4e08cb53-093b-45ac-9605-2ac281daaa79
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: BOOLEAN
         defaultValue: ""
@@ -159,8 +157,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 26179d36-3f12-4b89-aaf0-dcc8191f60a7
-          stepCounter: 25f45388-2183-4dae-b176-d8d363f6f08c
+          columnCounter: add54f50-3d76-41ab-9808-7f94719f5f84
+          stepCounter: 9a5222de-8615-4410-b057-ee722c1865f8
         config: {}
         dataType: VARCHAR(1)
         defaultValue: ""
@@ -179,13 +177,12 @@ operation:
           customSQL: ""
         dependencies: []
         join:
-          joinCondition: |-
+          joinCondition: |+
 
 
-            FROM "POONAMM_DEV"."EDW_QA"."MYSTAGE"
-        name: STREAM_NODE
+        name: STREAM_NODE2
         noLinkRefs: []
-  name: STREAM_NODE
+  name: STREAM_NODE2
   overrideSQL: false
   schema: ""
   sqlType: "428"

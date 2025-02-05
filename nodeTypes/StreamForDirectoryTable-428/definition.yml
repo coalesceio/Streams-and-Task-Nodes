@@ -4,7 +4,7 @@ isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
-  nodeMetadataSpec: |-
+  nodeMetadataSpec: |
     capitalized: Stream For Directory Table
     short: STREAM
     tagColor: "#808B96"
@@ -21,35 +21,18 @@ metadata:
         default: Directory Table
         options:
           - Directory Table
-          - Table
-          - Dynamic Table
-          - External Table
-          - External Iceberg Table
-          - View
         isRequired: true
       - displayName: Storage Location
         attributeName: storageLocation
         type: textBox
         default: ''
         isRequired: false
+
       - displayName: Stage Name
         attributeName: stageName
         type: textBox
         default: ''
         isRequired: false
-      - displayName: Append Only Stream
-        attributeName: appendOnly
-        type: toggleButton
-        default: false
-        isRequired: true
-        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
-
-      - displayName: Show Initial Rows
-        attributeName: initialRows
-        type: toggleButton
-        default: true
-        isRequired: true
-        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'Dynamic Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
 
       - displayName: Redeployment Behavior
         attributeName: redeploymentBehavior
@@ -125,5 +108,10 @@ metadata:
       dataType: VARCHAR(1)
       placement: end
       attributeName: metadataRowID
+
+    joinTemplate: |
+      {%- if config.stageName | length > 0 -%}
+             FROM {{ref_no_link(config.storageLocation, config.stageName)}}
+      {%- endif -%}
 name: Stream For Directory Table
 type: NodeType
