@@ -10,7 +10,7 @@ operation:
     stageName: MYSTAGE
     storageLocation: COALESCE_LOC
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB

@@ -10,7 +10,7 @@ operation:
     stageName: mystage
     storageLocation: POONAMM_DEV.EDW_QA.
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB
