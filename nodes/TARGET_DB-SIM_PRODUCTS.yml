@@ -33,10 +33,10 @@ operation:
             stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: true
-    redeploymentBehavior: Create or Replace
+    redeploymentBehavior: Create If Not Exists
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
-    schedulePeriod: "60"
+    schedulePeriod: "65"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
