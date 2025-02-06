@@ -4,10 +4,12 @@ name: SIM_PRODUCTS
 operation:
   config:
     appendOnly: false
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 10f57094-e437-483e-8c63-b614add1cb9a
+            stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -31,7 +33,7 @@ operation:
             stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: true
-    redeploymentBehavior: Create At Existing Stream
+    redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
@@ -76,20 +78,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: edea307a-9ea0-48a7-84e9-c4eed0c86d8e
-                stepCounter: e7404fca-4d69-4c0e-a643-4508b4cade01
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 42450f6d-8567-4e44-b8e3-20fff8ce9342
-          stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
-        config: {}
-        dataType: VARCHAR(100)
-        description: ""
-        name: BRAND
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 054f89a3-591e-426e-a92a-eeedcd5e88c6
                 stepCounter: e7404fca-4d69-4c0e-a643-4508b4cade01
             transform: ""
       - appliedColumnTests: {}
