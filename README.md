@@ -10,7 +10,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Task DAG Resume Root](#task-dag-resume-root)
 * [Stream](#stream)
 * [Stream and Insert or Merge](#stream-and-insert-or-merge)
-
+* [Stream for Directory Table](#stream-for-directory-table)
 ---
 
 ## Work with Task
@@ -912,6 +912,84 @@ When node is deleted, the following stages execute:
 
 ---
 
+## Stream for Directory Table
+
+The Coalesce Stream for Directory Table Node Type is a node that allows you to develop and deploy a stream on top of a directory table
+
+More information about Streams can be found in the official [Snowflake Introduction to Streams](https://docs.snowflake.com/en/user-guide/streams-intro).
+
+### Stream for Directory Table Node Configuration
+
+The Stream has two configuration groups:
+
+* [Node Properties](#stream-node-properties)
+* [Stream Options](#stream-options)
+
+#### Stream Node Properties
+
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+
+#### Stream Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Source Object** | Type of object for stream creation:<br/>**Directory Table**<br/>**Storage Location**: <br/> Storage location of the stage for which directory table is enabled <br/>**Stage Name**: Stage name of the directory table.<br/>**Redeployment Behavior**: Options for redeployment<br/>
+
+### Stream for Directory Table System Columns
+
+A Stream for Directory Table adds nine system columns to the output of the node. These columns can be used together to track INSERT, UPDATE and DELETE operations against a source object.
+
+| **Column** | **Description** |
+|------------|----------------|
+| **RELATIVE_PATH** | The relative path of the file within the stage.
+| **SIZE** | The file size in bytes.
+| **LAST_MODIFIED** | The timestamp of the last modification of the file.
+| **MD5** | The MD5 hash of the file content for integrity verification.
+| **ETAG** | The entity tag (ETag) used for cache validation and versioning.
+| **FILE_URL** | The full URL of the file in the stage.
+| **METADATA$ACTION** | Indicates the DML operation (INSERT, DELETE) recorded |
+| **METADATA$ISUPDATE** | Indicates whether the operation was part of an UPDATE statement. Updates to rows in the source object are represented as a pair of DELETE and INSERT records in the stream with a metadata column METADATA$ISUPDATE values set to TRUE.|
+| **METADATA$ROW_ID** | Specifies the unique and immutable ID for the row, used to track changes over time |
+
+### Stream for Directory Table Deployment
+
+#### Stream for Directory Table Deployment Parameters
+
+No deployment parameters are required.
+
+#### Stream for Directory Table Initial Deployment
+
+When deployed for the first time into an environment the Stream node executes:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Stream** | Executes a CREATE OR REPLACE statement to create a Stream in the target environment |
+
+#### Stream for Directory Table Redeployment
+
+After initial deployment, subsequent deployments will create a new stream based on the selected redeployment behavior:
+
+| **Redeployment Behavior** | **Stage Executed** |
+|--------------------------|-------------------|
+| Create Stream if not exists | Re-Create Stream at existing offset |
+| Create or Replace | Create Stream |
+| Create at existing stream | Re-Create Stream at existing offset |
+
+### Stream for Directory Table Undeployment
+
+When a Stream Node is deleted from a Workspace and that commit is deployed, the following stage executes:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Stream** | Removes the stream from the target environment |
+
+---
+
 ## Iceberg Tables With Task
 
 The Iceberg Tables with Task node is an external Iceberg table node wrapped with task functionality.
@@ -1113,5 +1191,11 @@ If a task is part of a DAG of tasks, the DAG needs to include a node type called
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/StreamandInsertorMerge-152/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/StreamandInsertorMerge-152/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/StreamandInsertorMerge-152/run.sql.j2)
+
+### Stream for Directory Table
+
+* [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/definition.yml)
+* [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/create.sql.j2)
+* [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/run.sql.j2)
 
 [Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
