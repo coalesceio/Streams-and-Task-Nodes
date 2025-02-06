@@ -71,7 +71,13 @@ metadata:
         isRequired: true
         enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'Dynamic Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
      
-     
+      - displayName: Propagate Deletes
+        attributeName: propagateDeletes
+        type: toggleButton
+        default: false
+        isRequired: true
+        enableIf: "{% if config.sourceType == 'Table'  or config.sourceType == 'View' %} true {% else %} false {% endif %}"
+
       - displayName: Redeployment Behavior
         attributeName: redeploymentBehavior
         type: dropdownSelector
