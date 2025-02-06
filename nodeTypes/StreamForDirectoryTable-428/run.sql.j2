@@ -1,0 +1,29 @@
+{% for test in node.tests if config.testsEnabled %}
+        {% if test.runOrder == 'Before' %}
+            {{ test_stage(test.name, test.continueOnFailure) }}
+            {{ test.templateString }}
+        {% endif %}
+    {% endfor %}
+	{% set stageStorageLocation =  config.storageLocation | string %}
+	{% set stageNameVar =  config.stageName | string %}
+	{% set refLink = "{{ ref_no_link('" + stageStorageLocation + "', '" + stageNameVar + "') }}" %}
+		{{ stage('Refresh Stage') }}
+		ALTER STAGE {{refLink}} REFRESH
+		{{ stage('View Directory Table') }}
+        SELECT * FROM DIRECTORY(  @{{refLink}}  )
+
+{% if config.testsEnabled %}
+	{% for test in node.tests %}
+		{% if test.runOrder == 'After' %}
+			{{ test_stage(test.name, test.continueOnFailure) }}
+			{{ test.templateString }}
+        {% endif %}
+	{% endfor %}
+
+	{% for column in columns %}
+		{% for test in column.tests %}
+			{{ test_stage(column.name + ": " + test.name) }}
+			{{ test.templateString }}
+		{% endfor %}
+	{% endfor %}
+{% endif %}

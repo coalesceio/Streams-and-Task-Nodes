@@ -1,0 +1,80 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Stream == #}
+{# == Node Type Description    : This node creates and deploys a stream for directory table == #}
+{#Release date:20250114  Released By:PM  Description: Initial Release #}
+
+{% if desiredState %}
+
+    {# Source Object Location and Name #}
+	{% set stageStorageLocation =  desiredState.config.storageLocation | string %}
+	{% set stageNameVar =  desiredState.config.stageName | string %}
+    {% set refLink = "{{ ref_no_link('" + stageStorageLocation + "', '" + stageNameVar + "') }}" %}
+
+	
+    {# Target Stream Location and Name #}
+    {% set streamTargetLocationName = desiredState.node.location.name %}
+    {% set streamTargetDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
+    {% set streamTargetSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
+    {% set streamName = desiredState.node.name %}
+    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
+    {# Stream Type #}
+    {% if  desiredState.config.sourceType == 'Directory Table' %} 
+        {% set streamType = 'STAGE' %}
+        {% set streamSourceObjectName = desiredState.config.stageName %}
+    {% endif %}
+
+{% endif %}
+
+{# Create Stream first #}
+{% if desiredState or desiredState == currentState %}
+
+    {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
+        {{ stage('Create Stream', true, "sql", "alter") }}
+        CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+            ON {{ streamType }} {{ refLink }}
+
+    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
+        {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
+        CREATE STREAM IF NOT EXISTS {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+            ON {{ streamType }} {{ refLink }}
+
+
+    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
+        {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
+        CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+            ON {{ streamType }} {{ refLink }}
+
+
+    {% else %}
+        {{ stage('Unknown state.', true, "sql", "alter") }}
+        select 1 = 0
+    {% endif %}
+
+
+{% elif desiredState == undefined and currentState.storageLocations | length > 0 %}
+
+    {# Source Stream Location and Name #}
+    {% set streamTargetLocationName = currentState.node.location.name %}
+    {% set streamTargetDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
+    {% set streamTargetSchemaName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
+    {% set streamName = currentState.node.name %}
+    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
+    {{ stage('Drop Stream', true, "sql", "drop") }}
+    DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
+
+{%- else -%}
+
+    {{ stage('Unknown state.  Nothing to do.') }}
+    select 1 = 0
+
+{% endif %}
+
