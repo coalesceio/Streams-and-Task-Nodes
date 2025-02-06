@@ -43,7 +43,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is new description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -72,7 +72,7 @@ operation:
         dataType: VARCHAR(255)
         description: ""
         name: PRODUCT_NAME
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: edea307a-9ea0-48a7-84e9-c4eed0c86d8e
@@ -98,7 +98,7 @@ operation:
           stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
         config: {}
         dataType: VARCHAR(50)
-        description: ""
+        description: This is new Description
         name: COLOUR
         nullable: true
         sourceColumnReferences:
@@ -118,7 +118,7 @@ operation:
         defaultValue: ""
         description: ""
         keyColumnType: None
-        name: DT_TEST
+        name: DT_TEST_1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -129,14 +129,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          PRODUCTS: e7404fca-4d69-4c0e-a643-4508b4cade01
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: PRODUCTS
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+            WHERE "COLOUR" = 'RED'
         name: SIM_PRODUCTS
         noLinkRefs: []
   name: SIM_PRODUCTS
