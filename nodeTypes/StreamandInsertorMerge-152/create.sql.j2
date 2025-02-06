@@ -100,7 +100,7 @@ does not permit copying or modification for any other purpose.
 {% elif desiredState %}
 
     {% if currentState == undefined %}
-        {{ stage('Create Stream', true, "sql", "alter") }}
+        {{ stage('Create Stream', true, "sql", "create") }}
         CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
             ON {{ streamType }} {{ streamSourceObjectName }}
             {{ streamAppendMode }}
@@ -203,7 +203,7 @@ select 1 = 0
  
                 {# Change in materialization type #}
  
-                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "alter") }}
+                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
  
                  {% if currentState.config.createas == 'view' %}
                       DROP {{currentState.config.createas}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
@@ -211,7 +211,7 @@ select 1 = 0
                       DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
                 {% endif %}
                  
-                {{ stage('Create Work '+ ' {{desiredState.config.createas}}' , true, "sql", "alter") }}
+                {{ stage('Create Work '+ ' {{desiredState.config.createas}}' , true, "sql", "create") }}
                CREATE OR REPLACE {{desiredState.config.createas}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 (
                 {% for col in desiredState.columns %}
@@ -826,7 +826,7 @@ select 1 = 0
                 {% set nsVariables.tableKey = nsVariables.tableKey | map(attribute='partColName.name') | list %}
             {%- endif -%}
  
-            {{ stage('Create Task', true, "sql", "alter") }}
+            {{ stage('Create Task', true, "sql", "create") }}
             CREATE OR REPLACE TASK
                 {{ fullyQualifiedTaskName }}
                 {{ taskType}}
@@ -914,7 +914,7 @@ select 1 = 0
             {%- endif -%}						   														 
  
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%}
-                {{ stage('Resume Task', true, "sql", "alter") }}
+                {{ stage('Resume Task', true, "sql", "create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}
  

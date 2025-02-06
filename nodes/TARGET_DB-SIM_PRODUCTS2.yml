@@ -17,20 +17,15 @@ operation:
     createas: table
     devMode: true
     flagSrcStream: true
-    groupByAll: false
+    groupByAll: true
     initialRows: true
-    loadType: Merge
+    loadType: Insert
     orderBy:
       items:
-        - colName:
-            columnCounter: 4c1d35f5-3291-46e4-b865-a7cd5162e78e
-            stepCounter: 19c901ba-0aaf-4e75-a513-87fe0aeff058
-          sortOrd: asc
+        - {}
     partitionBy:
       items:
-        - partColName:
-            columnCounter: fbf1dc36-042f-497b-a236-8258c750ad40
-            stepCounter: 19c901ba-0aaf-4e75-a513-87fe0aeff058
+        - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: true
     redeploymentBehavior: Create At Existing Stream
