@@ -818,6 +818,8 @@ The Stream and Insert or Merge node has the following configuration groups:
 | **METADATA$ISUPDATE** | Indicates whether operation was UPDATE (shown as DELETE/INSERT pair with TRUE value) |
 | **METADATA$ROW_ID** | Unique and immutable row ID for change tracking |
 
+**NOTE: In the WHERE clause, always use the original column name, not with an alias of table name, because aliases are only recognized in the SELECT clause and cannot be used for filtering.**
+
 ### Stream and Insert or Merge Deployment
 
 #### Stream and Insert or Merge Deployment Parameters
