@@ -127,13 +127,13 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            WHERE "COLOUR" = 'RED'
+            WHERE  "PRODUCTS."COLOUR" = 'RED'
         name: SIM_PRODUCTS
         noLinkRefs: []
   name: SIM_PRODUCTS
   overrideSQL: false
   schema: ""
-  sqlType: "152"
+  sqlType: "433"
   type: sql
   version: 1
 type: Node
