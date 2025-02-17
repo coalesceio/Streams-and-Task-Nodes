@@ -1,9 +1,9 @@
 fileVersion: 1
 id: 04a24c51-9cd0-45d5-b975-8535689e57d7
-name: SIM_PRODUCTS
+name: SIM_PRODUCTS1234
 operation:
   config:
-    appendOnly: false
+    appendOnly: true
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -15,22 +15,17 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
-    groupByAll: false
+    groupByAll: true
     initialRows: true
-    loadType: Merge
+    loadType: Insert
     orderBy:
       items:
-        - colName:
-            columnCounter: 2407d107-62ac-4b48-a7ab-b8314975e399
-            stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
-          sortOrd: desc
+        - {}
     partitionBy:
       items:
-        - partColName:
-            columnCounter: f20e4e0e-e3f0-4297-9657-ae79ff889375
-            stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
+        - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: true
     redeploymentBehavior: Create If Not Exists
@@ -127,13 +122,13 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            WHERE  "PRODUCTS."COLOUR" = 'RED'
-        name: SIM_PRODUCTS
+            WHERE  "PRODUCTS"."COLOUR" = 'RED' AND "COLOUR" <> 'BLUE'
+        name: SIM_PRODUCTS1234
         noLinkRefs: []
-  name: SIM_PRODUCTS
+  name: SIM_PRODUCTS1234
   overrideSQL: false
   schema: ""
-  sqlType: "433"
+  sqlType: "152"
   type: sql
   version: 1
 type: Node

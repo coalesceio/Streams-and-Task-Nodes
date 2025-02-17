@@ -665,7 +665,7 @@ select 1 = 0
             {{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
@@ -691,7 +691,7 @@ select 1 = 0
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
@@ -769,6 +769,7 @@ select 1 = 0
                 {% set modified_string.value = modified_string.value ~ " " ~ modified_word %}
             {% endfor %}
             {% set ret_clause = modified_string.value %}
+
 			{% set after_order_by = '' %}
             {% set upper_query = ret_clause | upper %}
 			{% if 'ORDER BY' in upper_query %}
@@ -878,7 +879,7 @@ select 1 = 0
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
@@ -904,7 +905,7 @@ select 1 = 0
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}

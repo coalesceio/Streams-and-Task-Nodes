@@ -597,6 +597,19 @@ select 1 = 0
                 {% set before_order_by = ret_clause %}
                 {% set after_order_by = '' %}
             {% endif %}
+            {% set modified_string = namespace(value="") %}
+            {% set words = ret_clause.split() %}
+            {% for word in words %}
+                {% if '.' in word %}
+                    {% set parts = word.split('.') %}
+                    {% set modified_word = streamName ~ "." ~ parts[1] %}
+                    {% set modified_word = modified_word.replace('"', "") %}
+                {% else %}
+                    {% set modified_word = word %}
+                {% endif %}
+                {% set modified_string.value = modified_string.value ~ " " ~ modified_word %}
+            {% endfor %}
+            {% set ret_clause = modified_string.value %}
             {# Merge partition by and order by #}
             {%- if desiredState.config.loadType == 'Merge' -%}
                 {% set tableColumnNamesUpdate = tableColumnNames | reject('in', desiredState.config.partitionBy.get('items') | map(attribute='partColName.name')) | list %}
@@ -636,8 +649,7 @@ select 1 = 0
             {% endif %}
 
             SELECT  {% if desiredState.config.selectDistinct %} DISTINCT {% endif %}
-                     {% for id in tableColumnIds %}
-                    
+                    {% for id in tableColumnIds %}
                     {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
                     {%- if columnTransformation == "" -%}
                     {% set col =  desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
@@ -650,10 +662,10 @@ select 1 = 0
             FROM {{ fullyQualifiedStreamName }}
 			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
 			{% if ret_clause|trim !='' %}
-			{{ret_clause}}
+            {{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
@@ -679,7 +691,7 @@ select 1 = 0
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
@@ -744,6 +756,20 @@ select 1 = 0
             {% set taskName = desiredState.node.name + '_TASK'  %}
             {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%}
 			{% set ret_clause = get_clause( desiredState.sources[0].join ).lstrip()%}
+            {% set modified_string = namespace(value="") %}
+            {% set words = ret_clause.split() %}
+            {% for word in words %}
+                {% if '.' in word %}
+                    {% set parts = word.split('.') %}
+                    {% set modified_word = streamName ~ "." ~ parts[1] %}
+                    {% set modified_word = modified_word.replace('"', "") %}
+                {% else %}
+                    {% set modified_word = word %}
+                {% endif %}
+                {% set modified_string.value = modified_string.value ~ " " ~ modified_word %}
+            {% endfor %}
+            {% set ret_clause = modified_string.value %}
+
 			{% set after_order_by = '' %}
             {% set upper_query = ret_clause | upper %}
 			{% if 'ORDER BY' in upper_query %}
@@ -853,7 +879,7 @@ select 1 = 0
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
@@ -879,7 +905,7 @@ select 1 = 0
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}
             {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}

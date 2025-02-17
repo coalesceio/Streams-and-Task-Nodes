@@ -30,7 +30,8 @@ does not permit copying or modification for any other purpose.
 
     {% set tableColumnIds = columns | map(attribute='id') | list %}
     {% set tableColumnNames = columns | map(attribute='name') | list %}
-    {% set ret_clause = get_clause( sources[0].join ).lstrip()%}
+    {# Split the FROM clause if it contains an ORDER BY to ensure the correct order. #}
+	{% set ret_clause = get_clause( sources[0].join ).lstrip()%}
     {% set upper_query = ret_clause | upper %}
     {% if 'ORDER BY' in upper_query %}
 	   {% set index = upper_query.find('ORDER BY') %}
@@ -41,9 +42,10 @@ does not permit copying or modification for any other purpose.
        {% set before_order_by = ret_clause %}
        {% set after_order_by = '' %}
     {% endif %}
-{% set modified_string = namespace(value="") %}
-{% set words = ret_clause.split() %}
-{% for word in words %}
+	{# Check if the WHERE clause contains column aliases and replace them with the correct stream name #}
+	{% set modified_string = namespace(value="") %}
+	{% set words = ret_clause.split() %}
+	{% for word in words %}
     {% if '.' in word %}
         {% set parts = word.split('.') %}
         {% set modified_word = "SIM_" ~ parts[0] ~ "_STREAM." ~ parts[1] %}
@@ -133,7 +135,7 @@ does not permit copying or modification for any other purpose.
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}            
 			{% if config.groupByAll %}GROUP BY ALL{% endif %}
@@ -159,7 +161,7 @@ does not permit copying or modification for any other purpose.
 			{{ret_clause}}
 			{% endif %}
 			{%- else -%}
-			{% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
 			{{join_clause}}
 			{% endif %}           
 			{% if config.groupByAll %}GROUP BY ALL{% endif %}
