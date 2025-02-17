@@ -5,7 +5,7 @@ metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |-
-    capitalized: Stream and Insert or Merge
+    capitalized: Copy of Stream and Insert or Merge
     short: SIM
     tagColor: black
     plural: Streams and Merges
