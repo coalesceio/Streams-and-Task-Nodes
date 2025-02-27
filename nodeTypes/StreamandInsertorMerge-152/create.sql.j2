@@ -906,11 +906,6 @@ does not permit copying or modification for any other purpose.
                 {{ stage('Resume Task', true, "sql", "create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}
- 
-        {% else %}
-            {{ stage('Development Mode - No Task.') }}
-            select 1 = 0
-           
         {%- endif -%}
  
 {% elif currentState != undefined and desiredState == undefined %}
