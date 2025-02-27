@@ -61,10 +61,5 @@ AS
 {{ stage('Drop Current Task', true, "sql", "drop") }}
     DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
 
-{%- else -%}
-
-{{ stage('Nothing to do.') }}
-select 1 = 0
-
 {% endif %}
 

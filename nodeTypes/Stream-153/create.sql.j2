@@ -121,10 +121,5 @@ does not permit copying or modification for any other purpose.
     {{ stage('Drop Stream', true, "sql", "drop") }}
     DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
 
-{%- else -%}
-
-    {{ stage('Unknown state.  Nothing to do.') }}
-    select 1 = 0
-
 {% endif %}
 
