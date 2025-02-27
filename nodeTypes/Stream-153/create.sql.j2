@@ -79,7 +79,7 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 
 {# Create Stream first #}
-{% if desiredState and desiredState != currentState %}
+{% if desiredState and (desiredState != currentState or  currentState == undefined )%}
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
         {{ stage('Create Stream', true, "sql", "alter") }}
