@@ -1,43 +1,17 @@
 fileVersion: 1
-id: 8005da6e-9f88-40b8-a3d7-97ed8b2146f4
-name: SIM_PRODUCTS
+id: 2a451929-a89b-416b-bb37-6ed629015b4d
+name: TGCR_PRODUCTS1
 operation:
   config:
-    appendOnly: true
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    createas: table
-    devMode: false
-    flagSrcStream: true
-    groupByAll: false
-    initialRows: true
-    loadType: Insert
-    orderBy:
-      items:
-        - {}
-    partitionBy:
-      items:
-        - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    propagateDeletes: false
-    redeploymentBehavior: Create or Replace
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: ""
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
-    selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: Table
-    whName: COMPUTE_WH
+    tskSql: select current_timestamp()
+    whName: <WAREHOUSE_NAME>
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
@@ -47,8 +21,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 63c58008-344c-4044-8796-c2977effed27
-          stepCounter: 8005da6e-9f88-40b8-a3d7-97ed8b2146f4
+          columnCounter: 4e9a0e88-d1d8-4b34-b32c-73e1a1976fee
+          stepCounter: 2a451929-a89b-416b-bb37-6ed629015b4d
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -61,8 +35,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c91a3102-ed80-4bf5-aefc-edf9d1b54ec7
-          stepCounter: 8005da6e-9f88-40b8-a3d7-97ed8b2146f4
+          columnCounter: 5edbc8ad-679f-4096-87aa-f022674ec687
+          stepCounter: 2a451929-a89b-416b-bb37-6ed629015b4d
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -75,8 +49,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: dea51fa4-592b-48c2-911b-54449a2189e9
-          stepCounter: 8005da6e-9f88-40b8-a3d7-97ed8b2146f4
+          columnCounter: 44dad9ad-ae00-4558-a374-386aedee4089
+          stepCounter: 2a451929-a89b-416b-bb37-6ed629015b4d
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -89,8 +63,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b751e34a-83ab-4854-a539-f7538c761bc6
-          stepCounter: 8005da6e-9f88-40b8-a3d7-97ed8b2146f4
+          columnCounter: 1c57ba1d-3639-48c4-9aad-7c7d2a89a867
+          stepCounter: 2a451929-a89b-416b-bb37-6ed629015b4d
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -112,12 +86,12 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: SIM_PRODUCTS
+        name: TGCR_PRODUCTS1
         noLinkRefs: []
-  name: SIM_PRODUCTS
+  name: TGCR_PRODUCTS1
   overrideSQL: false
   schema: ""
-  sqlType: "152"
+  sqlType: "154"
   type: sql
   version: 1
 type: Node
