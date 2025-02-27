@@ -79,7 +79,7 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 
 {# Create Stream first #}
-{% if desiredState and (desiredState != currentState or  currentState == undefined )%}
+{% if desiredState or desiredState == currentState %}
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
         {{ stage('Create Stream', true, "sql", "alter") }}
@@ -103,6 +103,9 @@ does not permit copying or modification for any other purpose.
             ON {{ streamType }} {{ refLink }}
             AT(STREAM => '{{ fullyQualifiedStreamName }}');
 
+    {% else %}
+        {{ stage('Unknown state.', true, "sql", "alter") }}
+        select 1 = 0
     {% endif %}
 
 
@@ -117,6 +120,11 @@ does not permit copying or modification for any other purpose.
 
     {{ stage('Drop Stream', true, "sql", "drop") }}
     DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
+
+{%- else -%}
+
+    {{ stage('Unknown state.  Nothing to do.') }}
+    select 1 = 0
 
 {% endif %}
 
