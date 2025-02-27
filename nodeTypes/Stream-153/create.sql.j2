@@ -103,9 +103,6 @@ does not permit copying or modification for any other purpose.
             ON {{ streamType }} {{ refLink }}
             AT(STREAM => '{{ fullyQualifiedStreamName }}');
 
-    {% else %}
-        {{ stage('Unknown state.', true, "sql", "alter") }}
-        select 1 = 0
     {% endif %}
 
 

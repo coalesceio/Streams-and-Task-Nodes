@@ -1,15 +1,13 @@
 fileVersion: 1
-id: 04a24c51-9cd0-45d5-b975-8535689e57d7
-name: SIM_PRODUCTS1234
+id: 5b583ef0-b7a9-4065-8c51-892fbb904f6d
+name: SIM_PRODUCTS
 operation:
   config:
-    appendOnly: true
-    clusterKey: true
+    appendOnly: false
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 10f57094-e437-483e-8c63-b614add1cb9a
-            stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -17,7 +15,7 @@ operation:
     createas: table
     devMode: true
     flagSrcStream: true
-    groupByAll: true
+    groupByAll: false
     initialRows: true
     loadType: Insert
     orderBy:
@@ -27,11 +25,11 @@ operation:
       items:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    propagateDeletes: true
-    redeploymentBehavior: Create If Not Exists
+    propagateDeletes: false
+    redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
-    schedulePeriod: "65"
+    schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
@@ -39,8 +37,8 @@ operation:
     sourceType: Table
     whName: <WAREHOUSE_NAME>
   database: ""
-  deployEnabled: false
-  description: This is new description
+  deployEnabled: true
+  description: ""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -49,8 +47,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f20e4e0e-e3f0-4297-9657-ae79ff889375
-          stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
+          columnCounter: dbdacc69-5f21-4bd5-af08-725ccb541fa8
+          stepCounter: 5b583ef0-b7a9-4065-8c51-892fbb904f6d
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -63,13 +61,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 10f57094-e437-483e-8c63-b614add1cb9a
-          stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
+          columnCounter: 825cb511-d09d-4ae6-aaf5-c2a63da01c92
+          stepCounter: 5b583ef0-b7a9-4065-8c51-892fbb904f6d
         config: {}
         dataType: VARCHAR(255)
         description: ""
         name: PRODUCT_NAME
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: edea307a-9ea0-48a7-84e9-c4eed0c86d8e
@@ -77,11 +75,25 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7b3a9a33-4edd-47d4-a70e-b831c54f8ed7
-          stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
+          columnCounter: 7b70f1fe-2283-4e93-8b58-ead3eb8c4450
+          stepCounter: 5b583ef0-b7a9-4065-8c51-892fbb904f6d
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 054f89a3-591e-426e-a92a-eeedcd5e88c6
+                stepCounter: e7404fca-4d69-4c0e-a643-4508b4cade01
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b589d72-a5c9-47e3-9c7c-209aadffccca
+          stepCounter: 5b583ef0-b7a9-4065-8c51-892fbb904f6d
         config: {}
         dataType: VARCHAR(50)
-        description: This is new Description
+        description: ""
         name: COLOUR
         nullable: true
         sourceColumnReferences:
@@ -89,43 +101,20 @@ operation:
               - columnCounter: 22ea48a2-4896-43e4-b480-f02f98f1752b
                 stepCounter: e7404fca-4d69-4c0e-a643-4508b4cade01
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 2407d107-62ac-4b48-a7ab-b8314975e399
-          stepCounter: 04a24c51-9cd0-45d5-b975-8535689e57d7
-        config: {}
-        dataType: DATE
-        defaultValue: ""
-        description: ""
-        keyColumnType: None
-        name: DT_TEST_1
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: CURRENT_DATE()
-        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          PRODUCTS: e7404fca-4d69-4c0e-a643-4508b4cade01
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: PRODUCTS
         join:
-          joinCondition: |-
-            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            WHERE  "PRODUCTS"."COLOUR" = 'RED' AND "COLOUR" <> 'BLUE'
-        name: SIM_PRODUCTS1234
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+        name: SIM_PRODUCTS
         noLinkRefs: []
-  name: SIM_PRODUCTS1234
+  name: SIM_PRODUCTS
   overrideSQL: false
   schema: ""
   sqlType: "152"

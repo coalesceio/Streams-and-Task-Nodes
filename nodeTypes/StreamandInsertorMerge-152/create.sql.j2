@@ -92,12 +92,8 @@ does not permit copying or modification for any other purpose.
  
 
 {# Create Stream first #}
-{% if desiredState == currentState %}
 
-    {{ stage('No Stream Created') }}
-    select 1 = 0
-
-{% elif desiredState %}
+{% if desiredState %}
 
     {% if currentState == undefined %}
         {{ stage('Create Stream', true, "sql", "create") }}
@@ -129,10 +125,6 @@ does not permit copying or modification for any other purpose.
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
             {{ streamInsertOnlyMode }}
- 
-    {% else %}
-        {{ stage('Unknown state.', true, "sql", "alter") }}
-        select 1 = 0
 {% endif %}
  
  
@@ -147,13 +139,7 @@ does not permit copying or modification for any other purpose.
  
     {{ stage('Drop Stream', true, "sql", "drop") }}
     DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
- 
-{%- else -%}
- 
-    {{ stage('Unknown state.  Nothing to do.') }}
-    select 1 = 0
- 
-{% endif %}
+ {% endif %}
  
 {# Create / Alter Table Second #}
 
@@ -563,13 +549,7 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 
 {# initial data load #}
-{% if desiredState == currentState %}
-
-    {{ stage('No Initial Load') }}
-    select 1 = 0
-
-
-{% elif desiredState  %}
+{% if desiredState  %}
 
     {% if desiredState.config.initialRows == true %}           
             {{ stage('Target Table Initial Load',true,"sql","alter") }}
@@ -717,19 +697,11 @@ does not permit copying or modification for any other purpose.
 
     {% endif %}   
 
-{% elif currentState != undefined and desiredState == undefined %}
-
-    {{ stage('No edits.  Unknown state.') }}
-    select 1 = 0
 {%- endif -%}
 
 {# Create Task Third #}
-{% if desiredState == currentState %}
- 
-    {{ stage('No task edits.') }}
-    select 1 = 0
- 
-{% elif desiredState %}
+
+{% if desiredState %}
  
         {% if desiredState.config.devMode == false %}
             {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%}
