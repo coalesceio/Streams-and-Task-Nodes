@@ -92,12 +92,8 @@ does not permit copying or modification for any other purpose.
  
 
 {# Create Stream first #}
-{% if desiredState == currentState %}
 
-    {{ stage('No Stream Created') }}
-    select 1 = 0
-
-{% elif desiredState %}
+{% if desiredState and currentState != desiredState%}
 
     {% if currentState == undefined %}
         {{ stage('Create Stream', true, "sql", "create") }}
@@ -129,10 +125,6 @@ does not permit copying or modification for any other purpose.
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
             {{ streamInsertOnlyMode }}
- 
-    {% else %}
-        {{ stage('Unknown state.', true, "sql", "alter") }}
-        select 1 = 0
 {% endif %}
  
  
@@ -147,21 +139,11 @@ does not permit copying or modification for any other purpose.
  
     {{ stage('Drop Stream', true, "sql", "drop") }}
     DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
- 
-{%- else -%}
- 
-    {{ stage('Unknown state.  Nothing to do.') }}
-    select 1 = 0
- 
-{% endif %}
+ {% endif %}
  
 {# Create / Alter Table Second #}
-{% if desiredState == currentState %}
- 
-{{ stage('Nothing to do.') }}
-select 1 = 0
- 
-{% elif desiredState %}
+
+{% if desiredState and currentState != desiredState %}
  
     {% if desiredState.config.createas == 'table' or desiredState.config.createas == 'transient table'  %}
        
@@ -417,7 +399,7 @@ select 1 = 0
                         {%- if not addDesCol.nullable %} NOT NULL
                             {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
                         {% endif %}
-                        {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDescol.description | escape }}'{% endif %}
+                        {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{% endif %}
                 {% endif %}
             {% endfor %}
  
@@ -564,21 +546,10 @@ select 1 = 0
        {{ stage('Drop ' + currentState.config.createas , true, "sql", "drop") }}
        DROP TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
  
-{%- else -%}
- 
-{{ stage('Nothing to do.') }}
-select 1 = 0
- 
 {% endif %}
 
 {# initial data load #}
-{% if desiredState == currentState %}
-
-    {{ stage('No Initial Load') }}
-    select 1 = 0
-
-
-{% elif desiredState  %}
+{% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
             {{ stage('Target Table Initial Load',true,"sql","alter") }}
@@ -726,19 +697,10 @@ select 1 = 0
 
     {% endif %}   
 
-{% elif currentState != undefined and desiredState == undefined %}
-
-    {{ stage('No edits.  Unknown state.') }}
-    select 1 = 0
 {%- endif -%}
 
 {# Create Task Third #}
-{% if desiredState == currentState %}
- 
-    {{ stage('No task edits.') }}
-    select 1 = 0
- 
-{% elif desiredState %}
+{% if desiredState and currentState != desiredState  %}
  
         {% if desiredState.config.devMode == false %}
             {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%}
@@ -943,11 +905,6 @@ select 1 = 0
                 {{ stage('Resume Task', true, "sql", "create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}
- 
-        {% else %}
-            {{ stage('Development Mode - No Task.') }}
-            select 1 = 0
-           
         {%- endif -%}
  
 {% elif currentState != undefined and desiredState == undefined %}
@@ -975,10 +932,5 @@ select 1 = 0
             DROP TASK IF EXISTS {{ fullyQualifiedTaskName }}
         {%- endif -%}
     {%- endif -%}
- 
-{%- else -%}
- 
-    {{ stage('Nothing to do.') }}
-    select 1 = 0
  
 {% endif %}
