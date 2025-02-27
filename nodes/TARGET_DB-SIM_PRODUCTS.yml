@@ -3,7 +3,7 @@ id: 8005da6e-9f88-40b8-a3d7-97ed8b2146f4
 name: SIM_PRODUCTS
 operation:
   config:
-    appendOnly: false
+    appendOnly: true
     clusterKey: false
     clusterKeyConfig:
       items:
