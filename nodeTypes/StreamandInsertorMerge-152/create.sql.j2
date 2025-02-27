@@ -93,7 +93,7 @@ does not permit copying or modification for any other purpose.
 
 {# Create Stream first #}
 
-{% if desiredState %}
+{% if desiredState and currentState != desiredState%}
 
     {% if currentState == undefined %}
         {{ stage('Create Stream', true, "sql", "create") }}
@@ -143,7 +143,7 @@ does not permit copying or modification for any other purpose.
  
 {# Create / Alter Table Second #}
 
-{% if desiredState %}
+{% if desiredState and currentState != desiredState %}
  
     {% if desiredState.config.createas == 'table' or desiredState.config.createas == 'transient table'  %}
        
@@ -549,7 +549,7 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 
 {# initial data load #}
-{% if desiredState  %}
+{% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
             {{ stage('Target Table Initial Load',true,"sql","alter") }}
@@ -700,8 +700,7 @@ does not permit copying or modification for any other purpose.
 {%- endif -%}
 
 {# Create Task Third #}
-
-{% if desiredState %}
+{% if desiredState and currentState != desiredState  %}
  
         {% if desiredState.config.devMode == false %}
             {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%}

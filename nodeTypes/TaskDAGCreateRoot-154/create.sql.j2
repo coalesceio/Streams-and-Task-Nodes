@@ -9,7 +9,7 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Task DAG Create Root == #}
 {# == Node Type Description    : This node creates a standalone root task that initiates a run of the DAG == #}
 
-{% if (currentState == undefined and desiredState != undefined) or (currentState != undefined and desiredState != undefined ) %}
+{% if (currentState == undefined and desiredState != undefined) or (currentState != undefined and desiredState != undefined ) and (currentState != desiredState) %}
 
 {% set targetNodeDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
 {% set targetNodeSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
