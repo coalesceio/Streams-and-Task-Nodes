@@ -11,12 +11,7 @@ does not permit copying or modification for any other purpose.
 
 
 {# Create / Alter Table first #}
-{% if desiredState == currentState %}
-
-    {{ stage('No table edits.') }}
-    select 1 = 0
-
-{% elif desiredState %}
+{% if desiredState and desiredState != currentState%}
 
 						   
     {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
@@ -411,20 +406,11 @@ does not permit copying or modification for any other purpose.
     {{ stage('Drop Table', true, "sql", "drop") }}
     DROP {{ currentState.node.materializationType }} IF EXISTS {{ fullyQualifiedTargetObjectName }}
 
-{%- else -%}
-
-{{ stage('No table edits.  Unknown state.') }}
-select 1 = 0
-
 {% endif %}
 
 {# Create Task Second #}
-{% if desiredState == currentState %}
 
-    {{ stage('No task edits.') }}
-    select 1 = 0
-
-{% elif desiredState %}
+{% if desiredState and desiredState != currentState %}
 
     {# Target Table Info #}
     {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
@@ -625,11 +611,6 @@ select 1 = 0
             {{ stage('Resume Created Task', true, "sql", "alter") }}
             ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
         {%- endif -%}
-
-    {% else %}
-        {{ stage('Development Mode - No Task.') }}
-        select 1 = 0
-        
     {%- endif -%}
     
 {% elif currentState != undefined and desiredState == undefined %}
@@ -657,10 +638,5 @@ select 1 = 0
             DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
         {%- endif -%}
     {%- endif -%}
-
-{%- else -%}
-
-{{ stage('No task edits.  Unknown state.') }}
-select 1 = 0
 
 {% endif %}
