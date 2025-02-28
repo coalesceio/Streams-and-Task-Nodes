@@ -37,7 +37,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and desiredState != currentState %}
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
-        {{ stage('Create Stream', true, "sql", "alter") }}
+        {{ stage('Create Stream', true, "sql", "create") }}
         CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             ON {{ streamType }} {{ refLink }}
 

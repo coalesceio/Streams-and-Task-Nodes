@@ -80,7 +80,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
 
     {% if currentState == undefined or nsVariables.colchanges == 1 or currentState.storageLocations | length == 0%}
-        {{ stage('Create Fact Table', true, "sql", "alter") }}
+        {{ stage('Create Fact Table', true, "sql", "create") }}
         CREATE OR REPLACE TABLE {{ fullyQualifiedTargetTableName }}
         (
             {% for col in desiredState.columns %}

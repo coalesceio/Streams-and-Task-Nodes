@@ -37,7 +37,7 @@ does not permit copying or modification for any other purpose.
 {{ stage('Suspend Root Task', true, "sql", "alter") }}
 ALTER TASK IF EXISTS {{ fullyQualifiedTaskName }} SUSPEND
 
-{{ stage('Create Task', true, "sql", "alter") }}
+{{ stage('Create Task', true, "sql", "create") }}
 CREATE OR REPLACE TASK 
     {{ fullyQualifiedTaskName }} 
     {{ taskType}} 

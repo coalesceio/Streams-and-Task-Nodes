@@ -83,7 +83,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState %}
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
-        {{ stage('Create Stream', true, "sql", "alter") }}
+        {{ stage('Create Stream', true, "sql", "create") }}
         CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
