@@ -3,7 +3,7 @@ id: 0a3b7316-0999-4211-b937-52ba7c921a25
 name: STREAM_ORDERS_DIR
 operation:
   config:
-    redeploymentBehavior: Create or Replace
+    redeploymentBehavior: Create If Not Exists
     sourceType: Directory Table
     stageName: MYSTAGE
     storageLocation: TARGET_DB
@@ -51,7 +51,7 @@ operation:
         config: {}
         dataType: VARCHAR(1)
         description: ""
-        name: O_ORDERSTATUS
+        name: O_ORDERSTATUS_NEW
         nullable: true
         sourceColumnReferences:
           - columnReferences:
