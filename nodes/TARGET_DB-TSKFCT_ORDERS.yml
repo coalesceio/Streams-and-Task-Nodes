@@ -11,7 +11,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: true
+    devMode: false
     flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
@@ -24,8 +24,8 @@ operation:
     rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
-    schedulingMode: Warehouse Task
+    schedulePeriodOption: Minutes
+    schedulingMode: Serverless Task
     selectDistinct: false
     serverlessSize: MEDIUM
     whName: <WAREHOUSE_NAME>
@@ -59,7 +59,7 @@ operation:
           stepCounter: dfce8c29-5958-4769-8793-ba4828c6b8ad
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: This is customer key
         name: O_CUSTKEY
         nullable: true
         sourceColumnReferences:
