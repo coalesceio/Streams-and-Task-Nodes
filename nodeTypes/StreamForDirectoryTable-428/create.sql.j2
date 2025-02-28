@@ -10,7 +10,7 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Description    : This node creates and deploys a stream for directory table == #}
 {#Release date:20250206  Released By:PM  Description: Initial Release #}
 
-{% if desiredState %}
+{% if desiredState  %}
 
     {# Source Object Location and Name #}
 	{% set stageStorageLocation =  desiredState.config.storageLocation | string %}
@@ -34,10 +34,10 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 
 {# Create Stream first #}
-{% if desiredState or desiredState == currentState %}
+{% if desiredState and desiredState != currentState %}
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
-        {{ stage('Create Stream', true, "sql", "alter") }}
+        {{ stage('Create Stream', true, "sql", "create") }}
         CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             ON {{ streamType }} {{ refLink }}
 
@@ -52,10 +52,6 @@ does not permit copying or modification for any other purpose.
         CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             ON {{ streamType }} {{ refLink }}
 
-
-    {% else %}
-        {{ stage('Unknown state.', true, "sql", "alter") }}
-        select 1 = 0
     {% endif %}
 
 
@@ -70,11 +66,6 @@ does not permit copying or modification for any other purpose.
 
     {{ stage('Drop Stream', true, "sql", "drop") }}
     DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
-
-{%- else -%}
-
-    {{ stage('Unknown state.  Nothing to do.') }}
-    select 1 = 0
 
 {% endif %}
 
