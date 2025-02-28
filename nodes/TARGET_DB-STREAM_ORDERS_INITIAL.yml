@@ -36,7 +36,7 @@ operation:
           stepCounter: 3c653bc6-4515-4a06-a4e2-c03189229ae4
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: This is customer key
         name: O_CUSTKEY
         nullable: true
         sourceColumnReferences:

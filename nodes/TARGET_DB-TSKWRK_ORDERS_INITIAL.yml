@@ -73,7 +73,7 @@ operation:
           stepCounter: 8eaa386c-fa9b-4a89-b2d6-7250b3b600a7
         config: {}
         dataType: VARCHAR(1)
-        description: ""
+        description: This is customer key
         name: O_ORDERSTATUS
         nullable: true
         sourceColumnReferences:
