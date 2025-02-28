@@ -73,7 +73,7 @@ operation:
           stepCounter: dfce8c29-5958-4769-8793-ba4828c6b8ad
         config: {}
         dataType: VARCHAR(1)
-        description: ""
+        description: This is order status
         name: O_ORDERSTATUS
         nullable: true
         sourceColumnReferences:
