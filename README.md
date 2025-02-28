@@ -1152,6 +1152,9 @@ For tasks with predecessors:
 If a task is part of a DAG of tasks, the DAG needs to include a node type called "Task DAG Resume Root." This node will resume the root node once all the dependent tasks have been created as part of a deployment.
 
 ---
+### Redeployment with no changes
+ 
+If the nodes are redeployed with no changes compared to previous deployment, then no stages are executed
 
 ## Code
 
