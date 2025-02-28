@@ -1,17 +1,37 @@
 fileVersion: 1
-id: 52a26fab-cda8-4709-8c6b-f1450f95f889
-name: TGCR_ORDERS1
+id: 6c472608-0cf4-4290-8f79-91d63db6f68f
+name: TSKWRK_ORDERS_INITIAL1
 operation:
   config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Serverless Task
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
     serverlessSize: MEDIUM
-    tskSql: select current_timestamp()
+    truncateBefore: true
     whName: <WAREHOUSE_NAME>
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
@@ -21,8 +41,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 600c44ba-8970-4aae-8615-f5915eb8b966
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 808afe97-b69f-4aab-a20b-763f4cf54c1f
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -35,8 +55,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7810c845-3ffd-40d7-b6bd-8cce72e955f5
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 2bfd8146-55d4-469f-b19f-3d2831ba08a2
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -49,8 +69,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ff631609-c52f-472e-b719-d67620aefa87
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 5b7b6ecf-d503-4cdf-9201-b2802a026d31
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: VARCHAR(1)
         description: ""
@@ -63,8 +83,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2ff61dfb-e4d4-45b8-9f87-b01c8c743af4
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: dca0beb3-b156-4707-89f4-7ccdf26b7f51
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -77,8 +97,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 077a5df3-b45d-4324-9a09-4a910c810ffe
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 69a9536b-b98e-4de8-82a7-1b2762be2875
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: DATE
         description: ""
@@ -91,8 +111,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b73ba635-d952-4788-9a23-eaf3fa4a7577
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: d7814b50-c14c-460d-b8a9-aa0f3b7bd615
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -105,8 +125,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 407bb664-9105-4de5-bade-7edfbf42a44a
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 644ea594-16ff-4d44-9290-d9fb73430ed8
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -119,8 +139,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0a9029e3-6086-43e1-b582-5f18cfc50132
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 2657da28-510f-4928-a54b-c92d7f123e8f
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -133,8 +153,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 773e442a-266b-4f3f-a1a0-78c8ca07f214
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 8d9f9130-eda4-4125-9757-51853007ce36
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: VARCHAR(79)
         description: ""
@@ -147,8 +167,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 078bce5a-f00f-4a08-a6d6-58adc7b07b5b
-          stepCounter: 52a26fab-cda8-4709-8c6b-f1450f95f889
+          columnCounter: 41bb18ca-9058-4e3a-98c3-92132e7b8b67
+          stepCounter: 6c472608-0cf4-4290-8f79-91d63db6f68f
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -170,12 +190,12 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: TGCR_ORDERS1
+        name: TSKWRK_ORDERS_INITIAL1
         noLinkRefs: []
-  name: TGCR_ORDERS1
+  name: TSKWRK_ORDERS_INITIAL1
   overrideSQL: false
   schema: ""
-  sqlType: "154"
+  sqlType: "151"
   type: sql
   version: 1
 type: Node
