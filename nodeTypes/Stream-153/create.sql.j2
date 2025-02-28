@@ -79,9 +79,10 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 
 {# Create Stream first #}
+
 {% if desiredState %}
 
-    {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
+    {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
         {{ stage('Create Stream', true, "sql", "alter") }}
         CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
             ON {{ streamType }} {{ refLink }}
@@ -89,7 +90,7 @@ does not permit copying or modification for any other purpose.
             {{ streamInitialRowsMode }}
             {{ streamInsertOnlyMode }}
 
-    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
+    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists' and desiredState !=currentState %}
         {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
         CREATE STREAM IF NOT EXISTS {{ fullyQualifiedStreamName }}
             ON {{ streamType }} {{ refLink }}
@@ -97,7 +98,7 @@ does not permit copying or modification for any other purpose.
             {{ streamInitialRowsMode }}
             {{ streamInsertOnlyMode }}
 
-    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
+    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' and desiredState !=currentState %}
         {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
         CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
             ON {{ streamType }} {{ refLink }}
