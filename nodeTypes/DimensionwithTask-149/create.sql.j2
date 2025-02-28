@@ -262,7 +262,7 @@ does not permit copying or modification for any other purpose.
                     {%- if not addDesCol.nullable %} NOT NULL
                         {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
                     {% endif %}
-                    {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDescol.description | escape }}'{% endif %}
+                    {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{% endif %}
             {% endif %}
         {% endfor %}
 
