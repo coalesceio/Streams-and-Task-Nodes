@@ -107,7 +107,7 @@ operation:
           stepCounter: 98990d37-37e4-48e4-ab35-8bd940b6b0af
         config: {}
         dataType: DATE
-        description: ""
+        description: THIS IS ORDER DATE
         name: O_ORDERDATE
         nullable: true
         sourceColumnReferences:
