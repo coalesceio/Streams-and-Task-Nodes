@@ -9,6 +9,18 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Fact With Task == #}
 {# == Node Type Description    : This node creates a fact table and a task to insert/merge data into fact table == #}
 
+{# Parameter Check for Deployment #}
+{%if desiredState and currentState != desiredState%}
+     {%if (desiredState.parameters == {} or desiredState.parameters.targetTaskWarehouse == '') and  desiredState.config.schedulingMode == 'Warehouse Task' %}
+
+         {{stage('WARNING')}}
+         
+          /*Add parameter targetTaskWarehouse in workspace settings and deployment environment for successful execution of node.
+          The default value for the parameter is 'DEV ENVIRONMENT'.
+          For more information, refer to the documentation.*/
+
+     {%endif%}
+{%endif%}
 
 {# Create / Alter Table first #}
 {% if desiredState and desiredState != currentState%}
