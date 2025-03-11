@@ -31,11 +31,11 @@ operation:
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
-    schedulingMode: Serverless Task
+    schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Table
-    whName: <WAREHOUSE_NAME>
+    whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
