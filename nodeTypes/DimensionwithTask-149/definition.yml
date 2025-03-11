@@ -168,7 +168,7 @@ metadata:
                        Ensure the parameter targetTaskWarehouse is added in Workspace and 
                        deployment environment  for successful creation of Steam.  
                        For more information, refer to the documentation."
-        enableIf: "{%- if (parameters == {} ) and config.schedulingMode == 'Warehouse Task'-%} true {%- else -%} false {%- endif -%}"
+        enableIf: "{%- if (parameters == {} or parameters.targetTaskWarehouse == '' ) and config.schedulingMode == 'Warehouse Task'-%} true {%- else -%} false {%- endif -%}"
 
       - displayName: Select Warehouse on which to run task
         attributeName: whName

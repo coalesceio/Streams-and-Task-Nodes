@@ -11,16 +11,16 @@ does not permit copying or modification for any other purpose.
 == #}
  {#Release date:20250114  Released By:PM  Description: Added support for Dynamic Table as a source #}
 
-{%if desiredState and currentState != desiredState%}
-     {%if (desiredState.parameters == {} or desiredState.parameters.targetTaskWarehouse == '') and  desiredState.config.schedulingMode == 'Warehouse Task' %}
+{# Parameter Check for Deployment #}
+{%if desiredState and currentState != desiredState and desiredState.config.schedulingMode == 'Warehouse Task' %}
+     {% if desiredState.parameters == {} or 'targetTaskWarehouse' not in  desiredState.parameters or desiredState.parameters.targetTaskWarehouse == ''%}
 
          {{stage('WARNING')}}
          
           /*Add parameter targetTaskWarehouse in workspace settings and deployment environment for successful execution of node.
           The default value for the parameter is 'DEV ENVIRONMENT'.
           For more information, refer to the documentation.*/
-
-     {%endif%}
+	{%endif%}
 {%endif%}
 
 
@@ -760,11 +760,13 @@ does not permit copying or modification for any other purpose.
 			{# Task Type #}
             {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%}
                 {# Can be updated during deployment via a parameter to account for different warehouse names in different deployments #}
-                {% if desiredState.parameters.targetTaskWarehouse == 'DEV ENVIRONMENT' %}
+               {% if 'targetTaskWarehouse'  in  desiredState.parameters %}
+				{% if desiredState.parameters.targetTaskWarehouse == 'DEV ENVIRONMENT' %}
                     {% set taskType = 'WAREHOUSE = ' + desiredState.config.whName %}
                 {% else %}
                     {% set taskType = 'WAREHOUSE = ' + desiredState.parameters.targetTaskWarehouse %}
                 {% endif %}
+			   {% endif %}
             {%- else -%}
                 {%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize -%}
             {%- endif -%}
