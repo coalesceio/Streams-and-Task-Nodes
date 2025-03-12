@@ -1,43 +1,17 @@
 fileVersion: 1
-id: eab41937-972c-42d2-93c8-280dbd96c7a7
-name: SIM_ORDERS1
+id: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
+name: TGCR_ORDERS2
 operation:
   config:
-    appendOnly: false
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    createas: table
-    devMode: false
-    flagSrcStream: false
-    groupByAll: false
-    initialRows: false
-    loadType: Insert
-    orderBy:
-      items:
-        - {}
-    partitionBy:
-      items:
-        - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    propagateDeletes: false
-    redeploymentBehavior: Create or Replace
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: ""
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
-    selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: Table
+    tskSql: select current_timestamp()
     whName: DEV_WH_XS
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
@@ -47,8 +21,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f3b0033f-2f9b-4519-af6e-b5bd692eaac7
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: 68abd299-255e-41b6-8692-44a2b3576d2b
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -61,8 +35,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1c0b1f2f-4c16-487e-9513-3320c5ae4ea2
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: 78b6c6c7-ebc3-404b-a2e4-e497e68f9910
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -75,8 +49,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 571886a2-aea7-4890-a4d3-7883471b8237
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: f1d80674-21e3-4986-840c-03b9b716d057
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: VARCHAR(1)
         description: ""
@@ -89,8 +63,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 819d668c-c0f9-46c9-8729-6cf5133848d8
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: 9e1efc45-084d-4c2c-baae-0d6f451fb0e0
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -103,8 +77,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b7f648bb-7757-4f82-9645-3680c60ee8f7
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: a1c18509-09bc-4657-818f-0ec0983915f5
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: DATE
         description: ""
@@ -117,8 +91,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e55d85c8-dcf8-47bc-8781-9e7d328bad57
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: 37df34e4-6cd0-44a9-9690-b352ad3224ec
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -131,8 +105,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 182a3ca3-ddbb-4985-a223-8dbb4258a4c4
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: dfe8a45e-4c35-4b35-978b-c3d303793660
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -145,8 +119,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 511d28b7-aff9-4f65-b0c8-ec4f0c878773
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: 5506eb96-5979-4845-9a5d-e296bd9a683e
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -159,8 +133,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: af93e315-cad7-49cc-b96d-83321572b409
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: b6c106f4-2b4f-4ae7-b14f-97b73320304e
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: VARCHAR(79)
         description: ""
@@ -173,8 +147,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c96e0ef6-2b6a-4467-be1d-5e4eb8394ff8
-          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
+          columnCounter: eef24770-9a23-4a83-9790-3b7963b26f4f
+          stepCounter: cdbc2b51-86e5-4b4a-9795-7d264dc2b150
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -196,12 +170,12 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: SIM_ORDERS1
+        name: TGCR_ORDERS2
         noLinkRefs: []
-  name: SIM_ORDERS1
+  name: TGCR_ORDERS2
   overrideSQL: false
   schema: ""
-  sqlType: "152"
+  sqlType: "154"
   type: sql
   version: 1
 type: Node
