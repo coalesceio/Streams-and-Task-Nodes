@@ -1,8 +1,9 @@
 fileVersion: 1
-id: c7e0301c-3e61-4de3-99db-c35f1a9134e2
-name: TSKWRK_ORDERS
+id: eab41937-972c-42d2-93c8-280dbd96c7a7
+name: SIM_ORDERS1
 operation:
   config:
+    appendOnly: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -11,25 +12,30 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    createas: table
     devMode: false
     flagSrcStream: true
     groupByAll: false
-    insertStrategy: UNION
-    multiStreamBehavior: AND
-    orderby: false
-    orderbycolumn:
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
       items:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
-    schedulingMode: Serverless Task
+    schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: true
-    whName: COMPUTE_WH
+    sourceType: Table
+    whName: DEV_WH_XS
   database: ""
   deployEnabled: true
   description: ""
@@ -41,8 +47,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 61251ebe-d537-4a5b-a96a-9f3aa50bb2c3
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: f3b0033f-2f9b-4519-af6e-b5bd692eaac7
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -55,8 +61,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0b14ea97-a878-44d0-93d5-cf553740b110
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: 1c0b1f2f-4c16-487e-9513-3320c5ae4ea2
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -69,11 +75,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fa61207c-582d-4939-ae3a-7d6792344341
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: 571886a2-aea7-4890-a4d3-7883471b8237
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: VARCHAR(1)
-        description: this is order status
+        description: ""
         name: O_ORDERSTATUS
         nullable: true
         sourceColumnReferences:
@@ -83,8 +89,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8efb6f4a-0110-4270-8e86-102209dcc212
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: 819d668c-c0f9-46c9-8729-6cf5133848d8
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -97,8 +103,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fef7a9e7-23b2-480c-80a2-46b840304271
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: b7f648bb-7757-4f82-9645-3680c60ee8f7
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: DATE
         description: ""
@@ -111,8 +117,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: df33fa0e-00e8-4197-9ac8-518e4f252a9d
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: e55d85c8-dcf8-47bc-8781-9e7d328bad57
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -125,8 +131,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6a1755ec-e7ca-4677-adb9-a26efda53f3c
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: 182a3ca3-ddbb-4985-a223-8dbb4258a4c4
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -139,8 +145,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ba4de9e5-ecb9-4666-9b34-ceb3fdbcea47
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: 511d28b7-aff9-4f65-b0c8-ec4f0c878773
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -153,8 +159,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6aec5f86-86c7-414a-ac59-cc736b462d3b
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: af93e315-cad7-49cc-b96d-83321572b409
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: VARCHAR(79)
         description: ""
@@ -167,8 +173,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9d9e6461-fc68-4efd-9bb2-5a3067a68d6f
-          stepCounter: c7e0301c-3e61-4de3-99db-c35f1a9134e2
+          columnCounter: c96e0ef6-2b6a-4467-be1d-5e4eb8394ff8
+          stepCounter: eab41937-972c-42d2-93c8-280dbd96c7a7
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -190,12 +196,12 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: TSKWRK_ORDERS
+        name: SIM_ORDERS1
         noLinkRefs: []
-  name: TSKWRK_ORDERS
+  name: SIM_ORDERS1
   overrideSQL: false
   schema: ""
-  sqlType: "151"
+  sqlType: "152"
   type: sql
   version: 1
 type: Node
