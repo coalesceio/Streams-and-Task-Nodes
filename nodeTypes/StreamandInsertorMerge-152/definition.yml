@@ -51,6 +51,7 @@ metadata:
         default: Table
         options:
           - Table
+          - Dynamic Table
           - External Table
           - External Iceberg Table
           - View
@@ -61,16 +62,22 @@ metadata:
         type: toggleButton
         default: false
         isRequired: true
-        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.sourceType == 'Table'  or config.sourceType == 'View' %} true {% else %} false {% endif %}"
      
       - displayName: Show Initial Rows
         attributeName: initialRows
         type: toggleButton
         default: true
         isRequired: true
-        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.sourceType == 'Table' or config.sourceType == 'Dynamic Table' or config.sourceType == 'View' %} true {% else %} false {% endif %}"
      
-     
+      - displayName: Propagate Deletes
+        attributeName: propagateDeletes
+        type: toggleButton
+        default: false
+        isRequired: true
+        enableIf: "{% if config.sourceType == 'Table'  or config.sourceType == 'View' %} true {% else %} false {% endif %}"
+
       - displayName: Redeployment Behavior
         attributeName: redeploymentBehavior
         type: dropdownSelector
@@ -180,6 +187,7 @@ metadata:
      
       enableIf: "{% if config.devMode == true %} false {% else %} true {% endif %}"
       items:
+
       - displayName: Scheduling Mode
         attributeName: schedulingMode
         type: dropdownSelector
@@ -198,7 +206,7 @@ metadata:
         isRequired: true
      
     # Warehouse name  you want the task to run #
-     
+
       - displayName: Select Warehouse on which to run task
         attributeName: whName
         type: textBox

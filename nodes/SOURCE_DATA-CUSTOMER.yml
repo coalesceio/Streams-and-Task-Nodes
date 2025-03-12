@@ -1,5 +1,5 @@
 fileVersion: 1
-id: f9e451c0-2b4f-460f-b633-a745cb038ec1
+id: abb5cd20-4590-4ace-ba75-93955c68f5ac
 name: CUSTOMER
 operation:
   database: ""
@@ -14,8 +14,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c802e66c-655c-47d0-8ce5-4f6c100da99e
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: 06d41f5f-6d28-4250-a334-8596f013ca35
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -33,8 +33,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: fda59ac6-51fb-4cdc-90c5-0a97e0db9477
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: 0671d235-65ce-4b08-ab31-49f317657a5e
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: VARCHAR(25)
         defaultValue: ""
@@ -52,8 +52,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 37805843-081b-4bce-a70d-35a82d750661
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: 2f6147d6-389e-4456-b34a-1a832e1bdaf5
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: VARCHAR(40)
         defaultValue: ""
@@ -71,8 +71,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6424e147-fc26-4f3a-9403-8e84c4bbb692
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: f09ab11e-1deb-46fd-947a-dbf092c90056
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -90,8 +90,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: dd7803b9-e4a4-452e-90ba-1ce2ed5dd764
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: 8679f267-7541-445a-9097-ebc6ff5c67f4
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: VARCHAR(15)
         defaultValue: ""
@@ -109,8 +109,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a8436ce9-e999-4e59-9df8-55453efb67fb
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: 501478e6-3c55-4de4-9580-d941cd21c10c
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: NUMBER(12,2)
         defaultValue: ""
@@ -128,8 +128,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 5f45143c-988e-450b-bc08-b5dfc693eabb
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: c3d66899-06c7-4740-97b6-dc6f55038c84
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: VARCHAR(10)
         defaultValue: ""
@@ -147,8 +147,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c7aa2da4-30fc-4020-81c5-18d97fcafe27
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: f3a4d35b-b78b-4d08-8fc8-94db5059a7b3
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: VARCHAR(117)
         defaultValue: ""
@@ -166,8 +166,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 13e050c5-14ae-43f4-997d-de11720f1090
-          stepCounter: f9e451c0-2b4f-460f-b633-a745cb038ec1
+          columnCounter: 400f35b4-7a00-4ba7-8d40-44a3b4d6e42c
+          stepCounter: abb5cd20-4590-4ace-ba75-93955c68f5ac
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         defaultValue: ""
@@ -181,7 +181,7 @@ operation:
         transform: ""
         uniqueKey: false
     join:
-      joinCondition: FROM {{ ref('SAMPLE_SOURCE', 'CUSTOMER') }}
+      joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }}
   name: CUSTOMER
   schema: ""
   sqlType: Source
