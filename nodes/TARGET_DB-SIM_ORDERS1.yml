@@ -14,9 +14,9 @@ operation:
     clusterKeyExpressions: false
     createas: table
     devMode: false
-    flagSrcStream: true
+    flagSrcStream: false
     groupByAll: false
-    initialRows: true
+    initialRows: false
     loadType: Insert
     orderBy:
       items:
