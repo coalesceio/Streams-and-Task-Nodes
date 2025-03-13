@@ -1,12 +1,12 @@
 fileVersion: 1
-id: 2481bea1-1498-46c5-9549-ea86a0f135f9
-name: STREAM_ORDERS_DIR
+id: 9b0d4681-e506-430b-8680-f7ab7e06480f
+name: STREAM_ORDERS_1
 operation:
   config:
+    appendOnly: false
+    initialRows: true
     redeploymentBehavior: Create At Existing Stream
-    sourceType: Directory Table
-    stageName: MYSTAGE
-    storageLocation: TARGET_DB
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: This is table description
@@ -18,8 +18,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 67bc9a57-f018-41ca-84a7-7c275560c798
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 1bcc4db0-7441-4af0-afd8-7a99b3b8ea75
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -32,8 +32,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 85deea74-fc98-4d7a-91bf-7b136d70cbba
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 74d85c5e-d58c-4b3c-8092-5594a1f8c8ca
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -46,13 +46,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 544b6d20-99c3-4652-b27b-7a579a546b5a
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 119961e2-5fa9-4080-8ca8-ad9062c7b080
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: VARCHAR(1)
         description: ""
         name: O_ORDERSTATUS
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: a740127b-3664-4f2b-a682-b24f28d9d972
@@ -60,10 +60,10 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 823817fa-650a-42ed-a0c6-04f8a7fd6813
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 078a60ea-ae89-4aac-ad08-b536182c09a1
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: NUMBER(10,2)
         description: ""
         name: O_TOTALPRICE
         nullable: true
@@ -74,8 +74,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3600b72d-bcfc-4ec6-b6b0-0d658a2043e4
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: ae851b5d-9529-4f0d-82b2-d7d4cc5e562c
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: DATE
         description: ""
@@ -88,8 +88,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 741c8109-dc71-491b-bad7-062b4424b55b
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 553eb919-e2b9-4c5a-922f-f79494f4aa63
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -102,8 +102,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1b20d823-c8d5-40fa-b1be-5e7b787a2521
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 2fa95d13-b305-4bf1-abd8-af49bf210614
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -116,8 +116,22 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6bbb5836-b3a9-445d-ac11-6aebc05f1884
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 82bda786-d280-4040-b22e-47572c4ff422
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: O_CLERK1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2e91ee0b-af4e-4671-b4e9-c9d54abea82b
+                stepCounter: 5618b1d4-8711-4548-9448-8aaaf3deaa07
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: af39eabe-6472-4c06-9746-05d7c301f48f
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -130,8 +144,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 504c9ce5-a916-4a81-b289-f559c6b05d5e
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 92c935ca-3af4-4485-94f2-18cf857441f9
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: VARCHAR(79)
         description: This is column description
@@ -144,8 +158,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 35451d0a-f674-410a-84af-888d82f39b7e
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: b989c231-2c06-4c36-812e-eae2382acd52
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -161,112 +175,10 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8371dcb9-e917-4a3b-820f-c4e2f92deab1
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 2cce294f-f5ed-4f32-97cd-2952d403ca33
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
-        dataType: VARCHAR(16777216)
-        defaultValue: ""
-        description: ""
-        name: RELATIVE_PATH
-        nullable: true
-        relativePath: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 7a59588e-260c-4f2d-a135-6a6e4b81bb65
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
-        config: {}
-        dataType: NUMBER(38,0)
-        defaultValue: ""
-        description: ""
-        name: SIZE
-        nullable: true
-        size: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 449029c5-87e2-4a1f-b812-41deabd7fabe
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
-        config: {}
-        dataType: TIMESTAMP_TZ(3)
-        defaultValue: ""
-        description: ""
-        lastModified: true
-        name: LAST_MODIFIED
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 841a88c5-cc97-4389-8e2b-ec94c3eade71
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
-        config: {}
-        dataType: VARCHAR(16777216)
-        defaultValue: ""
-        description: ""
-        md5: true
-        name: MD5
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: d485aeb8-2455-4c6c-af96-49c39d82a631
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
-        config: {}
-        dataType: VARCHAR(16777216)
-        defaultValue: ""
-        description: ""
-        etag: true
-        name: ETAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 613ad5c3-e14a-447d-add4-c2de8137fa07
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
-        config: {}
-        dataType: VARCHAR(16777216)
-        defaultValue: ""
-        description: ""
-        fileUrl: true
-        name: FILE_URL
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 49a71d7b-a91e-4b99-9b23-a0397df76b76
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
-        config: {}
-        dataType: VARCHAR(1)
+        dataType: STRING
         defaultValue: ""
         description: ""
         metadataAction: true
@@ -280,10 +192,10 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 5154a03a-e387-42fa-b202-5512785eced1
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 1c64e68c-cd38-472d-b04a-7c8ba672ac09
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
-        dataType: BOOLEAN
+        dataType: boolean
         defaultValue: ""
         description: ""
         metadataIsUpdate: true
@@ -297,10 +209,10 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b33a87b1-2cb9-4758-824f-d8c1a19559be
-          stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
+          columnCounter: 2526f8fd-387f-4977-8c14-d4b8293e4dd3
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
-        dataType: VARCHAR(1)
+        dataType: STRING
         defaultValue: ""
         description: ""
         metadataRowID: true
@@ -319,15 +231,13 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: ORDERS
         join:
-          joinCondition: |+
-
-
-        name: STREAM_ORDERS_DIR
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
+        name: STREAM_ORDERS_1
         noLinkRefs: []
-  name: STREAM_ORDERS_DIR
+  name: STREAM_ORDERS_1
   overrideSQL: false
   schema: ""
-  sqlType: "428"
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

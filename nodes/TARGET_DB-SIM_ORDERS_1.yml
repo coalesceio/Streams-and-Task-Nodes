@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 5557b44f-11ee-48fd-b70f-1b8c0cbff5f3
-name: SIM_ORDERS
+name: SIM_ORDERS_1
 operation:
   config:
     appendOnly: false
@@ -210,9 +210,9 @@ operation:
             nodeName: STG_ORDERS
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'STG_ORDERS') }} "STG_ORDERS"
-        name: SIM_ORDERS
+        name: SIM_ORDERS_1
         noLinkRefs: []
-  name: SIM_ORDERS
+  name: SIM_ORDERS_1
   overrideSQL: false
   schema: ""
   sqlType: "152"
