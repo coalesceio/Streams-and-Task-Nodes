@@ -173,7 +173,7 @@ operation:
   name: STG_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: "446"
   type: sql
   version: 1
 type: Node

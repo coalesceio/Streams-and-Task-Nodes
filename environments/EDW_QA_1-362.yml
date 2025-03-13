@@ -7,5 +7,5 @@ mappingDefinitions:
   TARGET_DB:
     database: POONAMM_DEV
     schema: EDW_QA_1
-name: EDW_QA_2
+name: EDW_QA_1
 type: Environment
