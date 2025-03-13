@@ -26,7 +26,7 @@ operation:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: false
-    redeploymentBehavior: Create At Existing Stream
+    redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"

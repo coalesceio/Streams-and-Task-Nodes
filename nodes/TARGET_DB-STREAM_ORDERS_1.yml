@@ -5,7 +5,7 @@ operation:
   config:
     appendOnly: false
     initialRows: true
-    redeploymentBehavior: Create At Existing Stream
+    redeploymentBehavior: Create or Replace
     sourceType: Table
   database: ""
   deployEnabled: true
