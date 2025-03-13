@@ -32,7 +32,7 @@ operation:
     whName: DEV_WH_XS
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -86,9 +86,23 @@ operation:
           columnCounter: 4606b6cb-d7a3-40a3-b2e8-1dd2d319c9a3
           stepCounter: db138a5f-9da8-4d5c-89e0-21780870e3f6
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: NUMBER(10,2)
         description: ""
         name: O_TOTALPRICE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: aa29ea6c-5d24-4d9e-9b5e-8a397f9530d5
+                stepCounter: c060d9e6-0b17-4847-8e54-217134b04aba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 31bfdab6-3d7a-40b7-bb5e-8b45016d9adf
+          stepCounter: db138a5f-9da8-4d5c-89e0-21780870e3f6
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: O_TOTALPRICE1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -111,12 +125,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0d5c58f0-93e2-4f6b-bb48-89be086af166
+          columnCounter: 9ac05aaa-4dec-4900-943a-ff715003e09e
           stepCounter: db138a5f-9da8-4d5c-89e0-21780870e3f6
         config: {}
-        dataType: VARCHAR(15)
+        dataType: VARCHAR(20)
         description: ""
-        name: O_ORDERPRIORITY
+        name: O_ORDERPRIORITY_NEW
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -130,7 +144,7 @@ operation:
         config: {}
         dataType: VARCHAR(15)
         description: ""
-        name: O_CLERK
+        name: O_CLERK_NEW
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -157,7 +171,7 @@ operation:
           stepCounter: db138a5f-9da8-4d5c-89e0-21780870e3f6
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: This is Column Comment
         name: O_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -178,7 +192,7 @@ operation:
           - columnReferences:
               - columnCounter: f5920492-511f-45ff-86f6-13f1d881336b
                 stepCounter: c060d9e6-0b17-4847-8e54-217134b04aba
-            transform: ""
+            transform: current_date()
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

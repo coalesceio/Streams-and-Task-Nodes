@@ -31,7 +31,7 @@ operation:
     whName: DEV_WH_XS
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -75,7 +75,7 @@ operation:
         dataType: VARCHAR(1)
         description: ""
         name: O_ORDERSTATUS
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 42bb493f-6dd9-400a-9b7c-f549382df911
@@ -86,9 +86,23 @@ operation:
           columnCounter: e59a688d-b5ea-4e1e-a510-a01985cbe442
           stepCounter: b06ee97d-606b-4e7d-8c66-939208fa2dc4
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: NUMBER(10,2)
         description: ""
         name: O_TOTALPRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: aa29ea6c-5d24-4d9e-9b5e-8a397f9530d5
+                stepCounter: c060d9e6-0b17-4847-8e54-217134b04aba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 465c49ee-c528-48fb-ab6a-88d63c5f5184
+          stepCounter: b06ee97d-606b-4e7d-8c66-939208fa2dc4
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: O_TOTALPRICE1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -128,7 +142,7 @@ operation:
           columnCounter: 717943c2-e319-4fd1-99ba-bce2dbe20c3d
           stepCounter: b06ee97d-606b-4e7d-8c66-939208fa2dc4
         config: {}
-        dataType: VARCHAR(15)
+        dataType: VARCHAR(25)
         description: ""
         name: O_CLERK
         nullable: true
@@ -157,7 +171,7 @@ operation:
           stepCounter: b06ee97d-606b-4e7d-8c66-939208fa2dc4
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: This is column description
         name: O_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -178,7 +192,7 @@ operation:
           - columnReferences:
               - columnCounter: f5920492-511f-45ff-86f6-13f1d881336b
                 stepCounter: c060d9e6-0b17-4847-8e54-217134b04aba
-            transform: ""
+            transform: current_date()
       - acceptedValues:
           strictMatch: true
           values: []
