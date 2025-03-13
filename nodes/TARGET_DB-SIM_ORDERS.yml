@@ -37,7 +37,7 @@ operation:
     sourceType: Table
     whName: DEV_WH_XS
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB

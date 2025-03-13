@@ -5,7 +5,7 @@ operation:
   config:
     rootTask: ROOT_TASK
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
