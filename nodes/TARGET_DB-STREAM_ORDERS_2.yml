@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 9b0d4681-e506-430b-8680-f7ab7e06480f
-name: STREAM_ORDERS_1
+name: STREAM_ORDERS_2
 operation:
   config:
     appendOnly: false
@@ -232,9 +232,9 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: STREAM_ORDERS_1
+        name: STREAM_ORDERS_2
         noLinkRefs: []
-  name: STREAM_ORDERS_1
+  name: STREAM_ORDERS_2
   overrideSQL: false
   schema: ""
   sqlType: "153"
