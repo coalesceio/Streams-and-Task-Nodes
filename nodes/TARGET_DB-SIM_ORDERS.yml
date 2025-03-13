@@ -38,7 +38,7 @@ operation:
     whName: DEV_WH_XS
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -92,7 +92,7 @@ operation:
           columnCounter: 728d2a5b-40f6-4235-88ad-8ea43c2abad4
           stepCounter: 5557b44f-11ee-48fd-b70f-1b8c0cbff5f3
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: NUMBER(10,2)
         description: ""
         name: O_TOTALPRICE
         nullable: true
@@ -120,9 +120,23 @@ operation:
           columnCounter: a4da56e3-8601-4821-b2f1-8aa1159d7ecf
           stepCounter: 5557b44f-11ee-48fd-b70f-1b8c0cbff5f3
         config: {}
-        dataType: VARCHAR(15)
+        dataType: VARCHAR(25)
         description: ""
         name: O_ORDERPRIORITY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7acbd639-bc08-4c0a-b637-d7a911e47dd6
+                stepCounter: c060d9e6-0b17-4847-8e54-217134b04aba
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6fe3ad39-66dd-48ef-b4a3-2f9f95d15a55
+          stepCounter: 5557b44f-11ee-48fd-b70f-1b8c0cbff5f3
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: O_ORDERPRIORITY1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -163,7 +177,7 @@ operation:
           stepCounter: 5557b44f-11ee-48fd-b70f-1b8c0cbff5f3
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: This is column Description
         name: O_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -184,7 +198,7 @@ operation:
           - columnReferences:
               - columnCounter: f5920492-511f-45ff-86f6-13f1d881336b
                 stepCounter: c060d9e6-0b17-4847-8e54-217134b04aba
-            transform: ""
+            transform: current_date()
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

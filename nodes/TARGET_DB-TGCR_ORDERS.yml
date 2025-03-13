@@ -12,7 +12,7 @@ operation:
     whName: DEV_WH_XS
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -66,9 +66,23 @@ operation:
           columnCounter: 61bcf01e-0cfc-4990-878e-5b8d6cce6e01
           stepCounter: 44e14eda-6630-4bbf-8943-13f2ac58fda4
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: NUMBER(10,2)
         description: ""
         name: O_TOTALPRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cbc0146e-f7f5-422c-a60e-466d05287f6d
+                stepCounter: 5618b1d4-8711-4548-9448-8aaaf3deaa07
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 333af551-465d-4e8e-85d2-88a0e9163b55
+          stepCounter: 44e14eda-6630-4bbf-8943-13f2ac58fda4
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: O_TOTALPRICE1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -97,7 +111,7 @@ operation:
         dataType: VARCHAR(15)
         description: ""
         name: O_ORDERPRIORITY
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 3223b612-3a35-4a1c-9526-3fa99aa52085
@@ -108,7 +122,7 @@ operation:
           columnCounter: 5139b55c-2107-43db-9ceb-adcf25bcb24d
           stepCounter: 44e14eda-6630-4bbf-8943-13f2ac58fda4
         config: {}
-        dataType: VARCHAR(15)
+        dataType: VARCHAR(25)
         description: ""
         name: O_CLERK
         nullable: true
@@ -119,25 +133,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 660bfdd4-885f-4001-a328-0a4046672029
-          stepCounter: 44e14eda-6630-4bbf-8943-13f2ac58fda4
-        config: {}
-        dataType: NUMBER(38,0)
-        description: ""
-        name: O_SHIPPRIORITY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: a3b549f0-bc8e-4ecc-95ea-adaeb020b15d
-                stepCounter: 5618b1d4-8711-4548-9448-8aaaf3deaa07
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 89a631e4-5cf7-4ac2-bf09-b7e52874145d
           stepCounter: 44e14eda-6630-4bbf-8943-13f2ac58fda4
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: this is column description
         name: O_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -158,7 +158,7 @@ operation:
           - columnReferences:
               - columnCounter: ce279e68-8965-4e62-8ffb-aaf58c91e506
                 stepCounter: 5618b1d4-8711-4548-9448-8aaaf3deaa07
-            transform: ""
+            transform: current_date()
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

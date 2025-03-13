@@ -9,7 +9,7 @@ operation:
     sourceType: Table
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: stream
@@ -52,7 +52,7 @@ operation:
         dataType: VARCHAR(1)
         description: ""
         name: O_ORDERSTATUS
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: a740127b-3664-4f2b-a682-b24f28d9d972
@@ -63,7 +63,7 @@ operation:
           columnCounter: 078a60ea-ae89-4aac-ad08-b536182c09a1
           stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: NUMBER(10,2)
         description: ""
         name: O_TOTALPRICE
         nullable: true
@@ -116,6 +116,20 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 82bda786-d280-4040-b22e-47572c4ff422
+          stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: O_CLERK1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2e91ee0b-af4e-4671-b4e9-c9d54abea82b
+                stepCounter: 5618b1d4-8711-4548-9448-8aaaf3deaa07
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: af39eabe-6472-4c06-9746-05d7c301f48f
           stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
@@ -134,7 +148,7 @@ operation:
           stepCounter: 9b0d4681-e506-430b-8680-f7ab7e06480f
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: This is column description
         name: O_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -155,7 +169,7 @@ operation:
           - columnReferences:
               - columnCounter: ce279e68-8965-4e62-8ffb-aaf58c91e506
                 stepCounter: 5618b1d4-8711-4548-9448-8aaaf3deaa07
-            transform: ""
+            transform: current_date()
       - acceptedValues:
           strictMatch: true
           values: []

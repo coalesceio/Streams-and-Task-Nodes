@@ -9,7 +9,7 @@ operation:
     storageLocation: TARGET_DB
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is table description
   isMultisource: false
   locationName: TARGET_DB
   materializationType: stream
@@ -134,7 +134,7 @@ operation:
           stepCounter: 2481bea1-1498-46c5-9549-ea86a0f135f9
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: This is column description
         name: O_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -155,7 +155,7 @@ operation:
           - columnReferences:
               - columnCounter: ce279e68-8965-4e62-8ffb-aaf58c91e506
                 stepCounter: 5618b1d4-8711-4548-9448-8aaaf3deaa07
-            transform: ""
+            transform: current_date()
       - acceptedValues:
           strictMatch: true
           values: []
