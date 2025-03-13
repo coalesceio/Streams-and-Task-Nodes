@@ -30,7 +30,7 @@ operation:
     serverlessSize: MEDIUM
     whName: DEV_WH_XS
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB
