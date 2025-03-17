@@ -5,7 +5,7 @@ metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |-
-    capitalized: Copy of Stream and Insert or Merge
+    capitalized: Stream and Insert or Merge
     short: SIM
     tagColor: black
     plural: Streams and Merges
@@ -187,6 +187,7 @@ metadata:
      
       enableIf: "{% if config.devMode == true %} false {% else %} true {% endif %}"
       items:
+
       - displayName: Scheduling Mode
         attributeName: schedulingMode
         type: dropdownSelector
@@ -205,7 +206,16 @@ metadata:
         isRequired: true
      
     # Warehouse name  you want the task to run #
-     
+      - type: label
+        attributeName: note2
+        displayName: 
+                       "NOTE:
+                       \n
+                       Ensure the parameter targetTaskWarehouse is added in Workspace and 
+                       deployment environment  for successful creation of Steam.  
+                       For more information, refer to the documentation."
+        enableIf: "{%- if (parameters == {} or parameters.targetTaskWarehouse == '' ) and config.schedulingMode == 'Warehouse Task'-%} true {%- else -%} false {%- endif -%}"
+        
       - displayName: Select Warehouse on which to run task
         attributeName: whName
         type: textBox
