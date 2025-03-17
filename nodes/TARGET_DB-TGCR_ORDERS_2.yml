@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 44e14eda-6630-4bbf-8943-13f2ac58fda4
-name: TGCR_ORDERS_1
+name: TGCR_ORDERS_2
 operation:
   config:
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
@@ -170,9 +170,9 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: TGCR_ORDERS_1
+        name: TGCR_ORDERS_2
         noLinkRefs: []
-  name: TGCR_ORDERS_1
+  name: TGCR_ORDERS_2
   overrideSQL: false
   schema: ""
   sqlType: "154"

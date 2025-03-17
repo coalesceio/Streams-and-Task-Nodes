@@ -1,6 +1,6 @@
 fileVersion: 1
 id: db138a5f-9da8-4d5c-89e0-21780870e3f6
-name: TSKWRK_ORDERS_1
+name: TSKWRK_ORDERS_2
 operation:
   config:
     clusterKey: false
@@ -204,9 +204,9 @@ operation:
             nodeName: STG_ORDERS
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'STG_ORDERS') }} "STG_ORDERS"
-        name: TSKWRK_ORDERS_1
+        name: TSKWRK_ORDERS_2
         noLinkRefs: []
-  name: TSKWRK_ORDERS_1
+  name: TSKWRK_ORDERS_2
   overrideSQL: false
   schema: ""
   sqlType: "151"
