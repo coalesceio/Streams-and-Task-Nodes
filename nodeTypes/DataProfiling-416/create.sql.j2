@@ -281,7 +281,7 @@ does not permit copying or modification for any other purpose.
 				ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
 			{%- endif -%}
 
-			{{ stage('Create Task', true, "sql", "alter") }}
+			{{ stage('Create Data Profiling Task', true, "sql", "create") }}
 			{# Set Namespace Variables #}
 			{% set nsVariables = namespace(taskWhenRun="") %}
 			{% set nsVariables = namespace(poll="WHEN ") %}
