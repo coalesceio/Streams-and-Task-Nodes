@@ -1,0 +1,421 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Data Profiling With Task == #}
+{# == Node Type Description    : This node creates a Data Profiling table and a task to insert data into Data Profiling  == #}
+
+{# Parameter Check for Deployment #}
+{%if desiredState and currentState != desiredState and desiredState.config.schedulingMode == 'Warehouse Task' and desiredState.config.taskSchedule %}
+	 {% if desiredState.parameters == {} or 'targetTaskWarehouse' not in  desiredState.parameters or desiredState.parameters.targetTaskWarehouse == ''%}
+
+		 {{stage('WARNING')}}
+		 
+		  /*Add parameter targetTaskWarehouse in workspace settings and deployment environment for successful execution of node.
+		  The default value for the parameter is 'DEV ENVIRONMENT'.
+		  For more information, refer to the documentation.*/
+	{%endif%}
+{%endif%}
+
+
+{# Create / Alter Table first #}
+
+{% if desiredState and desiredState != currentState%}
+
+	{# Target Table Info #}
+	{% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
+	{% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
+	{% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
+	{% set TargetTableName = desiredState.node.name %}
+	{% set fullyQualifiedDataProfilingTableName = fullyQualifiedTargetTableName | replace('"','') + "_DATA_PROFILING" %}
+	{% set DataProfilingTableName = TargetTableName | replace('"','') + "_DATA_PROFILING" %}
+	
+	{% set colIsDistinctCount = columns | selectattr(('isDistinctCount'), 'defined') | map(attribute='name') | list %}
+	{% set colIsNullCount = columns | selectattr(('isNullCount'), 'defined') | map(attribute='name') | list %}
+	{% set colIsNotNullCount = columns | selectattr(('isNotNullCount'), 'defined') | map(attribute='name') | list %}
+	{% set colIsMaxMetric = columns | selectattr(('isMaxMetric'), 'defined') | map(attribute='name') | list %}
+	{% set colIsMinMetric = columns | selectattr(('isMinMetric'), 'defined') | map(attribute='name') | list %}
+	{% set colIsAvgMetric = columns | selectattr(('isAvgMetric'), 'defined') | map(attribute='name') | list %}
+	{% set colValDist = columns | selectattr(('valDist'), 'defined') | map(attribute='name') | list %}
+	{% set colValMaxLen = columns | selectattr(('valMaxLen'), 'defined') | map(attribute='name') | list %}
+	{% set colValMinLen = columns | selectattr(('valMinLen'), 'defined') | map(attribute='name') | list %}
+	{% set colValStandardDeviation = columns | selectattr(('valStandardDeviation'), 'defined') | map(attribute='name') | list %}
+	{% set colIsAvgMetricCalc = [] %}
+
+	{%- for col in columns %}
+			{% if (col.name in colIsAvgMetric) and ((col.dataType == 'FLOAT') or (col.dataType[:6] == 'NUMBER')) %}
+				{% set colIsAvgMetricCalc = colIsAvgMetricCalc.append(col.name) %}
+			{% endif %}
+	{% endfor %}
+	
+	{% set colUnique = (colIsDistinctCount + colIsNullCount +colIsNotNullCount + colIsMaxMetric + colIsMinMetric + colIsAvgMetricCalc + colValDist + colValMaxLen + colValMinLen + colValStandardDeviation) | unique | list %}
+	
+	{% set testMetrics = [] %}
+	{%- if colIsDistinctCount | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isDistinctCount',
+											 'Distinct Count',
+											 'COUNT(DISTINCT "col_name" ) ',
+											 '_DISTINCT',
+											 colIsDistinctCount)] %}
+	{% endif %}
+	{%- if colIsNullCount | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isNullCount',
+											 'Null Count',
+											 'SUM(CASE WHEN "col_name" IS NULL THEN 1 ELSE 0 END)',
+											 '_NULL',
+											 colIsNullCount)] %}
+	{% endif %}
+	{%- if colIsNotNullCount | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isNotNullCount',
+											 'Not Null Count',
+											 'SUM(CASE WHEN "col_name" IS NOT NULL THEN 1 ELSE 0 END) ',
+											 '_NOT_NULL',
+											 colIsNotNullCount)] %}
+	{% endif %}
+	{%- if colIsMaxMetric | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isMaxMetric',
+											 'Max Metric',
+											 'MAX(col_name) ',
+											 '_MAX',
+											 colIsMaxMetric)] %}
+	{% endif %}
+	{%- if colIsMinMetric | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isMinMetric',
+											 'Min Metric',
+											 'MIN(col_name) ',
+											 '_MIN',
+											 colIsMinMetric)] %}
+	{% endif %}
+	{%- if colIsAvgMetric | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isAvgMetricCalc',
+											 'Average Metric',
+											 'AVG(col_name) ',
+											 '_AVG',
+											 colIsAvgMetricCalc)] %}
+	{% endif %}
+	{%- if colValDist | length > 0 %} 
+		{% set testMetrics = testMetrics + [('valDist',
+											 'Value Distribution',
+											 'PARSE_JSON(( SELECT CAST(TO_JSON(ARRAY_AGG(OBJECT_CONSTRUCT(col_name,OCCURANCES_col_name))) AS STRING )
+											   FROM (
+											   SELECT DISTINCT col_name, 
+											   COUNT(*) as OCCURANCES_col_name 
+											   {{ sources[0].join }} 
+											   GROUP BY col_name 
+											   ORDER BY OCCURANCES_col_name 
+											   DESC LIMIT 100)SQ ))',
+											   '_VAL_DIST',
+											   colValDist)] %}
+	{% endif %}
+	{%- if colValMaxLen | length > 0 %} 
+		{% set testMetrics = testMetrics + [('valMaxLen',
+											 'Maximum Value Length',
+											 'MAX(CASE WHEN "col_name" IS NOT NULL THEN LEN("col_name") END) ',
+											 '_MAX_VAL_LEN',
+											 colValMaxLen)] %}
+	{% endif %}
+	{%- if colValMinLen | length > 0 %} 
+		{% set testMetrics = testMetrics + [('valMinLen',
+											 'Minimum Value Length',
+											 'MIN(CASE WHEN "col_name" IS NOT NULL THEN LEN("col_name") END) ',
+											 '_MIN_VAL_LEN',
+											 colValMinLen)] %}
+	{% endif %}
+	{%- if colValStandardDeviation | length > 0 %} 
+		{% set testMetrics = testMetrics + [('colValStandardDeviation',
+											 'Standard Deviation',
+											 'STDDEV(CASE WHEN "col_name" IS NOT NULL THEN LEN("col_name") END)',
+											 '_STDDEV',
+											 colValStandardDeviation)] %}
+	{% endif %}
+
+
+	{% if currentState == undefined or currentState.storageLocations | length == 0%}
+		{{ stage('Create Data Profiling Table', true, "sql", "create") }}
+		CREATE TABLE IF NOT EXISTS {{ fullyQualifiedDataProfilingTableName }}(
+			OBJECT_NAME VARCHAR(50),
+			COLUMN_NAME VARCHAR(100),
+			FUNCTION_APPLIED VARCHAR(50),
+			RESULT VARIANT
+		)
+
+  {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+
+        {% if desiredState.config.clusterKey == true %}
+            {{ stage('Apply Table Clustering', true, "sql", "create") }}
+            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
+
+            {{ stage('Resume Recluster Table', true, "sql", "create") }}
+            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
+        {% endif %}
+	{% elif currentState != undefined %}
+
+		{# Change Node Name or Change Storage Location #}
+		{# Storage Location Tests #}
+		{# Only need to account for updated Storage Location mappings   #}	 
+		{# Current and Desired Namespace Varialbes initialisation #}
+
+			{% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
+
+			{# Current State Storage Location Info #}
+			{% for source in currentState.sources %}
+				{% for dep in source.dependencies %}
+					{% set depSourceLocation = dep.node.location.name %}
+					{% if loop.first %}
+						{% set nsVariables.nsCurrentDepStorageLocations = depSourceLocation %}
+					{% else %}
+						{% set nsVariables.nsCurrentDepStorageLocations = nsVariables.nsCurrentDepStorageLocations + ',' + depSourceLocation %}
+					{% endif %}
+				{% endfor %}
+				
+				{% if loop.first %}
+					{% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentDepStorageLocations %}
+				{% else %}
+					{% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentDepStorageLocations %}
+				{% endif %}
+			{% endfor %}
+
+			{% set nsVariables.nsCurrentTargetStorageLocations = currentState.node.location.name  %}
+
+			{% set nsVariables.nsCurrentUsedStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentTargetStorageLocations %}
+
+			{% set currentStorageLocations = (nsVariables.nsCurrentUsedStorageLocations).split(',') | list %}
+			{% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
+
+			{# Desired State Storage Location Info #}
+			{% for source in desiredState.sources %}
+				{% for dep in source.dependencies %}
+					{% set depSourceLocation = dep.node.location.name %}
+					{% if loop.first %}
+						{% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
+					{% else %}
+						{% set nsVariables.nsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
+					{% endif %}
+				{% endfor %}
+				
+				{% if loop.first %}
+					{% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredDepStorageLocations %}
+				{% else %}
+					{% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredDepStorageLocations %}
+				{% endif %}
+			{% endfor %}
+
+			{% set nsVariables.nsDesiredTargetStorageLocations = desiredState.node.location.name  %}
+
+			{% set nsVariables.nsDesiredUsedStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredTargetStorageLocations %}
+
+			{% set desiredStorageLocations = (nsVariables.nsDesiredUsedStorageLocations).split(',') | list %}
+			{% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
+
+			{# Test  #}
+			
+			{% for name in desiredUniqueStorageLocations if nsVariables.storageLocationTest == true %}
+				{# Current mappings #}
+				 {%if currentState.storageLocations|length == 0%}
+			  
+			  {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | string %}
+			  {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | string %}
+			   {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
+			{%elif name in currentUniqueStorageLocations %}
+			
+				{% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
+				{% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
+				{% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}  
+			{%endif%}
+		   
+			{# Desired mappings #}
+			{% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
+			{% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
+			{% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}		   
+			
+			 {% if currentDatabaseSchema != desiredDatabaseSchema %}
+				{% set nsVariables.storageLocationTest = false %}
+			 {% endif %}
+			{% endfor %}
+
+			{# Rename / Move Object #}
+			{% if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
+				{{ stage('Rename and / or Move Table', true, "sql", "alter") }}
+				{% set srcSchName = currentState.node.location.name %}
+				{% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
+				{% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
+				{% set dpTableName =  currentState.node.name | replace('"','') + "_DATA_PROFILING"  %}
+				{% set renameDpTableName =  desiredState.node.name | replace('"','') + "_DATA_PROFILING"  %}
+				ALTER TABLE  "{{cdb}}"."{{csch}}"."{{cdpTableName}}"
+				RENAME TO   {{ ref_no_link(desiredState.node.location.name, renameDpTableName) }}
+			{% endif %}
+
+
+{% endif %}
+{% elif currentState != undefined and desiredState == undefined %}
+
+	{# Table or View Name #}
+	{% set targetObjectDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+	{% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+	{% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+	{% set dpTargetTableName =  currentState.node.name | replace('"','') + "_DATA_PROFILING"  %}
+	{% set fullyQualifiedTargetDataProfilingObjectName = ref_no_link(currentState.node.location.name, dpTargetTableName) %}
+		{{ stage('Drop Table', true, "sql", "drop") }}
+		DROP TABLE IF EXISTS {{ fullyQualifiedTargetDataProfilingObjectName }}
+
+{% endif %}
+
+{# Create Task Second #}
+
+{% if desiredState and  desiredState != currentState%}
+
+		{# Target Table Info #}
+		{% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
+		{% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
+		{% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
+
+
+		{% if desiredState.config.taskSchedule == true %}
+			{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
+				{%- set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + desiredState.config.rootTask + '"' -%} 
+				{{ stage('Suspend Root Task', true, "sql", "alter") }}
+				ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+			{%- endif -%}
+
+			{{ stage('Create Task', true, "sql", "alter") }}
+			{# Set Namespace Variables #}
+			{% set nsVariables = namespace(taskWhenRun="") %}
+			{% set nsVariables = namespace(poll="WHEN ") %}
+
+			{# Task Info #}
+			{% set taskName = desiredState.node.name + '_TASK'  %}
+			{%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+
+			{# Task Type #}
+			{%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
+				{# Can be updated during deployment via a parameter to account for different warehouse names in different deployments #}
+			  {% if 'targetTaskWarehouse'  in  desiredState.parameters %}
+				{% if desiredState.parameters.targetTaskWarehouse == 'DEV ENVIRONMENT' %}
+					{% set taskType = 'WAREHOUSE = ' + desiredState.config.whName %}
+				{% else %}
+					{% set taskType = 'WAREHOUSE = ' + desiredState.parameters.targetTaskWarehouse %}
+				{% endif %}
+			  {% endif %}
+			{%- else -%}
+				{%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize -%} 
+			{%- endif -%}
+		   
+			{# Schedule Type #}
+			{%- if desiredState.config.schedulePeriodOption == 'Minutes' -%} 
+				{%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + desiredState.config.schedulePeriod + ' MINUTE' + "'" -%} 
+			{% elif desiredState.config.schedulePeriodOption == 'CRON' %}
+				{%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON +"'" %}
+			{%- else -%}
+				{%- set nsVariables.taskWhenRun = 'AFTER ' -%}
+				{%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
+
+				{%- for p in predecessorTasks -%}
+					{%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '.' + p -%}
+					{%- if not loop.last -%} 
+						{%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
+					{%- endif %}
+				{% endfor %}	
+			{%- endif -%}
+
+			{# When Stream has data logic #}
+			{# Source Stream Location and Name #}
+			{% if desiredState.config.flagSrcStream == true %}
+				{% for source in desiredState.sources %}
+					{% for dep in source.dependencies %}
+						{% if (dep.node.materializationType == 'stream') %}
+							{% set streamStorageLocation = dep.node.location.name %}
+							{% set streamSourceDatabase = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='database') | first %}
+							{% set streamSourceSchema = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='schema') | first %}
+							{% set streamSourceName = dep.node.name %}
+
+							{%- if nsVariables.poll == 'WHEN ' -%}
+								{% set nsVariables.poll = nsVariables.poll + 'SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+							{% else %}
+								{% set nsVariables.poll = nsVariables.poll + desiredState.config.multiStreamBehavior + ' SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+							{%- endif -%}
+						{%- endif -%}
+					{% endfor %}
+				{% endfor %}
+			{% endif -%}
+
+			{# To mimic truncate behavior #}
+			{% if desiredState.config.truncateBefore == true %}
+				{% set truncateBehavior = 'INSERT OVERWRITE' %}
+			{% else %}
+				{% set truncateBehavior = 'INSERT' %}
+			{% endif -%}
+
+			CREATE OR REPLACE TASK 
+				{{ fullyQualifiedTaskName }} 
+				{{ taskType}} 
+				{{ nsVariables.taskWhenRun }} 
+				{% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
+			AS 
+		  {{ truncateBehavior }} INTO {{ fullyQualifiedDataProfilingTableName }}(
+			OBJECT_NAME,
+			COLUMN_NAME,
+			FUNCTION_APPLIED,
+			RESULT
+		)
+		SELECT * FROM (
+			{%- for colList in testMetrics %}
+			SELECT 
+			 '{{ desiredState.sources[0].dependencies[0].node.name}}' AS OBJECT_NAME,
+			 '{{colList[-1][0]}}'AS COLUMN_NAME, 
+			 '{{colList[1]}}' AS FUNCTION_NAME,
+			 {{ colList[2]  | replace("col_name",colList[-1][0])  }} AS RESULT
+			{%- if colList[1] != 'Value Distribution' %}
+			 {{ sources[0].join }}
+			{%- if config.sampleMode == 'Sample' %}
+			 SAMPLE (
+			 {%- if desiredState.config.sampleOption == 'Percentage' -%}
+			 	{{ desiredState.config.samplePercent }}
+			 {%- else -%}
+			 	{{ desiredState.config.sampleRows }} ROWS
+			 {%- endif -%}
+			 )
+			 {%- endif -%}
+			{% endif -%}
+			{%- if not loop.last %} 
+			UNION ALL 
+			{% endif -%}
+			{% endfor -%}		
+		)CTE
+
+			{%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
+				{{ stage('Resume Task', true, "sql", "alter") }}
+				ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
+			{%- endif -%}	   
+		{%- endif -%}
+
+{% elif currentState != undefined and desiredState == undefined %}
+
+	{# Target Table Info #}
+	{% set targetTableDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+	{% set targetTableSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+	{% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+
+	{% if currentState.config.taskSchedule == true %}
+		{# FQ Root Task name #}
+		{% set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + currentState.config.rootTask + '"'%}
+
+		{# Task Info #}
+		{% set taskName = currentState.node.name + '_TASK'  %}
+		{%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+
+		{%- if currentState.config.schedulePeriodOption == 'Predecessor' -%} 
+		{{ stage('Suspend Root Task', true, "sql", "drop") }}
+			ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
+		{{ stage('Drop Current Task', true, "sql", "drop") }}
+			DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+		{%- else -%}
+		{{ stage('Drop Current Task', true, "sql", "drop") }}
+			DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+		{%- endif -%}
+	{%- endif -%}
+
+{% endif %}

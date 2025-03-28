@@ -1,0 +1,196 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Data Profiling With Task == #}
+{# == Node Type Description    : This node inserts data into a Data Profiling table  == #}
+
+{# == To run data quality tests before data insertion == #}
+ 
+	{% for test in node.tests if config.testsEnabled %}
+		{% if test.runOrder == 'Before' %}
+			{{ test_stage(test.name, test.continueOnFailure) }}
+			{{ test.templateString }}
+		{% endif %}
+	{% endfor %}
+
+{# Target Table Info #}
+
+	{% set targetTableDatabase = ref_no_link(node.location.name, node.name).split('.')[0] %} 
+	{% set targetTableSchema = ref_no_link(node.location.name, node.name).split('.')[1] %} 
+	{% set fullyQualifiedTargetTableName = ref_no_link(node.location.name, node.name) %}
+	{% set fullyQualifiedDataProfilingTableName = fullyQualifiedTargetTableName | replace('"','') + "_DATA_PROFILING" %}
+	
+{# == Truncate data before data insertion  == #}
+
+	{% if config.truncateBefore %}	
+		{{ stage('Truncate Data Profiling Table') }}
+		TRUNCATE IF EXISTS {{ fullyQualifiedDataProfilingTableName }}
+	{% endif %}
+
+{# Data Profiling Table Columns Information and Calculations #}
+
+	{% set colIsDistinctCount = columns | selectattr(('isDistinctCount'), 'defined') | map(attribute='name') | list %}
+	{% set colIsNullCount = columns | selectattr(('isNullCount'), 'defined') | map(attribute='name') | list %}
+	{% set colIsNotNullCount = columns | selectattr(('isNotNullCount'), 'defined') | map(attribute='name') | list %}
+	{% set colIsMaxMetric = columns | selectattr(('isMaxMetric'), 'defined') | map(attribute='name') | list %}
+	{% set colIsMinMetric = columns | selectattr(('isMinMetric'), 'defined') | map(attribute='name') | list %}
+	{% set colIsAvgMetric = columns | selectattr(('isAvgMetric'), 'defined') | map(attribute='name') | list %}
+	{% set colValDist = columns | selectattr(('valDist'), 'defined') | map(attribute='name') | list %}
+	{% set colValMaxLen = columns | selectattr(('valMaxLen'), 'defined') | map(attribute='name') | list %}
+	{% set colValMinLen = columns | selectattr(('valMinLen'), 'defined') | map(attribute='name') | list %}
+	{% set colValStandardDeviation = columns | selectattr(('valStandardDeviation'), 'defined') | map(attribute='name') | list %}
+	{% set colIsAvgMetricCalc = [] %}
+
+	{%- for col in columns %}
+			{% if (col.name in colIsAvgMetric) and ((col.dataType == 'FLOAT') or (col.dataType[:6] == 'NUMBER')) %}
+				{% set colIsAvgMetricCalc = colIsAvgMetricCalc.append(col.name) %}
+			{% endif %}
+	{% endfor %}
+	
+	{% set colUnique = (colIsDistinctCount + colIsNullCount +colIsNotNullCount + colIsMaxMetric + colIsMinMetric + colIsAvgMetricCalc + colValDist + colValMaxLen + colValMinLen + colValStandardDeviation) | unique | list %}
+	
+	{% set testMetrics = [] %}
+	{%- if colIsDistinctCount | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isDistinctCount',
+											 'Distinct Count',
+											 'COUNT(DISTINCT "col_name" ) ',
+											 '_DISTINCT',
+											 colIsDistinctCount)] %}
+	{% endif %}
+	{%- if colIsNullCount | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isNullCount',
+											 'Null Count',
+											 'SUM(CASE WHEN "col_name" IS NULL THEN 1 ELSE 0 END)',
+											 '_NULL',
+											 colIsNullCount)] %}
+	{% endif %}
+	{%- if colIsNotNullCount | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isNotNullCount',
+											 'Not Null Count',
+											 'SUM(CASE WHEN "col_name" IS NOT NULL THEN 1 ELSE 0 END) ',
+											 '_NOT_NULL',
+											 colIsNotNullCount)] %}
+	{% endif %}
+	{%- if colIsMaxMetric | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isMaxMetric',
+											 'Max Metric',
+											 'MAX(col_name) ',
+											 '_MAX',
+											 colIsMaxMetric)] %}
+	{% endif %}
+	{%- if colIsMinMetric | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isMinMetric',
+											 'Min Metric',
+											 'MIN(col_name) ',
+											 '_MIN',
+											 colIsMinMetric)] %}
+	{% endif %}
+	{%- if colIsAvgMetric | length > 0 %} 
+		{% set testMetrics = testMetrics + [('isAvgMetricCalc',
+											 'Average Metric',
+											 'AVG(col_name) ',
+											 '_AVG',
+											 colIsAvgMetricCalc)] %}
+	{% endif %}
+	{%- if colValDist | length > 0 %} 
+		{% set testMetrics = testMetrics + [('valDist',
+											 'Value Distribution',
+											 'PARSE_JSON(( SELECT CAST(TO_JSON(ARRAY_AGG(OBJECT_CONSTRUCT(col_name,OCCURANCES_col_name))) AS STRING )
+											 FROM (
+											 SELECT DISTINCT col_name, 
+											 COUNT(*) as OCCURANCES_col_name 
+											 {{ sources[0].join }} 
+											 GROUP BY col_name 
+											 ORDER BY OCCURANCES_col_name 
+											 DESC LIMIT 100)SQ ))',
+											 '_VAL_DIST',
+											 colValDist)] %}
+	{% endif %}
+	{%- if colValMaxLen | length > 0 %} 
+		{% set testMetrics = testMetrics + [('valMaxLen',
+											 'Maximum Value Length',
+											 'MAX(CASE WHEN "col_name" IS NOT NULL THEN LEN("col_name") END) ',
+											 '_MAX_VAL_LEN',
+											 colValMaxLen)] %}
+	{% endif %}
+	{%- if colValMinLen | length > 0 %} 
+		{% set testMetrics = testMetrics + [('valMinLen',
+											 'Minimum Value Length',
+											 'MIN(CASE WHEN "col_name" IS NOT NULL THEN LEN("col_name") END) ',
+											 '_MIN_VAL_LEN',
+											 colValMinLen)] %}
+	{% endif %}
+	{%- if colValStandardDeviation | length > 0 %} 
+		{% set testMetrics = testMetrics + [('colValStandardDeviation',
+											 'Standard Deviation',
+											 'STDDEV(CASE WHEN "col_name" IS NOT NULL THEN LEN("col_name") END)',
+											 '_STDDEV',
+											 colValStandardDeviation)] %}
+	{% endif %}
+
+
+	{{ stage('INSERT DATA TO  Data Profiling Table', true, "sql", "create") }}
+
+			INSERT INTO {{ fullyQualifiedDataProfilingTableName }}(
+			OBJECT_NAME,
+			COLUMN_NAME,
+			FUNCTION_APPLIED,
+			RESULT
+		)
+		SELECT * FROM (
+			{%- if config.isRowCount %}
+		     SELECT 
+			 '{{ sources[0].dependencies[0].node.name}}' AS OBJECT_NAME,
+			 '*'AS COLUMN_NAME, 
+			 'ROW_COUNT' AS FUNCTION_NAME,
+			 COUNT(*) AS RESULT
+			 {{ sources[0].join }}
+			 UNION ALL
+			 {%- endif -%}
+			{%- for colList in testMetrics %}
+			SELECT 
+			 '{{ sources[0].dependencies[0].node.name}}' AS OBJECT_NAME,
+			 '{{colList[-1][0]}}'AS COLUMN_NAME, 
+			 '{{colList[1]}}' AS FUNCTION_NAME,
+			 {{ colList[2]  | replace("col_name",colList[-1][0])  }} AS RESULT
+			{%- if colList[1] != 'Value Distribution' %}
+			 {{ sources[0].join }}
+			{%- if config.sampleMode == 'Sample' %}
+			 SAMPLE (
+			 {%- if config.sampleOption == 'Percentage' -%}
+			 	{{ config.samplePercent }}
+			 {%- else -%}
+			 	{{ config.sampleRows }} ROWS
+			 {%- endif -%}
+			 )
+			 {%- endif -%}
+			{% endif -%}
+			{%- if not loop.last %} 
+			UNION ALL 
+			{% endif -%}
+			{% endfor -%}		
+		)CTE
+
+
+	{# == To run data quality tests after data insertion == #}
+
+		{% if config.testsEnabled %}
+			{% for test in node.tests %}
+				{% if test.runOrder == 'After' %}
+					{{ test_stage(test.name, test.continueOnFailure) }}
+					{{ test.templateString }}
+				{% endif %}
+			{% endfor %}
+
+			{% for column in columns %}
+				{% for test in column.tests %}
+					{{ test_stage(column.name + ": " + test.name) }}
+					{{ test.templateString }}
+				{% endfor %}
+			{% endfor %}
+		{% endif %}

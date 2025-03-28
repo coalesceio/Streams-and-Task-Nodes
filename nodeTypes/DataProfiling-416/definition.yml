@@ -1,0 +1,248 @@
+fileVersion: 1
+id: "416"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Node Profiler with Task
+    short: PROF
+    tagColor: blue
+    plural: Node Profilers
+
+    deployStrategy: advanced
+
+    config:
+    - groupName: Options
+      items:
+      - displayName: Schedule Task
+        attributeName: taskSchedule
+        type: toggleButton
+        isRequired: true
+        default: false
+
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: true    
+        
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        default: false
+
+      - displayName: Sample Mode
+        attributeName: sampleMode
+        type: dropdownSelector
+        default: Sample
+        options:
+          - Sample
+          - Full Table
+          - New Option
+        isRequired: false
+
+      - displayName: Percent or Fixed Number of Rows
+        attributeName: sampleOption
+        type: dropdownSelector
+        default: Fixed Row
+        options:
+          - Fixed Row
+          - Percentage
+        isRequired: false
+        enableIf: "{% if config.sampleMode == 'Sample' %} true {% else %} false {% endif %}"
+
+      - displayName: Number of Rows
+        attributeName: sampleRows
+        type: textBox
+        default: '1000'
+        isRequired: false
+        enableIf: "{% if config.sampleMode == 'Sample' and config.sampleOption == 'Fixed Row' %} true {% else %} false {% endif %}"
+
+      - displayName: Percentage
+        attributeName: samplePercent
+        type: textBox
+        default: '10'
+        isRequired: false
+        enableIf: "{% if config.sampleMode == 'Sample' and config.sampleOption == 'Percentage' %} true {% else %} false {% endif %}"
+
+    - groupName: Counts
+      items:
+      - displayName: Row Count
+        attributeName: isRowCount
+        type: toggleButton
+        isRequired: false
+        name: ROW_COUNT
+      - displayName: Distinct Count
+        attributeName: isDistinctCount
+        type: columnSelector
+        isRequired: false
+      - displayName: Null Count
+        attributeName: isNullCount
+        type: columnSelector
+        isRequired: false
+      - displayName: Not Null Count
+        attributeName: isNotNullCount
+        type: columnSelector
+        isRequired: false
+    - groupName: Min / Max / Avg
+      items:
+      - displayName: MAX Value
+        attributeName: isMaxMetric
+        type: columnSelector
+        isRequired: false
+      - displayName: MIN Value
+        attributeName: isMinMetric
+        type: columnSelector
+        isRequired: false
+      - displayName: Average Value
+        attributeName: isAvgMetric
+        type: columnSelector
+        isRequired: false
+    - groupName: Column Details
+      items:
+      - displayName: Top 100 Value Distribution
+        attributeName: valDist
+        type: columnSelector
+        isRequired: false
+      - displayName: Max Data Length
+        attributeName: valMaxLen
+        type: columnSelector
+        isRequired: false
+      - displayName: Min Data Length
+        attributeName: valMinLen
+        type: columnSelector
+        isRequired: false
+      - displayName: Standard Deviation
+        attributeName: valStandardDeviation
+        type: columnSelector
+        isRequired: false
+        
+    - groupName: Scheduling Options
+
+     # Schedule mode-specifies whether a warehouse or serverless compute is used to run the task #
+
+      enableIf: "{% if config.taskSchedule == true %} true {% else %} false {% endif %}" 
+      items:
+       # Schedule mode-specifies whether a warehouse or serverless compute is used to run the task #
+      - displayName: Scheduling Mode
+        attributeName: schedulingMode
+        type: dropdownSelector
+        default: Warehouse Task
+        options:
+          - Warehouse Task
+          - Serverless Task
+        isRequired: true
+      # Checks whether source streams have data before executing a task #
+      - displayName: When Source Stream has Data Flag
+        attributeName: flagSrcStream
+        type: toggleButton
+        default: true
+        isRequired: true
+
+      - displayName: Multiple Stream has Data Logic
+        attributeName: multiStreamBehavior
+        type: dropdownSelector
+        default: AND
+        options:
+          - AND
+          - OR
+        isRequired: true
+        enableIf: "{% if config.flagSrcStream == true %} true {% else %} false {% endif %}"
+
+      # Warehouse name you want the task to run #
+      - type: label
+        attributeName: note2
+        displayName: 
+                       "NOTE:
+                       \n
+                       Ensure the parameter targetTaskWarehouse is added in Workspace and 
+                       deployment environment  for successful creation of Steam.  
+                       For more information, refer to the documentation."
+        enableIf: "{%- if (parameters == {} or parameters.targetTaskWarehouse == '' ) and config.schedulingMode == 'Warehouse Task'-%} true {%- else -%} false {%- endif -%}"
+
+      - displayName: Select Warehouse on which to run task
+        attributeName: whName
+        type: textBox
+        default: '<WAREHOUSE_NAME>'
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Warehouse Task' %} true {% else %} false {% endif %}"
+
+      - displayName: Select initial serverless Warehouse size
+        attributeName: serverlessSize
+        type: dropdownSelector
+        default: 'MEDIUM'
+        options:
+          - XSMALL
+          - SMALL
+          - MEDIUM
+          - LARGE
+          - XLARGE
+          - XXLARGE
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
+
+      # Way to schedule the task to run #
+
+      - displayName: Task Schedule
+        attributeName: schedulePeriodOption
+        type: dropdownSelector
+        default: Predecessor
+        options:
+          - Minutes
+          - CRON
+          - Predecessor
+        isRequired: true
+
+      - displayName: Enter task schedule using minutes
+        attributeName: schedulePeriod
+        type: textBox
+        default: '60'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Minutes' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter task schedule using CRON
+        attributeName: scheduleCRON
+        type: textBox
+        default: '5 0-23 * * * America/Los_Angeles'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter predecessor task(s) separated by a comma
+        attributeName: predTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter root task name
+        attributeName: rootTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+    - groupName: Hidden Config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: task
+        options:
+        - task
+        isRequired: false
+
+
+
+    systemColumns:
+    - displayName: PROFILE_METRIC
+      transform: "NULL"
+      dataType: VARCHAR
+      placement: end
+      attributeName: isSystemUpdateDate
+    - displayName: SYSTEM_CREATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemCreateDate
+name: Data Profiling
+type: NodeType
