@@ -14,13 +14,13 @@ operation:
     sampleRows: "1000"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
-    taskSchedule: false
+    taskSchedule: true
     testsEnabled: false
     truncateBefore: true
-    whName: <WAREHOUSE_NAME>
+    whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
