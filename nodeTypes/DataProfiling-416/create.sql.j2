@@ -359,13 +359,26 @@ does not permit copying or modification for any other purpose.
 			FUNCTION_APPLIED,
 			RESULT
 		)
+		{%- if desiredState.config.isRowCount %}
+		SELECT 
+			 '{{desiredState.sources[0].dependencies[0].node.name}}' AS OBJECT_NAME,
+			 '*'AS COLUMN_NAME, 
+			 'ROW_COUNT' AS FUNCTION_NAME,
+			 COUNT(*) AS RESULT
+			 {{ sources[0].join }}
+			 UNION ALL
+			 {% endif -%}
 		SELECT * FROM (
 			{%- for colList in testMetrics %}
+			{%- if not loop.first %} 
+			UNION ALL 
+			{% endif -%}
+			{%- for colDetailList in colList[-1] -%}
 			SELECT 
 			 '{{ desiredState.sources[0].dependencies[0].node.name}}' AS OBJECT_NAME,
-			 '{{colList[-1][0]}}'AS COLUMN_NAME, 
+			 '{{colDetailList}}'AS COLUMN_NAME, 
 			 '{{colList[1]}}' AS FUNCTION_NAME,
-			 {{ colList[2]  | replace("col_name",colList[-1][0])  }} AS RESULT
+			 {{ colList[2]  | replace("col_name",colDetailList ) }} AS RESULT
 			{%- if colList[1] != 'Value Distribution' %}
 			 {{ sources[0].join }}
 			{%- if config.sampleMode == 'Sample' %}
@@ -378,9 +391,10 @@ does not permit copying or modification for any other purpose.
 			 )
 			 {%- endif -%}
 			{% endif -%}
-			{%- if not loop.last %} 
+			 {%- if not loop.last %} 
 			UNION ALL 
 			{% endif -%}
+			{%- endfor -%}
 			{% endfor -%}		
 		)CTE
 

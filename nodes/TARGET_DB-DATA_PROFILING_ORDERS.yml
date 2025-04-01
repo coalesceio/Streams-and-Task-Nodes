@@ -48,7 +48,8 @@ operation:
         columnReference:
           columnCounter: 756dfc4f-a947-400e-9e16-af9beb9b6c50
           stepCounter: ba487c09-a3c6-42b0-8633-e256066abdc0
-        config: {}
+        config:
+          valMaxLen: true
         dataType: NUMBER(38,0)
         description: ""
         name: O_CUSTKEY
@@ -67,6 +68,8 @@ operation:
           isDistinctCount: true
           isNotNullCount: true
           isNullCount: true
+          valDist: true
+          valMinLen: true
         dataType: VARCHAR(1)
         description: ""
         name: O_ORDERSTATUS
@@ -81,8 +84,13 @@ operation:
           columnCounter: 7b6d46d6-e8f2-446b-b543-68b7b7db640e
           stepCounter: ba487c09-a3c6-42b0-8633-e256066abdc0
         config:
+          isAvgMetric: true
           isDistinctCount: true
           isMaxMetric: true
+          isMinMetric: true
+          isNotNullCount: true
+          isNullCount: true
+          valMinLen: true
         dataType: NUMBER(12,2)
         description: ""
         name: O_TOTALPRICE
@@ -111,6 +119,7 @@ operation:
           columnCounter: f1b02da2-cdbc-44c5-afdd-14cfbe310c8d
           stepCounter: ba487c09-a3c6-42b0-8633-e256066abdc0
         config:
+          isMaxMetric: true
           isMinMetric: true
           valDist: true
         dataType: VARCHAR(15)
@@ -126,7 +135,9 @@ operation:
         columnReference:
           columnCounter: 6390ebe5-db32-451e-a49c-72f93d441405
           stepCounter: ba487c09-a3c6-42b0-8633-e256066abdc0
-        config: {}
+        config:
+          valDist: true
+          valStandardDeviation: true
         dataType: VARCHAR(15)
         description: ""
         name: O_CLERK
