@@ -15,7 +15,7 @@ operation:
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
-    schedulingMode: Serverless Task
+    schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
     taskSchedule: true
     testsEnabled: true
