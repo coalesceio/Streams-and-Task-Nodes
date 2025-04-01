@@ -1,0 +1,11 @@
+fileVersion: 1
+id: "435"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: POONAMM_DEV
+    schema: SOURCE_DATA
+  TARGET_DB:
+    database: POONAMM_DEV
+    schema: EDW_QA_2
+name: EDW_QA_2
+type: Environment
