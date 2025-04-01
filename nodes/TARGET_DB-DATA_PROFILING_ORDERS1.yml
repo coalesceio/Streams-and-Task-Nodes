@@ -3,13 +3,13 @@ id: 6395c08a-0ecd-4a9b-a1e5-a05b5c2ee35d
 name: DATA_PROFILING_ORDERS1
 operation:
   config:
-    flagSrcStream: true
-    isRowCount: false
+    flagSrcStream: false
+    isRowCount: true
     multiStreamBehavior: AND
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    sampleMode: Full Table
-    sampleOption: Percentage
+    sampleMode: Sample
+    sampleOption: Fixed Row
     samplePercent: "10"
     sampleRows: "1000"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
@@ -18,7 +18,7 @@ operation:
     schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
     taskSchedule: true
-    testsEnabled: true
+    testsEnabled: false
     truncateBefore: true
     whName: COMPUTE_WH
   database: ""
