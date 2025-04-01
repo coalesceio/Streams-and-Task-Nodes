@@ -17,7 +17,7 @@ operation:
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     serverlessSize: MEDIUM
-    taskSchedule: false
+    taskSchedule: true
     testsEnabled: true
     truncateBefore: true
     whName: COMPUTE_WH
