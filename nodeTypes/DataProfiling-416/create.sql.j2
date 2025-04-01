@@ -251,15 +251,12 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 {% elif currentState != undefined and desiredState == undefined %}
 
-	{# Table or View Name #}
-	{% set targetObjectDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
-	{% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
-	{% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
-	{% set dpTargetTableName =  currentState.node.name | replace('"','') + "_DATA_PROFILING"  %}
-	{% set fullyQualifiedTargetDataProfilingObjectName = ref_no_link(currentState.node.location.name, dpTargetTableName) %}
-		{{ stage('Drop Table', true, "sql", "drop") }}
-		DROP TABLE IF EXISTS {{ fullyQualifiedTargetDataProfilingObjectName }}
+    {% set targetObjectDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+    {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+    {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
+    {{ stage('Drop Table', true, "sql", "drop") }}
+    DROP TABLE IF EXISTS  {{ fullyQualifiedTargetObjectName }}
 {% endif %}
 
 {# Create Task Second #}
