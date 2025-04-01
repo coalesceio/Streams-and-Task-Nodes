@@ -13,7 +13,7 @@ operation:
     samplePercent: "10"
     sampleRows: "1000"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "160"
+    schedulePeriod: "260"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
