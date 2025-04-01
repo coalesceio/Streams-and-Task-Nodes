@@ -18,7 +18,6 @@ metadata:
       - displayName: Schedule Task
         attributeName: taskSchedule
         type: toggleButton
-        isRequired: true
         default: false
 
       - displayName: Truncate Before
