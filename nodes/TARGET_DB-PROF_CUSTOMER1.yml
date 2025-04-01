@@ -13,16 +13,16 @@ operation:
     samplePercent: "10"
     sampleRows: "1000"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
+    schedulePeriod: "160"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
-    taskSchedule: false
+    taskSchedule: true
     testsEnabled: false
     truncateBefore: true
     whName: COMPUTE_WH
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
