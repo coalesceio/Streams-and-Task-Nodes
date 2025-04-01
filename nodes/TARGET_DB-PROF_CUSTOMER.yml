@@ -8,7 +8,7 @@ operation:
     multiStreamBehavior: AND
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    sampleMode: Sample
+    sampleMode: New Option
     sampleOption: Fixed Row
     samplePercent: "10"
     sampleRows: "1000"
@@ -22,7 +22,7 @@ operation:
     truncateBefore: true
     whName: COMPUTE_WH
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB

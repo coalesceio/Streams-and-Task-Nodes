@@ -9,6 +9,8 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Data Profiling With Task == #}
 {# == Node Type Description    : This node inserts data into a Data Profiling table  == #}
 
+{% if config.taskSchedule == false %}
+
 {# == To run data quality tests before data insertion == #}
  
 	{% for test in node.tests if config.testsEnabled %}
@@ -23,13 +25,12 @@ does not permit copying or modification for any other purpose.
 	{% set targetTableDatabase = ref_no_link(node.location.name, node.name).split('.')[0] %} 
 	{% set targetTableSchema = ref_no_link(node.location.name, node.name).split('.')[1] %} 
 	{% set fullyQualifiedTargetTableName = ref_no_link(node.location.name, node.name) %}
-	{% set fullyQualifiedDataProfilingTableName = fullyQualifiedTargetTableName | replace('"','') + "_DATA_PROFILING" %}
 	
 {# == Truncate data before data insertion  == #}
 
 	{% if config.truncateBefore %}	
 		{{ stage('Truncate Data Profiling Table') }}
-		TRUNCATE IF EXISTS {{ fullyQualifiedDataProfilingTableName }}
+		TRUNCATE IF EXISTS {{ fullyQualifiedTargetTableName }}
 	{% endif %}
 
 {# Data Profiling Table Columns Information and Calculations #}
@@ -136,7 +137,7 @@ does not permit copying or modification for any other purpose.
 
 	{{ stage('INSERT DATA TO  Data Profiling Table', true, "sql", "create") }}
 
-			INSERT INTO {{ fullyQualifiedDataProfilingTableName }}(
+			INSERT INTO {{ fullyQualifiedTargetTableName }}(
 			OBJECT_NAME,
 			COLUMN_NAME,
 			FUNCTION_APPLIED,
@@ -176,21 +177,22 @@ does not permit copying or modification for any other purpose.
 			{% endfor -%}		
 		)CTE
 
+{# == To run data quality tests after data insertion == #}
 
-	{# == To run data quality tests after data insertion == #}
+{% if config.testsEnabled %}
+	{% for test in node.tests %}
+		{% if test.runOrder == 'After' %}
+			{{ test_stage(test.name, test.continueOnFailure) }}
+			{{ test.templateString }}
+        {% endif %}
+	{% endfor %}
 
-		{% if config.testsEnabled %}
-			{% for test in node.tests %}
-				{% if test.runOrder == 'After' %}
-					{{ test_stage(test.name, test.continueOnFailure) }}
-					{{ test.templateString }}
-				{% endif %}
-			{% endfor %}
+	{% for column in columns %}
+		{% for test in column.tests %}
+			{{ test_stage(column.name + ": " + test.name) }}
+			{{ test.templateString }}
+		{% endfor %}
+	{% endfor %}
+{% endif %}
 
-			{% for column in columns %}
-				{% for test in column.tests %}
-					{{ test_stage(column.name + ": " + test.name) }}
-					{{ test.templateString }}
-				{% endfor %}
-			{% endfor %}
-		{% endif %}
+{% endif %}

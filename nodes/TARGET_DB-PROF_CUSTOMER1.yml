@@ -17,12 +17,12 @@ operation:
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
-    taskSchedule: true
+    taskSchedule: false
     testsEnabled: false
     truncateBefore: true
     whName: COMPUTE_WH
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB

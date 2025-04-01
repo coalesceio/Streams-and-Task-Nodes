@@ -31,9 +31,7 @@ does not permit copying or modification for any other purpose.
 	{% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
 	{% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
 	{% set TargetTableName = desiredState.node.name %}
-	{% set fullyQualifiedDataProfilingTableName = fullyQualifiedTargetTableName | replace('"','') + "_DATA_PROFILING" %}
-	{% set DataProfilingTableName = TargetTableName | replace('"','') + "_DATA_PROFILING" %}
-	
+
 	{% set colIsDistinctCount = columns | selectattr(('isDistinctCount'), 'defined') | map(attribute='name') | list %}
 	{% set colIsNullCount = columns | selectattr(('isNullCount'), 'defined') | map(attribute='name') | list %}
 	{% set colIsNotNullCount = columns | selectattr(('isNotNullCount'), 'defined') | map(attribute='name') | list %}
@@ -136,7 +134,7 @@ does not permit copying or modification for any other purpose.
 
 	{% if currentState == undefined or currentState.storageLocations | length == 0%}
 		{{ stage('Create Data Profiling Table', true, "sql", "create") }}
-		CREATE TABLE IF NOT EXISTS {{ fullyQualifiedDataProfilingTableName }}(
+		CREATE TABLE IF NOT EXISTS {{ fullyQualifiedTargetTableName }}(
 			OBJECT_NAME VARCHAR(50),
 			COLUMN_NAME VARCHAR(100),
 			FUNCTION_APPLIED VARCHAR(50),
@@ -355,7 +353,7 @@ does not permit copying or modification for any other purpose.
 				{{ nsVariables.taskWhenRun }} 
 				{% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
 			AS 
-		  {{ truncateBehavior }} INTO {{ fullyQualifiedDataProfilingTableName }}(
+		  {{ truncateBehavior }} INTO {{ fullyQualifiedTargetTableName }}(
 			OBJECT_NAME,
 			COLUMN_NAME,
 			FUNCTION_APPLIED,

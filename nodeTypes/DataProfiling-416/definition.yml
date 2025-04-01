@@ -6,7 +6,7 @@ metadata:
   error: null
   nodeMetadataSpec: |
     capitalized: Node Profiler with Task
-    short: PROF
+    short: DATA_PROFILING
     tagColor: blue
     plural: Node Profilers
 
@@ -38,7 +38,6 @@ metadata:
         options:
           - Sample
           - Full Table
-          - New Option
         isRequired: false
 
       - displayName: Percent or Fixed Number of Rows
