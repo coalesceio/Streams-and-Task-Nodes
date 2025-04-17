@@ -1,0 +1,311 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : API-NODEUPDATE == #}
+{# == Node Type Description    : This node creates a snowflake procedure to update the external nodes/Iceberg table nodes, by synchronizing them with the list of columns from the corresponding table in Snowflake. == #}
+
+
+{% if desiredState %}  
+	 
+	{%if currentState == undefined or (currentState != undefined and desiredState!=currentState) %}
+
+      {{ stage('Create Python Procedure ') }}
+
+
+CREATE OR REPLACE PROCEDURE {{ ref_no_link(desiredState.node.location.name, 'UPDATENODE_' + desiredState.node.name | upper) | trim }}(wsID varchar,nodeName varchar,flag varchar)
+RETURNS STRING
+language python
+runtime_version=3.8
+handler = 'nodeFrame'
+external_access_integrations=({{desiredState.config.extIntegration}})
+packages = ('snowflake-snowpark-python','requests','pandas')
+secrets = ('token' = {{desiredState.config.api}})
+execute as owner
+as
+$$
+import _snowflake
+import requests
+import json
+import uuid
+import snowflake.snowpark as snowpark
+from snowflake.snowpark import Session
+
+from snowflake.snowpark.functions import sql_expr
+from snowflake.snowpark.functions import lit 
+
+
+def add_refs(ws_locations, source_join):
+    idx = -1
+    join_array = source_join.split(" ")
+    for src in join_array:
+            idx += 1
+            src = src.upper()
+            if src == "WHERE" or src == "GROUP" or src == "ORDER":
+                break
+            if "." in src and (join_array[idx-1] == "FROM" or join_array[idx-1] == "JOIN"):
+                src_sch = src.split(".")[0]
+                src_node = src.split(".")[1]
+                for loc in ws_locations["locations"]:
+                    if src_sch == loc["schema"].upper():
+                        join_array[idx] = " {{ref('" + loc["name"] + "','" + src_node + "')}} "
+                        break
+    return " ".join(join_array)
+
+def get_env_storage_map(json, full_node):
+    ref_loc = "{{ref('" + full_node + "','" + full_node + "')}}"
+    if len(full_node.split(".")) == 3:
+        db = full_node.split(".")[0].upper()
+        schema = full_node.split(".")[1].upper()
+        node = full_node.split(".")[2].upper()
+        for k in json["currentMappings"]:
+            if json["currentMappings"][k]["database"] == db and json["currentMappings"][k]["schema"] == schema:
+                ref_loc = "{{ref('" + k + "','" + node + "')}}"
+    return ref_loc
+
+def get_node_loc(json, node_name):
+    ref_loc = "UNKNOWN"
+    node_name = node_name.upper()
+    for node in json:
+        if node["name"] == node_name:
+            ref_loc = node["locationName"]
+    return ref_loc
+
+def get_col_ref(json, node_name, col_name):
+    col_ref = ""
+    node_name = node_name.upper()
+    col_name = col_name.upper()
+    for node in json:
+        if node["name"] == node_name:
+            for col in node["metadata"]["columns"]: 
+                if col["name"] == col_name:
+                    col_ref = node["id"] + "," + col["columnID"]
+                    break
+            break
+    return col_ref
+
+# Get workspace node list
+def call_ws_api(headers, url):
+    wsID="303"
+    token = _snowflake.get_generic_secret_string('token')
+    nodes_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes?detail=false"
+    node_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes/"
+    headers = {
+    "accept": "application/json",
+    "content-type": "application/json",
+    "authorization": f"{token}" }
+    nodes_response = requests.get(nodes_url, headers=headers)
+    j_response = json.loads(nodes_response.text)
+    return j_response
+
+# Get node id from node name
+def get_node_id(node_name, ws_node_list):
+    node_id = ""
+    for ws_node in ws_node_list:
+        if ws_node["name"] == node_name:
+            node_id = ws_node["id"]
+    return node_id
+
+# Get list of node ids from node names
+def get_node_ids(node_name_list, ws_node_list):
+    node_id_list = []
+    for node in node_name_list:
+        node_name = node.split(".")[-1]
+        node_id = get_node_id(node_name, ws_node_list)
+        if node_id != "":
+            node_id_list.append(node_id)
+    return node_id_list
+
+# Create Node
+def add_node(tgt_node_type, predecessor_node_ids, headers, node_url):
+    j_node = {
+        "nodeType": tgt_node_type,
+        "predecessorNodeIDs": predecessor_node_ids
+    }
+    create_response = requests.post(node_url, headers=headers, data=json.dumps(j_node))
+    j_create = json.loads(create_response.text)
+    node_id = j_create["id"]
+    return node_id
+
+# Get Node metadata from Workspace based on node id
+def get_node(headers, ws_node_url):
+    node_response = requests.get(ws_node_url, headers=headers)
+    j_node = json.loads(node_response.text)
+    return j_node
+
+# Write node metadata to Workspace
+def update_node(tgt_node, headers, tgt_node_url):
+    write_response = requests.put(tgt_node_url, headers=headers, data=json.dumps(tgt_node))
+    return write_response
+
+# Get array of dependencies from a Join clause
+def get_dependencies(source_join):
+    tgt_dependencies = []
+    return tgt_dependencies
+
+# Identify next round of nodes to process 
+def get_list_of_nodes_to_process(target_node_map, processed_node_list):
+    nodes_to_process = []
+
+    node_list = []
+    for node in target_node_map["nodes"]:
+        node_list.append(node["node_name"])
+
+    if len(processed_node_list) == 0:
+        # first set of nodes to process
+        for node in target_node_map["nodes"]:
+            add_node = True
+            node_name = node["node_name"]
+            node_srcs = []
+            for src in node["node_sources"]:
+                node_srcs.append(src["nodeName"])
+            for n in target_node_map["nodes"]:
+                if n["node_name"] in node_srcs:
+                    add_node = False
+            if add_node:
+                nodes_to_process.append(node)
+
+    else:
+        # subsequent nodes to process
+        for node in target_node_map["nodes"]:
+            add_node = False
+            node_name = node["node_name"]
+            if node_name not in processed_node_list:
+                for src in node["node_sources"]:
+                    src_name = src["nodeName"]
+                    if src_name in processed_node_list:
+                        add_node = True
+            if add_node:
+                nodes_to_process.append(node)
+
+    return nodes_to_process
+
+
+
+def nodeFrame(wsID,nodeName,flag):
+    token = _snowflake.get_generic_secret_string('token')
+    nodes_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes?detail=false"
+    node_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes/"
+    stem_node_id = "f41bc567-697a-45a6-82d7-8b110a485bc7"
+    headers = {
+    "accept": "application/json",
+    "content-type": "application/json",
+    "authorization": f"{token}" }
+    nodes_response = requests.get(nodes_url, headers=headers)
+    # To map db.schema to storage locations (used in refs)
+    target_locations = {
+        "locations":[
+            {
+                "name": "TARGET_DB",
+                "schema": "EDW_QA",
+                "database": "POONAMM_DEV",
+            }       
+        ]
+    }
+	# Test set of metadata
+    target_node_map = {
+        "nodes":[
+            {
+                "target_location": "TARGET_DB",
+                "node_name": "STG_SUPPLIER_FINAL",
+                "source_join": "FROM POONAMM_DEV.EDW_QA.DATA_PROFILING_ORDERS1 where 1 = 1 GROUP BY ALL",
+                "node_type": "Stage",
+                "columns": [
+                    {"name":"*","transform":"*"}]
+            }
+        ]
+    }
+    
+    processed_node_list = []
+    # Add sources to mapping
+    for node in target_node_map["nodes"]:
+        if "ref(" in node["source_join"]:
+            node["ref_source_join"] = node["source_join"]
+        else:
+           ref_token = ','  
+           node["ref_source_join"] = add_refs(ref_token, node["source_join"])
+        node["node_sources"] = get_dependencies(node["ref_source_join"])
+    
+    nodes_to_process = get_list_of_nodes_to_process(target_node_map, processed_node_list)
+    
+    ws_node_detail_url =  node_url + "?detail=true"
+    ws_node_response = call_ws_api(headers, ws_node_detail_url)
+    ws_node_list = ws_node_response["data"]
+    
+    while len(nodes_to_process) > 0:
+        # Loop through JSON of desired target nodes
+        for tgt_node in nodes_to_process:
+            tgt_node_name = tgt_node["node_name"]
+            tgt_node_type = tgt_node["node_type"]
+            tgt_node_loc  = tgt_node["target_location"]
+            tgt_node_join = tgt_node["ref_source_join"]
+            tgt_dependencies = tgt_node["node_sources"]
+    
+            # Add node if not exists
+            ws_node_id = get_node_id(tgt_node_name, ws_node_list)
+            if ws_node_id == "" :
+                ws_node_id = add_node(tgt_node_type, [stem_node_id], headers, node_url)
+                ws_node_url = node_url + "/" + ws_node_id
+                ws_node = get_node(headers, ws_node_url)
+                ws_node["name"] = tgt_node_name
+                ws_node["locationName"] = tgt_node_loc
+                ws_node["metadata"]["sourceMapping"][0]["join"]["joinCondition"] = tgt_node_join
+                ws_node["metadata"]["sourceMapping"][0]["dependencies"].clear()
+                ws_node["metadata"]["sourceMapping"][0]["dependencies"] = tgt_dependencies
+    
+                # Clear column dependencies
+                for ws_col in ws_node["metadata"]["columns"]:
+                    ws_col["sources"][0]["columnReferences"].clear()
+    
+                # Loop through target columns
+                for tgt_col in tgt_node["columns"]:
+                    if tgt_col["name"] == "*":
+                        for src_node in tgt_node["node_sources"]:
+                            for ws_src_node in ws_node_list:
+                                if ws_src_node["name"] == src_node["nodeName"]:
+                                    for ws_src_col in ws_src_node["metadata"]["columns"]:
+                                        for ws_col in ws_node["metadata"]["columns"]:
+                                            if ws_col["name"].startswith("STEM_"):
+                                                ws_col["name"] = ws_src_col["name"]
+                                                ws_col["dataType"] = ws_src_col["dataType"]
+                                                ws_col["sources"][0]["transform"] = ws_src_node["name"] + "." + ws_src_col["name"]
+                                                ws_col["isBusinessKey"] = ws_src_col.get("isBusinessKey", "False") == "True"
+                                                break
+                    else:
+                        for ws_col in ws_node["metadata"]["columns"]:
+                            if ws_col["name"].startswith("STEM_"):
+                                ws_col["name"] = tgt_col["name"]
+                                ws_col["sources"][0]["transform"] = tgt_col["transform"]
+                                ws_col["isBusinessKey"] = tgt_col.get("isBusinessKey", "False") == "True"
+                                break
+    
+                # Delete unused STEM columns    
+                for idx in range(len(ws_node["metadata"]["columns"]), 1 , -1):
+                    if  ws_node["metadata"]["columns"][idx-1]["name"].startswith("STEM_"):
+                        ws_node["metadata"]["columns"].remove(ws_node["metadata"]["columns"][idx - 1])
+    
+                # Update node definition    
+                response = update_node(ws_node, headers, ws_node_url)
+            
+            processed_node_list.append(tgt_node_name)
+    
+    
+        nodes_to_process = get_list_of_nodes_to_process(target_node_map, processed_node_list)
+        ws_node_response = call_ws_api(headers, ws_node_detail_url)
+        ws_node_list = ws_node_response["data"]
+    
+$$;
+
+{%endif%}
+
+{%elif  currentState != undefined and desiredState == undefined%}
+
+        {{ stage('Drop procedure', true, "sql", "drop") }}
+         DROP PROCEDURE IF EXISTS {{ ref_no_link(currentState.node.location.name, 'PROC_' + currentState.node.name | upper) | trim }}()
+
+
+{%endif%}

@@ -1,0 +1,44 @@
+fileVersion: 1
+id: fd87ed86-22f9-42e8-a77f-2e5079905cf2
+name: V_NODE
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: |-
+            {{ stage('Override Create SQL') }}
+            CREATE OR REPLACE PROCEDURE poonamm_dev.EDW_QA.sample_greeting_proc(name STRING)
+            RETURNS STRING
+            LANGUAGE JAVASCRIPT
+            AS
+            $$
+                return "Hello Welcome to Snowflake.";
+            $$;
+            {{ stage('Call Procedure') }} 
+            CALL poonamm_dev.EDW_QA.sample_greeting_proc('Alice');
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: V_NODE
+        noLinkRefs: []
+  name: V_NODE
+  overrideSQL: true
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node

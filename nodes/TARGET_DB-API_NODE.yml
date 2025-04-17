@@ -1,0 +1,39 @@
+fileVersion: 1
+id: 65c937a3-4b40-4b7a-8181-d2f69f58f7b5
+name: API_NODE
+operation:
+  config:
+    api: COALESCE_API_TOKEN
+    extIntegration: COALESCE_INT
+    nodeconfig:
+      items:
+        - nodename: TEST
+          storageLocation: TEST
+          wksID: "303"
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: API_NODE
+        noLinkRefs: []
+  name: API_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "465"
+  type: sql
+  version: 1
+type: Node

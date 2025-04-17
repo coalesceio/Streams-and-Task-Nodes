@@ -1,0 +1,95 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : API-NODEUPDATE == #}
+{# == Node Type Description    : This node creates a snowflake procedure to update the external nodes/Iceberg table nodes, by synchronizing them with the list of columns from the corresponding table in Snowflake. == #}
+
+
+{% if desiredState %}  
+	 
+	{%if currentState == undefined or (currentState != undefined and desiredState!=currentState) %}
+
+      {{ stage('Create Python Procedure ') }}
+
+
+CREATE OR REPLACE PROCEDURE {{ ref_no_link(desiredState.node.location.name, 'UPDATENODE_' + desiredState.node.name | upper) | trim }}(wsID varchar,nodeName varchar,flag varchar)
+RETURNS STRING
+language python
+runtime_version=3.8
+handler = 'nodeFrame'
+external_access_integrations=({{desiredState.config.extIntegration}})
+packages = ('snowflake-snowpark-python','requests','pandas')
+secrets = ('token' = {{desiredState.config.api}})
+execute as owner
+as
+$$
+import _snowflake
+import requests
+import json
+import uuid
+import snowflake.snowpark as snowpark
+from snowflake.snowpark import Session
+
+from snowflake.snowpark.functions import sql_expr
+from snowflake.snowpark.functions import lit 
+
+def nodeFrame(wsID,nodeName,flag):
+    token = _snowflake.get_generic_secret_string('token')
+    nodes_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes?detail=false"
+    node_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes/"
+
+    headers = {
+    "accept": "application/json",
+    "content-type": "application/json",
+    "authorization": f"{token}" }
+    nodes_response = requests.get(nodes_url, headers=headers)
+    j_nodes = json.loads(nodes_response.text)
+    nodeNameOnly = nodeName.split('.')[2]
+    for node in j_nodes["data"]: 
+    # Find node(s) we are interested in
+        if node["name"] == nodeNameOnly:     
+            # Get Node details
+            get_node_url = node_url + node["id"]
+            node_response = requests.get(get_node_url, headers=headers)
+            j_node = json.loads(node_response.text)
+            if(flag=='1'):
+                # Delete existing columns
+                while (len(j_node["metadata"]["columns"])!=0): 
+                    for item in j_node["metadata"]["columns"]:
+                        j_node["metadata"]["columns"].remove(item)
+                        write_response = requests.put(get_node_url, headers=headers, data=json.dumps(j_node))
+            else:
+                # Initialize Snowflake session
+                session = Session.builder.getOrCreate()
+                # Execute the DESCRIBE TABLE query
+                query = f"DESCRIBE TABLE {nodeName}"
+                result = session.sql(query).collect()  
+                # Add Columns from Snowflake Table
+                for col in result:
+                    column_uuid = uuid.uuid4()
+                    columnID = str(column_uuid)  
+                    column = {
+                        'columnID': columnID,
+                        'dataType': col['type'],
+                        'description': str(col['comment']) if col['comment'] is not None else "",
+                        'defaultValue': str(col['default']) if col['default'] is not None else "",
+                        'name': col['name'],
+                        'nullable': col['null?'].lower() == 'yes'}
+                    j_node["metadata"]["columns"].append(column)
+                write_response = requests.put(get_node_url, headers=headers, data=json.dumps(j_node))
+$$;
+
+{%endif%}
+
+{%elif  currentState != undefined and desiredState == undefined%}
+
+        {{ stage('Drop procedure', true, "sql", "drop") }}
+         DROP PROCEDURE IF EXISTS {{ ref_no_link(currentState.node.location.name, 'PROC_' + currentState.node.name | upper) | trim }}()
+
+
+{%endif%}

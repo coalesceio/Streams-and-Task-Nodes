@@ -1,0 +1,54 @@
+fileVersion: 1
+id: "465"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Copy of API Call
+    short: API
+    plural: Excel Files
+    tagColor: 'orange'
+
+    deployStrategy: advanced
+
+    config:
+
+    - groupName: Options
+      items:
+     
+      - displayName: Snowflake EXTERNAL ACCESS INTEGRATION Name
+        attributeName: extIntegration
+        type: textBox
+        default: "COALESCE_API_INTEGRATION"
+        isRequired: true
+        
+      - displayName: Snowlake secret for Coalesce API token 
+        attributeName: api
+        type: textBox
+        default: "COALESCE_API_TOKEN"
+        isRequired: true
+
+      - type: tabular
+        displayName: 'Workspace-Node details'
+        attributeName: nodeconfig
+        columns:
+
+        - type: textBox
+          displayName: Workspace ID
+          attributeName: wksID
+          isRequired: true
+        
+        -  type: textBox
+           displayName: Node name
+           attributeName: nodename
+           isRequired: true
+
+        - type: textBox
+          displayName: Storage Location (E.g DBName.SchemaName)
+          attributeName: storageLocation
+          isRequired: true
+     
+        isRequired: true
+name: API-ADD_NODE
+type: NodeType
