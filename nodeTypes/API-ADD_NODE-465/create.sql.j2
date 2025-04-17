@@ -50,10 +50,8 @@ def add_refs(ws_locations, source_join):
             if "." in src and (join_array[idx-1] == "FROM" or join_array[idx-1] == "JOIN"):
                 src_sch = src.split(".")[0]
                 src_node = src.split(".")[1]
-                for loc in ws_locations["locations"]:
-                    if src_sch == loc["schema"].upper():
-                        join_array[idx] = " {{ref('" + loc["name"] + "','" + src_node + "')}} "
-                        break
+                join_array[idx] = " {{ref('" + "TARGET_DB" + "','" + src_node + "')}} "
+                        
     return " ".join(join_array)
 
 def get_env_storage_map(json, full_node):
@@ -126,6 +124,15 @@ def add_node(tgt_node_type, predecessor_node_ids, headers, node_url):
         "nodeType": tgt_node_type,
         "predecessorNodeIDs": predecessor_node_ids
     }
+    wsID="303"
+    token = _snowflake.get_generic_secret_string('token')
+    nodes_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes?detail=false"
+    node_url = "https://app.coalescesoftware.io/api/v1/workspaces/" + wsID + "/nodes/"
+    headers = {
+    "accept": "application/json",
+    "content-type": "application/json",
+    "authorization": f"{token}" }
+    nodes_response = requests.get(nodes_url, headers=headers)
     create_response = requests.post(node_url, headers=headers, data=json.dumps(j_node))
     j_create = json.loads(create_response.text)
     node_id = j_create["id"]
