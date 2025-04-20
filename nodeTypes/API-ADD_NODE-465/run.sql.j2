@@ -23,8 +23,6 @@ does not permit copying or modification for any other purpose.
   {% endfor %}
  
  {% for item in ns.wksdet %}
- {{ stage('Run Stored Procedure - Remove existing columns') }}
-CALL {{ ref_no_link(node.location.name, 'UPDATENODE_' + node.name | upper) | trim }} ({{item.wkid}},'{{item.storageLocation +'.'+item.nodename}}','1');
 
 {{ stage('Run Stored Procedure - Add columns') }}
 CALL {{ ref_no_link(node.location.name, 'UPDATENODE_' + node.name | upper) | trim }} ({{item.wkid}},'{{item.storageLocation +'.'+item.nodename}}','2');

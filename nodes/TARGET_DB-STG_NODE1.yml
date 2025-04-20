@@ -1,0 +1,84 @@
+fileVersion: 1
+id: 2aaf88da-819c-4d73-8766-066a3dbcdb63
+name: STG_NODE1
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bba7873a-a66e-4cfc-b7a7-2279d66a3348
+          stepCounter: 2aaf88da-819c-4d73-8766-066a3dbcdb63
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: OBJECT_NAME
+        nullable: false
+        sourceColumnReferences: []
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4358e30e-16de-4884-b51c-93f4756ccb4f
+          stepCounter: 2aaf88da-819c-4d73-8766-066a3dbcdb63
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: COLUMN_NAME
+        nullable: false
+        sourceColumnReferences: []
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 79c6532a-08bc-447d-875c-9882c01bcb2e
+          stepCounter: 2aaf88da-819c-4d73-8766-066a3dbcdb63
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: FUNCTION_APPLIED
+        nullable: false
+        sourceColumnReferences: []
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ad631d3-d7e2-4309-a1dd-7f5cd13ce757
+          stepCounter: 2aaf88da-819c-4d73-8766-066a3dbcdb63
+        config: {}
+        dataType: VARIANT
+        defaultValue: ""
+        description: ""
+        name: RESULT
+        nullable: false
+        sourceColumnReferences: []
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: STG_NODE1
+        noLinkRefs: []
+  name: STG_NODE1
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

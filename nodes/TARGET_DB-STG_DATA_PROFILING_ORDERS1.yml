@@ -1,0 +1,84 @@
+fileVersion: 1
+id: 1aa9f32c-ffba-4355-80af-dc59a6ec11f0
+name: STG_DATA_PROFILING_ORDERS1
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2c98786b-76c2-47f9-b458-2d9a8aa74eef
+          stepCounter: 1aa9f32c-ffba-4355-80af-dc59a6ec11f0
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: OBJECT_NAME
+        nullable: false
+        sourceColumnReferences: []
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e63fdb0f-cc81-495f-b3fc-ad907817800c
+          stepCounter: 1aa9f32c-ffba-4355-80af-dc59a6ec11f0
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: COLUMN_NAME
+        nullable: false
+        sourceColumnReferences: []
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4a5b18aa-8e56-4740-9344-785b735ad3ba
+          stepCounter: 1aa9f32c-ffba-4355-80af-dc59a6ec11f0
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: FUNCTION_APPLIED
+        nullable: false
+        sourceColumnReferences: []
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 43d708da-91fa-4772-826d-55527b74acaa
+          stepCounter: 1aa9f32c-ffba-4355-80af-dc59a6ec11f0
+        config: {}
+        dataType: VARIANT
+        defaultValue: ""
+        description: ""
+        name: RESULT
+        nullable: false
+        sourceColumnReferences: []
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: STG_DATA_PROFILING_ORDERS1
+        noLinkRefs: []
+  name: STG_DATA_PROFILING_ORDERS1
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
