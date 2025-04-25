@@ -1,0 +1,63 @@
+{% if config.preSQL %}
+{{ stage('Pre-SQL') }}
+{{ config.preSQL }}
+{% endif %}
+	
+{% if config.truncateBefore %}
+{{ stage('Truncate Stage Table') }}
+TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+{% endif %}
+	
+{{ stage( 'Merge Sources' | string ) }}
+BEGIN
+MERGE INTO {{ ref_no_link(node.location.name, node.name) }} AS TARGET
+USING(
+ {% for source in sources %}
+ SELECT
+ {% for col in source.columns %}
+  {{ get_source_transform(col) }} AS "{{ col.name }}"
+     {%- if not loop.last %}, {% endif %}
+ {% endfor %}
+ {{ source.join }}
+)
+{% endfor %}
+AS SOURCE
+ON TARGET.PRIMARYHASHKEY = SOURCE.PRIMARYHASHKEY
+WHEN MATCHED AND TARGET.SCD2H <> SOURCE.SCD2H THEN
+    UPDATE SET 
+	  {% for col in columns %}
+     "TARGET"."{{ col.name }}" = "SOURCE"."{{ col.name }}"
+    {% if not loop.last %}, {% endif %}
+      {% endfor %}
+WHEN NOT MATCHED THEN
+INSERT (
+        {%- for col in columns %}
+            "{{ col.name }}"
+        {% if not loop.last %}, {% endif %}
+        {% endfor -%})
+VALUES (
+        {%- for col in columns if not col.isSurrogateKey %}
+            "SOURCE"."{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor -%}
+        )
+;
+{# Hard Deletes == #}
+{% set srcSchName = node.location.name %}
+{% set db = storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
+{% set sch = storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
+DELETE FROM  {{ ref_no_link(node.location.name, node.name) }} AS TARGET
+WHERE NOT EXISTS (
+    SELECT 1
+   FROM (SELECT *
+    {{sources[0].join}})  AS SOURCE
+    WHERE TARGET.PRIMARYHASHKEY = SOURCE.PRIMARYHASHKEY
+)
+;
+
+END
+
+{% if config.postSQL %}
+	{{ stage('Post-SQL') }}
+	{{ config.postSQL }}
+{% endif %}

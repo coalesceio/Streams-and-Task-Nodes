@@ -22,12 +22,16 @@ operation:
           columnCounter: bba7873a-a66e-4cfc-b7a7-2279d66a3348
           stepCounter: 2aaf88da-819c-4d73-8766-066a3dbcdb63
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(1000)
         defaultValue: ""
         description: ""
         name: OBJECT_NAME
-        nullable: false
-        sourceColumnReferences: []
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ea43c315-5fd5-490a-ac38-878354d184ca
+                stepCounter: a6ff4988-3327-4f9a-8944-ac36a0c241c7
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 4358e30e-16de-4884-b51c-93f4756ccb4f
@@ -37,7 +41,7 @@ operation:
         defaultValue: ""
         description: ""
         name: COLUMN_NAME
-        nullable: false
+        nullable: true
         sourceColumnReferences: []
       - appliedColumnTests: {}
         columnReference:
@@ -48,7 +52,7 @@ operation:
         defaultValue: ""
         description: ""
         name: FUNCTION_APPLIED
-        nullable: false
+        nullable: true
         sourceColumnReferences: []
       - appliedColumnTests: {}
         columnReference:
@@ -59,26 +63,69 @@ operation:
         defaultValue: ""
         description: ""
         name: RESULT
-        nullable: false
+        nullable: true
         sourceColumnReferences: []
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 194a121a-668e-45b4-9b5c-287418e9055d
+          stepCounter: 2aaf88da-819c-4d73-8766-066a3dbcdb63
+        config: {}
+        dataType: INT
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: PRIMARYHASHKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 282b0543-c532-41ec-872f-77330c5a5a7b
+          stepCounter: 2aaf88da-819c-4d73-8766-066a3dbcdb63
+        config: {}
+        dataType: INT
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: SCD2H
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
     cteString: ""
     description: ""
     destinationName: ""
     enabledColumnTestIDs: []
     materializationOption: ""
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          ORDERS: a6ff4988-3327-4f9a-8944-ac36a0c241c7
         customSQL:
           customSQL: ""
-        dependencies: []
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS
         join:
-          joinCondition: ""
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS
         name: STG_NODE1
         noLinkRefs: []
   name: STG_NODE1
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: "473"
   type: sql
   version: 1
 type: Node
