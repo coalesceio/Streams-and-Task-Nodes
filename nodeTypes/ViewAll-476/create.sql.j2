@@ -1,0 +1,65 @@
+{% if node.override.create.enabled %}
+    
+    {{ node.override.create.script }}
+
+{% else %}
+{% set varBusinessKey='' %}
+
+    {{ stage('Create View') }}
+
+    CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }} AS
+	WITH AllChanges AS(
+    {% for source in sources %}
+        SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+        {% for col in source.columns %}
+            {{ get_source_transform(col) }} AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+
+        {{ source.join }}
+    {% endfor %}
+    ),
+--getting the latest record
+LatestRecords
+AS (SELECT 
+{% for col in columns if col.isBusinessKey%}
+			{{col.name}} AS "BusinessKey",
+{% endfor %}
+
+        MAX([SysStart]) AS "LastSysStart"
+    FROM AllChanges
+    GROUP BY        
+   {% for col in columns if col.isBusinessKey%}
+			{{col.name }}
+{% endfor %}
+),
+--getting all active records
+Active
+AS (SELECT      
+{% for col in columns if col.isBusinessKey%}
+			{{col.name}} AS "ActiveObject"
+{% endfor %}    
+    	{{ sources[0].join }} 
+)
+    {% for source in sources %}
+        SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+        {% for col in source.columns %}
+            "{{ col.name }}" AS  "{{ col.name }}" ,
+        {% endfor %}
+    {% endfor %}
+       CASE
+           WHEN ActiveObject IS NOT NULL THEN
+               "Active"
+           ELSE
+               "Removed"
+       END AS "{{sources[0].columns[0].sourceColumns[0].node.name ~ " Status"}}"
+FROM AllChanges {{sources[0].columns[0].sourceColumns[0].node.name}}
+    INNER JOIN LatestRecords
+	{% for col in sources[0].columns if col.isBusinessKey%}
+			ON {{sources[0].columns[0].sourceColumns[0].node.name}}.{{col.name}} = LatestRecords.BusinessKey
+           AND {{sources[0].columns[0].sourceColumns[0].node.name}}.SysStart = LatestRecords.LastSysStart
+    LEFT JOIN Active
+        ON {{sources[0].columns[0].sourceColumns[0].node.name}}.{{col.name}} = Active.ActiveObject;
+	{% endfor %}
+
+{% endif %}
