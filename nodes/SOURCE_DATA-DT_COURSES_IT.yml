@@ -1,9 +1,9 @@
 fileVersion: 1
-id: f7525a7e-96bd-4514-b428-c468312550a0
-name: PRODUCTS
+id: 2c69fa74-00c8-4710-ae4f-96c22899b68c
+name: DT_COURSES_IT
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
-          stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+          columnCounter: fefdfbcc-fc1b-4295-bca3-b1d99933e65b
+          stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: PRODUCT_ID
+        name: COURSE_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
-          stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+          columnCounter: 509e20eb-2e4a-4744-b450-d6353a69c721
+          stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
         config: {}
-        dataType: VARCHAR(255)
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: PRODUCT_NAME
+        name: COURSE_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
-          stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+          columnCounter: 99105d4e-3b50-4ed5-9cf6-b872701a13e8
+          stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: BRAND
+        name: INSTRUCTOR
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,26 +65,7 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-          stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
-        config: {}
-        dataType: VARCHAR(50)
-        defaultValue: ""
-        description: ""
-        name: COLOUR
-        nullable: true
-        primaryKey: false
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-        transform: ""
-        uniqueKey: false
-  name: PRODUCTS
+  name: DT_COURSES_IT
   schema: ""
   sqlType: Source
   type: sourceInput

@@ -70,6 +70,26 @@ operation:
               - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
                 stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90845bfa-f40f-49b5-a215-f2e1b4da6bda
+          stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: CDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: CURRENT_TIMESTAMP()
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 95e23efb-e181-4338-84f0-f80aa70ac330
+id: cc06a00f-8cbe-4ef3-b92e-950663f094f1
 name: SIM_PRODUCTS
 operation:
   config:
@@ -17,26 +17,32 @@ operation:
     flagSrcStream: true
     groupByAll: false
     initialRows: true
-    loadType: Insert
+    loadType: Merge
     orderBy:
       items:
-        - {}
+        - colName:
+            columnCounter: 7c1bec1f-c956-4c8f-a11c-ed232f90caf5
+            stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
+          sortOrd: desc
     partitionBy:
       items:
-        - {}
+        - partColName:
+            columnCounter: ba8b5ccb-83ef-4a28-b46a-26366dcf93f3
+            stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    redeploymentBehavior: Create or Replace
+    propagateDeletes: true
+    redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
-    schedulePeriod: "60"
+    schedulePeriod: "6000"
     schedulePeriodOption: Minutes
-    schedulingMode: Serverless Task
+    schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: Dynamic Table
-    whName: <WAREHOUSE_NAME>
+    sourceType: View
+    whName: COMPUTE_WH
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
@@ -46,8 +52,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9e3620a0-5a75-455b-a93d-e14195802715
-          stepCounter: 95e23efb-e181-4338-84f0-f80aa70ac330
+          columnCounter: ba8b5ccb-83ef-4a28-b46a-26366dcf93f3
+          stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -55,13 +61,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e563a982-0a47-43cc-8780-9cb769e1938a
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: 344af4ac-4fa5-433c-80e7-286d3aef0788
+                stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 02a1a340-6511-4938-80e4-bdfcf1bdaea6
-          stepCounter: 95e23efb-e181-4338-84f0-f80aa70ac330
+          columnCounter: 4d8fbd30-f39d-4cba-b197-9a3380a8c0f4
+          stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -69,13 +75,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 480973f6-4b69-4e27-9231-da9fdfe11e69
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: b1512f81-32d2-4b04-97d6-9580a51a1943
+                stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e8149545-76d7-48df-85df-94573f8e3193
-          stepCounter: 95e23efb-e181-4338-84f0-f80aa70ac330
+          columnCounter: 9848661b-ba96-4d72-9149-dd7c3091783f
+          stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -83,13 +89,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 919d2923-0cac-412b-b9f9-ba02fe869956
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: 5e0b4788-1792-483c-a0b0-0a09b95a5c04
+                stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 98ff8c11-c53a-4bdc-a638-dc66045783d5
-          stepCounter: 95e23efb-e181-4338-84f0-f80aa70ac330
+          columnCounter: f4f931ca-31a8-4697-add8-ec7d6ce810d6
+          stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -97,9 +103,43 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 30e42460-6656-424d-9c72-f0bb701702be
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: 7d332308-91da-4103-838d-550ce7996011
+                stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7c1bec1f-c956-4c8f-a11c-ed232f90caf5
+          stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: CDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 90845bfa-f40f-49b5-a215-f2e1b4da6bda
+                stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e8d5dd78-ac34-4ba0-8a69-ff7bb52259d5
+          stepCounter: cc06a00f-8cbe-4ef3-b92e-950663f094f1
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: SUB
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: SUBSTRING("V_PRODUCTS"."COLOUR",1,2)
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -108,9 +148,9 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: DT_WRK_PRODUCTS
+            nodeName: V_PRODUCTS
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_PRODUCTS') }} "DT_WRK_PRODUCTS"
+          joinCondition: FROM {{ ref('TARGET_DB', 'V_PRODUCTS') }} "V_PRODUCTS"
         name: SIM_PRODUCTS
         noLinkRefs: []
   name: SIM_PRODUCTS

@@ -1,0 +1,102 @@
+fileVersion: 1
+id: 328d6ed0-a043-4cf6-a79a-f96c1fe5ebf0
+name: DSM_DT_COURSES_IT
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Merge
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create At Existing Stream
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Dynamic Table
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 517bf6ec-e608-4fce-818a-dfe86d7d3298
+          stepCounter: 328d6ed0-a043-4cf6-a79a-f96c1fe5ebf0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        isBusinessKey: true
+        name: COURSE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fefdfbcc-fc1b-4295-bca3-b1d99933e65b
+                stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a46287bb-9dc9-45ac-9331-b2b9d760ef5a
+          stepCounter: 328d6ed0-a043-4cf6-a79a-f96c1fe5ebf0
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COURSE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 509e20eb-2e4a-4744-b450-d6353a69c721
+                stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 39d5f65a-dd72-4cbd-b4f1-589ad216932b
+          stepCounter: 328d6ed0-a043-4cf6-a79a-f96c1fe5ebf0
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: INSTRUCTOR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 99105d4e-3b50-4ed5-9cf6-b872701a13e8
+                stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: DT_COURSES_IT
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'DT_COURSES_IT') }} "DT_COURSES_IT"
+        name: DSM_DT_COURSES_IT
+        noLinkRefs: []
+  name: DSM_DT_COURSES_IT
+  overrideSQL: false
+  schema: ""
+  sqlType: "483"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,142 @@
+fileVersion: 1
+id: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+name: SIM_EXT_AVRO1
+operation:
+  config:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 961011c4-c258-4848-8493-dda74703f726
+            stepCounter: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+          sortOrd: asc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: e2f6761e-9a44-42a0-8e41-2821d5c16557
+            stepCounter: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create At Existing Stream
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: External Table
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0eaf60aa-7702-4428-bbc7-c7d171a4fec1
+          stepCounter: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+        config: {}
+        dataType: VARIANT
+        description: The value of this row
+        name: VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ec7ba91d-5d02-47f8-a5ca-aaed001c7b0a
+                stepCounter: e90f8a3a-3a8f-4f24-a021-4b119bae8a16
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e2f6761e-9a44-42a0-8e41-2821d5c16557
+          stepCounter: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: username
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8c231caf-344a-45ec-b3ed-df2a5d206333
+                stepCounter: e90f8a3a-3a8f-4f24-a021-4b119bae8a16
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8727b0f7-ceb1-49ca-bd55-f088478b32d1
+          stepCounter: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: tweet
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2c872d57-2865-4faa-8160-933eb9b49c51
+                stepCounter: e90f8a3a-3a8f-4f24-a021-4b119bae8a16
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 961011c4-c258-4848-8493-dda74703f726
+          stepCounter: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: timestamp
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fa8acf86-24df-4ed0-9802-f79fd9038c40
+                stepCounter: e90f8a3a-3a8f-4f24-a021-4b119bae8a16
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a2239d6-5219-4fe5-b9f3-b29fb9c87781
+          stepCounter: 3a3ce2aa-08c0-44da-b9d7-fd1fd616b6af
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: FILENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 044ca78d-644d-4a9c-b47d-5f42c2808197
+                stepCounter: e90f8a3a-3a8f-4f24-a021-4b119bae8a16
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EXT_AVRO1
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'EXT_AVRO1') }} "EXT_AVRO1"
+        name: SIM_EXT_AVRO1
+        noLinkRefs: []
+  name: SIM_EXT_AVRO1
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node
