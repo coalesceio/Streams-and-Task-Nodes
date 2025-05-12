@@ -12,6 +12,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Stream and Insert or Merge](#stream-and-insert-or-merge)
 * [Stream for Directory Table](#stream-for-directory-table)
 * [Delta Stream Merge](#delta-stream-merge)
+* [Code](#code)
 ---
 
 ## Work with Task
@@ -1362,5 +1363,11 @@ When node is deleted, the following stages execute:
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/run.sql.j2)
+
+### Delta Stream Merge
+
+*[Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/definition.yml)
+*[Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/create.sql.j2)
+*[Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/run.sql.j2)
 
 [Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
