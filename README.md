@@ -1366,8 +1366,8 @@ When node is deleted, the following stages execute:
 
 ### Delta Stream Merge
 
-*[Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/definition.yml)
-*[Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/create.sql.j2)
-*[Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/run.sql.j2)
+* [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/definition.yml)
+* [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/create.sql.j2)
+* [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/run.sql.j2)
 
 [Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
