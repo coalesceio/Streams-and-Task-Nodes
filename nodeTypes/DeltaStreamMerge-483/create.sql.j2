@@ -1,5 +1,4 @@
-{
-    #Copyright (c) 2023 Coalesce. All rights reserved.
+{# Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
 Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
 Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
@@ -9,8 +8,7 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Delta Stream Merge == #}
 {# == Node Type Description    : This node creates and deploys a stream on top of a table, view or dynamic table.Also provides option to create a target table/transient  able to merge data handling both inserts and deletes from source with a task on top of it.
 == #}
- {#Release date:20250114  Released By:PM  Description: Added support for Dynamic Table as a source #}
-
+ 
 {# Parameter Check for Deployment #}
 {%if desiredState and currentState != desiredState and desiredState.config.schedulingMode == 'Warehouse Task' %}
      {% if desiredState.parameters == {} or 'targetTaskWarehouse' not in  desiredState.parameters or desiredState.parameters.targetTaskWarehouse == ''%}
@@ -550,7 +548,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
-        {{ stage('Target Table Initial Load',true,"sql","alter") }}
+        {{ stage('Target Table Initial Load',true,"sql","create") }}
         
         {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
         {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}

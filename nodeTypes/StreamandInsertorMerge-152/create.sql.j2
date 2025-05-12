@@ -563,7 +563,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
-            {{ stage('Target Table Initial Load',true,"sql","alter") }}
+            {{ stage('Target Table Initial Load',true,"sql","create") }}
             
             {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
             {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}

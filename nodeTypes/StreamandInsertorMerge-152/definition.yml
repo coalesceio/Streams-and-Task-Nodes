@@ -81,7 +81,7 @@ metadata:
       - displayName: Redeployment Behavior
         attributeName: redeploymentBehavior
         type: dropdownSelector
-        default: Create At Existing Stream
+        default: Create or Replace
         options:
           - Create or Replace
           - Create If Not Exists
