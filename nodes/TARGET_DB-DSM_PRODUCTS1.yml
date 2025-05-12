@@ -3,22 +3,24 @@ id: 15f6717e-f627-4e18-aaca-e3f979893aa4
 name: DSM_PRODUCTS1
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 2fd5487c-bc55-4033-93da-c35c78b71d0c
+            stepCounter: 15f6717e-f627-4e18-aaca-e3f979893aa4
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
     initialRows: true
     loadType: Merge
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    redeploymentBehavior: Create At Existing Stream
+    redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "6000"
