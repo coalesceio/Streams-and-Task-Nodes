@@ -62,15 +62,15 @@
     {{ stage('Delta Stream Merge') }}
         MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
         -- Select Statement Preparing Data for Merge
-        (SELECT {%- if config.selectDistinct -%} DISTINCT {%- endif -%}
+        (SELECT  {% if config.selectDistinct -%} DISTINCT {%- endif -%}
 				 {% for id in tableColumnIds %}
 
-                    {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
+                    {% set columnTransformation = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
                     {%- if columnTransformation == "" -%}
-                    {% set col =  desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
+                    {% set col =  sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
-                    {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+                    {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
                     {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}

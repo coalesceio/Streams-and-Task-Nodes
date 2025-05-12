@@ -6,8 +6,8 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
 does not permit copying or modification for any other purpose.  
 #}
 {# == Node Type Version        : 1.1  == #}
-{# == Node Type Name           : Stream and Insert or Merge == #}
-{# == Node Type Description    : This node creates and deploys a stream on top of a table, view or external table.Also provides option to create a target table/transient  able to insert or merge data from source with a task on top of it.
+{# == Node Type Name           : Delta Stream Merge == #}
+{# == Node Type Description    : This node creates and deploys a stream on top of a table, view or dynamic table.Also provides option to create a target table/transient  able to merge data handling both inserts and deletes from source with a task on top of it.
 == #}
  {#Release date:20250114  Released By:PM  Description: Added support for Dynamic Table as a source #}
 
@@ -65,7 +65,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
  
     {# Stream Append Behavior #}
-    {% if  (streamType == 'TABLE' and desiredState.config.sourceType != 'External Iceberg Table') or streamType == 'VIEW' %}
+    {% if  streamType == 'TABLE'  or streamType == 'VIEW' %}
         {% if desiredState.config.appendOnly == true %}
             {% set streamAppendMode = 'APPEND_ONLY = TRUE' %}
         {% else %}
@@ -76,7 +76,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
  
     {# Stream Initial Row Behavior #}
-    {% if (streamType == 'TABLE'  or streamType == 'VIEW' or streamType == 'DYNAMIC TABLE'%}
+    {% if streamType == 'TABLE'  or streamType == 'VIEW' or streamType == 'DYNAMIC TABLE'%}
         {% if desiredState.config.initialRows == true %}
             {% set streamInitialRowsMode = 'SHOW_INITIAL_ROWS = TRUE' %}
         {% else %}
@@ -582,7 +582,7 @@ does not permit copying or modification for any other purpose.
 
         MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
         -- Select Statement Preparing Data for Merge
-        (SELECT {%- if desiredState.config.selectDistinct -%} DISTINCT {%- endif -%}
+        (SELECT {% if desiredState.config.selectDistinct -%} DISTINCT {%- endif -%}
 				 {% for id in tableColumnIds %}
 
                     {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
@@ -741,7 +741,7 @@ does not permit copying or modification for any other purpose.
 
             MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
             -- Select Statement Preparing Data for Merge
-            (SELECT {%- if desiredState.config.selectDistinct -%} DISTINCT {%- endif -%}
+            (SELECT  {% if desiredState.config.selectDistinct -%} DISTINCT {%- endif -%}
 				 {% for id in tableColumnIds %}
 
                     {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}

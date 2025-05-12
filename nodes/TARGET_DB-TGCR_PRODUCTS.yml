@@ -1,34 +1,14 @@
 fileVersion: 1
-id: 9648cc32-e230-419a-b173-eba24fa88010
-name: DSM_PRODUCTS
+id: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
+name: TGCR_PRODUCTS
 operation:
   config:
-    clusterKey: true
-    clusterKeyConfig:
-      items:
-        - columnName:
-            columnCounter: a3f22a15-0185-4c62-8991-10eb88aa13df
-            stepCounter: 9648cc32-e230-419a-b173-eba24fa88010
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    createas: table
-    devMode: true
-    flagSrcStream: true
-    groupByAll: false
-    initialRows: true
-    loadType: Merge
-    predTask: TGCR_PRODUCTS
-    redeploymentBehavior: Create At Existing Stream
-    rootTask: TGCR_PRODUCTS
-    scheduleCRON: 0 2 * * * UTC
-    schedulePeriod: "6000"
-    schedulePeriodOption: Predecessor
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
-    selectDistinct: true
     serverlessSize: MEDIUM
-    sourceType: Table
+    tskSql: select current_timestamp()
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
@@ -41,12 +21,11 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a3f22a15-0185-4c62-8991-10eb88aa13df
-          stepCounter: 9648cc32-e230-419a-b173-eba24fa88010
+          columnCounter: dfb06f17-8607-4c72-bef0-64a3227401ed
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        isBusinessKey: true
         name: PRODUCT_ID
         nullable: true
         sourceColumnReferences:
@@ -56,12 +35,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 12982bfc-5368-46b4-8454-e4dd52ef433c
-          stepCounter: 9648cc32-e230-419a-b173-eba24fa88010
+          columnCounter: d6d01200-0aaa-482c-b981-844102cc2669
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: VARCHAR(255)
         description: ""
-        isBusinessKey: true
         name: PRODUCT_NAME
         nullable: true
         sourceColumnReferences:
@@ -71,8 +49,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e44236df-2678-4ee1-b598-7e6d54723ff6
-          stepCounter: 9648cc32-e230-419a-b173-eba24fa88010
+          columnCounter: a02aff3f-8d8b-413e-89a4-ccd26af2904c
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -85,8 +63,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3b7bf1f0-8433-426b-acd0-d1dc3917c72a
-          stepCounter: 9648cc32-e230-419a-b173-eba24fa88010
+          columnCounter: 1d742253-4bfc-4ec1-b114-ea1c34bcab9f
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -108,12 +86,12 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: DSM_PRODUCTS
+        name: TGCR_PRODUCTS
         noLinkRefs: []
-  name: DSM_PRODUCTS
+  name: TGCR_PRODUCTS
   overrideSQL: false
   schema: ""
-  sqlType: "483"
+  sqlType: "154"
   type: sql
   version: 1
 type: Node

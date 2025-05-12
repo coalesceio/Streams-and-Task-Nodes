@@ -14,16 +14,16 @@ operation:
     createas: table
     devMode: false
     flagSrcStream: true
-    groupByAll: false
-    initialRows: true
+    groupByAll: true
+    initialRows: false
     loadType: Merge
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: ""
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "6000"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
+    schedulePeriodOption: CRON
+    schedulingMode: Serverless Task
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Dynamic Table
