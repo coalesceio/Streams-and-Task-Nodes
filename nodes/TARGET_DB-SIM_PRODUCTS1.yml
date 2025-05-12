@@ -1,5 +1,5 @@
 fileVersion: 1
-id: f54f9c31-e229-4be8-8776-0088d1d37c8b
+id: 2e0eed52-9003-48fa-bba5-84b4f0075baa
 name: SIM_PRODUCTS1
 operation:
   config:
@@ -13,10 +13,10 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
-    initialRows: false
+    initialRows: true
     loadType: Insert
     orderBy:
       items:
@@ -25,15 +25,16 @@ operation:
       items:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    redeploymentBehavior: Create or Replace
+    propagateDeletes: false
+    redeploymentBehavior: Create At Existing Stream
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Serverless Task
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: Dynamic Table
+    sourceType: Table
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
@@ -46,8 +47,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4c37252d-a1eb-4aab-b48c-44c9989fed6d
-          stepCounter: f54f9c31-e229-4be8-8776-0088d1d37c8b
+          columnCounter: 557ccd99-dbe6-49f9-b32e-b7b9b6dcda0e
+          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -55,13 +56,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e563a982-0a47-43cc-8780-9cb769e1938a
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0203ee07-b4a3-49d2-80e2-3b8a4770b0cf
-          stepCounter: f54f9c31-e229-4be8-8776-0088d1d37c8b
+          columnCounter: 20878710-d15a-4a77-8687-b8864b895bd7
+          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -69,13 +70,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 480973f6-4b69-4e27-9231-da9fdfe11e69
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: aa125692-dd47-4f3f-8617-0fa09469888f
-          stepCounter: f54f9c31-e229-4be8-8776-0088d1d37c8b
+          columnCounter: b786956e-689c-4998-8b2b-c8d62036b7d8
+          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -83,13 +84,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 919d2923-0cac-412b-b9f9-ba02fe869956
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f4137d63-57a7-4da2-8608-64f0a9e59822
-          stepCounter: f54f9c31-e229-4be8-8776-0088d1d37c8b
+          columnCounter: 349caa95-6116-44ab-b501-a2a34e7b2c69
+          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -97,8 +98,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 30e42460-6656-424d-9c72-f0bb701702be
-                stepCounter: 75454b14-6d0c-4ed1-8bae-9072c6433124
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
@@ -107,10 +108,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
-            nodeName: DT_WRK_PRODUCTS
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_PRODUCTS') }} "DT_WRK_PRODUCTS"
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
         name: SIM_PRODUCTS1
         noLinkRefs: []
   name: SIM_PRODUCTS1

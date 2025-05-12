@@ -23,8 +23,8 @@ operation:
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM

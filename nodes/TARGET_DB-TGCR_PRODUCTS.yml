@@ -1,23 +1,28 @@
 fileVersion: 1
-id: 98c9ad91-0613-44dd-929a-3192ecae86c6
-name: V_PRODUCTS
+id: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
+name: TGCR_PRODUCTS
 operation:
   config:
-    insertStrategy: UNION
-    selectDistinct: false
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    tskSql: select current_timestamp()
+    whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 344af4ac-4fa5-433c-80e7-286d3aef0788
-          stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
+          columnCounter: dfb06f17-8607-4c72-bef0-64a3227401ed
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -30,8 +35,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b1512f81-32d2-4b04-97d6-9580a51a1943
-          stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
+          columnCounter: d6d01200-0aaa-482c-b981-844102cc2669
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -44,8 +49,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5e0b4788-1792-483c-a0b0-0a09b95a5c04
-          stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
+          columnCounter: a02aff3f-8d8b-413e-89a4-ccd26af2904c
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -58,8 +63,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7d332308-91da-4103-838d-550ce7996011
-          stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
+          columnCounter: 1d742253-4bfc-4ec1-b114-ea1c34bcab9f
+          stepCounter: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -70,24 +75,6 @@ operation:
               - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
                 stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 90845bfa-f40f-49b5-a215-f2e1b4da6bda
-          stepCounter: 98c9ad91-0613-44dd-929a-3192ecae86c6
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        name: CDATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: CURRENT_TIMESTAMP()
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -99,12 +86,12 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: V_PRODUCTS
+        name: TGCR_PRODUCTS
         noLinkRefs: []
-  name: V_PRODUCTS
+  name: TGCR_PRODUCTS
   overrideSQL: false
   schema: ""
-  sqlType: View
+  sqlType: "154"
   type: sql
   version: 1
 type: Node

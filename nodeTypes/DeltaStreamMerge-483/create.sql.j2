@@ -6,10 +6,9 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
 does not permit copying or modification for any other purpose.  
 #}
 {# == Node Type Version        : 1.1  == #}
-{# == Node Type Name           : Stream and Insert or Merge == #}
-{# == Node Type Description    : This node creates and deploys a stream on top of a table, view or external table.Also provides option to create a target table/transient  able to insert or merge data from source with a task on top of it.
+{# == Node Type Name           : Delta Stream Merge == #}
+{# == Node Type Description    : This node creates and deploys a stream on top of a table, view or dynamic table.Also provides option to create a target table/transient  able to merge data handling both inserts and deletes from source with a task on top of it.
 == #}
-
  {#Release date:20250114  Released By:PM  Description: Added support for Dynamic Table as a source #}
 
 {# Parameter Check for Deployment #}
@@ -57,12 +56,6 @@ does not permit copying or modification for any other purpose.
     {% elif desiredState.config.sourceType == 'Dynamic Table' %}
         {% set streamType = 'DYNAMIC TABLE' %}
         {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
-    {% elif desiredState.config.sourceType == 'External Table' %}
-        {% set streamType = 'EXTERNAL TABLE' %}
-        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
-    {% elif desiredState.config.sourceType == 'External Iceberg Table' %} 
-        {% set streamType = 'TABLE' %}
-        {% set streamSourceObjectName = fullyQualifiedSourceTableName %}
     {% elif desiredState.config.sourceType == 'Directory Table' %}
         {% set streamType = 'STAGE' %}
         {% set streamSourceObjectName = desiredState.config.stageName %}
@@ -72,7 +65,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
  
     {# Stream Append Behavior #}
-    {% if  (streamType == 'TABLE' and desiredState.config.sourceType != 'External Iceberg Table') or streamType == 'VIEW' %}
+    {% if  streamType == 'TABLE'  or streamType == 'VIEW' %}
         {% if desiredState.config.appendOnly == true %}
             {% set streamAppendMode = 'APPEND_ONLY = TRUE' %}
         {% else %}
@@ -83,7 +76,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
  
     {# Stream Initial Row Behavior #}
-    {% if (streamType == 'TABLE' and desiredState.config.sourceType != 'External Iceberg Table') or streamType == 'VIEW' or streamType == 'DYNAMIC TABLE'%}
+    {% if streamType == 'TABLE'  or streamType == 'VIEW' or streamType == 'DYNAMIC TABLE'%}
         {% if desiredState.config.initialRows == true %}
             {% set streamInitialRowsMode = 'SHOW_INITIAL_ROWS = TRUE' %}
         {% else %}
@@ -93,12 +86,6 @@ does not permit copying or modification for any other purpose.
         {% set streamInitialRowsMode = '' %}
     {% endif %}
  
-    {# Stream Insert Only Behavior #}
-    {% if streamType == 'EXTERNAL TABLE' or desiredState.config.sourceType == 'External Iceberg Table' %}      
-            {% set streamInsertOnlyMode = 'INSERT_ONLY = TRUE' %}
-    {% else %}
-        {% set streamInsertOnlyMode = '' %}
-    {% endif %}
 {% endif %}
  
 
@@ -563,148 +550,96 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
-            {{ stage('Target Table Initial Load',true,"sql","alter") }}
-            
-            {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
-            {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
-			{% set ret_clause = get_clause( desiredState.sources[0].join ).lstrip()%}
+        {{ stage('Target Table Initial Load',true,"sql","alter") }}
+        
+        {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
+        {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
+        {% set ret_clause = get_clause( desiredState.sources[0].join ).lstrip()%}
+        {% set after_order_by = '' %}
+        {% set upper_query = ret_clause | upper %}
+        {% if 'ORDER BY' in upper_query %}
+            {% set index = upper_query.find('ORDER BY') %}
+            {% set before_order_by = ret_clause[:index] %}
+            {% set after_order_by = ret_clause[index:]%}
+            {% set ret_clause = before_order_by  %}
+        {% else %}
+            {% set before_order_by = ret_clause %}
             {% set after_order_by = '' %}
-            {% set upper_query = ret_clause | upper %}
-            {% if 'ORDER BY' in upper_query %}
-				{% set index = upper_query.find('ORDER BY') %}
-				{% set before_order_by = ret_clause[:index] %}
-				{% set after_order_by = ret_clause[index:]%}
-            	{% set ret_clause = before_order_by  %}
+        {% endif %}
+        {% set modified_string = namespace(value="",business_keys = []) %}
+        {% set words = ret_clause.split() %}
+        {% for word in words %}
+            {% if '.' in word %}
+                {% set parts = word.split('.') %}
+                {% set modified_word = streamName ~ "." ~ parts[1] %}
             {% else %}
-                {% set before_order_by = ret_clause %}
-                {% set after_order_by = '' %}
+                {% set modified_word = word %}
             {% endif %}
-            {% set modified_string = namespace(value="") %}
-            {% set words = ret_clause.split() %}
-            {% for word in words %}
-                {% if '.' in word %}
-                    {% set parts = word.split('.') %}
-                    {% set modified_word = streamName ~ "." ~ parts[1] %}
-                    {% set modified_word = modified_word.replace('"', "") %}
-                {% else %}
-                    {% set modified_word = word %}
+            {% set modified_string.value = modified_string.value ~ " " ~ modified_word %}
+        {% endfor %}
+        {% set ret_clause = modified_string.value %}
+       
+
+        MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
+        -- Select Statement Preparing Data for Merge
+        (SELECT {% if desiredState.config.selectDistinct -%} DISTINCT {%- endif -%}
+				 {% for id in tableColumnIds %}
+
+                    {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
+                    {%- if columnTransformation == "" -%}
+                    {% set col =  desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
+                    "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {%- else -%}
+                    {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {%- endif %}
+                {%- endfor %}
+                ,"METADATA$ACTION" AS METADATA$ACTION,
+                "METADATA$ISUPDATE" AS METADATA$ISUPDATE    
+        FROM {{ fullyQualifiedStreamName }}
+
+        {% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
+        {{join_clause}}
+
+        {% if config.groupByAll %}GROUP BY ALL{% endif %}
+        {{after_order_by}}
+        ) src
+
+       {%- for col in desiredState.columns -%}
+          {% if col.isBusinessKey %}
+            {% set modified_string.business_keys = modified_string.business_keys + [col.name] %}
+            {{business_keys}}
+          {% endif %}
+        {%- endfor -%}
+
+        -- Join Condition
+        ON {% for col in modified_string.business_keys-%}
+                src."{{col}}" = tgt."{{ col}}"
+                {% if not loop.last %} AND {% endif %}
+        {%- endfor -%}
+        
+        -- What to do if data is matched based on table key
+        WHEN MATCHED AND METADATA$ACTION = 'DELETE' AND METADATA$ISUPDATE = 'FALSE'
+        THEN DELETE
+        WHEN MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'TRUE' THEN UPDATE SET 
+            {%- for col in desiredState.columns %}
+                {% if not col.isBusinessKey %}
+                    tgt."{{ col.name }}" = src."{{ col.name }}"
+                    {%- if not loop.last -%}, {%- endif %}
                 {% endif %}
-                {% set modified_string.value = modified_string.value ~ " " ~ modified_word %}
-            {% endfor %}
-            {% set ret_clause = modified_string.value %}
-            {# Merge partition by and order by #}
-            {%- if desiredState.config.loadType == 'Merge' -%}
-                {% set tableColumnNamesUpdate = tableColumnNames | reject('in', desiredState.config.partitionBy.get('items') | map(attribute='partColName.name')) | list %}
-               
-                {% for i in desiredState.config.partitionBy.get('items') %}
-                    {%- if loop.first -%}
-                        {% set nsVariables.partition = '"' + i.partColName.name + '"' %}
-                    {% else %}
-                        {% set nsVariables.partition = nsVariables.partition + ', "' + i.partColName.name + '"' %}
-                    {%- endif -%}
- 
-                    {% set tableColumnNamesUpdate = tableColumnNames | reject('in', i.partColName.name) | list %}
- 
-                {% endfor %}
- 
-                {% for i in desiredState.config.orderBy.get('items') %}
-                    {%- if loop.first -%}
-                        {% set nsVariables.orderBy = '"' + i.colName.name + '" ' + i.sortOrd %}
-                    {% else %}
-                        {% set nsVariables.orderBy = nsVariables.orderBy + ', "' + i.colName.name + '" ' + i.sortOrd %}
-                    {%- endif -%}
-                {% endfor %}
-                {% set nsVariables.rowNumber = 'ROW_NUMBER() OVER (PARTITION BY ' + nsVariables.partition + ' ORDER BY ' + nsVariables.orderBy + ')' %}
- 
-                {%- set nsVariables.tableKey = desiredState.config.partitionBy.get('items') %}
-                {% set nsVariables.tableKey = nsVariables.tableKey | map(attribute='partColName.name') | list %}
-            {%- endif -%}
- 
-        {% if desiredState.config.loadType == 'Insert' -%}
-
-            {% if currentState == undefined and desiredState.config.redeploymentBehavior == 'Create or Replace' %} 
-                INSERT  INTO {{ fullyQualifiedTargetTableName }}		
-            {% elif desiredState.config.redeploymentBehavior == 'Create or Replace' %}      
-                INSERT  OVERWRITE INTO {{ fullyQualifiedTargetTableName }}
-            {% else %}       
-                INSERT  INTO {{ fullyQualifiedTargetTableName }}
-            {% endif %}
-
-            SELECT  {% if desiredState.config.selectDistinct %} DISTINCT {% endif %}
-                    {% for id in tableColumnIds %}
-                    {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
-                    {%- if columnTransformation == "" -%}
-                    {% set col =  desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
-                    "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- else -%}
-                    {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- endif %}
-                {%- endfor %}              
-            FROM {{ fullyQualifiedStreamName }}
-			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
-			{% if ret_clause|trim !='' %}
-            {{ret_clause}}
-			{% endif %}
-			{%- else -%}
-			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
-			{{join_clause}}
-			{% endif %}
-            {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
-            {{after_order_by}}
-            {% else -%}
-            MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
-            -- Select Statement Preparing Data for Merge
-            (SELECT {% if desiredState.config.selectDistinct %} DISTINCT {% endif %}
-                    {% for id in tableColumnIds %}
-
-                    {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
-                    {%- if columnTransformation == "" -%}
-                    {% set col =  desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
-                    "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- else -%}
-                    {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- endif %}
-                {%- endfor %}
-            FROM {{ fullyQualifiedStreamName }}
-			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
-			{% if ret_clause|trim !='' %}
-			{{ret_clause}}
-			{% endif %}
-			{%- else -%}
-			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
-			{{join_clause}}
-			{% endif %}
-            {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
-            QUALIFY {{ nsVariables.rowNumber }} = 1
-			{{after_order_by}}
-			) src
-            -- Join Condition
-            ON {% for col in nsVariables.tableKey -%}
-                src."{{ col }}" = tgt."{{ col }}"
-            {% if not loop.last %} AND {% endif %}
-                {%- endfor -%}
-           
-            -- What to do if data is matched based on table key
-            WHEN MATCHED THEN UPDATE SET
-                {%- for col in tableColumnNamesUpdate %}
-                        tgt."{{ col }}" = src."{{ col }}"
-                        {%- if not loop.last -%}, {%- endif %}
-                {%- endfor %}
-            -- What to do with new records based on table key
-            WHEN NOT MATCHED THEN INSERT
-                (
-                {%- for col in desiredState.columns -%}
-                        "{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                {% endfor %})
-            VALUES (
-                {%- for col in desiredState.columns -%}
-                        src."{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                {% endfor %})
-            {%- endif -%}
+            {%- endfor %}
+        -- What to do with new records based on table key
+        WHEN NOT MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'FALSE' THEN INSERT 
+            (
+            {%- for col in desiredState.columns -%}
+                "{{ col.name }}"
+                {%- if not loop.last -%}, {% endif %}
+            {% endfor %}) 
+        VALUES (
+            {%- for col in desiredState.columns -%}
+                src."{{ col.name }}"
+                {%- if not loop.last -%}, {% endif %}
+            {% endfor %})
 
     {% endif %}   
 
@@ -729,13 +664,12 @@ does not permit copying or modification for any other purpose.
             {% set taskName = desiredState.node.name + '_TASK'  %}
             {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%}
 			{% set ret_clause = get_clause( desiredState.sources[0].join ).lstrip()%}
-            {% set modified_string = namespace(value="") %}
+            {% set modified_string = namespace(value="",business_keys=[]) %}
             {% set words = ret_clause.split() %}
             {% for word in words %}
                 {% if '.' in word %}
                     {% set parts = word.split('.') %}
                     {% set modified_word = streamName ~ "." ~ parts[1] %}
-                    {% set modified_word = modified_word.replace('"', "") %}
                 {% else %}
                     {% set modified_word = word %}
                 {% endif %}
@@ -797,36 +731,6 @@ does not permit copying or modification for any other purpose.
             {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
             {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
  
-            {# Merge partition by and order by #}
-            {%- if desiredState.config.loadType == 'Merge' -%}
-                {% set tableColumnNamesUpdate = tableColumnNames | reject('in', desiredState.config.partitionBy.get('items') | map(attribute='partColName.name')) | list %}
-               
-                {% for i in desiredState.config.partitionBy.get('items') %}
-                    {%- if loop.first -%}
-                        {% set nsVariables.partition = '"' + i.partColName.name + '"' %}
-                    {% else %}
-                        {% set nsVariables.partition = nsVariables.partition + ', "' + i.partColName.name + '"' %}
-                    {%- endif -%}
- 
-                    {% set tableColumnNamesUpdate = tableColumnNames | reject('in', i.partColName.name) | list %}
- 
-                {% endfor %}
-						
- 
-											
-                {% for i in desiredState.config.orderBy.get('items') %}
-                    {%- if loop.first -%}
-                        {% set nsVariables.orderBy = '"' + i.colName.name + '" ' + i.sortOrd %}
-                    {% else %}
-                        {% set nsVariables.orderBy = nsVariables.orderBy + ', "' + i.colName.name + '" ' + i.sortOrd %}
-                    {%- endif -%}
-                {% endfor %}
-                {% set nsVariables.rowNumber = 'ROW_NUMBER() OVER (PARTITION BY ' + nsVariables.partition + ' ORDER BY ' + nsVariables.orderBy + ')' %}
- 
-                {%- set nsVariables.tableKey = desiredState.config.partitionBy.get('items') %}
-                {% set nsVariables.tableKey = nsVariables.tableKey | map(attribute='partColName.name') | list %}
-            {%- endif -%}
- 
             {{ stage('Create Task', true, "sql", "create") }}
             CREATE OR REPLACE TASK
                 {{ fullyQualifiedTaskName }}
@@ -834,85 +738,70 @@ does not permit copying or modification for any other purpose.
                 {{ nsVariables.taskWhenRun }}
                 {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
             AS
-        {% if desiredState.config.loadType == 'Insert' -%}
-            INSERT INTO {{ fullyQualifiedTargetTableName }}
-            SELECT  {% if desiredState.config.selectDistinct %} DISTINCT {% endif %}
-                     {% for id in tableColumnIds %}
 
-                    {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
-                    {%- if columnTransformation == "" -%}
-                    {% set col =  desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
-                    "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- else -%}
-                    {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- endif %}
-                {%- endfor %}              
-            FROM {{ fullyQualifiedStreamName }}
-			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
-			{% if ret_clause|trim !='' %}
-			{{ret_clause}}
-			{% endif %}
-			{%- else -%}
-			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
-			{{join_clause}}
-			{% endif %}
-            {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
-			{{after_order_by}}
-            {% else -%}
             MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
             -- Select Statement Preparing Data for Merge
-            (SELECT {% if desiredState.config.selectDistinct %} DISTINCT {% endif %}
-                    {% for id in tableColumnIds %}
+            (SELECT  {% if desiredState.config.selectDistinct -%} DISTINCT {%- endif -%}
+				 {% for id in tableColumnIds %}
 
                     {% set columnTransformation = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
+
                     {%- if columnTransformation == "" -%}
                     {% set col =  desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
                     {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" 
+                    {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
+                ,"METADATA$ACTION" AS METADATA$ACTION,
+                "METADATA$ISUPDATE" AS METADATA$ISUPDATE
             FROM {{ fullyQualifiedStreamName }}
-			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
-			{% if ret_clause|trim !='' %}
-			{{ret_clause}}
-			{% endif %}
-			{%- else -%}
-			{% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
-			{{join_clause}}
-			{% endif %}
-            {% if desiredState.config.groupByAll %}GROUP BY ALL{% endif %}
-            QUALIFY {{ nsVariables.rowNumber }} = 1
-			{{after_order_by}}
-			) src
-            -- Join Condition
-            ON {% for col in nsVariables.tableKey -%}
-                src."{{ col }}" = tgt."{{ col }}"
-            {% if not loop.last %} AND {% endif %}
-                {%- endfor -%}
-           
+
+            {% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
+            {{join_clause}}
+
+            {% if config.groupByAll %}GROUP BY ALL{% endif %}
+            {{after_order_by}}
+            ) src
+        
+       {%- for col in desiredState.columns -%}
+          {% if col.isBusinessKey %}
+            {% set modified_string.business_keys = modified_string.business_keys + [col.name] %}
+            {{business_keys}}
+          {% endif %}
+        {%- endfor -%}
+
+        -- Join Condition
+        ON {% for col in modified_string.business_keys-%}
+                src."{{col}}" = tgt."{{ col}}"
+                {% if not loop.last %} AND {% endif %}
+        {%- endfor -%}
+
             -- What to do if data is matched based on table key
-            WHEN MATCHED THEN UPDATE SET
-                {%- for col in tableColumnNamesUpdate %}
-                        tgt."{{ col }}" = src."{{ col }}"
+            WHEN MATCHED AND METADATA$ACTION = 'DELETE' AND METADATA$ISUPDATE = 'FALSE'
+            THEN DELETE
+            WHEN MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'TRUE' THEN UPDATE SET 
+                {%- for col in columns %}
+                    {% if not col.isBusinessKey %}
+                        tgt."{{ col.name }}" = src."{{ col.name }}"
                         {%- if not loop.last -%}, {%- endif %}
+                    {% endif %}
                 {%- endfor %}
             -- What to do with new records based on table key
-            WHEN NOT MATCHED THEN INSERT
+            WHEN NOT MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'FALSE' THEN INSERT 
                 (
-                {%- for col in desiredState.columns -%}
-                        "{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
+                {%- for col in columns -%}
+                    "{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}) 
+            VALUES (
+                {%- for col in columns -%}
+                    src."{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
                 {% endfor %})
-            VALUES (														
-                {%- for col in desiredState.columns -%}
-                        src."{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                {% endfor %})
-							  
-            {%- endif -%}						   														 
+							  					 
  
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%}
                 {{ stage('Resume Task', true, "sql", "create") }}
