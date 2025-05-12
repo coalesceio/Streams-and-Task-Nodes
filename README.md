@@ -1204,8 +1204,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 | **Option** | **Description** |
 |------------|----------------|
 | **Load Type** | Choose data loading method:<br/>**Insert** - Data inserted from source<br/>**Merge** - Latest record changes merged into target |
-| **Table keys** | Business key columns for merging data (enabled for Merge load type) |
-| **Record Date/Timestamp** | Date/Timestamp column for latest record merging (enabled for Merge load type) |
+| **Business keys** | Business key columns for merging data (enabled for Merge load type) |
 | **Cluster key** | True/False toggle for clustering<br/>**True** - Specify clustering column and expressions. - **Allow Expressions Cluster Key**: Add an expression to the specified cluster key.<br/>**False** - No clustering |
 
 #### Delta Stream Merge Scheduling Options
