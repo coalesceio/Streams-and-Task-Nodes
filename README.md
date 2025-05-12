@@ -1303,7 +1303,7 @@ Task changes:
 | **Create Task** | Creates scheduled task |
 | **Resume Task**| Resumes the task|
 
-### Stream and Insert or Merge Undeployment
+### Delta Stream Merge Undeployment
 
 When node is deleted, the following stages execute:
 
