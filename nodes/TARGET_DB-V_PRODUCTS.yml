@@ -106,7 +106,7 @@ operation:
   name: V_PRODUCTS
   overrideSQL: false
   schema: ""
-  sqlType: View
+  sqlType: bn:::188
   type: sql
   version: 1
 type: Node
