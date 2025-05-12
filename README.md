@@ -11,6 +11,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Stream](#stream)
 * [Stream and Insert or Merge](#stream-and-insert-or-merge)
 * [Stream for Directory Table](#stream-for-directory-table)
+* [Delta Stream Merge](#delta-stream-merge)
 ---
 
 ## Work with Task
@@ -1155,6 +1156,166 @@ If a task is part of a DAG of tasks, the DAG needs to include a node type called
 ### Redeployment with no changes
  
 If the nodes are redeployed with no changes compared to previous deployment, then no stages are executed
+
+## Delta Stream Merge
+
+The Coalesce Delta Stream Merge UDN is a node that allows you to develop and deploy a stream on top of a table, view or dynamic table. Also, provides option to create a target table to merge data handling inserts,deletes and updates from source with a task on top of it.
+
+A stream logically takes an initial snapshot of every row in the source object (e.g. table, dynamic table, or the underlying tables for a view) by initializing a point in time (called an offset) as the current transactional version of the object. The change tracking system utilized by the stream then records information about the DML changes after this snapshot was taken. Change records provide the state of a row before and after the change. Change information mirrors the column structure of the tracked source object and includes additional metadata columns that describe each change event.
+
+More information about Streams can be found in the official [Snowflake's Introduction to Streams](https://docs.snowflake.com/en/user-guide/streams-intro).
+
+### Delta Stream Merge Node Configuration
+
+The Stream and Insert or Merge node has the following configuration groups:
+
+* [Node Properties](#stream-and-insert-or-merge-node-properties)
+* [General Options](#stream-and-insert-or-merge-general-options)
+* [Stream Options](#stream-and-insert-or-merge-stream-options)
+* [Target Loading Options](#stream-and-insert-or-merge-target-loading-options)
+* [Scheduling Options](#stream-and-insert-or-merge-scheduling-options)
+
+#### Delta Stream Merge Node Properties
+
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+
+#### Delta Stream Merge General Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options |
+| **CREATE AS** | Choose target object type:<br/>- Table - Permanent table with data retention and fail-safe<br/>- Transient Table - Temporary table without data retention |
+| **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
+| **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
+
+#### Delta Stream Merge Stream Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Propagate Deletes : True/False toggle for adding filter for condition METADATA$ACTION != 'DELETE' <br/>- Redeployment Behavior: Options for redeployment<br/>**Dynamic Table**:<br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/>**View**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Redeployment Behavior: Options for redeployment |
+
+#### Delta Stream Merge Target Loading Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Load Type** | Choose data loading method:<br/>**Insert** - Data inserted from source<br/>**Merge** - Latest record changes merged into target |
+| **Table keys** | Business key columns for merging data (enabled for Merge load type) |
+| **Record Date/Timestamp** | Date/Timestamp column for latest record merging (enabled for Merge load type) |
+| **Cluster key** | True/False toggle for clustering<br/>**True** - Specify clustering column and expressions. - **Allow Expressions Cluster Key**: Add an expression to the specified cluster key.<br/>**False** - No clustering |
+
+#### Delta Stream Merge Scheduling Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
+| **When Source Stream has Data Flag** | True/False toggle to check for stream data<br/>**True** - Only run task if source stream has capture change data<br/>**False** -  Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false. |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
+| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+
+**NOTE: In the WHERE clause, always use the original column name, not with an alias of table name, because aliases are only recognized in the SELECT clause and cannot be used for filtering.**
+
+### Delta Stream Merge Deployment
+
+#### Delta Stream Merge Deployment Parameters
+
+The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+
+The parameter name is `targetTaskWarehouse` with default value `DEV ENVIRONMENT`.
+
+```json
+{
+    "targetTaskWarehouse": "DEV ENVIRONMENT"
+}
+```
+
+When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
+
+For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
+
+```json
+{
+    "targetTaskWarehouse": "compute_wh"
+}
+```
+
+#### Delta Stream Merge Initial Deployment
+
+For tasks without predecessors:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Stream** | Creates Stream in target environment |
+| **Create Work Table/Transient Table** | Creates table loaded by task |
+| **Target Table Initial Load** | Loads initial data |
+| **Create Task** | Creates scheduled task |
+| **Resume Task** | Enables task execution |
+
+For tasks with predecessors:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Stream** | Creates Stream in target environment |
+| **Create Work Table/Transient Table** | Creates target table |
+| **Target Table Initial Load** | Loads initial data |
+| **Suspend Root Task** | Suspends root task |
+| **Create Task** | Creates scheduled task |
+
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task DAG Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change
+
+#### Delta Stream Merge Redeployment
+
+Stream redeployment behavior:
+
+| **Redeployment Behavior** | **Stage Executed** |
+|--------------------------|-------------------|
+| **Create Stream if not exists** | Re-Create Stream at existing offset |
+| **Create or Replace** | Create Stream |
+| **Create at existing stream** | Re-Create Stream at existing offset |
+
+Table changes execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Rename Table/Alter Column/Delete Column/Add Column/Edit description** | Alters table as needed |
+| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO." |
+
+If the materialization type is changed from one type to another(transient table/table) the following stages execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table/Transient Table** | Drop the target table|
+| **Create Work/Transient table**| Create the target table|
+| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO." |
+
+Task changes:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Task** | Creates scheduled task |
+| **Resume Task**| Resumes the task|
+
+### Stream and Insert or Merge Undeployment
+
+When node is deleted, the following stages execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Stream** | Removes the stream |
+| **Drop Table** | Drop the table |
+| **Drop Current Task** | Drop the task |
+
+---
+
 
 ## Code
 
