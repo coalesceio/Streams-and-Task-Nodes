@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "416"
+id: "493"
 mappingDefinitions:
   SOURCE_DATA:
     database: RUHULAMINS_DEV
@@ -7,5 +7,5 @@ mappingDefinitions:
   TARGET_DB:
     database: RUHULAMINS_DEV
     schema: TARGET_DEV
-name: EDW_QA_2
+name: New Environment
 type: Environment

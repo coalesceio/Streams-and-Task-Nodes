@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "1"
-macroString: |-
+macroString: |+
   {#-- The below block of code initialises variables in case of node typess using advance deployment strategy #}
 
   {% if desiredState %}
@@ -167,5 +167,18 @@ macroString: |-
       {{ nsVariables.ibcoldatatype }}
    
   {% endmacro %}
+
+  {%- macro ref_with_stream_suffix(location_name, node_name) -%}
+      {%- set output = "" -%}
+      {%- for mapping in nodeMetadata.mapping -%}
+          {%- if output == "" and nodeMetadata.mapping[mapping].locationName == location_name -%}
+              {%- set output = '"' ~ nodeMetadata.mapping[mapping].database ~ '"."' ~
+                               nodeMetadata.mapping[mapping].schema ~ '"."' ~
+                               node_name ~ '_STREAM"' -%}
+          {%- endif -%}
+      {%- endfor -%}
+      {{ output }}
+  {%- endmacro -%}
+
 name: macro
 type: Macro

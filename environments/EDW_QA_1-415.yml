@@ -2,10 +2,10 @@ fileVersion: 1
 id: "415"
 mappingDefinitions:
   SOURCE_DATA:
-    database: ANANDHIS_DEV
+    database: RUHULAMINS_DEV
     schema: SOURCE_DATA
   TARGET_DB:
-    database: ANANDHIS_DEV
-    schema: TARGET_ACC
+    database: RUHULAMINS_DEV
+    schema: TARGET_DEV
 name: EDW_QA_1
 type: Environment

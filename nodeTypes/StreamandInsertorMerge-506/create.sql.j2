@@ -42,7 +42,7 @@ does not permit copying or modification for any other purpose.
     {% set streamTargetDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
     {% set streamTargetSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
     {% set streamName = desiredState.node.name + '_STREAM' %}
-    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
  
     {# Target Table Info #}
     {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %}
@@ -108,7 +108,7 @@ does not permit copying or modification for any other purpose.
 
     {% if currentState == undefined %}
         {{ stage('Create Stream', true, "sql", "create") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -117,7 +117,7 @@ does not permit copying or modification for any other purpose.
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
         {{ stage('Create Stream If Not Exists', true, "sql", "alter") }}
-        CREATE STREAM IF NOT EXISTS {{ fullyQualifiedStreamName }}
+        CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -125,13 +125,13 @@ does not permit copying or modification for any other purpose.
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
         {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
-            AT(STREAM => '{{ fullyQualifiedStreamName }}');
+            AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
 
         {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create or Replace'%}
         {{ stage('Create Stream', true, "sql", "alter") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -146,10 +146,10 @@ does not permit copying or modification for any other purpose.
     {% set streamTargetDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
     {% set streamTargetSchemaName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
     {% set streamName = currentState.node.name + '_STREAM' %}
-    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
- 
+
+
     {{ stage('Drop Stream', true, "sql", "drop") }}
-    DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
+    DROP STREAM IF EXISTS {{ ref(streamTargetLocationName, streamName) }}
  {% endif %}
  
 {# Create / Alter Table Second #}
@@ -641,7 +641,7 @@ does not permit copying or modification for any other purpose.
                     {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}              
-            FROM {{ fullyQualifiedStreamName }}
+            FROM {{ ref(streamTargetLocationName, streamName) }}
 			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
 			{% if ret_clause|trim !='' %}
             {{ret_clause}}
@@ -667,7 +667,7 @@ does not permit copying or modification for any other purpose.
                     {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
-            FROM {{ fullyQualifiedStreamName }}
+            FROM {{ ref(streamTargetLocationName, streamName) }}
 			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
 			{% if ret_clause|trim !='' %}
 			{{ret_clause}}
@@ -848,7 +848,7 @@ does not permit copying or modification for any other purpose.
                     {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}              
-            FROM {{ fullyQualifiedStreamName }}
+            FROM {{ ref(streamTargetLocationName, streamName) }}
 			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
 			{% if ret_clause|trim !='' %}
 			{{ret_clause}}
@@ -874,7 +874,7 @@ does not permit copying or modification for any other purpose.
                     {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
-            FROM {{ fullyQualifiedStreamName }}
+            FROM {{ ref(streamTargetLocationName, streamName) }}
 			{% if desiredState.config.propagateDeletes %} WHERE  METADATA$ACTION != 'DELETE'
 			{% if ret_clause|trim !='' %}
 			{{ret_clause}}
