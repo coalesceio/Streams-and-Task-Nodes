@@ -24,10 +24,10 @@ operation:
     partitionBy:
       items:
         - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    predTask: TGCR_PRODUCTS
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: TGCR_PRODUCTS
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
@@ -35,7 +35,7 @@ operation:
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Table
-    whName: <WAREHOUSE_NAME>
+    whName: compute_wh
   database: ""
   deployEnabled: true
   description: ""
