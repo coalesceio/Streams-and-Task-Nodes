@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 5adcfa7e-761a-4a0b-9231-c19055faabd6
-name: SIM_PRODUCTS10
+name: SIM_PRODUCTS10ALTER
 operation:
   config:
     appendOnly: false
@@ -78,7 +78,7 @@ operation:
           columnCounter: 3be7499e-4328-4210-81ef-b1a8bde7e4f6
           stepCounter: 5adcfa7e-761a-4a0b-9231-c19055faabd6
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(256)
         description: ""
         name: BRAND
         nullable: true
@@ -112,9 +112,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: SIM_PRODUCTS10
+        name: SIM_PRODUCTS10ALTER
         noLinkRefs: []
-  name: SIM_PRODUCTS10
+  name: SIM_PRODUCTS10ALTER
   overrideSQL: false
   schema: ""
   sqlType: "152"
