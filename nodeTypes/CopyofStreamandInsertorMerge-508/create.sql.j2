@@ -931,10 +931,10 @@ does not permit copying or modification for any other purpose.
             {% set fullyQualifiedRootTaskName = ref(currentState.node.location.name, currentState.config.rootTask) %}
             {{ stage('Suspend Root Task', true, "sql", "drop") }}
             ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
-        {%- endif -%}
-        
+        {%- else -%}        
         {{ stage('Drop Current Task', true, "sql", "drop") }}
         DROP TASK IF EXISTS {{ fullyQualifiedTaskName }}
     {%- endif -%}
+{%- endif -%}    
  
 {% endif %}
