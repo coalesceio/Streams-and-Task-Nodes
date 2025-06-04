@@ -72,7 +72,7 @@ operation:
           columnCounter: 3d151771-f523-4a18-aa48-f9232b459f87
           stepCounter: 7c3b0022-e353-4db2-8499-5bb205ef650b
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(255)
         description: ""
         name: BRAND
         nullable: true
