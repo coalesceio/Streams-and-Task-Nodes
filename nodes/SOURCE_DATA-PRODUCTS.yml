@@ -3,7 +3,7 @@ id: f7525a7e-96bd-4514-b428-c468312550a0
 name: PRODUCTS
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
