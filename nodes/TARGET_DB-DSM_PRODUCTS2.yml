@@ -12,14 +12,14 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: true
+    devMode: false
     flagSrcStream: true
     groupByAll: false
     initialRows: true
     loadType: Merge
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    predTask: TGCR_PRODUCTS
     redeploymentBehavior: Create or Replace
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: TGCR_PRODUCTS
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
@@ -27,7 +27,7 @@ operation:
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Table
-    whName: <WAREHOUSE_NAME>
+    whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
