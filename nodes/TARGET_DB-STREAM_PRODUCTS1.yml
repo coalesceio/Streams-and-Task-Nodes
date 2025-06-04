@@ -1,54 +1,25 @@
 fileVersion: 1
-id: 2e0eed52-9003-48fa-bba5-84b4f0075baa
-name: SIM_PRODUCTS1
+id: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+name: STREAM_PRODUCTS1
 operation:
   config:
     appendOnly: false
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    createas: table
-    devMode: true
-    flagSrcStream: true
-    groupByAll: false
     initialRows: true
-    loadType: Insert
-    orderBy:
-      items:
-        - {}
-    partitionBy:
-      items:
-        - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    propagateDeletes: false
     redeploymentBehavior: Create At Existing Stream
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: ""
-    schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
-    schedulingMode: Warehouse Task
-    selectDistinct: false
-    serverlessSize: MEDIUM
     sourceType: Table
-    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 557ccd99-dbe6-49f9-b32e-b7b9b6dcda0e
-          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
+          columnCounter: 1ed37959-3e13-4711-9f3d-d8ac8d803612
+          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -61,8 +32,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 20878710-d15a-4a77-8687-b8864b895bd7
-          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
+          columnCounter: 295094a3-af7e-407f-8d20-c578b44637fb
+          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -75,8 +46,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b786956e-689c-4998-8b2b-c8d62036b7d8
-          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
+          columnCounter: faaeca02-7116-49d2-b2e7-cf3fed448d99
+          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -89,8 +60,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 349caa95-6116-44ab-b501-a2a34e7b2c69
-          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
+          columnCounter: 469fb294-876f-4112-8d4b-5021da4b3e20
+          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -100,6 +71,57 @@ operation:
           - columnReferences:
               - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
                 stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8bacd8b0-85f7-4b1c-ad04-dbb8599b63b6
+          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataAction: true
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b498327-6729-498a-872f-1d9e62f9cf48
+          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+        config: {}
+        dataType: boolean
+        defaultValue: ""
+        description: ""
+        metadataIsUpdate: true
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 86427171-05ac-4153-88a6-5733b506c3d2
+          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataRowID: true
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
@@ -112,12 +134,12 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: SIM_PRODUCTS1
+        name: STREAM_PRODUCTS1
         noLinkRefs: []
-  name: SIM_PRODUCTS1
+  name: STREAM_PRODUCTS1
   overrideSQL: false
   schema: ""
-  sqlType: "152"
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

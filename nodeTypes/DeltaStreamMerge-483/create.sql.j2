@@ -39,7 +39,7 @@ does not permit copying or modification for any other purpose.
     {% set streamTargetDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
     {% set streamTargetSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
     {% set streamName = desiredState.node.name + '_STREAM' %}
-    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
  
     {# Target Table Info #}
     {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %}
@@ -93,7 +93,7 @@ does not permit copying or modification for any other purpose.
 
     {% if currentState == undefined %}
         {{ stage('Create Stream', true, "sql", "create") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -102,7 +102,7 @@ does not permit copying or modification for any other purpose.
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
         {{ stage('Create Stream If Not Exists', true, "sql", "alter") }}
-        CREATE STREAM IF NOT EXISTS {{ fullyQualifiedStreamName }}
+        CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -110,13 +110,13 @@ does not permit copying or modification for any other purpose.
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
         {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
-            AT(STREAM => '{{ fullyQualifiedStreamName }}');
+            AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
 
         {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create or Replace'%}
         {{ stage('Create Stream', true, "sql", "alter") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ streamSourceObjectName }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -131,10 +131,10 @@ does not permit copying or modification for any other purpose.
     {% set streamTargetDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
     {% set streamTargetSchemaName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
     {% set streamName = currentState.node.name + '_STREAM' %}
-    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
  
     {{ stage('Drop Stream', true, "sql", "drop") }}
-    DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
+    DROP STREAM IF EXISTS {{ ref(streamTargetLocationName, streamName) }}
  {% endif %}
  
 {# Create / Alter Table Second #}
@@ -594,7 +594,7 @@ does not permit copying or modification for any other purpose.
                 {%- endfor %}
                 ,"METADATA$ACTION" AS METADATA$ACTION,
                 "METADATA$ISUPDATE" AS METADATA$ISUPDATE    
-        FROM {{ fullyQualifiedStreamName }}
+        FROM {{ ref(streamTargetLocationName, streamName) }}
 
         {% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
         {{join_clause}}
@@ -648,8 +648,8 @@ does not permit copying or modification for any other purpose.
  
         {% if desiredState.config.devMode == false %}
             {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%}
-                {%- set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + desiredState.config.rootTask + '"' -%}
-                {{ stage('Suspend Root Task', true, "sql", "alter") }}
+                {% set fullyQualifiedRootTaskName = ref(desiredState.node.location.name, desiredState.config.rootTask) %}
+                {{ stage('Suspend Root Task', true, "sql", "create") }}
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
             {%- endif -%}
  
@@ -659,9 +659,9 @@ does not permit copying or modification for any other purpose.
             {% set nsVariables = namespace(poll="WHEN ") %}
  
             {# Task Info #}
-            {% set taskName = desiredState.node.name + '_TASK'  %}
-            {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%}
-			{% set ret_clause = get_clause( desiredState.sources[0].join ).lstrip()%}
+            {% set taskName = desiredState.node.name + '_TASK' %}
+            {% set fullyQualifiedTaskName = ref(desiredState.node.location.name, taskName) %}
+            {% set ret_clause = get_clause( desiredState.sources[0].join ).lstrip()%}
             {% set modified_string = namespace(value="",business_keys=[]) %}
             {% set words = ret_clause.split() %}
             {% for word in words %}
@@ -722,7 +722,7 @@ does not permit copying or modification for any other purpose.
             {% if desiredState.config.flagSrcStream == true %}
 															  
                 {%- if nsVariables.poll == 'WHEN ' -%}
-                    {% set nsVariables.poll = nsVariables.poll + 'SYSTEM$STREAM_HAS_DATA (\'' + fullyQualifiedStreamName + '\')'  %}							
+                    {% set nsVariables.poll = nsVariables.poll + 'SYSTEM$STREAM_HAS_DATA (\'' + ref(streamTargetLocationName, streamName) + '\')'  %}							
                 {%- endif -%}
             {% endif -%}
  
@@ -737,7 +737,7 @@ does not permit copying or modification for any other purpose.
                 {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
             AS
 
-            MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
+            MERGE INTO {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} tgt USING
             -- Select Statement Preparing Data for Merge
             (SELECT  {% if desiredState.config.selectDistinct -%} DISTINCT {%- endif -%}
 				 {% for id in tableColumnIds %}
@@ -755,7 +755,7 @@ does not permit copying or modification for any other purpose.
                 {%- endfor %}
                 ,"METADATA$ACTION" AS METADATA$ACTION,
                 "METADATA$ISUPDATE" AS METADATA$ISUPDATE
-            FROM {{ fullyQualifiedStreamName }}
+            FROM {{ ref(streamTargetLocationName, streamName) }}
 
             {% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
             {{join_clause}}
@@ -815,16 +815,17 @@ does not permit copying or modification for any other purpose.
     {% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
  
     {% if currentState.config.devMode == false %}
-        {# FQ Root Task name #}
-        {% set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + currentState.config.rootTask + '"'%}
+		{# FQ Root Task name #}							   
+		{% set fullyQualifiedRootTaskName = ref(currentState.node.location.name, currentState.config.rootTask) %}
+																																   
  
         {# Task Info #}
-        {% set taskName = currentState.node.name + '_TASK'  %}
-        {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%}
+        {% set taskName = currentState.node.name + '_TASK' %}
+        {% set fullyQualifiedTaskName = ref(currentState.node.location.name, taskName) %}
  
         {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%}
-        {{ stage('Suspend Root Task', true, "sql", "drop") }}
-            ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
+            {{ stage('Suspend Root Task', true, "sql", "drop") }}
+			   ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
         {{ stage('Drop Current Task', true, "sql", "drop") }}
             DROP TASK IF EXISTS {{ fullyQualifiedTaskName }}
         {%- else -%}
