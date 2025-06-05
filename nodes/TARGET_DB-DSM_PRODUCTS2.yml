@@ -17,9 +17,9 @@ operation:
     groupByAll: false
     initialRows: true
     loadType: Merge
-    predTask: TGCR_PRODUCTS
+    predTask: TGCR_PRODUCTS1
     redeploymentBehavior: Create or Replace
-    rootTask: TGCR_PRODUCTS
+    rootTask: TGCR_PRODUCTS1
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor

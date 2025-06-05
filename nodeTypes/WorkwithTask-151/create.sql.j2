@@ -527,7 +527,6 @@ does not permit copying or modification for any other purpose.
 
     {% if currentState.config.devMode == false %}
 		{% set fullyQualifiedRootTaskName = ref(currentState.node.location.name, currentState.config.rootTask) %}
-		{{ stage('Suspend Root Task', true, "sql", "drop") }}
 
         {# Task Info - Use ref() #}
         {% set taskName = currentState.node.name + '_TASK' %}

@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 9648cc32-e230-419a-b173-eba24fa88010
-name: DSM_PRODUCTS
+name: DSM_PRODUCTS123
 operation:
   config:
     clusterKey: true
@@ -14,7 +14,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
     initialRows: true
@@ -108,9 +108,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: DSM_PRODUCTS
+        name: DSM_PRODUCTS123
         noLinkRefs: []
-  name: DSM_PRODUCTS
+  name: DSM_PRODUCTS123
   overrideSQL: false
   schema: ""
   sqlType: "483"
