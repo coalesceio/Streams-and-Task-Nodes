@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 6b860745-f1ca-4d0b-8817-5e65fb2db701
+id: 4e89af9d-9121-42fd-847a-c0c778c4fd4e
 name: SIM_PRODUCTS2
 operation:
   config:
@@ -13,7 +13,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
     initialRows: true
@@ -24,10 +24,10 @@ operation:
     partitionBy:
       items:
         - {}
-    predTask: TGCR_PRODUCTS2
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: false
-    redeploymentBehavior: Create At Existing Stream
-    rootTask: TGCR_PRODUCTS2
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
@@ -35,7 +35,7 @@ operation:
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Table
-    whName: COMPUTE_WH
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -47,8 +47,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: db06f7c1-fac2-412d-b482-70a1608afe8c
-          stepCounter: 6b860745-f1ca-4d0b-8817-5e65fb2db701
+          columnCounter: 68b6c0d6-3f7b-40c3-9305-29c5e41e89c0
+          stepCounter: 4e89af9d-9121-42fd-847a-c0c778c4fd4e
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -61,8 +61,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7920e50c-2072-433f-834f-08c2c5d74e35
-          stepCounter: 6b860745-f1ca-4d0b-8817-5e65fb2db701
+          columnCounter: 695a7a96-39b2-4e4a-bb38-cb57f182c845
+          stepCounter: 4e89af9d-9121-42fd-847a-c0c778c4fd4e
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -75,10 +75,10 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4c20c65c-7549-465a-8a91-600b3f67c1c0
-          stepCounter: 6b860745-f1ca-4d0b-8817-5e65fb2db701
+          columnCounter: 77a96ef6-a353-4173-bb5d-e783d293900d
+          stepCounter: 4e89af9d-9121-42fd-847a-c0c778c4fd4e
         config: {}
-        dataType: VARCHAR(255)
+        dataType: VARCHAR(100)
         description: ""
         name: BRAND
         nullable: true
@@ -89,8 +89,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 64513825-5771-4a7f-a51a-330d108b7d73
-          stepCounter: 6b860745-f1ca-4d0b-8817-5e65fb2db701
+          columnCounter: a88c317a-8256-43ab-9e14-e20032c4ec2d
+          stepCounter: 4e89af9d-9121-42fd-847a-c0c778c4fd4e
         config: {}
         dataType: VARCHAR(50)
         description: ""
