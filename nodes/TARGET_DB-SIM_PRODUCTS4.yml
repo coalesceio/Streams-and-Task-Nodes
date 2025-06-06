@@ -4,7 +4,7 @@ name: SIM_PRODUCTS4
 operation:
   config:
     appendOnly: false
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
         - columnName:
