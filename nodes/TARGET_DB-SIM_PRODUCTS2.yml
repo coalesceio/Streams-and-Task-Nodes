@@ -4,10 +4,12 @@ name: SIM_PRODUCTS2
 operation:
   config:
     appendOnly: false
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 77a96ef6-a353-4173-bb5d-e783d293900d
+            stepCounter: 4e89af9d-9121-42fd-847a-c0c778c4fd4e
     clusterKeyConfigExpressions:
       items:
         - {}
