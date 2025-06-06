@@ -3,7 +3,7 @@ id: 44cdf01f-7817-4639-ac1f-50af50740ac6
 name: TSKWRK_PRODUCTS3
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
         - columnName:
