@@ -29,7 +29,7 @@ operation:
     predTask: TGCR_PRODUCTS1
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
-    rootTask: TGRR_PRODUCTS1
+    rootTask: TGCR_PRODUCTS1
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
