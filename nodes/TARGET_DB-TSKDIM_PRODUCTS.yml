@@ -76,6 +76,7 @@ operation:
         config: {}
         dataType: VARCHAR(255)
         description: ""
+        isBusinessKey: true
         name: PRODUCT_NAME
         nullable: true
         sourceColumnReferences:
@@ -90,6 +91,7 @@ operation:
         config: {}
         dataType: VARCHAR(100)
         description: ""
+        isChangeTracking: true
         name: BRAND
         nullable: true
         sourceColumnReferences:
