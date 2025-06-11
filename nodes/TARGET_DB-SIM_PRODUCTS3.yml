@@ -30,7 +30,7 @@ operation:
     rootTask: TGCR_PRODUCTS3
     scheduleCRON: ""
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
