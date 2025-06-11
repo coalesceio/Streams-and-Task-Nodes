@@ -24,13 +24,13 @@ operation:
     partitionBy:
       items:
         - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    predTask: TGCR_PRODUCTS2
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: TGCR_PRODUCTS2
     scheduleCRON: ""
     schedulePeriod: "60"
-    schedulePeriodOption: Minutes
+    schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
