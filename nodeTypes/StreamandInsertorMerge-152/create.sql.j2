@@ -929,7 +929,7 @@ does not permit copying or modification for any other purpose.
  
     {% if currentState.config.devMode == false %}
 		{# FQ Root Task name #}							   
-		{% set fullyQualifiedRootTaskName = ref(currentState.node.location.name, currentState.config.rootTask) %}
+		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 																																   
  
         {# Task Info #}

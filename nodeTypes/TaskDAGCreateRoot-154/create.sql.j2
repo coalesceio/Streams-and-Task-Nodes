@@ -29,7 +29,7 @@ does not permit copying or modification for any other purpose.
 
 {# Task Info #}
 {% set taskName = desiredState.node.name  %}
-{% set fullyQualifiedTaskName = ref(desiredState.node.location.name, taskName) %}
+{% set fullyQualifiedTaskName = ref_no_link(desiredState.node.location.name, taskName) %}
       {# Task Type #}
         {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
             {# Can be updated during deployment via a parameter to account for different warehouse names in different deployments #}
@@ -72,7 +72,7 @@ AS
 
 {# Task Info #}
 {% set taskName = currentState.node.name  %}
-{% set fullyQualifiedTaskName = ref(currentState.node.location.name, taskName) %}
+{% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
 
 {{ stage('Suspend Root Task', true, "sql", "alter") }}
     ALTER TASK IF EXISTS {{ fullyQualifiedTaskName }} SUSPEND
