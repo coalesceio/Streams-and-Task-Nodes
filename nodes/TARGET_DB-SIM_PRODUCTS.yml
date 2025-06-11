@@ -28,9 +28,9 @@ operation:
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
     rootTask: TGCR_PRODUCTS
-    scheduleCRON: ""
+    scheduleCRON: TGCR_PRODUCTS
     schedulePeriod: "60"
-    schedulePeriodOption: Minutes
+    schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
