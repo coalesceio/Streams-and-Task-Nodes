@@ -1,0 +1,125 @@
+fileVersion: 1
+id: 9188465b-0efe-4564-8d36-611fd274912d
+name: SIM_PRODUCTS1
+operation:
+  config:
+    appendOnly: false
+    clusterKey: true
+    clusterKeyConfig:
+      items:
+        - columnName:
+            columnCounter: 6f0ba4f8-13da-4500-81a2-59f013cbf656
+            stepCounter: 9188465b-0efe-4564-8d36-611fd274912d
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 17d90a1c-94d8-44f6-83c8-eeddc15a7140
+          stepCounter: 9188465b-0efe-4564-8d36-611fd274912d
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dcf46c50-1397-467a-a237-b79925b92a11
+          stepCounter: 9188465b-0efe-4564-8d36-611fd274912d
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f0ba4f8-13da-4500-81a2-59f013cbf656
+          stepCounter: 9188465b-0efe-4564-8d36-611fd274912d
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5eb55dbc-0df0-44fc-9ac3-4bfbcdc8622c
+          stepCounter: 9188465b-0efe-4564-8d36-611fd274912d
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
+                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+        name: SIM_PRODUCTS1
+        noLinkRefs: []
+  name: SIM_PRODUCTS1
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node
