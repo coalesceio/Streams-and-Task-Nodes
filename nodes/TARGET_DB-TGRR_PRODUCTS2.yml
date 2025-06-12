@@ -1,0 +1,125 @@
+fileVersion: 1
+id: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+name: TGRR_PRODUCTS2
+operation:
+  config:
+    rootTask: TGCR_PRODUCTS2
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1dc03906-da09-4761-b14a-f4d81a3e2d22
+          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e690279d-27b4-4206-a1b2-1049ecbdf048
+          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b839d777-b7ef-43e2-8109-281f71439684
+          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: facaf693-98c1-4a69-9585-f3765ad27e11
+                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b7f22099-004f-4a94-8880-3753347e104f
+          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1a05c1d4-9523-4e2e-9b16-78c3e10cd040
+                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 55bcac22-14f2-41b0-8e92-e2feb6555b7d
+          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9ee29b02-1f82-4a82-a089-4cf1814d1abf
+                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 694fcc95-3fe3-412e-9aa5-05d3c1837a79
+          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bb18aec7-5c25-4caa-bd5e-5e33d30a38a5
+                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TGCR_PRODUCTS2
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TGCR_PRODUCTS2') }} "TGCR_PRODUCTS2"
+        name: TGRR_PRODUCTS2
+        noLinkRefs: []
+  name: TGRR_PRODUCTS2
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node
