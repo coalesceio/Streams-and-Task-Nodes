@@ -25,7 +25,7 @@ does not permit copying or modification for any other purpose.
     {% set streamTargetDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
     {% set streamTargetSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
     {% set streamName = desiredState.node.name %}
-    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
 
     {# Stream Type #}
     {% if desiredState.config.sourceType == 'Table' %} 
@@ -84,7 +84,7 @@ does not permit copying or modification for any other purpose.
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
         {{ stage('Create Stream', true, "sql", "create") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -92,7 +92,7 @@ does not permit copying or modification for any other purpose.
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists' and desiredState !=currentState %}
         {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
-        CREATE STREAM IF NOT EXISTS {{ fullyQualifiedStreamName }}
+        CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
@@ -100,9 +100,9 @@ does not permit copying or modification for any other purpose.
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' and desiredState !=currentState %}
         {{ stage('Re-Create Stream at existing offset', true, "sql", "alter") }}
-        CREATE OR REPLACE STREAM {{ fullyQualifiedStreamName }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
-            AT(STREAM => '{{ fullyQualifiedStreamName }}');
+            AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
 
     {% endif %}
 
@@ -114,10 +114,9 @@ does not permit copying or modification for any other purpose.
     {% set streamTargetDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='database') | first %}
     {% set streamTargetSchemaName = currentState.storageLocations | selectattr('name', 'equalto', streamTargetLocationName) | map(attribute='schema') | first %}
     {% set streamName = currentState.node.name %}
-    {% set fullyQualifiedStreamName = '"' + streamTargetDatabaseName + '"."' + streamTargetSchemaName + '"."' + streamName + '"' %}
+
 
     {{ stage('Drop Stream', true, "sql", "drop") }}
-    DROP STREAM IF EXISTS {{ fullyQualifiedStreamName }}
+    DROP STREAM IF EXISTS {{ ref(streamTargetLocationName, streamName) }}
 
 {% endif %}
-

@@ -94,7 +94,7 @@ does not permit copying or modification for any other purpose.
 
     {% if currentState == undefined or nsVariables.colchanges == 1 or currentState.storageLocations | length == 0 %}
         {{ stage('Create Dimension Table', true, "sql", "create") }}
-        CREATE OR REPLACE TABLE {{ fullyQualifiedTargetTableName }}
+        CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (
             {% for col in desiredState.columns %}
                 "{{ col.name }}" {{ col.dataType }}
@@ -430,9 +430,9 @@ does not permit copying or modification for any other purpose.
 
 
     {% if desiredState.config.devMode == false %}
-        {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
-            {%- set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + desiredState.config.rootTask + '"' -%} 
-            {{ stage('Suspend Root Task', true, "sql", "alter") }}
+		{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
+			{% set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask) %}
+            {{ stage('Suspend Root Task', true, "sql", "create") }}
             ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
         {%- endif -%}
 
@@ -443,7 +443,8 @@ does not permit copying or modification for any other purpose.
 
         {# Task Info #}
         {% set taskName = desiredState.node.name + '_TASK'  %}
-        {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+		{% set fullyQualifiedTaskName = ref_no_link(desiredState.node.location.name, taskName) %}
+
 
         {# Task Type #}
         {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
@@ -517,7 +518,7 @@ does not permit copying or modification for any other purpose.
             
 
             /* Type 2 With Change Tracking */
-            MERGE INTO {{ fullyQualifiedTargetTableName }} "TGT"
+            MERGE INTO {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} "TGT"
             USING (
             {% for source in desiredState.sources %}
 
@@ -558,7 +559,7 @@ does not permit copying or modification for any other purpose.
                     ) "RI"
                 {% endif %}
             {% endfor %}
-                LEFT JOIN {{ fullyQualifiedTargetTableName }} "DIM" ON
+                LEFT JOIN {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} "DIM" ON
                 {% for col in desiredState.columns if col.isBusinessKey -%}
                     {% if not loop.first %}
                         AND
@@ -608,7 +609,7 @@ does not permit copying or modification for any other purpose.
                     ) "RIC"
                 {% endif %}
                 {% endfor %}
-                INNER JOIN {{ fullyQualifiedTargetTableName }} "DIM" ON
+                INNER JOIN {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} "DIM" ON
                 {% for col in desiredState.columns if col.isBusinessKey -%}
                     {% if not loop.first %}
                         AND
@@ -671,7 +672,7 @@ does not permit copying or modification for any other purpose.
                     ) "RIE"
                 {% endif %}
             {% endfor %}
-                INNER JOIN {{ fullyQualifiedTargetTableName }} "DIM" ON
+                INNER JOIN {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} "DIM" ON
                 {% for col in desiredState.columns if col.isBusinessKey -%}
                     {% if not loop.first %}
                         AND
@@ -735,7 +736,7 @@ does not permit copying or modification for any other purpose.
                     ) "RU"
                 {% endif %}
             {% endfor %}
-                INNER JOIN {{ fullyQualifiedTargetTableName }} "DIM" ON
+                INNER JOIN {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} "DIM" ON
                 {% for col in desiredState.columns if col.isBusinessKey -%}
                     {% if not loop.first %}
                         AND
@@ -805,7 +806,7 @@ does not permit copying or modification for any other purpose.
         {% else %}
 
             /* Type 1 With No Change Tracking */
-            MERGE INTO {{ fullyQualifiedTargetTableName }} "TGT"
+            MERGE INTO {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} "TGT"
             USING (
             {% for source in desiredState.sources %}
                 {% if loop.first %}
@@ -914,11 +915,11 @@ does not permit copying or modification for any other purpose.
 
     {% if currentState.config.devMode == false %}
         {# FQ Root Task name #}
-        {% set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + currentState.config.rootTask + '"'%}
+		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
-        {# Task Info #}
-        {% set taskName = currentState.node.name + '_TASK'  %}
-        {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+        {# Task Info  #}
+        {% set taskName = currentState.node.name + '_TASK' %}
+        {% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
 
         {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%} 
         {{ stage('Suspend Root Task', true, "sql", "drop") }}

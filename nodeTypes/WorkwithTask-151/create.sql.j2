@@ -66,7 +66,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {{ stage('Create Work Table', true, "sql", "create") }}
-        CREATE OR REPLACE TABLE {{ fullyQualifiedTargetTableName }}
+        CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (
             {% for col in desiredState.columns %}
                 "{{ col.name }}" {{ col.dataType }}
@@ -397,21 +397,22 @@ does not permit copying or modification for any other purpose.
         {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
 
 
-        {% if desiredState.config.devMode == false %}
-            {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
-                {%- set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + desiredState.config.rootTask + '"' -%} 
-                {{ stage('Suspend Root Task', true, "sql", "alter") }}
-                ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
-            {%- endif -%}
+		{% if desiredState.config.devMode == false %}
+			{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
+				{% set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask) %}
+				{{ stage('Suspend Root Task', true, "sql", "create") }}
+				ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+			{%- endif -%}
+
 
             {{ stage('Create Task', true, "sql", "alter") }}
             {# Set Namespace Variables #}
             {% set nsVariables = namespace(taskWhenRun="") %}
             {% set nsVariables = namespace(poll="WHEN ") %}
-
-            {# Task Info #}
-            {% set taskName = desiredState.node.name + '_TASK'  %}
-            {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+			
+			{# Task Info - Use ref() #}
+			{% set taskName = desiredState.node.name + '_TASK' %}
+			{% set fullyQualifiedTaskName = ref_no_link(desiredState.node.location.name, taskName) %}
 
             {# Task Type #}
             {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
@@ -478,7 +479,7 @@ does not permit copying or modification for any other purpose.
                 {{ nsVariables.taskWhenRun }} 
                 {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
             AS 
-            {{ truncateBehavior }} INTO {{ fullyQualifiedTargetTableName }}
+            {{ truncateBehavior }} INTO {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 (
                     {% for col in desiredState.columns %}
                         "{{ col.name }}"
@@ -525,12 +526,11 @@ does not permit copying or modification for any other purpose.
     {% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
     {% if currentState.config.devMode == false %}
-        {# FQ Root Task name #}
-        {% set fullyQualifiedRootTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + currentState.config.rootTask + '"'%}
+		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
         {# Task Info #}
-        {% set taskName = currentState.node.name + '_TASK'  %}
-        {%- set fullyQualifiedTaskName = targetTableDatabase + '.' + targetTableSchema + '."' + taskName + '"' -%} 
+        {% set taskName = currentState.node.name + '_TASK' %}
+        {% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
 
         {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%} 
         {{ stage('Suspend Root Task', true, "sql", "drop") }}
