@@ -622,7 +622,7 @@ does not permit copying or modification for any other purpose.
 										 
 
         {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
-            {{ stage('Resume Created Task', true, "sql", "alter") }}
+            {{ stage('Resume Created Task', true, "sql", "create") }}
             ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
         {%- endif -%}
     {%- endif -%}

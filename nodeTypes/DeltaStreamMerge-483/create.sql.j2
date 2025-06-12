@@ -207,7 +207,7 @@ does not permit copying or modification for any other purpose.
                   {{ stage('Apply Table Clustering', true, "sql", "alter") }}
                  ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
  
-                   {{ stage('Resume Recluster Table', true, "sql", "alter") }}
+                   {{ stage('Resume Recluster Table', true, "sql", "create") }}
                   ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
  
                {% endif %}

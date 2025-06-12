@@ -513,7 +513,7 @@ does not permit copying or modification for any other purpose.
                 {{ sortorder_by_colv() }}
 
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
-                {{ stage('Resume Task', true, "sql", "alter") }}
+                {{ stage('Resume Task', true, "sql", "create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}       
         {%- endif -%}
