@@ -1,21 +1,19 @@
 fileVersion: 1
-id: bb0716b5-273b-4012-aff1-c5c45b85f42c
-name: SIM_PRODUCTS1
+id: 175f3ebb-66fd-408c-b7d9-0ca42dc47ef6
+name: SIM_PRODUCTS2
 operation:
   config:
     appendOnly: false
     clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 1b388e7c-9115-420b-a90f-7f201bbf62a7
-            stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
     initialRows: true
@@ -26,10 +24,10 @@ operation:
     partitionBy:
       items:
         - {}
-    predTask: TGCR_PRODUCTS2
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
-    rootTask: TGCR_PRODUCTS2
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
@@ -37,7 +35,7 @@ operation:
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Table
-    whName: COMPUTE_WH
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -49,8 +47,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 76805eb5-4fc1-4fb8-9448-04007b59410e
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: 79ff53a4-a2d2-4084-8aae-ea468d9ff1bd
+          stepCounter: 175f3ebb-66fd-408c-b7d9-0ca42dc47ef6
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -63,8 +61,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ef722540-c4de-46c0-9ff6-e2036229f450
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: 8826f2f0-f5ee-4ef4-b36f-0cf82956b936
+          stepCounter: 175f3ebb-66fd-408c-b7d9-0ca42dc47ef6
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -77,8 +75,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1b388e7c-9115-420b-a90f-7f201bbf62a7
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: e4d47dd1-8af2-4413-b11c-73dd33fd4ec9
+          stepCounter: 175f3ebb-66fd-408c-b7d9-0ca42dc47ef6
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -91,8 +89,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 51cb5809-df4a-420b-9bf3-eb008a1c55f3
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: a57a2d74-270d-459c-b443-a309963d3cdc
+          stepCounter: 175f3ebb-66fd-408c-b7d9-0ca42dc47ef6
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -114,9 +112,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: SIM_PRODUCTS1
+        name: SIM_PRODUCTS2
         noLinkRefs: []
-  name: SIM_PRODUCTS1
+  name: SIM_PRODUCTS2
   overrideSQL: false
   schema: ""
   sqlType: "152"

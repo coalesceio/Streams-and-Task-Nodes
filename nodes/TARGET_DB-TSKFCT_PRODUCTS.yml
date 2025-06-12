@@ -1,43 +1,34 @@
 fileVersion: 1
-id: bb0716b5-273b-4012-aff1-c5c45b85f42c
-name: SIM_PRODUCTS1
+id: 866f1571-23d2-4be3-a85a-20ff352228a1
+name: TSKFCT_PRODUCTS
 operation:
   config:
-    appendOnly: false
     clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 1b388e7c-9115-420b-a90f-7f201bbf62a7
-            stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: table
     devMode: false
-    flagSrcStream: true
+    flagSrcStream: false
     groupByAll: false
-    initialRows: true
-    loadType: Insert
-    orderBy:
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    partitionBy:
-      items:
-        - {}
-    predTask: TGCR_PRODUCTS2
-    propagateDeletes: false
-    redeploymentBehavior: Create or Replace
-    rootTask: TGCR_PRODUCTS2
-    scheduleCRON: ""
+    predTask: TGCR_PRODUCTS_TEST
+    rootTask: TGCR_PRODUCTS_TEST
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: Table
-    whName: COMPUTE_WH
+    whName: compute_wh
   database: ""
   deployEnabled: true
   description: ""
@@ -49,8 +40,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 76805eb5-4fc1-4fb8-9448-04007b59410e
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: 43f2f507-222c-41a6-bcaa-956fda0a3099
+          stepCounter: 866f1571-23d2-4be3-a85a-20ff352228a1
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -63,8 +54,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ef722540-c4de-46c0-9ff6-e2036229f450
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: 3f44dc8b-2dda-4702-8f13-12f9ce4c4d0f
+          stepCounter: 866f1571-23d2-4be3-a85a-20ff352228a1
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -77,11 +68,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1b388e7c-9115-420b-a90f-7f201bbf62a7
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: 30004c6c-be9e-4694-97ec-ea3c1d8a8a21
+          stepCounter: 866f1571-23d2-4be3-a85a-20ff352228a1
         config: {}
         dataType: VARCHAR(100)
         description: ""
+        isBusinessKey: true
         name: BRAND
         nullable: true
         sourceColumnReferences:
@@ -91,8 +83,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 51cb5809-df4a-420b-9bf3-eb008a1c55f3
-          stepCounter: bb0716b5-273b-4012-aff1-c5c45b85f42c
+          columnCounter: d90eb0b7-0b39-4bcc-9c8e-4cf7d68f23ba
+          stepCounter: 866f1571-23d2-4be3-a85a-20ff352228a1
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -103,6 +95,40 @@ operation:
               - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
                 stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3d6bf44c-3515-44b9-844d-b9cc71e7ca1f
+          stepCounter: 866f1571-23d2-4be3-a85a-20ff352228a1
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: de1bcc77-dadc-499b-afc4-07680156b489
+          stepCounter: 866f1571-23d2-4be3-a85a-20ff352228a1
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -114,12 +140,12 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: SIM_PRODUCTS1
+        name: TSKFCT_PRODUCTS
         noLinkRefs: []
-  name: SIM_PRODUCTS1
+  name: TSKFCT_PRODUCTS
   overrideSQL: false
   schema: ""
-  sqlType: "152"
+  sqlType: "150"
   type: sql
   version: 1
 type: Node
