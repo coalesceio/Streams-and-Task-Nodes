@@ -1,5 +1,5 @@
 fileVersion: 1
-id: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+id: cb83d5e7-ba65-4df9-9c7e-4564c32461ea
 name: TGRR_PRODUCTS2
 operation:
   config:
@@ -18,8 +18,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 1dc03906-da09-4761-b14a-f4d81a3e2d22
-          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+          columnCounter: db1092f3-fabf-4b0c-8842-fcfe26a4c920
+          stepCounter: cb83d5e7-ba65-4df9-9c7e-4564c32461ea
         config: {}
         dagResumeTS: true
         dataType: timestamp_ntz
@@ -35,8 +35,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e690279d-27b4-4206-a1b2-1049ecbdf048
-          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+          columnCounter: b016cbde-6d6c-4788-bb13-8d35cbc34a04
+          stepCounter: cb83d5e7-ba65-4df9-9c7e-4564c32461ea
         config: {}
         dagResumeTS: true
         dataType: string
@@ -49,8 +49,8 @@ operation:
             transform: desiredState.config.rootTask
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b839d777-b7ef-43e2-8109-281f71439684
-          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+          columnCounter: a9e055a8-cdea-4a9e-8bbe-3f5b01ec969a
+          stepCounter: cb83d5e7-ba65-4df9-9c7e-4564c32461ea
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -58,13 +58,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: facaf693-98c1-4a69-9585-f3765ad27e11
-                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+              - columnCounter: 0836bea1-d50b-4dc6-bd44-bcb5028d39e2
+                stepCounter: c1fb7547-54cc-4d34-b05b-9f456769e2d2
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b7f22099-004f-4a94-8880-3753347e104f
-          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+          columnCounter: 54e2614c-3fba-40ff-ad10-2243d5c79ddd
+          stepCounter: cb83d5e7-ba65-4df9-9c7e-4564c32461ea
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -72,13 +72,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1a05c1d4-9523-4e2e-9b16-78c3e10cd040
-                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+              - columnCounter: ce176e13-bd2a-4126-89a2-3213fbc0bbdc
+                stepCounter: c1fb7547-54cc-4d34-b05b-9f456769e2d2
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 55bcac22-14f2-41b0-8e92-e2feb6555b7d
-          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+          columnCounter: 56c01b8d-721e-4c43-98c1-6899f890a668
+          stepCounter: cb83d5e7-ba65-4df9-9c7e-4564c32461ea
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -86,13 +86,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9ee29b02-1f82-4a82-a089-4cf1814d1abf
-                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+              - columnCounter: 80c7ac86-cd18-4477-8ba5-31fe7fc5af5a
+                stepCounter: c1fb7547-54cc-4d34-b05b-9f456769e2d2
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 694fcc95-3fe3-412e-9aa5-05d3c1837a79
-          stepCounter: db78ff9a-d1bc-4d62-adfc-3464ec2593c8
+          columnCounter: ca3e95cf-65f4-48c6-ad1b-c98a3e56c03d
+          stepCounter: cb83d5e7-ba65-4df9-9c7e-4564c32461ea
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -100,8 +100,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: bb18aec7-5c25-4caa-bd5e-5e33d30a38a5
-                stepCounter: 8aed6c3c-9393-4551-bf3c-4804eb0474d7
+              - columnCounter: 8fbf23c4-5e07-431e-af8c-6c971aa53c42
+                stepCounter: c1fb7547-54cc-4d34-b05b-9f456769e2d2
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
@@ -111,9 +111,9 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TGCR_PRODUCTS2
+            nodeName: SIM_PRODUCTS2
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'TGCR_PRODUCTS2') }} "TGCR_PRODUCTS2"
+          joinCondition: FROM {{ ref('TARGET_DB', 'SIM_PRODUCTS2') }} "SIM_PRODUCTS2"
         name: TGRR_PRODUCTS2
         noLinkRefs: []
   name: TGRR_PRODUCTS2
