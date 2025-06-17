@@ -92,7 +92,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
 
     {% if currentState == undefined or nsVariables.colchanges == 1 or currentState.storageLocations | length == 0%}
-        {{ stage('Create Fact Table', true, "sql", "create") }}
+        {{ stage('Create Fact Table') }}
         CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (
             {% for col in desiredState.columns %}
@@ -112,10 +112,10 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {% if desiredState.config.clusterKey == true %}
-            {{ stage('Apply Table Clustering', true, "sql", "create") }}
+            {{ stage('Apply Table Clustering') }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
 
-            {{ stage('Resume Recluster Table', true, "sql", "create") }}
+            {{ stage('Resume Recluster Table') }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
         {% endif %}
 
@@ -224,7 +224,7 @@ does not permit copying or modification for any other purpose.
 
         {# Rename / Move Object #}
         {% if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
-            {{ stage('Rename and / or Move Table', true, "sql", "alter") }}
+            {{ stage('Rename and / or Move Table') }}
                 {% set srcSchName = currentState.node.location.name %}
                 {% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
                 {% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
@@ -236,7 +236,7 @@ does not permit copying or modification for any other purpose.
 
         {# Change table description #}
         {% if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
-            {{ stage('Change table description', true, "sql", "alter") }}
+            {{ stage('Change table description') }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             SET COMMENT = '{{ desiredState.node.description | escape }}'
         {% endif %}
@@ -249,7 +249,7 @@ does not permit copying or modification for any other purpose.
             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
                 {% if nsVariables.colchanges == 1 %}
-                    {{ stage('Drop Columns', true, "sql", "alter") }}
+                    {{ stage('Drop Columns') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP COLUMN 
                 {% else %}
@@ -266,7 +266,7 @@ does not permit copying or modification for any other purpose.
             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
                 {% if nsVariables.colchanges == 1 %}
-                    {{ stage('Add Columns', true, "sql", "alter") }}
+                    {{ stage('Add Columns') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     ADD COLUMN
                 {% else %}
@@ -285,7 +285,7 @@ does not permit copying or modification for any other purpose.
             {% if renameCurCol.id in desiredState.columns | map(attribute="id") %}
                 {% set desiredColumnName = desiredState.columns | selectattr('id', 'equalto', renameCurCol.id) | map(attribute='name') | first %}
                 {% if renameCurCol.name != desiredColumnName %}
-                    {{ stage('Rename Column ' + renameCurCol.name, true, "sql", "alter") }}
+                    {{ stage('Rename Column ' + renameCurCol.name) }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     RENAME COLUMN "{{ renameCurCol.name }}"
                     TO "{{ desiredColumnName }}"
@@ -321,7 +321,7 @@ does not permit copying or modification for any other purpose.
                     {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
                     {% if nsVariables.colchanges == 1 %}
-                        {{ stage('Change Column Attributes', true, "sql", "alter") }}
+                        {{ stage('Change Column Attributes') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         MODIFY
                     {% endif %}
@@ -401,7 +401,7 @@ does not permit copying or modification for any other purpose.
 
             {% endif %}
 
-            {{ stage('Recluster TABLE', true, "sql", "create") }}
+            {{ stage('Recluster TABLE') }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             {{ nsVariables.finalClusterKey }}
 
@@ -415,7 +415,7 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
-    {{ stage('Drop Table', true, "sql", "drop") }}
+    {{ stage('Drop Table') }}
     DROP {{ currentState.node.materializationType }} IF EXISTS {{ fullyQualifiedTargetObjectName }}
 
 {% endif %}
@@ -433,11 +433,25 @@ does not permit copying or modification for any other purpose.
     {% if desiredState.config.devMode == false %}
 		{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
 			{% set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask) %}
-            {{ stage('Suspend Root Task', true, "sql", "create") }}
+            {{ stage('Suspend Root Task') }}
             ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
         {%- endif -%}
 
-        {{ stage('Create Task', true, "sql", "alter") }}
+        {%-if currentState !=undefined and currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption -%}            
+
+        {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%}
+
+            {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
+
+            {{ stage('Suspend Root Task') }}
+
+            ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+
+        {%- endif -%}
+
+        {%-endif -%}
+
+        {{ stage('Create Task') }}
         {# Set Namespace Variables #}
         {% set nsVariables = namespace(taskWhenRun="") %}
         {% set nsVariables = namespace(poll="WHEN ") %}
@@ -622,7 +636,7 @@ does not permit copying or modification for any other purpose.
 										 
 
         {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
-            {{ stage('Resume Created Task', true, "sql", "create") }}
+            {{ stage('Resume Created Task') }}
             ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
         {%- endif -%}
     {%- endif -%}
@@ -643,12 +657,12 @@ does not permit copying or modification for any other purpose.
         {% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
 
         {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%} 
-        {{ stage('Suspend Root Task', true, "sql", "drop") }}
+        {{ stage('Suspend Root Task') }}
             ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
-        {{ stage('Drop Current Task', true, "sql", "drop") }}
+        {{ stage('Drop Current Task') }}
             DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
         {%- else -%}
-        {{ stage('Drop Current Task', true, "sql", "drop") }}
+        {{ stage('Drop Current Task') }}
             DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
         {%- endif -%}
     {%- endif -%}
