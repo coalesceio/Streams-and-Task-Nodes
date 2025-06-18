@@ -899,7 +899,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
-            {{ stage('Resume Created Task', true, "sql", "create") }}
+            {{ stage('Resume Created Task') }}
             ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
         {%- endif -%}
 
