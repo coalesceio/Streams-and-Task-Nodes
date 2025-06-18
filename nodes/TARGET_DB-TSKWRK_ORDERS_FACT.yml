@@ -1,0 +1,136 @@
+fileVersion: 1
+id: 19d8c22b-9f2a-4438-91b9-c4307a58a88b
+name: TSKWRK_ORDERS_FACT
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_ORDERS
+    rootTask: TGCR_ORDERS
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: compute_wh
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c4699d4a-6e52-4820-b4c3-deeb183f6487
+          stepCounter: 19d8c22b-9f2a-4438-91b9-c4307a58a88b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1a0e1f11-a5c3-49b1-af3b-b14360cb0c49
+                stepCounter: c2c43934-ecf0-4bd3-91ec-d9b046cd438a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 22dfd52a-2a28-428b-ad37-2efc95e7c2c6
+          stepCounter: 19d8c22b-9f2a-4438-91b9-c4307a58a88b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: STORE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cab89c92-327b-4f16-a150-e3aca0fbccf0
+                stepCounter: c2c43934-ecf0-4bd3-91ec-d9b046cd438a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: be8ff5ac-8586-4874-9446-034f743579c8
+          stepCounter: 19d8c22b-9f2a-4438-91b9-c4307a58a88b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TIME_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 90eb2e64-0afa-4008-86f0-cf4f8d673e0b
+                stepCounter: c2c43934-ecf0-4bd3-91ec-d9b046cd438a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3f7d3c8-2fa4-45d9-8e50-6fdef15d338c
+          stepCounter: 19d8c22b-9f2a-4438-91b9-c4307a58a88b
+        config: {}
+        dataType: NUMBER(10,2)
+        description: ""
+        name: ORDERS_DOLLARS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 450adb96-edd9-4d03-adae-00196324a2c1
+                stepCounter: c2c43934-ecf0-4bd3-91ec-d9b046cd438a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6dad8c6d-b419-4ab9-bcad-12866599179f
+          stepCounter: 19d8c22b-9f2a-4438-91b9-c4307a58a88b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDERS_QUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fd0cea61-7a7b-4ecc-b615-f61f256fff1a
+                stepCounter: c2c43934-ecf0-4bd3-91ec-d9b046cd438a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ORDERS_FACT: c2c43934-ecf0-4bd3-91ec-d9b046cd438a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS_FACT
+          - locationName: TARGET_DB
+            nodeName: TGCR_ORDERS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'ORDERS_FACT') }} "ORDERS_FACT"
+            {{ ref_link('TARGET_DB', 'TGCR_ORDERS') }} 
+        name: TSKWRK_ORDERS_FACT
+        noLinkRefs: []
+  name: TSKWRK_ORDERS_FACT
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
