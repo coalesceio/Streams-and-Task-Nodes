@@ -1,0 +1,122 @@
+fileVersion: 1
+id: 0f930a25-4b50-4fbd-b1cb-64ea55545251
+name: TSKWRK_REGION
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_REGION
+    rootTask: TGCR_REGION
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e60d0caf-6bd1-4dea-9a2d-e607a798e4e2
+          stepCounter: 0f930a25-4b50-4fbd-b1cb-64ea55545251
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: R_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9f61c83d-1619-4f30-b677-c89fe702ebda
+                stepCounter: d3914323-dbff-418a-86cd-f04e5400886f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3932981e-ef7f-4e32-8555-e84d3d172231
+          stepCounter: 0f930a25-4b50-4fbd-b1cb-64ea55545251
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: R_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bd477fed-ba77-40c4-97ad-642712b86cff
+                stepCounter: d3914323-dbff-418a-86cd-f04e5400886f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e72663e-734b-488a-a3e4-2be437adb65d
+          stepCounter: 0f930a25-4b50-4fbd-b1cb-64ea55545251
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: R_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5774c9df-59af-461e-a3cc-9f061833618e
+                stepCounter: d3914323-dbff-418a-86cd-f04e5400886f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d325701b-6b5d-4719-b8e6-e6af25006848
+          stepCounter: 0f930a25-4b50-4fbd-b1cb-64ea55545251
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: R_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7f07f52f-2f57-443f-a73b-319b7a9521fb
+                stepCounter: d3914323-dbff-418a-86cd-f04e5400886f
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          REGION: d3914323-dbff-418a-86cd-f04e5400886f
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: REGION
+          - locationName: TARGET_DB
+            nodeName: TGCR_REGION
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
+            {{ ref_link('TARGET_DB', 'TGCR_REGION')}}
+        name: TSKWRK_REGION
+        noLinkRefs: []
+  name: TSKWRK_REGION
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
