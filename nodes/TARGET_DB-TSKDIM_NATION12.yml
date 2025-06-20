@@ -13,7 +13,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: true
+    devMode: false
     flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
@@ -22,15 +22,15 @@ operation:
     orderbycolumn:
       items:
         - {}
-    predTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
-    rootTask: "\"DATA_TRANSFORMATION_ROOT_TASK\""
+    predTask: TSKWRK_NATION12_TASK
+    rootTask: TSKWRK_NATION12_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    whName: <WAREHOUSE_NAME>
+    whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
