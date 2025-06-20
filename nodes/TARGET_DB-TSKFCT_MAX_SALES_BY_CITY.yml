@@ -1,0 +1,125 @@
+fileVersion: 1
+id: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+name: TSKFCT_MAX_SALES_BY_CITY
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: SIM_ORD_ST_TI_PRO_SALES_TASK
+    rootTask: TGCR_SALES
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: compute_wh
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 84ed805f-79e3-46b7-998b-1a945f6eb122
+          stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 75aa51d6-e86c-43af-acbb-25c736cb02bf
+                stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 61e45597-4e23-4c83-9c4b-b82b6888e29e
+          stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d0060a6-fac6-48e9-b249-42d09eb392b8
+                stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+            transform: max("SIM_ORD_ST_TI_PRO_SALES"."SALES")
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b422f9fb-9f9f-49a8-9053-a827af4ed203
+          stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a42889a-d59c-4801-864b-6cc7e815e8b8
+          stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SIM_ORD_ST_TI_PRO_SALES: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: SIM_ORD_ST_TI_PRO_SALES
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'SIM_ORD_ST_TI_PRO_SALES') }} "SIM_ORD_ST_TI_PRO_SALES"
+            group by "SIM_ORD_ST_TI_PRO_SALES"."CITY"
+        name: TSKFCT_MAX_SALES_BY_CITY
+        noLinkRefs: []
+  name: TSKFCT_MAX_SALES_BY_CITY
+  overrideSQL: false
+  schema: ""
+  sqlType: "150"
+  type: sql
+  version: 1
+type: Node

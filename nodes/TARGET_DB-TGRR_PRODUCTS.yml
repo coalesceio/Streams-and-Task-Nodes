@@ -119,48 +119,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a27a11fd-f526-4101-8a9a-75ca4fdaba98
-          stepCounter: 9ac91854-0085-455a-89e0-5694e15b674a
-        config: {}
-        dataType: STRING
-        description: ""
-        name: METADATA$ACTION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: a7b6dbe1-e892-46b9-97a4-59b5b4e645da
-                stepCounter: 633aae66-4b74-417b-bd1e-0792e1bad79d
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4a539f9f-39fc-4528-8cc2-3ce84bf74da5
-          stepCounter: 9ac91854-0085-455a-89e0-5694e15b674a
-        config: {}
-        dataType: boolean
-        description: ""
-        name: METADATA$ISUPDATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: f808c7f4-22bd-4681-916c-8bc9a15e694f
-                stepCounter: 633aae66-4b74-417b-bd1e-0792e1bad79d
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 6835e9d3-f824-43fc-85a2-2f236d78dce5
-          stepCounter: 9ac91854-0085-455a-89e0-5694e15b674a
-        config: {}
-        dataType: STRING
-        description: ""
-        name: METADATA$ROW_ID
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 058ec3a1-23c0-484d-ade4-334cdaed29ea
-                stepCounter: 633aae66-4b74-417b-bd1e-0792e1bad79d
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 38f5b8f9-0fe2-4458-a3e4-3e2542a28e1f
           stepCounter: 9ac91854-0085-455a-89e0-5694e15b674a
         config: {}

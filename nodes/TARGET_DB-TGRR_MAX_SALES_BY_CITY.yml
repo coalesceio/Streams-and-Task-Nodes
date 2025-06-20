@@ -1,0 +1,131 @@
+fileVersion: 1
+id: 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+name: TGRR_MAX_SALES_BY_CITY
+operation:
+  config:
+    rootTask: TGCR_SALES
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a0ca13b7-9825-4c3a-9927-1979fa5908b8
+          stepCounter: 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5fe8be65-3648-4ab0-abaf-91fbc6f6aa78
+          stepCounter: 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c7969f74-d790-4555-906d-ab24140be291
+          stepCounter: 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 84ed805f-79e3-46b7-998b-1a945f6eb122
+                stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 45727034-bd28-400b-88ea-9195a06ca5e3
+          stepCounter: 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 61e45597-4e23-4c83-9c4b-b82b6888e29e
+                stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 72ed970b-e8cf-4437-9a06-73e4968cdc61
+          stepCounter: 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b422f9fb-9f9f-49a8-9053-a827af4ed203
+                stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a683d099-b07d-4729-b137-446ba3129913
+          stepCounter: 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0a42889a-d59c-4801-864b-6cc7e815e8b8
+                stepCounter: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          TSKFCT_MAX_SALES_BY_CITY: 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKFCT_MAX_SALES_BY_CITY
+          - locationName: TARGET_DB
+            nodeName: TSKFCT_MAX_SALES_BY_MONTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'TSKFCT_MAX_SALES_BY_CITY') }} "TSKFCT_MAX_SALES_BY_CITY"
+            
+            {{ ref_link('TARGET_DB', 'TSKFCT_MAX_SALES_BY_MONTH') }} "TSKFCT_MAX_SALES_BY_MONTH"
+        name: TGRR_MAX_SALES_BY_CITY
+        noLinkRefs: []
+  name: TGRR_MAX_SALES_BY_CITY
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node

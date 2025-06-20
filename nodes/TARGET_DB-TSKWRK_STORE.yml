@@ -1,20 +1,18 @@
 fileVersion: 1
-id: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
-name: TSKWRK_PRODUCTS
+id: 05f34a8a-3638-4137-ba2f-7a1536a79084
+name: TSKWRK_STORE
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: f8c1dfef-e93b-4b20-88c4-04371769889f
-            stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
     devMode: false
-    flagSrcStream: true
+    flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
     multiStreamBehavior: AND
@@ -22,8 +20,8 @@ operation:
     orderbycolumn:
       items:
         - {}
-    predTask: TGCR_PRO
-    rootTask: TGCR_PRO
+    predTask: TGCR_SALES
+    rootTask: TGCR_SALES
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
@@ -43,75 +41,80 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 986ef54c-4e6c-41d9-a195-dd1846ba97b8
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+          columnCounter: f43f5a8e-820e-40e2-8731-876555dd7c8c
+          stepCounter: 05f34a8a-3638-4137-ba2f-7a1536a79084
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: PRODUCT_ID
+        name: STORE_ID
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: a510f22a-f929-4964-ad02-90580fa332d6
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
+              - columnCounter: fb7f6e4d-a958-49d8-994b-b66a6a708631
+                stepCounter: 14b80687-2c41-4b4f-a8a7-57a6fc98bd55
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f8c1dfef-e93b-4b20-88c4-04371769889f
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
-        config: {}
-        dataType: VARCHAR(255)
-        description: ""
-        name: PRODUCT_NAME
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e7e1e229-14d9-4b1e-940e-e88a1c80b1ab
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 9fa7fa94-d15d-4bea-bf22-5d13267fa81e
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+          columnCounter: d60805fd-9de4-4520-8506-b5de31041730
+          stepCounter: 05f34a8a-3638-4137-ba2f-7a1536a79084
         config: {}
         dataType: VARCHAR(100)
         description: ""
-        name: BRAND
+        name: CITY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 08368861-8a7b-4b94-a344-4b86536635c7
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
+              - columnCounter: 7bfd123f-9db6-4e56-981b-d7a065d575db
+                stepCounter: 14b80687-2c41-4b4f-a8a7-57a6fc98bd55
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 77d29637-7f2b-4c7e-bfe9-facb056069f0
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+          columnCounter: 091fd923-0e4c-4a14-a02c-02040ed48dcf
+          stepCounter: 05f34a8a-3638-4137-ba2f-7a1536a79084
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(255)
         description: ""
-        name: COLOUR
+        name: STORE_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 86a6b6aa-33c9-4002-ab27-af8c80e8355e
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
+              - columnCounter: d649cb69-0911-4a1e-8e7e-f49774cd1ffc
+                stepCounter: 14b80687-2c41-4b4f-a8a7-57a6fc98bd55
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f87b91ce-c206-4860-8da4-6eeb3fdd83e7
+          stepCounter: 05f34a8a-3638-4137-ba2f-7a1536a79084
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: PHONE_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 607bff00-f335-4e8f-bac3-ee3fb6407dda
+                stepCounter: 14b80687-2c41-4b4f-a8a7-57a6fc98bd55
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          STREAM_PRODUCTS: bac74d1e-0d3e-4d05-91a7-644d13170b76
+          STORE: 14b80687-2c41-4b4f-a8a7-57a6fc98bd55
         customSQL:
           customSQL: ""
         dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: STORE
           - locationName: TARGET_DB
-            nodeName: STREAM_PRODUCTS
+            nodeName: TGCR_SALES
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'STREAM_PRODUCTS') }} "STREAM_PRODUCTS"
-        name: TSKWRK_PRODUCTS
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'STORE') }} "STORE"
+            
+            {{ ref_link('TARGET_DB', 'TGCR_SALES') }} 
+        name: TSKWRK_STORE
         noLinkRefs: []
-  name: TSKWRK_PRODUCTS
+  name: TSKWRK_STORE
   overrideSQL: false
   schema: ""
   sqlType: "151"

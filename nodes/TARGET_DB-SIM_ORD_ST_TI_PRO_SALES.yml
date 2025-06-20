@@ -1,0 +1,165 @@
+fileVersion: 1
+id: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+name: SIM_ORD_ST_TI_PRO_SALES
+operation:
+  config:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: TSKWRK_ORD_ST_TI_PRO_SALES_TASK
+    propagateDeletes: true
+    redeploymentBehavior: Create or Replace
+    rootTask: TGCR_SALES
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: compute_wh
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1bf983f4-609e-4477-94f0-5ca53734f75f
+          stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d524bcba-6de7-4422-8853-78b4fe3f8f3f
+                stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a8bb9e3-e99c-4ab5-a9c8-5df1bea20975
+          stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        config: {}
+        dataType: NUMBER(10,2)
+        description: ""
+        name: ORDERS_DOLLARS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ccbfe06c-3a1f-4968-86c7-4d9230ca7f9c
+                stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 09a6a422-d36b-479f-8e92-b167d8acefad
+          stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDERS_QUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c72e8042-dc82-4d5a-8a9c-24f84102f5c4
+                stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 75aa51d6-e86c-43af-acbb-25c736cb02bf
+          stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f615657-54f2-4b68-8b3a-f8809b49b939
+                stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3f518457-60a1-4934-ab16-80f01c25658f
+          stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92c4b2d4-dd1a-4177-af91-b47daa190356
+                stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1689f2f6-84db-4062-b0a6-a54216ecfb99
+          stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e4dd9fdc-921a-4a1f-8bb9-b0c889f7e843
+                stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3d0060a6-fac6-48e9-b249-42d09eb392b8
+          stepCounter: 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e83e745c-70cc-4d14-a4eb-cac3a17c308a
+                stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+            transform: "\"TSKWRK_ORD_ST_TI_PRO_SALES\".\"ORDERS_DOLLARS\" * \"TSKWRK_ORD_ST_TI_PRO_SALES\".\"ORDERS_QUANTITY\""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_ORD_ST_TI_PRO_SALES
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_ORD_ST_TI_PRO_SALES') }} "TSKWRK_ORD_ST_TI_PRO_SALES"
+        name: SIM_ORD_ST_TI_PRO_SALES
+        noLinkRefs: []
+  name: SIM_ORD_ST_TI_PRO_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node

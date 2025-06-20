@@ -1,0 +1,22 @@
+fileVersion: 1
+id: "195"
+name: Sales Pipeline
+steps:
+  - 05f34a8a-3638-4137-ba2f-7a1536a79084
+  - 0c3aa9b3-693c-472b-99dc-499fd7da0f85
+  - 14b80687-2c41-4b4f-a8a7-57a6fc98bd55
+  - 25733aee-2205-483c-b5a4-cf43e4bd257d
+  - 36d0ba90-71d4-4758-a3d2-2a068996c1a4
+  - 3a0e03d4-ddb1-4ed3-94fc-2fb1c696eda3
+  - 3ab3c1ee-3221-443d-98dc-33fd773d270e
+  - 468f563d-3a72-4fbe-abf9-b63a915d2e11
+  - 5c29b28f-cbff-4688-9b4c-a39ec2810e7e
+  - 71c22bdd-4120-49d2-a53b-da535d5fd1f6
+  - 78589641-13ed-4107-9972-0725998e9aab
+  - 7e66f501-96f9-44dc-97ab-6741fa07f09a
+  - 8fa77021-182c-490d-8260-bbeb2f369460
+  - 9a5a7c0a-4eac-4b34-a970-201ccd8d226b
+  - 9fe9fd42-2aec-4f6b-89cf-d340eaf6309d
+  - b25c7395-b8bb-4510-ab38-886d175cd6a0
+  - c78fc68a-a4e1-4e0f-a1b7-08beec732692
+type: Subgraph

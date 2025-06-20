@@ -1,20 +1,20 @@
 fileVersion: 1
-id: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
-name: TSKWRK_PRODUCTS
+id: 25733aee-2205-483c-b5a4-cf43e4bd257d
+name: TSKWRK_PRODUCTS_SALES
 operation:
   config:
     clusterKey: true
     clusterKeyConfig:
       items:
         - columnName:
-            columnCounter: f8c1dfef-e93b-4b20-88c4-04371769889f
-            stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+            columnCounter: cd42e475-9097-482c-8fcc-9d10b3f303f4
+            stepCounter: 25733aee-2205-483c-b5a4-cf43e4bd257d
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
     devMode: false
-    flagSrcStream: true
+    flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
     multiStreamBehavior: AND
@@ -22,13 +22,13 @@ operation:
     orderbycolumn:
       items:
         - {}
-    predTask: TGCR_PRO
-    rootTask: TGCR_PRO
+    predTask: TGCR_SALES
+    rootTask: TGCR_SALES
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
-    selectDistinct: false
+    selectDistinct: true
     serverlessSize: MEDIUM
     truncateBefore: true
     whName: compute_wh
@@ -43,8 +43,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 986ef54c-4e6c-41d9-a195-dd1846ba97b8
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+          columnCounter: 53cb9c86-8f07-4ccb-b1fb-6ec4ebcf38d4
+          stepCounter: 25733aee-2205-483c-b5a4-cf43e4bd257d
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -52,13 +52,13 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: a510f22a-f929-4964-ad02-90580fa332d6
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
+              - columnCounter: 465981cf-db12-413a-806d-d6bb53b8d6b1
+                stepCounter: 8fa77021-182c-490d-8260-bbeb2f369460
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f8c1dfef-e93b-4b20-88c4-04371769889f
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+          columnCounter: cd42e475-9097-482c-8fcc-9d10b3f303f4
+          stepCounter: 25733aee-2205-483c-b5a4-cf43e4bd257d
         config: {}
         dataType: VARCHAR(255)
         description: ""
@@ -66,13 +66,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e7e1e229-14d9-4b1e-940e-e88a1c80b1ab
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
+              - columnCounter: de91c998-b7f8-42df-b29d-4ed77481b19a
+                stepCounter: 8fa77021-182c-490d-8260-bbeb2f369460
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9fa7fa94-d15d-4bea-bf22-5d13267fa81e
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+          columnCounter: b1bb5559-5322-4eba-87b6-e7b7ceb3abbe
+          stepCounter: 25733aee-2205-483c-b5a4-cf43e4bd257d
         config: {}
         dataType: VARCHAR(100)
         description: ""
@@ -80,13 +80,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 08368861-8a7b-4b94-a344-4b86536635c7
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
+              - columnCounter: 507519f6-ad5c-4ea7-8c6e-1f71d2a12cd8
+                stepCounter: 8fa77021-182c-490d-8260-bbeb2f369460
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 77d29637-7f2b-4c7e-bfe9-facb056069f0
-          stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+          columnCounter: 6dc777eb-b659-4a0d-8439-759bdbffafeb
+          stepCounter: 25733aee-2205-483c-b5a4-cf43e4bd257d
         config: {}
         dataType: VARCHAR(50)
         description: ""
@@ -94,24 +94,29 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 86a6b6aa-33c9-4002-ab27-af8c80e8355e
-                stepCounter: bac74d1e-0d3e-4d05-91a7-644d13170b76
+              - columnCounter: 9bdefacc-e38e-4eef-b088-5de48e937264
+                stepCounter: 8fa77021-182c-490d-8260-bbeb2f369460
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          STREAM_PRODUCTS: bac74d1e-0d3e-4d05-91a7-644d13170b76
+          PRODUCTS: 8fa77021-182c-490d-8260-bbeb2f369460
         customSQL:
           customSQL: ""
         dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
           - locationName: TARGET_DB
-            nodeName: STREAM_PRODUCTS
+            nodeName: TGCR_SALES
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'STREAM_PRODUCTS') }} "STREAM_PRODUCTS"
-        name: TSKWRK_PRODUCTS
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+            
+            {{ref_link('TARGET_DB','TGCR_SALES')}}
+        name: TSKWRK_PRODUCTS_SALES
         noLinkRefs: []
-  name: TSKWRK_PRODUCTS
+  name: TSKWRK_PRODUCTS_SALES
   overrideSQL: false
   schema: ""
   sqlType: "151"

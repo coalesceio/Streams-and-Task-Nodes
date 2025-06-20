@@ -1,0 +1,194 @@
+fileVersion: 1
+id: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+name: TSKWRK_ORD_ST_TI_PRO_SALES
+operation:
+  config:
+    appendOnly: false
+    clusterKey: true
+    clusterKeyConfig:
+      items:
+        - columnName:
+            columnCounter: e4dd9fdc-921a-4a1f-8bb9-b0c889f7e843
+            stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    initialRows: true
+    insertStrategy: UNION
+    loadType: Insert
+    multiStreamBehavior: AND
+    orderBy:
+      items:
+        - {}
+    orderby: false
+    partitionBy:
+      items:
+        - {}
+    predTask: TSKDIM_ORDERS_FACT_TASK,TSKDIM_STORE_TASK,TSKDIM_TIME_TASK,TSKDIM_PRODUCTS_SALES_TASK
+    propagateDeletes: true
+    redeploymentBehavior: Create or Replace
+    rootTask: TGCR_SALES
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Table
+    truncateBefore: false
+    whName: compute_wh
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d524bcba-6de7-4422-8853-78b4fe3f8f3f
+          stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 80c0869d-21a5-41cc-b234-0b6c288a55e6
+                stepCounter: c78fc68a-a4e1-4e0f-a1b7-08beec732692
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ccbfe06c-3a1f-4968-86c7-4d9230ca7f9c
+          stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+        config: {}
+        dataType: NUMBER(10,2)
+        description: ""
+        name: ORDERS_DOLLARS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 507cc61d-8ae4-4496-b006-4d40dd25dcb2
+                stepCounter: c78fc68a-a4e1-4e0f-a1b7-08beec732692
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c72e8042-dc82-4d5a-8a9c-24f84102f5c4
+          stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDERS_QUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cbc1ab78-2076-4b0b-b589-1db923fa2845
+                stepCounter: c78fc68a-a4e1-4e0f-a1b7-08beec732692
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1f615657-54f2-4b68-8b3a-f8809b49b939
+          stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 059b614b-47a3-4e87-9fc1-b21b3d7f2c4f
+                stepCounter: b25c7395-b8bb-4510-ab38-886d175cd6a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 92c4b2d4-dd1a-4177-af91-b47daa190356
+          stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2d733c0c-faaa-4318-b876-2e387bd0e7ad
+                stepCounter: 78589641-13ed-4107-9972-0725998e9aab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e4dd9fdc-921a-4a1f-8bb9-b0c889f7e843
+          stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0f359012-f836-4850-b433-cb2db23da6e8
+                stepCounter: 3a0e03d4-ddb1-4ed3-94fc-2fb1c696eda3
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e83e745c-70cc-4d14-a4eb-cac3a17c308a
+          stepCounter: 3ab3c1ee-3221-443d-98dc-33fd773d270e
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "\"TSKDIM_ORDERS_FACT\".\"ORDERS_DOLLARS\" * \"TSKDIM_ORDERS_FACT\".\"ORDERS_QUANTITY\""
+        systemColumnType: None
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          TSKDIM_ORDERS_FACT: c78fc68a-a4e1-4e0f-a1b7-08beec732692
+          TSKDIM_PRODUCTS_SALES: 3a0e03d4-ddb1-4ed3-94fc-2fb1c696eda3
+          TSKDIM_STORE: b25c7395-b8bb-4510-ab38-886d175cd6a0
+          TSKDIM_TIME: 78589641-13ed-4107-9972-0725998e9aab
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_ORDERS_FACT
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_PRODUCTS_SALES
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_STORE
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_TIME
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'TSKDIM_ORDERS_FACT') }} "TSKDIM_ORDERS_FACT"
+            INNER JOIN {{ ref('TARGET_DB', 'TSKDIM_STORE') }} "TSKDIM_STORE"
+            ON "TSKDIM_ORDERS_FACT"."STORE_ID" = "TSKDIM_STORE"."STORE_ID"
+            INNER JOIN {{ ref('TARGET_DB', 'TSKDIM_TIME') }} "TSKDIM_TIME"
+            ON "TSKDIM_ORDERS_FACT"."TIME_ID" = "TSKDIM_TIME"."SYSTEM_VERSION"
+            INNER JOIN {{ ref('TARGET_DB', 'TSKDIM_PRODUCTS_SALES') }} "TSKDIM_PRODUCTS_SALES"
+            ON "TSKDIM_ORDERS_FACT"."PRODUCT_ID" = "TSKDIM_PRODUCTS_SALES"."PRODUCT_ID"
+        name: TSKWRK_ORD_ST_TI_PRO_SALES
+        noLinkRefs: []
+  name: TSKWRK_ORD_ST_TI_PRO_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
