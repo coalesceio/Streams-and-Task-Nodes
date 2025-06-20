@@ -6,6 +6,6 @@ mappingDefinitions:
     schema: SOURCE_DATA
   TARGET_DB:
     database: RUHULAMIN_QA
-    schema: TARGET3
+    schema: TARGE4
 name: EDW_QA3
 type: Environment
