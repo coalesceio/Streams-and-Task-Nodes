@@ -230,7 +230,7 @@ operation:
           joinCondition: |+
             FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
 
-            --{{ ref('TARGET_DB', 'TSKWRK_NATION1') }}
+            {{ ref_link('TARGET_DB', 'TSKWRK_NATION1') }}
 
         name: TSKDIM_REGION
         noLinkRefs: []
