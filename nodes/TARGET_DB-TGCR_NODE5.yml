@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 1ad7f5c5-a7eb-44a4-9976-c04d0c407f4f
-name: TGCR_NODE2
+id: f7383e9e-902f-4628-b075-6970642c1d4d
+name: TGCR_NODE5
 operation:
   config:
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
@@ -9,7 +9,7 @@ operation:
     schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
     tskSql: select current_timestamp()
-    whName: compute_wh
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -28,9 +28,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: TGCR_NODE2
+        name: TGCR_NODE5
         noLinkRefs: []
-  name: TGCR_NODE2
+  name: TGCR_NODE5
   overrideSQL: false
   schema: ""
   sqlType: "154"
