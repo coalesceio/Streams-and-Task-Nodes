@@ -227,11 +227,11 @@ operation:
           - locationName: TARGET_DB
             nodeName: TSKWRK_NATION1
         join:
-          joinCondition: |
+          joinCondition: |+
             FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
-            
-            {{ ref_link('TARGET_DB', 'TSKWRK_NATION1') }}
-            
+
+            --{{ ref('TARGET_DB', 'TSKWRK_NATION1') }}
+
         name: TSKDIM_REGION
         noLinkRefs: []
   name: TSKDIM_REGION
