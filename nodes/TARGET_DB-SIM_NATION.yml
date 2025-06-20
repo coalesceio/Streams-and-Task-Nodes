@@ -1,0 +1,156 @@
+fileVersion: 1
+id: d6c2f463-9acc-4379-aed8-4469bd3b50f9
+name: SIM_NATION
+operation:
+  config:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: TGCR_NODE
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: TGCR_NODE
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: compute_wh
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e2ab4eb1-a397-4a92-b527-2a59ff5a46c9
+          stepCounter: d6c2f463-9acc-4379-aed8-4469bd3b50f9
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca899b56-dcf3-4e6f-960f-6ef0ef9e12d6
+                stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 114d227e-1bd2-43c8-9d89-e56c738f0b8c
+          stepCounter: d6c2f463-9acc-4379-aed8-4469bd3b50f9
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: aa0e9b7a-41f2-488b-9b36-917dd79954cc
+                stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4d437c95-1ca5-4407-a3f5-8138b881fe63
+          stepCounter: d6c2f463-9acc-4379-aed8-4469bd3b50f9
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6cb75642-216e-4206-97d4-f2b6b32f0552
+                stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e2d8b9d3-337f-4c04-b3a9-ef5a8c3a6ef5
+          stepCounter: d6c2f463-9acc-4379-aed8-4469bd3b50f9
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c5ec256b-c477-4999-acce-ee32d0a857ce
+                stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ae46b50-c932-4cca-ba3c-5ba926aa4d73
+          stepCounter: d6c2f463-9acc-4379-aed8-4469bd3b50f9
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e220be5d-003c-4264-91ab-7abc88845db1
+                stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: aecce53b-578f-42bc-a24c-bf4757090676
+          stepCounter: d6c2f463-9acc-4379-aed8-4469bd3b50f9
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0cb5a860-09c1-4a18-93a2-296b98fb9918
+                stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION: 409424cc-0dda-4bed-8a82-1728a7437fa2
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: NATION
+          - locationName: TARGET_DB
+            nodeName: TGCR_NODE
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+            {{ ref('TARGET_DB', 'TGCR_NODE') }}
+        name: SIM_NATION
+        noLinkRefs: []
+  name: SIM_NATION
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node
