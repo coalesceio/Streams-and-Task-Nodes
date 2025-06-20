@@ -113,48 +113,6 @@ operation:
               - columnCounter: 77d29637-7f2b-4c7e-bfe9-facb056069f0
                 stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
             transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: a7b6dbe1-e892-46b9-97a4-59b5b4e645da
-          stepCounter: 633aae66-4b74-417b-bd1e-0792e1bad79d
-        config: {}
-        dataType: STRING
-        description: ""
-        name: METADATA$ACTION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 065ebe13-2171-455e-9176-adf85af732a9
-                stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: f808c7f4-22bd-4681-916c-8bc9a15e694f
-          stepCounter: 633aae66-4b74-417b-bd1e-0792e1bad79d
-        config: {}
-        dataType: boolean
-        description: ""
-        name: METADATA$ISUPDATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: d994d46d-7cc1-4cbc-b118-243d6a94cf30
-                stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 058ec3a1-23c0-484d-ade4-334cdaed29ea
-          stepCounter: 633aae66-4b74-417b-bd1e-0792e1bad79d
-        config: {}
-        dataType: STRING
-        description: ""
-        name: METADATA$ROW_ID
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 359fc13f-0c30-45c7-b592-5e4285aad07b
-                stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
-            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
