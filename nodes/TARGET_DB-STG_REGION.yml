@@ -89,7 +89,7 @@ operation:
   name: STG_REGION
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: persistentStage
   type: sql
   version: 1
 type: Node
