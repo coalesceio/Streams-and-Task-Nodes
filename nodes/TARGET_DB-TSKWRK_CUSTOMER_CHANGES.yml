@@ -1,0 +1,159 @@
+fileVersion: 1
+id: c317b460-5ef0-423f-81a1-056ae7b5c100
+name: TSKWRK_CUSTOMER_CHANGES
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: compute_wh
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3b653add-82eb-4ae5-a576-f03645f5008a
+          stepCounter: c317b460-5ef0-423f-81a1-056ae7b5c100
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5d0a2442-0b41-4468-9081-92972964de63
+                stepCounter: 5081c0f8-e8bd-47b7-b84e-92b8ac5fb7e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5a7337b3-e4d0-481f-b982-51dde03d2e3e
+          stepCounter: c317b460-5ef0-423f-81a1-056ae7b5c100
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: FIRST_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 346c00d5-e06c-45b4-9111-b18eb6dad8c3
+                stepCounter: 5081c0f8-e8bd-47b7-b84e-92b8ac5fb7e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a63c9369-3f9f-4b23-9d35-2e4d5054cd51
+          stepCounter: c317b460-5ef0-423f-81a1-056ae7b5c100
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: LAST_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c40abe14-4adc-4b3b-8f5a-f51eb36783c5
+                stepCounter: 5081c0f8-e8bd-47b7-b84e-92b8ac5fb7e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4e42191-15fe-43f8-89df-0717b530c7dc
+          stepCounter: c317b460-5ef0-423f-81a1-056ae7b5c100
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: EMAIL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0fe75dca-f581-4915-a96f-5393c2b0c284
+                stepCounter: 5081c0f8-e8bd-47b7-b84e-92b8ac5fb7e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3139bbc2-f6fb-47d2-89b5-862d8bb1749e
+          stepCounter: c317b460-5ef0-423f-81a1-056ae7b5c100
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: PHONE_NUMBER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f30a54c2-6634-4b69-b7fc-7bb9941f1d85
+                stepCounter: 5081c0f8-e8bd-47b7-b84e-92b8ac5fb7e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fa21a62c-20fc-4353-9978-9336c20b77cd
+          stepCounter: c317b460-5ef0-423f-81a1-056ae7b5c100
+        config: {}
+        dataType: VARCHAR(365)
+        description: ""
+        name: FULL_ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cde60b5b-52f5-4015-881c-be9e72c95c2c
+                stepCounter: 5081c0f8-e8bd-47b7-b84e-92b8ac5fb7e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 83fb9024-cb25-4c32-b505-540f6bcb0846
+          stepCounter: c317b460-5ef0-423f-81a1-056ae7b5c100
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3cdbc3c2-5382-4bf1-89c2-6b3df2443161
+                stepCounter: 5081c0f8-e8bd-47b7-b84e-92b8ac5fb7e4
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: CUSTOMER_CHANGES
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER_CHANGES') }} "CUSTOMER_CHANGES"
+        name: TSKWRK_CUSTOMER_CHANGES
+        noLinkRefs: []
+  name: TSKWRK_CUSTOMER_CHANGES
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node

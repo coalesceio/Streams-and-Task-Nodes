@@ -1,0 +1,76 @@
+fileVersion: 1
+id: 983637b7-78a4-46d3-ab5e-ecdbcbd7a28a
+name: TGRR_CUSTCHANGES
+operation:
+  config:
+    rootTask: TSKWRK_CUSTOMER_CHANGES_TASK
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 32aec38f-1c55-4f8d-8236-965243fe5b79
+          stepCounter: 983637b7-78a4-46d3-ab5e-ecdbcbd7a28a
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1c4d551c-362e-4757-96c9-e5f0c59b17c4
+          stepCounter: 983637b7-78a4-46d3-ab5e-ecdbcbd7a28a
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DSM_CUSTOMER_CHANGES: 1c1472d0-013c-46be-879d-1a40ec1dd037
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: DSM_CUSTOMER_CHANGES
+          - locationName: TARGET_DB
+            nodeName: SIM_CUSTOMER_CHANGES
+        join:
+          joinCondition: |-
+            --{{ ref('TARGET_DB', 'SIM_CUSTOMER_CHANGES') }}
+            
+            
+            {{ ref_link('TARGET_DB', 'DSM_CUSTOMER_CHANGES') }}
+        name: TGRR_CUSTCHANGES
+        noLinkRefs: []
+  name: TGRR_CUSTCHANGES
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node
