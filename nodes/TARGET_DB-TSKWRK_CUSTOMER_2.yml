@@ -24,7 +24,7 @@ operation:
     rootTask: TSKWRK_NATION_2_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
