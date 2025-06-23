@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 03ce6dee-d0a4-4000-bb52-a4b28687e7b8
-name: TSKWRK_PARTSUPP
+name: TSKWRK_PARTSUPP1
 operation:
   config:
     clusterKey: false
@@ -140,9 +140,9 @@ operation:
             FROM {{ ref('SOURCE_DATA', 'PARTSUPP') }} "PARTSUPP"
             
             {{ref_link('TARGET_DB','TGCR_PART')}}
-        name: TSKWRK_PARTSUPP
+        name: TSKWRK_PARTSUPP1
         noLinkRefs: []
-  name: TSKWRK_PARTSUPP
+  name: TSKWRK_PARTSUPP1
   overrideSQL: false
   schema: ""
   sqlType: "151"

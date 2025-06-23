@@ -20,7 +20,7 @@ operation:
     orderbycolumn:
       items:
         - {}
-    predTask: TSKWRK_SUPPLIER_TASK,TSKWRK_PARTSUPP_TASK
+    predTask: TSKWRK_SUPPLIER_TASK,TSKWRK_PARTSUPP1_TASK
     rootTask: TGCR_PART
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
@@ -359,20 +359,20 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          TSKWRK_PARTSUPP: 03ce6dee-d0a4-4000-bb52-a4b28687e7b8
+          TSKWRK_PARTSUPP1: 03ce6dee-d0a4-4000-bb52-a4b28687e7b8
           TSKWRK_SUPPLIER: 8e1406d6-4663-4cd3-8e88-2f237d96b272
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TSKWRK_PARTSUPP
+            nodeName: TSKWRK_PARTSUPP1
           - locationName: TARGET_DB
             nodeName: TSKWRK_SUPPLIER
         join:
           joinCondition: |-
-            FROM {{ ref('TARGET_DB', 'TSKWRK_PARTSUPP') }} "TSKWRK_PARTSUPP"
+            FROM {{ ref('TARGET_DB', 'TSKWRK_PARTSUPP1') }} "TSKWRK_PARTSUPP1"
             INNER JOIN {{ ref('TARGET_DB', 'TSKWRK_SUPPLIER') }} "TSKWRK_SUPPLIER"
-            ON "TSKWRK_PARTSUPP"."PS_SUPPKEY" = "TSKWRK_SUPPLIER"."S_SUPPKEY"
+            ON "TSKWRK_PARTSUPP1"."PS_SUPPKEY" = "TSKWRK_SUPPLIER"."S_SUPPKEY"
         name: TSKDIM_PARTSUPP_SUPPLIER
         noLinkRefs: []
   name: TSKDIM_PARTSUPP_SUPPLIER
