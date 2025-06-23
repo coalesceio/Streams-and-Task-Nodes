@@ -58,7 +58,7 @@ operation:
           columnCounter: bf907840-c426-41a5-88be-95526cd30162
           stepCounter: bac9ff43-c753-464f-bf58-d3fe5dafca05
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR(40)
         description: ""
         name: C_NAME
         nullable: true
