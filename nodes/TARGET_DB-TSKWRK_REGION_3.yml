@@ -3,10 +3,12 @@ id: cbe98982-e40f-47c7-a8b3-5f270763e36d
 name: TSKWRK_REGION_3
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 80473df9-ce6a-403c-ac86-b16aeda6b985
+            stepCounter: cbe98982-e40f-47c7-a8b3-5f270763e36d
     clusterKeyConfigExpressions:
       items:
         - {}
