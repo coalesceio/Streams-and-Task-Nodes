@@ -28,14 +28,22 @@ does not permit copying or modification for any other purpose.
 {# Create Stream First #}
 {% if desiredState %}
  
+    {% if desiredState.config.sourceType == 'Directory Table' %}
+	{% set stageStorageLocation =  desiredState.config.storageLocation | string %}
+	{% set stageNameVar =  desiredState.config.stageName | string %}
+    {% set refLink = "{{ ref_no_link('" + stageStorageLocation + "', '" + stageNameVar + "') }}" %}
+	
+    {% else %}	
     {# Source Object Location and Name #}
     {% set sourceStorageLocation = desiredState.sources[0].dependencies[0].node.location.name %}
     {% set sourceDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='database') | first %}
     {% set sourceSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='schema') | first %}
+	
 
     {% set sourceTableName = desiredState.sources[0].dependencies[0].node.name %}
     {% set fullyQualifiedSourceTableName = '"' + sourceDatabaseName + '"."' + sourceSchemaName + '"."' + sourceTableName + '"' %}
     {% set refLink = "{{ ref('" + sourceStorageLocation + "', '" + sourceTableName + "') }}" %}
+    {% endif %}
  
     {# Target Stream Location and Name #}
     {% set streamTargetLocationName = desiredState.node.location.name %}
@@ -480,7 +488,7 @@ does not permit copying or modification for any other purpose.
                         {% if descriptionTest == false %}
                             {% if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            COMMENT '{{ desiredDescription }}'
+                            COMMENT '{{ desiredDescription | escape}}'
                             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
                         {% endif %}
                         {% if defaultValueTest == false %}
