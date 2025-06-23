@@ -68,7 +68,7 @@ operation:
           - columnReferences:
               - columnCounter: de91c998-b7f8-42df-b29d-4ed77481b19a
                 stepCounter: 8fa77021-182c-490d-8260-bbeb2f369460
-            transform: ""
+            transform: substr("PRODUCTS"."PRODUCT_NAME")
       - appliedColumnTests: {}
         columnReference:
           columnCounter: b1bb5559-5322-4eba-87b6-e7b7ceb3abbe

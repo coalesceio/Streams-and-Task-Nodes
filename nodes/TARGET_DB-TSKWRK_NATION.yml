@@ -83,20 +83,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fa8c425e-e04f-488f-a16e-0b3fe91e1eed
-          stepCounter: 8cb883ae-dbe6-4bb2-b436-d959c75ef8c9
-        config: {}
-        dataType: VARCHAR(152)
-        description: ""
-        name: N_COMMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 0a8c981f-b060-4bf1-ad45-503a76c95fdc
-                stepCounter: 33d0c356-6f80-4849-b685-0e935da98a37
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 8dece03b-cc7c-4315-a223-4e0f34cbbb14
           stepCounter: 8cb883ae-dbe6-4bb2-b436-d959c75ef8c9
         config: {}

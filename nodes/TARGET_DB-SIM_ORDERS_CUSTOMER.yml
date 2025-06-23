@@ -215,20 +215,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9ee81711-2c21-4459-a191-339cd012de35
-          stepCounter: b5e94053-9887-4bc5-aa45-160f0e6d949b
-        config: {}
-        dataType: VARCHAR(40)
-        description: ""
-        name: C_ADDRESS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 2c1e26ce-ddad-433f-a892-6e765e7df262
-                stepCounter: 0889590e-c5f7-498f-86f8-ad81aa2f5af0
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 13ad64eb-d1d1-4801-aa43-ffeb3c6f3677
           stepCounter: b5e94053-9887-4bc5-aa45-160f0e6d949b
         config: {}

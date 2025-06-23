@@ -105,20 +105,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ddd303e2-686e-4c98-8045-8c71ee40c949
-          stepCounter: a900030e-ead6-4ddf-bbb9-0fe500447915
-        config: {}
-        dataType: VARCHAR(152)
-        description: ""
-        name: N_COMMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: b64c5b05-1f04-41b2-9a95-851159adcb8a
-                stepCounter: 4e0f603e-94b9-45a3-8fa9-ac73aa91a89d
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 0241b14e-1f22-492a-9506-383c048d5b32
           stepCounter: a900030e-ead6-4ddf-bbb9-0fe500447915
         config: {}
