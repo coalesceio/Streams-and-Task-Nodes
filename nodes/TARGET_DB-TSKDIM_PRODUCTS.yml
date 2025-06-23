@@ -31,7 +31,7 @@ operation:
     whName: compute_wh
   database: ""
   deployEnabled: true
-  description: ""
+  description: Marks the beginning of the 'Load Data - Development Mode' SQL node execution.
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -48,7 +48,7 @@ operation:
         config: {}
         dataType: NUMBER
         defaultValue: ""
-        description: ""
+        description: Dim product key
         isSurrogateKey: true
         name: TSKDIM_PRODUCTS_KEY
         nullable: true
@@ -92,6 +92,7 @@ operation:
         config: {}
         dataType: VARCHAR(100)
         description: ""
+        isBusinessKey: true
         name: BRAND
         nullable: true
         sourceColumnReferences:

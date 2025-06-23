@@ -3,18 +3,15 @@ id: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
 name: TSKWRK_PRODUCTS
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
-      items:
-        - columnName:
-            columnCounter: f8c1dfef-e93b-4b20-88c4-04371769889f
-            stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
+      items: []
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
     devMode: false
-    flagSrcStream: true
+    flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
     multiStreamBehavior: AND
@@ -48,7 +45,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: PRODUCT_ID
+        name: PRODUCT_ID1
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -74,7 +71,7 @@ operation:
           columnCounter: 9fa7fa94-d15d-4bea-bf22-5d13267fa81e
           stepCounter: 9178ac43-085f-4dbe-964f-fd2a54a6e4a8
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(255)
         description: ""
         name: BRAND
         nullable: true
