@@ -220,14 +220,14 @@ metadata:
       - displayName: Enter predecessor task(s) seperated by a comma 
         attributeName: predTask
         type: textBox
-        default: '"DATA_TRANSFORMATION_ROOT_TASK"'
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
 
       - displayName: Enter root task name
         attributeName: rootTask
         type: textBox
-        default: '"DATA_TRANSFORMATION_ROOT_TASK"'
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
 
