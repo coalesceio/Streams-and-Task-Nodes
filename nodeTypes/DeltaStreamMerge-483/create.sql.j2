@@ -94,7 +94,7 @@ does not permit copying or modification for any other purpose.
     {% if currentState == undefined %}
         {{ stage('Create Stream') }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-            ON {{ streamType }} {{ streamSourceObjectName }}
+            ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
             {{ streamInsertOnlyMode }}
@@ -103,7 +103,7 @@ does not permit copying or modification for any other purpose.
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
         {{ stage('Create Stream If Not Exists') }}
         CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
-            ON {{ streamType }} {{ streamSourceObjectName }}
+            ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
             {{ streamInsertOnlyMode }}
@@ -111,13 +111,13 @@ does not permit copying or modification for any other purpose.
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
         {{ stage('Re-Create Stream at existing offset') }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-            ON {{ streamType }} {{ streamSourceObjectName }}
+            ON {{ streamType }} {{ refLink }}
             AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
 
         {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create or Replace'%}
         {{ stage('Create Stream') }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-            ON {{ streamType }} {{ streamSourceObjectName }}
+            ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
             {{ streamInitialRowsMode }}
             {{ streamInsertOnlyMode }}
