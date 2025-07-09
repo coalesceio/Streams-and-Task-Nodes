@@ -145,7 +145,7 @@ operation:
   name: STG_SUPPLIERV
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: bnt:::204
   type: sql
   version: 1
 type: Node
