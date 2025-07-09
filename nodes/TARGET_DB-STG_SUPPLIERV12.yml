@@ -1,11 +1,14 @@
 fileVersion: 1
 id: 8118b1b1-f61b-4f87-91ed-3eda59026fae
-name: STG_SUPPLIERV
+name: STG_SUPPLIERV12
 operation:
   config:
+    asofJoinMain: false
+    groupByAll: false
     insertStrategy: INSERT
     postSQL: ""
     preSQL: ""
+    selectDistinct: false
     testsEnabled: true
     truncateBefore: true
   database: ""
@@ -140,9 +143,9 @@ operation:
             nodeName: SUPPLIER
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'SUPPLIER') }} "SUPPLIER"
-        name: STG_SUPPLIERV
+        name: STG_SUPPLIERV12
         noLinkRefs: []
-  name: STG_SUPPLIERV
+  name: STG_SUPPLIERV12
   overrideSQL: false
   schema: ""
   sqlType: bnt:::204

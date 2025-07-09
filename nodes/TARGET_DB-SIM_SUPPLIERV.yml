@@ -160,14 +160,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STG_SUPPLIERV: 8118b1b1-f61b-4f87-91ed-3eda59026fae
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: STG_SUPPLIERV
+            nodeName: STG_SUPPLIERV12
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'STG_SUPPLIERV') }} "STG_SUPPLIERV"
+          joinCondition: FROM {{ ref('TARGET_DB', 'STG_SUPPLIERV12') }} "STG_SUPPLIERV12"
         name: SIM_SUPPLIERV
         noLinkRefs: []
   name: SIM_SUPPLIERV
