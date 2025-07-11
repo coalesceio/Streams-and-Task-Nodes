@@ -628,7 +628,7 @@ does not permit copying or modification for any other purpose.
         THEN DELETE
         WHEN MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'TRUE' THEN UPDATE SET 
             {%- for col in desiredState.columns %}
-                {% if not col.isBusinessKey %}
+                {% if not (col.isBusinessKey or col.isSystemCreateDate)%}
                     tgt."{{ col.name }}" = src."{{ col.name }}"
                     {%- if not loop.last -%}, {%- endif %}
                 {% endif %}
@@ -797,7 +797,7 @@ does not permit copying or modification for any other purpose.
             THEN DELETE
             WHEN MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'TRUE' THEN UPDATE SET 
                 {%- for col in columns %}
-                    {% if not col.isBusinessKey %}
+                    {% if not(col.isBusinessKey or col.isSystemCreateDate) %}
                         tgt."{{ col.name }}" = src."{{ col.name }}"
                         {%- if not loop.last -%}, {%- endif %}
                     {% endif %}
