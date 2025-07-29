@@ -6,6 +6,6 @@ mappingDefinitions:
     schema: SOURCE_DATA
   TARGET_DB:
     database: ANANDHIS_DEV
-    schema: TARGET
+    schema: TARGET_ACC
 name: QA1
 type: Environment
