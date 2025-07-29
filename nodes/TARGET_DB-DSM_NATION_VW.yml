@@ -159,14 +159,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STG_NATION_VW12: 1ae465d1-303a-4d91-855b-ee8245417705
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: STG_NATION_VW
+            nodeName: STG_NATION_VW12
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'STG_NATION_VW') }} "STG_NATION_VW"
+          joinCondition: FROM {{ ref('TARGET_DB', 'STG_NATION_VW12') }} "STG_NATION_VW12"
         name: DSM_NATION_VW
         noLinkRefs: []
   name: DSM_NATION_VW

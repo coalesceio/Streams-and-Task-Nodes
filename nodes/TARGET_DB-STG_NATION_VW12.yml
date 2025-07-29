@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 1ae465d1-303a-4d91-855b-ee8245417705
-name: STG_NATION_VW
+name: STG_NATION_VW12
 operation:
   config:
     insertStrategy: INSERT
@@ -112,9 +112,9 @@ operation:
             nodeName: NATION
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
-        name: STG_NATION_VW
+        name: STG_NATION_VW12
         noLinkRefs: []
-  name: STG_NATION_VW
+  name: STG_NATION_VW12
   overrideSQL: false
   schema: ""
   sqlType: Stage
