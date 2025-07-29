@@ -126,14 +126,18 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          PRODUCTS: f7525a7e-96bd-4514-b428-c468312550a0
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: PRODUCTS
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+            
+            latteral FLATTEN()
         name: STREAM_PRODUCTS1
         noLinkRefs: []
   name: STREAM_PRODUCTS1

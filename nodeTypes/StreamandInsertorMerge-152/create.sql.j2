@@ -571,6 +571,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
+            
             {{ stage('Target Table Initial Load') }}
             
             {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
@@ -613,7 +614,7 @@ does not permit copying or modification for any other purpose.
  
                     {% set tableColumnNamesUpdate = tableColumnNames | reject('in', i.partColName.name) | list %}
  
-                {% endfor %}
+                {% endfor %}           
  
                 {% for i in desiredState.config.orderBy.get('items') %}
                     {%- if loop.first -%}
@@ -627,7 +628,8 @@ does not permit copying or modification for any other purpose.
                 {%- set nsVariables.tableKey = desiredState.config.partitionBy.get('items') %}
                 {% set nsVariables.tableKey = nsVariables.tableKey | map(attribute='partColName.name') | list %}
             {%- endif -%}
- 
+
+        
         {% if desiredState.config.loadType == 'Insert' -%}
 
             {% if currentState == undefined and desiredState.config.redeploymentBehavior == 'Create or Replace' %} 
@@ -697,8 +699,10 @@ does not permit copying or modification for any other purpose.
             -- What to do if data is matched based on table key
             WHEN MATCHED THEN UPDATE SET
                 {%- for col in tableColumnNamesUpdate %}
+                    {% if col not in ["SYSTEM_CREATE_DATE"]%}
                         tgt."{{ col }}" = src."{{ col }}"
                         {%- if not loop.last -%}, {%- endif %}
+                    {%endif%}
                 {%- endfor %}
             -- What to do with new records based on table key
             WHEN NOT MATCHED THEN INSERT
@@ -828,7 +832,6 @@ does not permit copying or modification for any other purpose.
  
                 {% endfor %}
                         
- 
                                             
                 {% for i in desiredState.config.orderBy.get('items') %}
                     {%- if loop.first -%}
@@ -912,8 +915,10 @@ does not permit copying or modification for any other purpose.
             -- What to do if data is matched based on table key
             WHEN MATCHED THEN UPDATE SET
                 {%- for col in tableColumnNamesUpdate %}
+                    {% if col not in ["SYSTEM_CREATE_DATE"]%}
                         tgt."{{ col }}" = src."{{ col }}"
                         {%- if not loop.last -%}, {%- endif %}
+                    {%endif%}
                 {%- endfor %}
             -- What to do with new records based on table key
             WHEN NOT MATCHED THEN INSERT
@@ -938,15 +943,13 @@ does not permit copying or modification for any other purpose.
  
 {% elif currentState != undefined and desiredState == undefined %}
  
-    {# Target Table Info #}
-																													  
-																													
+ {# Target Table Info #}																					
+    
     {% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
  
     {% if currentState.config.devMode == false %}
 		{# FQ Root Task name #}							   
-		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
-																																   
+		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}							   
  
         {# Task Info #}
         {% set taskName = currentState.node.name + '_TASK' %}

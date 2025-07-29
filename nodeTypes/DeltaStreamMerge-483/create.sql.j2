@@ -796,7 +796,7 @@ does not permit copying or modification for any other purpose.
             WHEN MATCHED AND METADATA$ACTION = 'DELETE' AND METADATA$ISUPDATE = 'FALSE'
             THEN DELETE
             WHEN MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'TRUE' THEN UPDATE SET 
-                {%- for col in columns %}
+                {%- for col in desiredState.columns %}
                     {% if not(col.isBusinessKey or col.isSystemCreateDate) %}
                         tgt."{{ col.name }}" = src."{{ col.name }}"
                         {%- if not loop.last -%}, {%- endif %}
@@ -805,12 +805,12 @@ does not permit copying or modification for any other purpose.
             -- What to do with new records based on table key
             WHEN NOT MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'FALSE' THEN INSERT 
                 (
-                {%- for col in columns -%}
+                {%- for col in desiredState.columns -%}
                     "{{ col.name }}"
                     {%- if not loop.last -%}, {% endif %}
                 {% endfor %}) 
             VALUES (
-                {%- for col in columns -%}
+                {%- for col in desiredState.columns -%}
                     src."{{ col.name }}"
                     {%- if not loop.last -%}, {% endif %}
                 {% endfor %})
