@@ -83,20 +83,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a80ef03e-9acd-4434-9b62-48f083dda1b3
-          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
-        config: {}
-        dataType: NUMBER(38,0)
-        description: ""
-        name: N_REGIONKEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: f9712aa9-3617-40bf-9659-e04d32f405f9
-                stepCounter: 1ae465d1-303a-4d91-855b-ee8245417705
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: baa09c2c-1775-424e-909f-73eb1e9ef07f
           stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
         config: {}
