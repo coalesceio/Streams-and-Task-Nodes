@@ -178,8 +178,10 @@ does not permit copying or modification for any other purpose.
             -- What to do if data is matched based on table key
             WHEN MATCHED THEN UPDATE SET 
                 {%- for col in tableColumnNamesUpdate %}
+                    {% if col not in ["SYSTEM_CREATE_DATE"]%}
                         tgt."{{ col }}" = src."{{ col }}"
                         {%- if not loop.last -%}, {%- endif %}
+                    {%endif%}
                 {%- endfor %}
             -- What to do with new records based on table key
             WHEN NOT MATCHED THEN INSERT 

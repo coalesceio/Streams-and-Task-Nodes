@@ -1,0 +1,193 @@
+fileVersion: 1
+id: a3025eed-29b8-4616-8778-6ca445042fcd
+name: SIM_NATION_VW
+operation:
+  config:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 8364925f-e64e-4caa-941a-64b2713b17ba
+            stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 5fca80a8-9eff-4254-a243-73dfeef6e278
+            stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        - partColName:
+            columnCounter: c0d2346b-3f02-4d92-a8ef-3a830dd88b4d
+            stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: View
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5fca80a8-9eff-4254-a243-73dfeef6e278
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 87ee0654-acb8-4170-ae76-fcc66ddc696f
+                stepCounter: 1ae465d1-303a-4d91-855b-ee8245417705
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c0d2346b-3f02-4d92-a8ef-3a830dd88b4d
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 83240cda-3e2a-496a-8a76-939798e595f0
+                stepCounter: 1ae465d1-303a-4d91-855b-ee8245417705
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a80ef03e-9acd-4434-9b62-48f083dda1b3
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f9712aa9-3617-40bf-9659-e04d32f405f9
+                stepCounter: 1ae465d1-303a-4d91-855b-ee8245417705
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: baa09c2c-1775-424e-909f-73eb1e9ef07f
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 97402ef6-f7f5-4571-9d14-c01dbe4b5538
+                stepCounter: 1ae465d1-303a-4d91-855b-ee8245417705
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c8e49fdc-3246-48b4-8f97-9089da6ab05a
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9686a886-6a6f-43b7-9b5a-3f7f66a2d816
+                stepCounter: 1ae465d1-303a-4d91-855b-ee8245417705
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8364925f-e64e-4caa-941a-64b2713b17ba
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3c0256bd-1e28-461e-baf6-4eea8ed158e2
+                stepCounter: 1ae465d1-303a-4d91-855b-ee8245417705
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7493d974-39ee-4b6b-9ff6-2a1b2a5b4818
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74381f0c-72be-44d0-b133-ca6f5a6cf091
+          stepCounter: a3025eed-29b8-4616-8778-6ca445042fcd
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STG_NATION_VW
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'STG_NATION_VW') }} "STG_NATION_VW"
+        name: SIM_NATION_VW
+        noLinkRefs: []
+  name: SIM_NATION_VW
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node
