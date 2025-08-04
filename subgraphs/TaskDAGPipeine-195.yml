@@ -1,9 +1,5 @@
 fileVersion: 1
 id: "195"
 name: Task DAG Pipeine
-steps:
-  - 44297a6c-fa94-4baf-a3bd-11b684757c31
-  - 91b4a1d3-1747-4fc6-9fb0-6d0089d8b637
-  - cb832910-1941-4cf8-9e06-9f8b88a420d4
-  - f7525a7e-96bd-4514-b428-c468312550a0
+steps: []
 type: Subgraph

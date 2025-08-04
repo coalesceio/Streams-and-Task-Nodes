@@ -1,6 +1,6 @@
 fileVersion: 1
-id: cb832910-1941-4cf8-9e06-9f8b88a420d4
-name: ORDERS_FACT
+id: 409424cc-0dda-4bed-8a82-1728a7437fa2
+name: NATION
 operation:
   database: ""
   deployEnabled: true
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 94be4baf-c944-478c-993b-d7313ee4eae6
-          stepCounter: cb832910-1941-4cf8-9e06-9f8b88a420d4
+          columnCounter: ca899b56-dcf3-4e6f-960f-6ef0ef9e12d6
+          stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: PRODUCT_ID
+        name: N_NATIONKEY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: febad4fa-0abf-4169-9240-77a575b50ede
-          stepCounter: cb832910-1941-4cf8-9e06-9f8b88a420d4
+          columnCounter: aa0e9b7a-41f2-488b-9b36-917dd79954cc
+          stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(25)
         defaultValue: ""
         description: ""
-        name: STORE_ID
+        name: N_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 73defe69-8619-4c19-88bd-1dd017327d55
-          stepCounter: cb832910-1941-4cf8-9e06-9f8b88a420d4
+          columnCounter: 6cb75642-216e-4206-97d4-f2b6b32f0552
+          stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: TIME_ID
+        name: N_REGIONKEY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -70,13 +70,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: ab1a12c9-d332-4dca-8921-1eccc058370c
-          stepCounter: cb832910-1941-4cf8-9e06-9f8b88a420d4
+          columnCounter: c5ec256b-c477-4999-acce-ee32d0a857ce
+          stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
         config: {}
-        dataType: NUMBER(10,2)
+        dataType: VARCHAR(152)
         defaultValue: ""
         description: ""
-        name: ORDERS_DOLLARS
+        name: N_COMMENT
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -89,13 +89,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 72b8858d-ee59-4cc2-9fc1-040f6b11bbdd
-          stepCounter: cb832910-1941-4cf8-9e06-9f8b88a420d4
+          columnCounter: e220be5d-003c-4264-91ab-7abc88845db1
+          stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: TIMESTAMP_LTZ(9)
         defaultValue: ""
         description: ""
-        name: ORDERS_QUANTITY
+        name: N_LOAD_TIMESTAMP
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -103,7 +103,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: ORDERS_FACT
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0cb5a860-09c1-4a18-93a2-296b98fb9918
+          stepCounter: 409424cc-0dda-4bed-8a82-1728a7437fa2
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: NATION
   schema: ""
   sqlType: Source
   type: sourceInput
