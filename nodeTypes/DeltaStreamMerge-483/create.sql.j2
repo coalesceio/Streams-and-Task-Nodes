@@ -99,7 +99,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState%}
 
     {% if currentState == undefined %}
-        {{ stage('Create Stream') }}
+        {{ stage('Create Stream',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -108,7 +108,7 @@ does not permit copying or modification for any other purpose.
 
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
-        {{ stage('Create Stream If Not Exists') }}
+        {{ stage('Create Stream If Not Exists',true,"sql","create") }}
         CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -116,13 +116,13 @@ does not permit copying or modification for any other purpose.
             {{ streamInsertOnlyMode }}
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
-        {{ stage('Re-Create Stream at existing offset') }}
+        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
 
         {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create or Replace'%}
-        {{ stage('Create Stream') }}
+        {{ stage('Create Stream',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -188,7 +188,7 @@ does not permit copying or modification for any other purpose.
  
                 {# Change in materialization type #}
  
-                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","drop") }}
  
                  {% if currentState.config.createas == 'view' %}
                       DROP {{currentState.config.createas}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
@@ -196,7 +196,7 @@ does not permit copying or modification for any other purpose.
                       DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
                 {% endif %}
                  
-                {{ stage('Create Work '+ ' {{desiredState.config.createas}}') }}
+                {{ stage('Create Work '+ ' {{desiredState.config.createas}}',true,"sql","create") }}
                CREATE OR REPLACE {{desiredState.config.createas}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 (
                 {% for col in desiredState.columns %}
@@ -211,10 +211,10 @@ does not permit copying or modification for any other purpose.
                {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
  
                {% if desiredState.config.clusterKey == true %}
-                  {{ stage('Apply Table Clustering') }}
+                  {{ stage('Apply Table Clustering',true,"sql","create") }}
                  ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
  
-                   {{ stage('Resume Recluster Table') }}
+                   {{ stage('Resume Recluster Table',true,"sql","create") }}
                   ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
  
                {% endif %}
@@ -222,7 +222,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
  
         {% if currentState == undefined or currentState.storageLocations | length == 0%}
-            {{ stage('Create Work '+ ' {{desiredState.config.createas}}') }}
+            {{ stage('Create Work '+ ' {{desiredState.config.createas}}',true,"sql","create") }}
             CREATE OR REPLACE {{desiredState.config.createas}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
                 {% for col in desiredState.columns %}
@@ -238,10 +238,10 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
  
             {% if desiredState.config.clusterKey == true %}
-                {{ stage('Apply Table Clustering') }}
+                {{ stage('Apply Table Clustering',true,"sql","create") }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
     
-                {{ stage('Resume Recluster Table') }}
+                {{ stage('Resume Recluster Table',true,"sql","create") }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
             {% endif %}
  
@@ -555,7 +555,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
-        {{ stage('Target Table Initial Load') }}
+        {{ stage('Target Table Initial Load',true,"sql","create") }}
         
         {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
         {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
@@ -656,7 +656,7 @@ does not permit copying or modification for any other purpose.
         {% if desiredState.config.devMode == false %}
             {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%}
                 {% set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask) %}
-                {{ stage('Suspend Root Task') }}
+                {{ stage('Suspend Root Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
             {%- endif -%}
   
@@ -664,7 +664,7 @@ does not permit copying or modification for any other purpose.
             {%-if currentState !=undefined -%}            
             {%- if currentState.config.schedulePeriodOption == 'Predecessor' and  currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption-%}
                 {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
-                {{ stage('Suspend Root Task') }}
+                {{ stage('Suspend Root Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
             {%- endif -%}
             {%-endif -%}
@@ -744,7 +744,7 @@ does not permit copying or modification for any other purpose.
             {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
             {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
  
-            {{ stage('Create Task') }}
+            {{ stage('Create Task',true,"sql","create") }}
             CREATE OR REPLACE TASK
                 {{ fullyQualifiedTaskName }}
                 {{ taskType}}
@@ -817,7 +817,7 @@ does not permit copying or modification for any other purpose.
 							  					 
  
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%}
-                {{ stage('Resume Task') }}
+                {{ stage('Resume Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}
         {%- endif -%}
@@ -832,8 +832,7 @@ does not permit copying or modification for any other purpose.
     {% if currentState.config.devMode == false %}
 		{# FQ Root Task name #}							   
 		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
-																																   
- 
+																								
         {# Task Info #}
         {% set taskName = currentState.node.name + '_TASK' %}
         {% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}

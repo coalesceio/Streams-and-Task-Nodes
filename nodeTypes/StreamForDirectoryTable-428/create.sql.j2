@@ -37,18 +37,18 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and desiredState != currentState %}
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace' %}
-        {{ stage('Create Stream') }}
+        {{ stage('Create Stream',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             ON {{ streamType }} {{ refLink }}
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
-        {{ stage('Re-Create Stream at existing offset') }}
+        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
         CREATE STREAM IF NOT EXISTS {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             ON {{ streamType }} {{ refLink }}
 
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
-        {{ stage('Re-Create Stream at existing offset') }}
+        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             ON {{ streamType }} {{ refLink }}
 

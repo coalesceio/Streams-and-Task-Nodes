@@ -3,12 +3,7 @@ id: "195"
 name: Task DAG Pipeine
 steps:
   - 44297a6c-fa94-4baf-a3bd-11b684757c31
-  - 4c0b12ba-6524-430d-b48b-b817b9cb1280
-  - 72d433c6-40f0-44ce-ba91-bee913218274
-  - 849289b0-7d86-4bbb-96d4-b7065cb8db20
   - 91b4a1d3-1747-4fc6-9fb0-6d0089d8b637
-  - a552130b-9ee0-48d3-a93d-f9affdd10a35
-  - c51190d0-95b8-4621-9c9f-152a7523e282
   - cb832910-1941-4cf8-9e06-9f8b88a420d4
   - f7525a7e-96bd-4514-b428-c468312550a0
 type: Subgraph
