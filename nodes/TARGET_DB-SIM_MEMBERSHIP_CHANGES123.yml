@@ -157,18 +157,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          STG_MEMBERSHIP_CHANGES: 8ff51f1d-0348-4054-b0c7-5074ce787ff7
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TGCR_STREAM
-          - locationName: TGT
             nodeName: STG_MEMBERSHIP_CHANGES
+          - locationName: TARGET_DB
+            nodeName: TGCR_STREAM
         join:
           joinCondition: |-
-            FROM {{ ref('TGT', 'STG_MEMBERSHIP_CHANGES') }} "STG_MEMBERSHIP_CHANGES"
+            FROM {{ ref('TARGET_DB', 'STG_MEMBERSHIP_CHANGES') }} "STG_MEMBERSHIP_CHANGES"
             --{{ ref('TARGET_DB', 'TGCR_STREAM')}}
         name: SIM_MEMBERSHIP_CHANGES123
         noLinkRefs: []

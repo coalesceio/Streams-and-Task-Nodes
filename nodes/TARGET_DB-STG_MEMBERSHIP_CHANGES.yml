@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TGT
+  locationName: TARGET_DB
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -90,7 +90,8 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          MEMBERSHIP_CHANGES: b1d9d309-f304-4e84-a30a-ccb2914bed32
         customSQL:
           customSQL: ""
         dependencies:
