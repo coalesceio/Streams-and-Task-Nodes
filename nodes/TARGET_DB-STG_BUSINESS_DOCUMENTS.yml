@@ -1,0 +1,109 @@
+fileVersion: 1
+id: 434abcce-92b9-4302-8b52-05288f4e57d5
+name: STG_BUSINESS_DOCUMENTS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 317b8315-a6a8-44fd-8764-9de789477fee
+          stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DOCUMENT_CONTENTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0175ddcd-c0e9-4145-8caa-c6b28042aee5
+                stepCounter: a34e0d8d-9bc8-4e93-9493-b19372ec34ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b9054cfa-7aff-4af9-844f-83862e17a5fb
+          stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: LAST_MODIFIED_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f3dc3ff3-98e9-4fde-aa38-1a3e3ecccee2
+                stepCounter: a34e0d8d-9bc8-4e93-9493-b19372ec34ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d3334a71-0f77-4fd6-a2bc-f52ab6a25bae
+          stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2a0494bd-0b66-48a2-9f6e-0fca9dec399e
+                stepCounter: a34e0d8d-9bc8-4e93-9493-b19372ec34ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 40fb695c-8834-438d-b1ea-6e29112330cd
+          stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: LIKES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d09cdcad-da0a-4e6e-bdd8-8d9d9dd6a739
+                stepCounter: a34e0d8d-9bc8-4e93-9493-b19372ec34ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b6f56c0-051d-4ec5-8d4d-97f35cf48b08
+          stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: COMMENTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 78ac0de8-4330-4da2-87b2-0458c6676b61
+                stepCounter: a34e0d8d-9bc8-4e93-9493-b19372ec34ec
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: BUSINESS_DOCUMENTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'BUSINESS_DOCUMENTS') }} "BUSINESS_DOCUMENTS"
+        name: STG_BUSINESS_DOCUMENTS
+        noLinkRefs: []
+  name: STG_BUSINESS_DOCUMENTS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

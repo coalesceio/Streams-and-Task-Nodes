@@ -1,0 +1,131 @@
+fileVersion: 1
+id: 98e238fc-ce95-46f8-97e6-d7d31f4a217f
+name: TSKWRK_BUSINESS_DOCUMENTS
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e0ce5795-464c-4984-abc8-e81c13eb58e5
+          stepCounter: 98e238fc-ce95-46f8-97e6-d7d31f4a217f
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DOCUMENT_CONTENTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 317b8315-a6a8-44fd-8764-9de789477fee
+                stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bb758b1b-707e-4151-88e5-1cf2d12a8b0f
+          stepCounter: 98e238fc-ce95-46f8-97e6-d7d31f4a217f
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: LAST_MODIFIED_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b9054cfa-7aff-4af9-844f-83862e17a5fb
+                stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0133ce3d-8d92-4b8d-ae6a-7b62df4072f4
+          stepCounter: 98e238fc-ce95-46f8-97e6-d7d31f4a217f
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d3334a71-0f77-4fd6-a2bc-f52ab6a25bae
+                stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3a199d8-260a-400f-9fca-7863fa0cfa54
+          stepCounter: 98e238fc-ce95-46f8-97e6-d7d31f4a217f
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: LIKES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 40fb695c-8834-438d-b1ea-6e29112330cd
+                stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 26493c90-9269-4537-8e63-9b2faf17d763
+          stepCounter: 98e238fc-ce95-46f8-97e6-d7d31f4a217f
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: COMMENTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9b6f56c0-051d-4ec5-8d4d-97f35cf48b08
+                stepCounter: 434abcce-92b9-4302-8b52-05288f4e57d5
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STG_BUSINESS_DOCUMENTS
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'STG_BUSINESS_DOCUMENTS') }} "STG_BUSINESS_DOCUMENTS"
+        name: TSKWRK_BUSINESS_DOCUMENTS
+        noLinkRefs: []
+  name: TSKWRK_BUSINESS_DOCUMENTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
