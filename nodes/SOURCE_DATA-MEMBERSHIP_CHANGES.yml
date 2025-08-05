@@ -1,0 +1,111 @@
+fileVersion: 1
+id: b1d9d309-f304-4e84-a30a-ccb2914bed32
+name: MEMBERSHIP_CHANGES
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 25d8d0f7-21d5-4ac0-96d0-e90c7c7f97b1
+          stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9e38f1cc-a806-4925-8ae8-27fec86798a0
+          stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: MEMBERSHIP_LEVEL
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0cc2390b-368c-4e25-8766-df3760155a8e
+          stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: REWARDS_POINTS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4847d86e-39dd-47d0-8499-a7225a19aabf
+          stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+        config: {}
+        dataType: NUMBER(4,2)
+        defaultValue: ""
+        description: ""
+        name: DISCOUNT_RATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e8d6b17a-eab8-49aa-ad6e-6ce3f7e55b60
+          stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: MEMBERSHIP_CHANGES
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

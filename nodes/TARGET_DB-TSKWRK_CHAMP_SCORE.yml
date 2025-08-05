@@ -90,12 +90,12 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: STG_CHAMP_SCORE
-          - locationName: TARGET_DB
             nodeName: TGCR_ND_VW
+          - locationName: TGT
+            nodeName: STG_CHAMP_SCORE
         join:
           joinCondition: |-
-            FROM {{ ref('TARGET_DB', 'STG_CHAMP_SCORE') }} "STG_CHAMP_SCORE"
+            FROM {{ ref('TGT', 'STG_CHAMP_SCORE') }} "STG_CHAMP_SCORE"
             --{{ref('TARGET_DB', 'TGCR_ND_VW')}}
         name: TSKWRK_CHAMP_SCORE
         noLinkRefs: []

@@ -7,5 +7,8 @@ mappingDefinitions:
   TARGET_DB:
     database: ANANDHIS_PROD
     schema: SOURCE_DATA
+  TGT:
+    database: ANANDHIS_QA
+    schema: SOURCE_DATA
 name: QA1
 type: Environment

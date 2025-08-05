@@ -1,0 +1,109 @@
+fileVersion: 1
+id: 8ff51f1d-0348-4054-b0c7-5074ce787ff7
+name: STG_MEMBERSHIP_CHANGES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8dcafb9e-f29b-4c1d-a3ff-59dc97da86c8
+          stepCounter: 8ff51f1d-0348-4054-b0c7-5074ce787ff7
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 25d8d0f7-21d5-4ac0-96d0-e90c7c7f97b1
+                stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1ff72441-0019-4a68-afde-a4525056153e
+          stepCounter: 8ff51f1d-0348-4054-b0c7-5074ce787ff7
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: MEMBERSHIP_LEVEL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9e38f1cc-a806-4925-8ae8-27fec86798a0
+                stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 83b320a5-66a2-4126-a0f9-aea1466442b1
+          stepCounter: 8ff51f1d-0348-4054-b0c7-5074ce787ff7
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: REWARDS_POINTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0cc2390b-368c-4e25-8766-df3760155a8e
+                stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 607d5360-f12f-414e-ae67-dddb9b390587
+          stepCounter: 8ff51f1d-0348-4054-b0c7-5074ce787ff7
+        config: {}
+        dataType: NUMBER(4,2)
+        description: ""
+        name: DISCOUNT_RATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4847d86e-39dd-47d0-8499-a7225a19aabf
+                stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 02e7f6c3-8ca2-4c3e-ab29-c715ea39b241
+          stepCounter: 8ff51f1d-0348-4054-b0c7-5074ce787ff7
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e8d6b17a-eab8-49aa-ad6e-6ce3f7e55b60
+                stepCounter: b1d9d309-f304-4e84-a30a-ccb2914bed32
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: MEMBERSHIP_CHANGES
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'MEMBERSHIP_CHANGES') }} "MEMBERSHIP_CHANGES"
+        name: STG_MEMBERSHIP_CHANGES
+        noLinkRefs: []
+  name: STG_MEMBERSHIP_CHANGES
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

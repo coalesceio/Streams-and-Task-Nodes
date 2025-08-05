@@ -1,0 +1,167 @@
+fileVersion: 1
+id: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+name: TGRR_MEMBERSHIP_CHANGES
+operation:
+  config:
+    rootTask: TGCR_STREAM
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bda46422-c7df-4d4a-83ff-259f093101c8
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9facda53-3e5e-437b-9fc7-3e084b33ea44
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5070b51f-2dab-4998-a8ff-e66df2fdaedd
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 63e99202-d656-40ad-94f4-d9298f5c2251
+                stepCounter: 3fd96d12-9acd-4929-8068-57e400db571c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7bb5247d-c184-4456-b157-bc92c7c90703
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: MEMBERSHIP_LEVEL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5c6b97c-16fb-4c86-ae0e-f4cf23f0e8b9
+                stepCounter: 3fd96d12-9acd-4929-8068-57e400db571c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: be69bff2-05da-4d3e-a6de-c00f1fae96bd
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: REWARDS_POINTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f9f1aceb-9e02-4e3a-9381-babc188b0d7a
+                stepCounter: 3fd96d12-9acd-4929-8068-57e400db571c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 56c1d043-607c-4b3f-be23-ee176ec589a1
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dataType: NUMBER(4,2)
+        description: ""
+        name: DISCOUNT_RATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d4e716ee-7968-4b3f-bf52-51d0e77a9032
+                stepCounter: 3fd96d12-9acd-4929-8068-57e400db571c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cd3c1ceb-3cf5-4620-b73d-b59717711077
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 34f4e49a-4e31-4495-94d9-ce2bcb1bafac
+                stepCounter: 3fd96d12-9acd-4929-8068-57e400db571c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9e3e19e6-edd8-4762-b112-0fd1c36e5294
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b13d9887-808b-4245-a6f7-97aade175a13
+                stepCounter: 3fd96d12-9acd-4929-8068-57e400db571c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ed3f970a-b055-498a-bd69-130661c88e3a
+          stepCounter: 4cc38580-b1c9-4ed2-8c41-c8a2e92fc1ce
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b92a020d-8412-4b23-8b5f-1f18ac384e8a
+                stepCounter: 3fd96d12-9acd-4929-8068-57e400db571c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_MEMBERSHIP_CHANGES
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_MEMBERSHIP_CHANGES') }} "TSKWRK_MEMBERSHIP_CHANGES"
+        name: TGRR_MEMBERSHIP_CHANGES
+        noLinkRefs: []
+  name: TGRR_MEMBERSHIP_CHANGES
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node
