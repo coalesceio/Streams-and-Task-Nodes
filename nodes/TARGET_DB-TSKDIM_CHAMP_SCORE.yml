@@ -203,14 +203,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          TSKWRK_CHAMP_SCORE12: 303c527f-239d-40eb-9707-86297320996e
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TSKWRK_CHAMP_SCORE
+            nodeName: TSKWRK_CHAMP_SCORE12
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_CHAMP_SCORE') }} "TSKWRK_CHAMP_SCORE"
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_CHAMP_SCORE12') }} "TSKWRK_CHAMP_SCORE12"
         name: TSKDIM_CHAMP_SCORE
         noLinkRefs: []
   name: TSKDIM_CHAMP_SCORE

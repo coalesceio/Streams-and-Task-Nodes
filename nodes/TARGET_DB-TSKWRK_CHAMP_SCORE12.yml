@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 303c527f-239d-40eb-9707-86297320996e
-name: TSKWRK_CHAMP_SCORE
+name: TSKWRK_CHAMP_SCORE12
 operation:
   config:
     clusterKey: false
@@ -97,9 +97,9 @@ operation:
           joinCondition: |-
             FROM {{ ref('TGT', 'STG_CHAMP_SCORE') }} "STG_CHAMP_SCORE"
             --{{ref('TARGET_DB', 'TGCR_ND_VW')}}
-        name: TSKWRK_CHAMP_SCORE
+        name: TSKWRK_CHAMP_SCORE12
         noLinkRefs: []
-  name: TSKWRK_CHAMP_SCORE
+  name: TSKWRK_CHAMP_SCORE12
   overrideSQL: false
   schema: ""
   sqlType: "151"
