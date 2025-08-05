@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 98e238fc-ce95-46f8-97e6-d7d31f4a217f
-name: TSKWRK_BUSINESS_DOCUMENTS
+name: TSKWRK_BUSINESS_DOCUMENTS12
 operation:
   config:
     clusterKey: false
@@ -121,9 +121,9 @@ operation:
             nodeName: STG_BUSINESS_DOCUMENTS
         join:
           joinCondition: FROM {{ ref('TGT', 'STG_BUSINESS_DOCUMENTS') }} "STG_BUSINESS_DOCUMENTS"
-        name: TSKWRK_BUSINESS_DOCUMENTS
+        name: TSKWRK_BUSINESS_DOCUMENTS12
         noLinkRefs: []
-  name: TSKWRK_BUSINESS_DOCUMENTS
+  name: TSKWRK_BUSINESS_DOCUMENTS12
   overrideSQL: false
   schema: ""
   sqlType: "151"

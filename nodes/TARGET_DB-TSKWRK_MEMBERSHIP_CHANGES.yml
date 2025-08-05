@@ -140,14 +140,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          SIM_MEMBERSHIP_CHANGES123: d983bc56-0c3d-41da-aa98-6175a43f1e85
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: SIM_MEMBERSHIP_CHANGES
+            nodeName: SIM_MEMBERSHIP_CHANGES123
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'SIM_MEMBERSHIP_CHANGES') }} "SIM_MEMBERSHIP_CHANGES"
+          joinCondition: FROM {{ ref('TARGET_DB', 'SIM_MEMBERSHIP_CHANGES123') }} "SIM_MEMBERSHIP_CHANGES123"
         name: TSKWRK_MEMBERSHIP_CHANGES
         noLinkRefs: []
   name: TSKWRK_MEMBERSHIP_CHANGES

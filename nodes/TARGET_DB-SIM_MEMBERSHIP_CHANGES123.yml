@@ -1,6 +1,6 @@
 fileVersion: 1
 id: d983bc56-0c3d-41da-aa98-6175a43f1e85
-name: SIM_MEMBERSHIP_CHANGES
+name: SIM_MEMBERSHIP_CHANGES123
 operation:
   config:
     appendOnly: false
@@ -170,9 +170,9 @@ operation:
           joinCondition: |-
             FROM {{ ref('TGT', 'STG_MEMBERSHIP_CHANGES') }} "STG_MEMBERSHIP_CHANGES"
             --{{ ref('TARGET_DB', 'TGCR_STREAM')}}
-        name: SIM_MEMBERSHIP_CHANGES
+        name: SIM_MEMBERSHIP_CHANGES123
         noLinkRefs: []
-  name: SIM_MEMBERSHIP_CHANGES
+  name: SIM_MEMBERSHIP_CHANGES123
   overrideSQL: false
   schema: ""
   sqlType: "152"

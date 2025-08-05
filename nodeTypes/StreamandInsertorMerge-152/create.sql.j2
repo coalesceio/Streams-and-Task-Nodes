@@ -204,7 +204,7 @@ does not permit copying or modification for any other purpose.
  
                 {# Change in materialization type #}
  
-                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","create") }}
+                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","drop") }}
  
                  {% if currentState.config.createas == 'view' %}
                       DROP {{currentState.config.createas}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
