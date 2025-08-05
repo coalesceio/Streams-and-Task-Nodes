@@ -163,12 +163,12 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: STG_MEMBERSHIP_CHANGES
-          - locationName: TARGET_DB
             nodeName: TGCR_STREAM
+          - locationName: TGT
+            nodeName: STG_MEMBERSHIP_CHANGES
         join:
           joinCondition: |-
-            FROM {{ ref('TARGET_DB', 'STG_MEMBERSHIP_CHANGES') }} "STG_MEMBERSHIP_CHANGES"
+            FROM {{ ref('TGT', 'STG_MEMBERSHIP_CHANGES') }} "STG_MEMBERSHIP_CHANGES"
             --{{ ref('TARGET_DB', 'TGCR_STREAM')}}
         name: SIM_MEMBERSHIP_CHANGES
         noLinkRefs: []
