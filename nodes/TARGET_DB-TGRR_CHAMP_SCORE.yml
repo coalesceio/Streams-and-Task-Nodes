@@ -1,0 +1,209 @@
+fileVersion: 1
+id: 034332f9-2fa3-45c5-8e22-e05983e1a108
+name: TGRR_CHAMP_SCORE
+operation:
+  config:
+    rootTask: TGCR_ND_VW
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c0966908-bc6a-4a2f-bb9f-1405056abcec
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d7b23758-85db-4d5a-bd81-d2d252c9fba0
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 814bb5e4-b067-4096-aff8-30db0e844d2e
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: TSKDIM_CHAMP_SCORE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4a6eeab0-727b-4e56-8394-8918a1e10edc
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bfc6cfbe-361c-419b-ac78-a1c9cd584ce6
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PLAYER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8e65419e-0f1e-45bc-8531-be9cfecfa2a0
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a455481-5558-4c67-8af3-5f3683e6581c
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: POINTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 954ce430-8f99-418e-b5a6-04ef0eb0f811
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1aeb9d23-3e94-4df8-8b05-7ca01fbb9355
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: SEASON
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e4045bf5-de0a-4f72-9e4c-3586b8d1af59
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a6c3ff57-e93c-4f1f-a48d-85c5f432adc7
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8f4d9cf4-a006-4463-b98c-17e4eddc8eae
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 32c19b2c-dcf8-4422-b35e-0e747f19fca5
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0b43db53-2e7d-4442-86a1-63c84091a1ff
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cb0e3276-da14-4040-999f-495ec5d37819
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d674fb64-f27e-4ca7-abb9-05b240fd7cfd
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e703dfd2-c5d0-4d09-9a52-1e01a6f753f3
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ad53b7d7-80d0-4988-a969-9ac147b9cdde
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4f9de0bf-7e4c-4016-80f4-382151e5560d
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 23efaf9b-d036-4ed2-8a4a-866ce69bbed6
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03a7d59b-1f91-4ecf-b4a0-411d52b5334d
+          stepCounter: 034332f9-2fa3-45c5-8e22-e05983e1a108
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3189f4a2-5109-4b0b-acaa-7c2fd81b870c
+                stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_CHAMP_SCORE
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKDIM_CHAMP_SCORE') }} "TSKDIM_CHAMP_SCORE"
+        name: TGRR_CHAMP_SCORE
+        noLinkRefs: []
+  name: TGRR_CHAMP_SCORE
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node

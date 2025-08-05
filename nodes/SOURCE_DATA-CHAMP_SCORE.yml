@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 6bfd7f0a-c942-4942-92ae-7e866c41037f
+name: CHAMP_SCORE
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: edabc4ae-5b8e-4d5b-a4ce-b659dc623cd8
+          stepCounter: 6bfd7f0a-c942-4942-92ae-7e866c41037f
+        config: {}
+        dataType: VARCHAR(14)
+        defaultValue: ""
+        description: ""
+        name: PLAYER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: feab71ba-b8f6-426a-8461-b470e57d2949
+          stepCounter: 6bfd7f0a-c942-4942-92ae-7e866c41037f
+        config: {}
+        dataType: NUMBER(4,0)
+        defaultValue: ""
+        description: ""
+        name: POINTS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 49f19c08-e185-4e2e-aa15-d8c6c3bf5240
+          stepCounter: 6bfd7f0a-c942-4942-92ae-7e866c41037f
+        config: {}
+        dataType: NUMBER(4,0)
+        defaultValue: ""
+        description: ""
+        name: SEASON
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: CHAMP_SCORE
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

@@ -1,0 +1,108 @@
+fileVersion: 1
+id: 303c527f-239d-40eb-9707-86297320996e
+name: TSKWRK_CHAMP_SCORE
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_ND_VW
+    rootTask: TGCR_ND_VW
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16bbe870-995f-4c8f-9819-292f506e46dd
+          stepCounter: 303c527f-239d-40eb-9707-86297320996e
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PLAYER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c7f63c3b-be4e-424b-b2a9-d2ee92d0f8db
+                stepCounter: ca3ab631-3607-41eb-9190-1110b6cb141f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74c3b65f-12dd-48b6-8d1d-5609d0f08772
+          stepCounter: 303c527f-239d-40eb-9707-86297320996e
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: POINTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1d8e7742-e17c-4cb7-990c-772c0026144d
+                stepCounter: ca3ab631-3607-41eb-9190-1110b6cb141f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3b9efe70-d5f5-43b3-8822-ab823c919a3f
+          stepCounter: 303c527f-239d-40eb-9707-86297320996e
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: SEASON
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3ca24ba4-0889-4bb4-ac47-69237b2a0398
+                stepCounter: ca3ab631-3607-41eb-9190-1110b6cb141f
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STG_CHAMP_SCORE: ca3ab631-3607-41eb-9190-1110b6cb141f
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STG_CHAMP_SCORE
+          - locationName: TARGET_DB
+            nodeName: TGCR_ND_VW
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'STG_CHAMP_SCORE') }} "STG_CHAMP_SCORE"
+            --{{ref('TARGET_DB', 'TGCR_ND_VW')}}
+        name: TSKWRK_CHAMP_SCORE
+        noLinkRefs: []
+  name: TSKWRK_CHAMP_SCORE
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node

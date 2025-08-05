@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 7b6d891e-6a19-4080-8c81-6c1154546bc2
+name: COURSES
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 37782d6a-a274-4133-b4b4-0ea4564e8533
+          stepCounter: 7b6d891e-6a19-4080-8c81-6c1154546bc2
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: COURSE_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 055b6af5-e035-46f7-8619-2b862143c04f
+          stepCounter: 7b6d891e-6a19-4080-8c81-6c1154546bc2
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: COURSE_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7709f2c4-b425-41fc-ae6d-34adfc0d57a3
+          stepCounter: 7b6d891e-6a19-4080-8c81-6c1154546bc2
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: INSTRUCTOR
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: COURSES
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

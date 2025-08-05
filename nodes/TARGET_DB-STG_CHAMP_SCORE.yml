@@ -1,0 +1,81 @@
+fileVersion: 1
+id: ca3ab631-3607-41eb-9190-1110b6cb141f
+name: STG_CHAMP_SCORE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c7f63c3b-be4e-424b-b2a9-d2ee92d0f8db
+          stepCounter: ca3ab631-3607-41eb-9190-1110b6cb141f
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PLAYER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: edabc4ae-5b8e-4d5b-a4ce-b659dc623cd8
+                stepCounter: 6bfd7f0a-c942-4942-92ae-7e866c41037f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d8e7742-e17c-4cb7-990c-772c0026144d
+          stepCounter: ca3ab631-3607-41eb-9190-1110b6cb141f
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: POINTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: feab71ba-b8f6-426a-8461-b470e57d2949
+                stepCounter: 6bfd7f0a-c942-4942-92ae-7e866c41037f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3ca24ba4-0889-4bb4-ac47-69237b2a0398
+          stepCounter: ca3ab631-3607-41eb-9190-1110b6cb141f
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: SEASON
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 49f19c08-e185-4e2e-aa15-d8c6c3bf5240
+                stepCounter: 6bfd7f0a-c942-4942-92ae-7e866c41037f
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: CHAMP_SCORE
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'CHAMP_SCORE') }} "CHAMP_SCORE"
+        name: STG_CHAMP_SCORE
+        noLinkRefs: []
+  name: STG_CHAMP_SCORE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

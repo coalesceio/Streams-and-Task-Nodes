@@ -1,0 +1,222 @@
+fileVersion: 1
+id: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+name: TSKDIM_CHAMP_SCORE
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TSKWRK_CHAMP_SCORE_TASK
+    rootTask: TSKWRK_CHAMP_SCORE_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4a6eeab0-727b-4e56-8394-8918a1e10edc
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSurrogateKey: true
+        name: TSKDIM_CHAMP_SCORE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8e65419e-0f1e-45bc-8531-be9cfecfa2a0
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        isBusinessKey: true
+        name: PLAYER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 16bbe870-995f-4c8f-9819-292f506e46dd
+                stepCounter: 303c527f-239d-40eb-9707-86297320996e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 954ce430-8f99-418e-b5a6-04ef0eb0f811
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: POINTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 74c3b65f-12dd-48b6-8d1d-5609d0f08772
+                stepCounter: 303c527f-239d-40eb-9707-86297320996e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e4045bf5-de0a-4f72-9e4c-3586b8d1af59
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: SEASON
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3b9efe70-d5f5-43b3-8822-ab823c919a3f
+                stepCounter: 303c527f-239d-40eb-9707-86297320996e
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f4d9cf4-a006-4463-b98c-17e4eddc8eae
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b43db53-2e7d-4442-86a1-63c84091a1ff
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d674fb64-f27e-4ca7-abb9-05b240fd7cfd
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ad53b7d7-80d0-4988-a969-9ac147b9cdde
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 23efaf9b-d036-4ed2-8a4a-866ce69bbed6
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3189f4a2-5109-4b0b-acaa-7c2fd81b870c
+          stepCounter: c7d0cf6b-465c-43b3-a649-3c4ac338da37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_CHAMP_SCORE
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_CHAMP_SCORE') }} "TSKWRK_CHAMP_SCORE"
+        name: TSKDIM_CHAMP_SCORE
+        noLinkRefs: []
+  name: TSKDIM_CHAMP_SCORE
+  overrideSQL: false
+  schema: ""
+  sqlType: "149"
+  type: sql
+  version: 1
+type: Node
