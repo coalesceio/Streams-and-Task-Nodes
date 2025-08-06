@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 434abcce-92b9-4302-8b52-05288f4e57d5
-name: STG_BUSINESS_DOCUMENTS
+name: STG_BUSINESS_DOCUMENTS12
 operation:
   config:
     insertStrategy: INSERT
@@ -98,9 +98,9 @@ operation:
             nodeName: BUSINESS_DOCUMENTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'BUSINESS_DOCUMENTS') }} "BUSINESS_DOCUMENTS"
-        name: STG_BUSINESS_DOCUMENTS
+        name: STG_BUSINESS_DOCUMENTS12
         noLinkRefs: []
-  name: STG_BUSINESS_DOCUMENTS
+  name: STG_BUSINESS_DOCUMENTS12
   overrideSQL: false
   schema: ""
   sqlType: Stage

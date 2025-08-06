@@ -118,9 +118,9 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TGT
-            nodeName: STG_BUSINESS_DOCUMENTS
+            nodeName: STG_BUSINESS_DOCUMENTS12
         join:
-          joinCondition: FROM {{ ref('TGT', 'STG_BUSINESS_DOCUMENTS') }} "STG_BUSINESS_DOCUMENTS"
+          joinCondition: FROM {{ ref('TGT', 'STG_BUSINESS_DOCUMENTS12') }} "STG_BUSINESS_DOCUMENTS"
         name: TSKWRK_BUSINESS_DOCUMENTS12
         noLinkRefs: []
   name: TSKWRK_BUSINESS_DOCUMENTS12

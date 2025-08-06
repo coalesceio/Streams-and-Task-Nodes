@@ -65,7 +65,7 @@ does not permit copying or modification for any other purpose.
             {% endif %}
         {% endif %}
 
-        {{ stage('Create Work Table') }}
+        {{ stage('Create Work Table',true,"sql","create") }}
         CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (
             {% for col in desiredState.columns %}
@@ -80,10 +80,10 @@ does not permit copying or modification for any other purpose.
         {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
         {% if desiredState.config.clusterKey == true %}
-            {{ stage('Apply Table Clustering') }}
+            {{ stage('Apply Table Clustering',true,"sql","create") }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
 
-            {{ stage('Resume Recluster Table') }}
+            {{ stage('Resume Recluster Table',true,"sql","create") }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
         {% endif %}
 
@@ -346,7 +346,7 @@ does not permit copying or modification for any other purpose.
 		{% if desiredState.config.devMode == false %}
 			{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
 				{% set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask) %}
-				{{ stage('Suspend Root Task') }}
+				{{ stage('Suspend Root Task',true,"sql","create") }}
 				ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
 			{%- endif -%}
 
@@ -354,14 +354,14 @@ does not permit copying or modification for any other purpose.
          {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%}
             {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
-            {{ stage('Suspend Root Task') }}
+            {{ stage('Suspend Root Task',true,"sql","create") }}
 
             ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
 
           {%- endif -%}
         {%-endif -%}
 
-            {{ stage('Create Task') }}
+            {{ stage('Create Task',true,"sql","create") }}
             {# Set Namespace Variables #}
             {% set nsVariables = namespace(taskWhenRun="") %}
             {% set nsVariables = namespace(poll="WHEN ") %}
@@ -469,7 +469,7 @@ does not permit copying or modification for any other purpose.
                 {{ sortorder_by_colv() }}
 
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
-                {{ stage('Resume Task') }}
+                {{ stage('Resume Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}       
         {%- endif -%}
