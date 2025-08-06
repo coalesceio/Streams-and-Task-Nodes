@@ -219,12 +219,12 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: STG_CUSTOMERVW
-          - locationName: TARGET_DB
             nodeName: TGCR_STR
+          - locationName: TGT
+            nodeName: STG_CUSTOMERVW
         join:
           joinCondition: |-
-            FROM {{ ref('TARGET_DB', 'STG_CUSTOMERVW') }} "STG_CUSTOMERVW"
+            FROM {{ ref('TGT', 'STG_CUSTOMERVW') }} "STG_CUSTOMERVW"
             --{{ ref('TARGET_DB', 'TGCR_STR') }}
         name: SIM_CUSTOMERVW
         noLinkRefs: []
