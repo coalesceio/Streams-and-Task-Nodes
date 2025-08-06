@@ -288,7 +288,10 @@ does not permit copying or modification for any other purpose.
              {% if currentDatabaseSchema != desiredDatabaseSchema %}
                 {% set nsVariables.storageLocationTest = false %}
              {% endif %}
-   
+            
+            {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
+ 
+
             {# Clustering Test #}
             {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
             {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
@@ -319,7 +322,7 @@ does not permit copying or modification for any other purpose.
  
 
             {# Change table description #}
-            {% if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
+            {% if (nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
                  {{ stage('Change table description') }}
                  ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 SET COMMENT = '{{ desiredState.node.description | escape }}'
