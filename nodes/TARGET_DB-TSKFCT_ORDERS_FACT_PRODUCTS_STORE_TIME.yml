@@ -58,7 +58,10 @@ operation:
           stepCounter: 7bb59ac2-d986-4bac-b3a2-9e72f96d90e3
         config: {}
         dataType: DATE
-        description: ""
+        description: |
+          - This column represents a specific calendar date.
+          - The data is sourced directly from the 'DATE' column of the 'TSKDIM_TIME' table.
+          - It is used for time-based analysis, such as tracking daily trends, creating time series visualizations, and calculating metrics like daily sales averages.
         name: DATE
         nullable: true
         sourceColumnReferences:

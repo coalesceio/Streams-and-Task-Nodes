@@ -204,14 +204,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          SIM_CUSTOMERVW: 19ae2a7b-4b6d-41af-aa0b-e644fb8704ac
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: SIM_CUSTOMERVW
+            nodeName: SIM_CUSTOMERVW12
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'SIM_CUSTOMERVW') }} "SIM_CUSTOMERVW"
+          joinCondition: FROM {{ ref('TARGET_DB', 'SIM_CUSTOMERVW12') }} "SIM_CUSTOMERVW"
         name: TGRR_CUSTOMERVW
         noLinkRefs: []
   name: TGRR_CUSTOMERVW

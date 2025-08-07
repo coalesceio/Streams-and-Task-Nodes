@@ -31,7 +31,7 @@ operation:
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
-  description: ""
+  description: store
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task

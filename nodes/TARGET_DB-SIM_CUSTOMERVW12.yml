@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 19ae2a7b-4b6d-41af-aa0b-e644fb8704ac
-name: SIM_CUSTOMERVW
+name: SIM_CUSTOMERVW12
 operation:
   config:
     appendOnly: false
@@ -70,7 +70,11 @@ operation:
           stepCounter: 19ae2a7b-4b6d-41af-aa0b-e644fb8704ac
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: |-
+          -	This column stores the name of the customer, originating from the 'C_NAME' column of the 'STG_CUSTOMERVW' stage table.
+          -	It provides a descriptive identifier for each customer.
+          -	The customer's name is used in various reports, customer profiles, and marketing campaigns to personalize interactions.
+          -	No transformations or filtering logic are applied to this column.
         name: C_NAME
         nullable: true
         sourceColumnReferences:
@@ -150,20 +154,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 972da4ff-2bd2-4bb5-866e-3639ee297638
-          stepCounter: 19ae2a7b-4b6d-41af-aa0b-e644fb8704ac
-        config: {}
-        dataType: VARCHAR(117)
-        description: ""
-        name: C_COMMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 5d015792-4938-43c2-ad13-cd265731038f
-                stepCounter: c32853a7-0d8e-4187-ae09-388d8d1b96be
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 6bf5c895-d76c-45e8-9529-18e10fcbc3b8
           stepCounter: 19ae2a7b-4b6d-41af-aa0b-e644fb8704ac
         config: {}
@@ -226,9 +216,9 @@ operation:
           joinCondition: |-
             FROM {{ ref('TGT', 'STG_CUSTOMERVW') }} "STG_CUSTOMERVW"
             --{{ ref('TARGET_DB', 'TGCR_str') }}
-        name: SIM_CUSTOMERVW
+        name: SIM_CUSTOMERVW12
         noLinkRefs: []
-  name: SIM_CUSTOMERVW
+  name: SIM_CUSTOMERVW12
   overrideSQL: false
   schema: ""
   sqlType: "152"
