@@ -1,0 +1,92 @@
+fileVersion: 1
+id: 7aedbc8a-d9cf-45a1-951f-cefe1a8df753
+name: STORE
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 28c03c22-64cb-490f-ba98-f1297adf233f
+          stepCounter: 7aedbc8a-d9cf-45a1-951f-cefe1a8df753
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: STORE_ID
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cbf63cf6-4f6a-45ce-a08c-d2cade52cae7
+          stepCounter: 7aedbc8a-d9cf-45a1-951f-cefe1a8df753
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cda1b70a-3cd6-4d65-8b93-9d7ce146db10
+          stepCounter: 7aedbc8a-d9cf-45a1-951f-cefe1a8df753
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: STORE_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a674f9b-dd82-4c9d-a342-384480d94b56
+          stepCounter: 7aedbc8a-d9cf-45a1-951f-cefe1a8df753
+        config: {}
+        dataType: VARCHAR(20)
+        defaultValue: ""
+        description: ""
+        name: PHONE_NO
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: STORE
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

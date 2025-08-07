@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 452b81ef-0428-4af8-b1d2-0a867f24c9ac
-name: TGCR_STR
+id: eff5cf71-e277-4d1f-8f63-5bcf72fe4bf5
+name: TGCR_ORDERS
 operation:
   config:
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
@@ -28,9 +28,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: TGCR_STR
+        name: TGCR_ORDERS
         noLinkRefs: []
-  name: TGCR_STR
+  name: TGCR_ORDERS
   overrideSQL: false
   schema: ""
   sqlType: "154"

@@ -424,7 +424,7 @@ does not permit copying or modification for any other purpose.
             {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
 
             {%- for p in predecessorTasks -%}
-                {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '.' + p -%}
+                {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p + '"' -%}
                 {%- if not loop.last -%} 
                     {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
                 {%- endif %}

@@ -1,0 +1,122 @@
+fileVersion: 1
+id: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+name: TSKWRK_PRODUCTS
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_ORDERS
+    rootTask: TGCR_ORDERS
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 35ff446f-7749-4d0e-9ccf-d3cec6bf92d0
+          stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2d88f91-da3d-4b14-b7ac-d7500fbc94b4
+                stepCounter: a2b8db8a-e41e-4fe5-b89a-3eed275bdb92
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0ba093dc-4348-47db-a587-b04a8af66272
+          stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2780b29e-b7de-4204-a6cc-d4be77c48df6
+                stepCounter: a2b8db8a-e41e-4fe5-b89a-3eed275bdb92
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94e5a75d-4435-4241-9336-83474bd61d16
+          stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 85c5fe21-1b28-4da7-b1f9-84be2cc04742
+                stepCounter: a2b8db8a-e41e-4fe5-b89a-3eed275bdb92
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 14002b6f-929e-4e1f-8c16-a35e01eb6aa7
+          stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: be9dd195-3ea7-48db-b9ac-6595203559de
+                stepCounter: a2b8db8a-e41e-4fe5-b89a-3eed275bdb92
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          PRODUCTS: a2b8db8a-e41e-4fe5-b89a-3eed275bdb92
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
+          - locationName: TARGET_DB
+            nodeName: TGCR_ORDERS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+            --{{ ref('TARGET_DB', 'TGCR_ORDERS') }}
+        name: TSKWRK_PRODUCTS
+        noLinkRefs: []
+  name: TSKWRK_PRODUCTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node

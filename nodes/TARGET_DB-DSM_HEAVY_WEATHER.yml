@@ -17,9 +17,9 @@ operation:
     groupByAll: false
     initialRows: true
     loadType: Merge
-    predTask: TGCR_STR
+    predTask: TGCR_str
     redeploymentBehavior: Create or Replace
-    rootTask: TGCR_STR
+    rootTask: TGCR_str
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
@@ -137,13 +137,13 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TGCR_STR
+            nodeName: TGCR_str
           - locationName: TGT
             nodeName: STG_HEAVY_WEATHER12
         join:
           joinCondition: |-
             FROM {{ ref('TGT', 'STG_HEAVY_WEATHER12') }} "STG_HEAVY_WEATHER"
-            --{{ ref('TARGET_DB', 'TGCR_STR') }}
+            --{{ ref('TARGET_DB', 'TGCR_str') }}
         name: DSM_HEAVY_WEATHER
         noLinkRefs: []
   name: DSM_HEAVY_WEATHER

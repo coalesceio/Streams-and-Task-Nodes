@@ -1,0 +1,125 @@
+fileVersion: 1
+id: c0603446-0f64-4f75-bd02-6c08d73d1241
+name: TGRR_ORDERS_FACT_PRODUCTS_STORE_TIME
+operation:
+  config:
+    rootTask: TGCR_ORDERS
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4a8d7206-f440-4531-9100-4cb5aede0caf
+          stepCounter: c0603446-0f64-4f75-bd02-6c08d73d1241
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f9fbd461-d025-4d18-a665-6de93cf94a60
+          stepCounter: c0603446-0f64-4f75-bd02-6c08d73d1241
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a25a4fc-bc57-4733-a9e7-4afecfb08f35
+          stepCounter: c0603446-0f64-4f75-bd02-6c08d73d1241
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e026bfb2-470a-43d6-856c-56a705f67816
+                stepCounter: 7bb59ac2-d986-4bac-b3a2-9e72f96d90e3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 168ff97e-272e-4fa3-8b25-946b91f0a74f
+          stepCounter: c0603446-0f64-4f75-bd02-6c08d73d1241
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c97ac0bf-35d5-4bb3-a6a7-54275c77f103
+                stepCounter: 7bb59ac2-d986-4bac-b3a2-9e72f96d90e3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5d75a2bb-9a81-44e7-9407-c2fb2797cb63
+          stepCounter: c0603446-0f64-4f75-bd02-6c08d73d1241
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5eccd29-7476-43a6-9a5e-dc26d51d6b49
+                stepCounter: 7bb59ac2-d986-4bac-b3a2-9e72f96d90e3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6581c3bf-5494-4cd9-8f11-cba61d0db8d2
+          stepCounter: c0603446-0f64-4f75-bd02-6c08d73d1241
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c134667d-4520-4b85-b07d-32f8bccb0c60
+                stepCounter: 7bb59ac2-d986-4bac-b3a2-9e72f96d90e3
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKFCT_ORDERS_FACT_PRODUCTS_STORE_TIME
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKFCT_ORDERS_FACT_PRODUCTS_STORE_TIME') }} "TSKFCT_ORDERS_FACT_PRODUCTS_STORE_TIME"
+        name: TGRR_ORDERS_FACT_PRODUCTS_STORE_TIME
+        noLinkRefs: []
+  name: TGRR_ORDERS_FACT_PRODUCTS_STORE_TIME
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node

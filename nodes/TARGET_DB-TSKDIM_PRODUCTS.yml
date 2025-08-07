@@ -1,0 +1,236 @@
+fileVersion: 1
+id: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+name: TSKDIM_PRODUCTS
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TSKWRK_PRODUCTS_TASK
+    rootTask: TGCR_ORDERS
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 699da162-599d-4276-a934-5978c204f6a2
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSurrogateKey: true
+        name: TSKDIM_PRODUCTS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 43ca4102-a6f8-4b8e-a978-db5afa04cae7
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        isBusinessKey: true
+        name: PRODUCT_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 35ff446f-7749-4d0e-9ccf-d3cec6bf92d0
+                stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: efca4efb-636d-4318-ae6d-06d99e1a6946
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0ba093dc-4348-47db-a587-b04a8af66272
+                stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b3eecd79-0ac0-4e9b-9dba-e13200638845
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 94e5a75d-4435-4241-9336-83474bd61d16
+                stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2683133a-b386-4029-9e75-45d4c766a072
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 14002b6f-929e-4e1f-8c16-a35e01eb6aa7
+                stepCounter: 361fd1b7-855f-4a94-b11a-dbed30bc2869
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 515c0341-a918-4440-8092-47cddd451823
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f18b63cf-3bb8-4c72-ae71-d25f519a445d
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f360241f-0b4e-4c47-9282-6a128036ac35
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 343d04ab-adb9-46ca-8beb-3c52f92ee95a
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4df21225-4562-4993-9243-7cae5c5c32f1
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f139f720-ea8b-4c46-a1bd-b1ed94b57294
+          stepCounter: a65fb7e6-f6bf-4be9-a10c-febae1f54982
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_PRODUCTS') }} "TSKWRK_PRODUCTS"
+        name: TSKDIM_PRODUCTS
+        noLinkRefs: []
+  name: TSKDIM_PRODUCTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "149"
+  type: sql
+  version: 1
+type: Node

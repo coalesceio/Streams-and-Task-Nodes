@@ -1,0 +1,122 @@
+fileVersion: 1
+id: c796a078-6a3c-4261-8eba-c8ee0dc6b1cf
+name: TSKWRK_TIME
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_ORDERS
+    rootTask: TGCR_ORDERS
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5f7290fe-4712-4bdc-bfeb-92c3a963ee39
+          stepCounter: c796a078-6a3c-4261-8eba-c8ee0dc6b1cf
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TIME_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6053d954-42c1-4184-bb4e-a323703b8049
+                stepCounter: 21fb97bc-693e-42db-9caf-3186273566e7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d8d0623-dd13-48ef-be06-f481cb040718
+          stepCounter: c796a078-6a3c-4261-8eba-c8ee0dc6b1cf
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 708baa23-0b73-45a1-b097-11c879f39945
+                stepCounter: 21fb97bc-693e-42db-9caf-3186273566e7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3ac5b526-9e2a-4efd-b054-3ab14373f833
+          stepCounter: c796a078-6a3c-4261-8eba-c8ee0dc6b1cf
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b4074f2-e6a8-43de-a682-1050ec5fd71b
+                stepCounter: 21fb97bc-693e-42db-9caf-3186273566e7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d1fb633-b795-4031-817d-1da8c3b33a9e
+          stepCounter: c796a078-6a3c-4261-8eba-c8ee0dc6b1cf
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9006c53a-43c6-40c4-b1c2-17f97d928add
+                stepCounter: 21fb97bc-693e-42db-9caf-3186273566e7
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          TIME: 21fb97bc-693e-42db-9caf-3186273566e7
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: TIME
+          - locationName: TARGET_DB
+            nodeName: TGCR_ORDERS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'TIME') }} "TIME"
+            --{{ ref('TARGET_DB', 'TGCR_ORDERS') }}
+        name: TSKWRK_TIME
+        noLinkRefs: []
+  name: TSKWRK_TIME
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
