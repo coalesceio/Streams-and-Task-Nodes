@@ -29,10 +29,10 @@ operation:
         - partColName:
             columnCounter: 665e8eaf-8d80-4597-a870-13a91ca04ebc
             stepCounter: 19ae2a7b-4b6d-41af-aa0b-e644fb8704ac
-    predTask: TGCR_STR
+    predTask: TGCR_str
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
-    rootTask: TGCR_STR
+    rootTask: TGCR_str
     scheduleCRON: ""
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
@@ -219,13 +219,13 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TGCR_STR
+            nodeName: TGCR_str
           - locationName: TGT
             nodeName: STG_CUSTOMERVW
         join:
           joinCondition: |-
             FROM {{ ref('TGT', 'STG_CUSTOMERVW') }} "STG_CUSTOMERVW"
-            --{{ ref('TARGET_DB', 'TGCR_STR') }}
+            --{{ ref('TARGET_DB', 'TGCR_str') }}
         name: SIM_CUSTOMERVW
         noLinkRefs: []
   name: SIM_CUSTOMERVW

@@ -3,7 +3,7 @@ id: 1ea4c2c7-1d64-4e6a-80c8-037cd68f7107
 name: TGRR_CUSTOMERVW
 operation:
   config:
-    rootTask: TGCR_STR
+    rootTask: TGCR_str
   database: ""
   deployEnabled: true
   description: ""
