@@ -686,7 +686,7 @@ does not permit copying or modification for any other purpose.
             {%- endif -%}
 
             {%-if currentState !=undefined -%}            
-            {%- if currentState.config.schedulePeriodOption == 'Predecessor' and  currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption -%}
+            {%- if currentState.config.schedulePeriodOption == 'Predecessor' and ( currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption or currentState.config.rootTask != desiredState.config.rootTask) -%}
                 {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
                 {{ stage('Suspend Root Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND

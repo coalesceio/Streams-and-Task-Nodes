@@ -382,7 +382,7 @@ does not permit copying or modification for any other purpose.
             ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
         {%- endif -%}
 
-        {%-if currentState !=undefined and currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption -%}            
+        {%-if currentState !=undefined and (currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption or currentState.config.rootTask != desiredState.config.rootTask)-%}            
         {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%}
             {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
