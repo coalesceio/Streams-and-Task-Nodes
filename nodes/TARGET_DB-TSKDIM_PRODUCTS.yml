@@ -23,8 +23,8 @@ operation:
     predTask: TSKWRK_PRODUCTS_TASK
     rootTask: TGCR_ORDERS
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
