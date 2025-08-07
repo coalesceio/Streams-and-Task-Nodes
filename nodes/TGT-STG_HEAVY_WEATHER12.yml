@@ -1,6 +1,6 @@
 fileVersion: 1
 id: d7bb59d9-fdba-42f0-a0f1-6a404e27b7c9
-name: STG_HEAVY_WEATHER
+name: STG_HEAVY_WEATHER12
 operation:
   config:
     insertStrategy: INSERT
@@ -84,9 +84,9 @@ operation:
             nodeName: HEAVY_WEATHER
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'HEAVY_WEATHER') }} "HEAVY_WEATHER"
-        name: STG_HEAVY_WEATHER
+        name: STG_HEAVY_WEATHER12
         noLinkRefs: []
-  name: STG_HEAVY_WEATHER
+  name: STG_HEAVY_WEATHER12
   overrideSQL: false
   schema: ""
   sqlType: Stage

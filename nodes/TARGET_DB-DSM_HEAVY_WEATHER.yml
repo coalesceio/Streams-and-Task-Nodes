@@ -139,10 +139,10 @@ operation:
           - locationName: TARGET_DB
             nodeName: TGCR_STR
           - locationName: TGT
-            nodeName: STG_HEAVY_WEATHER
+            nodeName: STG_HEAVY_WEATHER12
         join:
           joinCondition: |-
-            FROM {{ ref('TGT', 'STG_HEAVY_WEATHER') }} "STG_HEAVY_WEATHER"
+            FROM {{ ref('TGT', 'STG_HEAVY_WEATHER12') }} "STG_HEAVY_WEATHER"
             --{{ ref('TARGET_DB', 'TGCR_STR') }}
         name: DSM_HEAVY_WEATHER
         noLinkRefs: []
