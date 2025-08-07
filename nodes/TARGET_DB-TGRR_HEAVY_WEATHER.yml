@@ -1,0 +1,153 @@
+fileVersion: 1
+id: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+name: TGRR_HEAVY_WEATHER
+operation:
+  config:
+    rootTask: TGCR_STR
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59f6c92f-c7b2-4e9f-b42f-77acb6f24e20
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: baf6c737-cc49-460f-aaf2-3033587c8cf7
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b6c190d1-86da-48ff-bd6c-8714d987cac5
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: START_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f76e3a4d-b676-4d24-9fea-918ed5a1723b
+                stepCounter: 669aaff7-173b-481d-ae8a-9816ab513bfc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 72217800-f258-4aa9-af43-5e8323597cc8
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dataType: NUMBER(3,2)
+        description: ""
+        name: PRECIP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d3439ad-cf8d-4e7c-89e1-964be7fbcc3b
+                stepCounter: 669aaff7-173b-481d-ae8a-9816ab513bfc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: decdf427-e035-4248-ace1-88332a856dbf
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6b0f4c9e-ace2-46ab-947f-6b419f073aef
+                stepCounter: 669aaff7-173b-481d-ae8a-9816ab513bfc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0b1293f-6886-4c48-abff-48356eab594e
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: COUNTY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 53e6a3d4-8d55-4987-adf1-3c3f67350d42
+                stepCounter: 669aaff7-173b-481d-ae8a-9816ab513bfc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: aa1612eb-6520-41c1-bcfe-7cea9e5f33bb
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3fa2856b-8c80-40ee-a95d-6618e7285a1e
+                stepCounter: 669aaff7-173b-481d-ae8a-9816ab513bfc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 77445974-1096-453a-899a-ef81ed2fd3cf
+          stepCounter: 69c2d4fc-c5aa-46fe-97a4-0cdaac25fdbe
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2eb68002-4d7f-4fa7-9a0e-16b0a9a56395
+                stepCounter: 669aaff7-173b-481d-ae8a-9816ab513bfc
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: DSM_HEAVY_WEATHER
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'DSM_HEAVY_WEATHER') }} "DSM_HEAVY_WEATHER"
+        name: TGRR_HEAVY_WEATHER
+        noLinkRefs: []
+  name: TGRR_HEAVY_WEATHER
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node

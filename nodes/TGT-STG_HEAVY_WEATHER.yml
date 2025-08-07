@@ -1,0 +1,95 @@
+fileVersion: 1
+id: d7bb59d9-fdba-42f0-a0f1-6a404e27b7c9
+name: STG_HEAVY_WEATHER
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TGT
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a7a3443-a744-4fc1-9fc5-4ded52f0e9bf
+          stepCounter: d7bb59d9-fdba-42f0-a0f1-6a404e27b7c9
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: START_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2d9c7155-1c1c-4cf6-9c2f-4700141ac6e3
+                stepCounter: 1d65b356-622f-4c0f-9061-4b999bb1263c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04160b64-7f3f-49d7-b99a-64da8e4cf31f
+          stepCounter: d7bb59d9-fdba-42f0-a0f1-6a404e27b7c9
+        config: {}
+        dataType: NUMBER(3,2)
+        description: ""
+        name: PRECIP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 79ebc1d9-6cd0-44b2-bfa9-43992067bf37
+                stepCounter: 1d65b356-622f-4c0f-9061-4b999bb1263c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 901d5bb5-479a-4b23-b6ba-c51ef91fa2a4
+          stepCounter: d7bb59d9-fdba-42f0-a0f1-6a404e27b7c9
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: da612a75-06f8-4427-a407-c69e7100f4be
+                stepCounter: 1d65b356-622f-4c0f-9061-4b999bb1263c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 54216c77-46b0-447a-a932-4b468af2740e
+          stepCounter: d7bb59d9-fdba-42f0-a0f1-6a404e27b7c9
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: COUNTY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 68499b49-3ea3-40ff-93d8-da5e238feb6e
+                stepCounter: 1d65b356-622f-4c0f-9061-4b999bb1263c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: HEAVY_WEATHER
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'HEAVY_WEATHER') }} "HEAVY_WEATHER"
+        name: STG_HEAVY_WEATHER
+        noLinkRefs: []
+  name: STG_HEAVY_WEATHER
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

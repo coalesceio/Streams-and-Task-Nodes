@@ -20,7 +20,7 @@ does not permit copying or modification for any other purpose.
 
     {% set refLinkPred = "{{ ref('" + sourceStorageLocation + "', '" + desiredState.sources[0].dependencies[0].node.name + "') }}" %}
 
-    {{ stage('Try Enable Root Task') }}
+    {{ stage('Try Enable Root Task',true,"sql","create") }}
     begin
     
         let sqlDml1 := 'select system$task_dependents_enable(''{{refLinkPred}}'')';
