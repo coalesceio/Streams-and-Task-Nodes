@@ -106,7 +106,7 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TSKDIM_ORDERS_FACT
+            nodeName: TSKDIM_ORDERS_FACT1
           - locationName: TARGET_DB
             nodeName: TSKDIM_PRODUCTS
           - locationName: TARGET_DB
@@ -115,7 +115,7 @@ operation:
             nodeName: TSKDIM_TIME
         join:
           joinCondition: |-
-            FROM {{ ref('TARGET_DB', 'TSKDIM_ORDERS_FACT') }} "TSKDIM_ORDERS_FACT"
+            FROM {{ ref('TARGET_DB', 'TSKDIM_ORDERS_FACT1') }} "TSKDIM_ORDERS_FACT"
             INNER JOIN {{ ref('TARGET_DB', 'TSKDIM_PRODUCTS') }} "TSKDIM_PRODUCTS"
             ON "TSKDIM_ORDERS_FACT"."PRODUCT_ID" = "TSKDIM_PRODUCTS"."PRODUCT_ID"
             INNER JOIN {{ ref('TARGET_DB', 'TSKDIM_STORE') }} "TSKDIM_STORE"

@@ -1,6 +1,6 @@
 fileVersion: 1
 id: ca3ab631-3607-41eb-9190-1110b6cb141f
-name: STG_CHAMP_SCORE
+name: STG_CHAMP_SCORE1
 operation:
   config:
     insertStrategy: INSERT
@@ -70,9 +70,9 @@ operation:
             nodeName: CHAMP_SCORE
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'CHAMP_SCORE') }} "CHAMP_SCORE"
-        name: STG_CHAMP_SCORE
+        name: STG_CHAMP_SCORE1
         noLinkRefs: []
-  name: STG_CHAMP_SCORE
+  name: STG_CHAMP_SCORE1
   overrideSQL: false
   schema: ""
   sqlType: Stage

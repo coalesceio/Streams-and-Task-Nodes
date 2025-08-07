@@ -92,10 +92,10 @@ operation:
           - locationName: TARGET_DB
             nodeName: TGCR_ND_VW
           - locationName: TGT
-            nodeName: STG_CHAMP_SCORE
+            nodeName: STG_CHAMP_SCORE1
         join:
           joinCondition: |-
-            FROM {{ ref('TGT', 'STG_CHAMP_SCORE') }} "STG_CHAMP_SCORE"
+            FROM {{ ref('TGT', 'STG_CHAMP_SCORE1') }} "STG_CHAMP_SCORE"
             --{{ref('TARGET_DB', 'TGCR_ND_VW')}}
         name: TSKWRK_CHAMP_SCORE12
         noLinkRefs: []

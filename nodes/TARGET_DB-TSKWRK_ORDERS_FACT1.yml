@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 9628745b-8b94-4766-ae83-9be933abdd43
-name: TSKWRK_ORDERS_FACT
+name: TSKWRK_ORDERS_FACT1
 operation:
   config:
     clusterKey: false
@@ -125,9 +125,9 @@ operation:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'ORDERS_FACT') }} "ORDERS_FACT"
             --{{ ref('TARGET_DB', 'TGCR_ORDERS') }}
-        name: TSKWRK_ORDERS_FACT
+        name: TSKWRK_ORDERS_FACT1
         noLinkRefs: []
-  name: TSKWRK_ORDERS_FACT
+  name: TSKWRK_ORDERS_FACT1
   overrideSQL: false
   schema: ""
   sqlType: "151"
