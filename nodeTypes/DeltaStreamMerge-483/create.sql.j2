@@ -31,14 +31,20 @@ does not permit copying or modification for any other purpose.
 	
     {% else %}	
     {# Source Object Location and Name #}
-    {% set sourceStorageLocation = desiredState.sources[0].dependencies[0].node.location.name %}
-    {% set sourceDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='database') | first %}
-    {% set sourceSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='schema') | first %}
+     
+     {% set ns = namespace(sourceStorageLocation ="",sourceTableName ="") %}  
+      {% for dependency in desiredState.sources[0].dependencies %}
+        {% if dependency.materializationType != 'task' %} 
+            {% set ns.sourceStorageLocation = dependency.node.location.name %}
+            {% set ns.sourceTableName = dependency.node.name %}
+        {% endif %}
+      {% endfor %}
+      
+    {% set sourceDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', ns.sourceStorageLocation) | map(attribute='database') | first %}
+    {% set sourceSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', ns.sourceStorageLocation) | map(attribute='schema') | first %}
 	
-
-    {% set sourceTableName = desiredState.sources[0].dependencies[0].node.name %}
-    {% set fullyQualifiedSourceTableName = '"' + sourceDatabaseName + '"."' + sourceSchemaName + '"."' + sourceTableName + '"' %}
-    {% set refLink = "{{ ref('" + sourceStorageLocation + "', '" + sourceTableName + "') }}" %}
+    {% set fullyQualifiedSourceTableName = '"' + sourceDatabaseName + '"."' + sourceSchemaName + '"."' + ns.sourceTableName + '"' %}
+    {% set refLink = "{{ ref('" + ns.sourceStorageLocation + "', '" + ns.sourceTableName + "') }}" %}
     {% endif %}
 	
     {# Target Stream Location and Name #}
@@ -99,7 +105,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState%}
 
     {% if currentState == undefined %}
-        {{ stage('Create Stream') }}
+        {{ stage('Create Stream',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -108,7 +114,7 @@ does not permit copying or modification for any other purpose.
 
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists'%}
-        {{ stage('Create Stream If Not Exists') }}
+        {{ stage('Create Stream If Not Exists',true,"sql","create") }}
         CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -116,13 +122,13 @@ does not permit copying or modification for any other purpose.
             {{ streamInsertOnlyMode }}
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream'%}
-        {{ stage('Re-Create Stream at existing offset') }}
+        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
 
         {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create or Replace'%}
-        {{ stage('Create Stream') }}
+        {{ stage('Create Stream',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -188,7 +194,7 @@ does not permit copying or modification for any other purpose.
  
                 {# Change in materialization type #}
  
-                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+                {{ stage('Drop ' + currentState.config.createas + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","drop") }}
  
                  {% if currentState.config.createas == 'view' %}
                       DROP {{currentState.config.createas}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
@@ -196,7 +202,7 @@ does not permit copying or modification for any other purpose.
                       DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
                 {% endif %}
                  
-                {{ stage('Create Work '+ ' {{desiredState.config.createas}}') }}
+                {{ stage('Create Work '+ ' {{desiredState.config.createas}}',true,"sql","create") }}
                CREATE OR REPLACE {{desiredState.config.createas}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 (
                 {% for col in desiredState.columns %}
@@ -211,10 +217,10 @@ does not permit copying or modification for any other purpose.
                {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
  
                {% if desiredState.config.clusterKey == true %}
-                  {{ stage('Apply Table Clustering') }}
+                  {{ stage('Apply Table Clustering',true,"sql","create") }}
                  ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
  
-                   {{ stage('Resume Recluster Table') }}
+                   {{ stage('Resume Recluster Table',true,"sql","create") }}
                   ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
  
                {% endif %}
@@ -222,7 +228,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
  
         {% if currentState == undefined or currentState.storageLocations | length == 0%}
-            {{ stage('Create Work '+ ' {{desiredState.config.createas}}') }}
+            {{ stage('Create Work '+ ' {{desiredState.config.createas}}',true,"sql","create") }}
             CREATE OR REPLACE {{desiredState.config.createas}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
                 {% for col in desiredState.columns %}
@@ -238,97 +244,44 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
  
             {% if desiredState.config.clusterKey == true %}
-                {{ stage('Apply Table Clustering') }}
+                {{ stage('Apply Table Clustering',true,"sql","create") }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
     
-                {{ stage('Resume Recluster Table') }}
+                {{ stage('Resume Recluster Table',true,"sql","create") }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
             {% endif %}
  
         {% elif currentState != undefined and currentState.config.createas == desiredState.config.createas %}
+
+			{% set nsVariables = namespace(storageLocationTest=true) %}
  
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}
             {# Only need to account for updated Storage Location mappings   #}
-            {# Current Namespace Varialbes #}
-
-			{% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
- 
-            {# Current State Storage Location Info #}
-            {% for source in currentState.sources %}
-                {% for dep in source.dependencies %}
-                    {% set depSourceLocation = dep.node.location.name %}
-                    {% if loop.first %}
-                        {% set nsVariables.nsCurrentDepStorageLocations = depSourceLocation %}
-                    {% else %}
-                        {% set nsVariables.nsCurrentDepStorageLocations = nsVariables.nsCurrentDepStorageLocations + ',' + depSourceLocation %}
-                    {% endif %}
-                {% endfor %}
-               
-                {% if loop.first %}
-                    {% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentDepStorageLocations %}
-                {% else %}
-                    {% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentDepStorageLocations %}
-                {% endif %}
-            {% endfor %}
- 
-            {% set nsVariables.nsCurrentTargetStorageLocations = currentState.node.location.name  %}
- 
-            {% set nsVariables.nsCurrentUsedStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentTargetStorageLocations %}
- 
-            {% set currentStorageLocations = (nsVariables.nsCurrentUsedStorageLocations).split(',') | list %}
-            {% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
- 
-            {# Desired State Storage Location Info #}
-            {% for source in desiredState.sources %}
-                {% for dep in source.dependencies %}
-                    {% set depSourceLocation = dep.node.location.name %}
-                    {% if loop.first %}
-                        {% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
-                    {% else %}
-                        {% set nsVariables.nsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
-                    {% endif %}
-                {% endfor %}
-               
-                {% if loop.first %}
-                    {% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredDepStorageLocations %}
-                {% else %}
-                    {% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredDepStorageLocations %}
-                {% endif %}
-            {% endfor %}
- 
-            {% set nsVariables.nsDesiredTargetStorageLocations = desiredState.node.location.name  %}
- 
-            {% set nsVariables.nsDesiredUsedStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredTargetStorageLocations %}
- 
-            {% set desiredStorageLocations = (nsVariables.nsDesiredUsedStorageLocations).split(',') | list %}
-            {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
- 
-            {# Test  #}
-            {% set nsVariables.storageLocationTest = true %}
-            {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
- 
-            {% for name in desiredUniqueStorageLocations if nsVariables.storageLocationTest == true %}
-                {# Current mappings #}
-                 {%if currentState.storageLocations|length == 0%}
-              
-              {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | string %}
-              {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | string %}
+             {# Test  #}
+             
+            {%if currentState.storageLocations|length == 0%}          
+              {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | string %}
+              {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | string %}
                {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
-            {%elif name in currentUniqueStorageLocations %}
-                {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
-                {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-                {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
-            {%endif%}               
-                {# Desired mappings #}
-                {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
-                {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-                {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
- 
-                {% if currentDatabaseSchema != desiredDatabaseSchema %}
-                    {% set nsVariables.storageLocationTest = false %}
-                {% endif %}
-            {% endfor %}
+               
+            {%else %}   
+               {# Current target node mappings #}
+               {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | first %}
+               {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | first %}
+               {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}  
+			{% endif %}		 
+        
+            {# Desired target node mappings #}
+            {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='database') | first %}
+            {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
+            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}           
+            
+             {% if currentDatabaseSchema != desiredDatabaseSchema %}
+                {% set nsVariables.storageLocationTest = false %}
+             {% endif %}
+            
+            {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
  
             {# Clustering Test #}
             {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
@@ -360,7 +313,7 @@ does not permit copying or modification for any other purpose.
  
 
             {# Change table description #}
-            {% if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
+            {% if (nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
                  {{ stage('Change table description') }}
                  ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 SET COMMENT = '{{ desiredState.node.description | escape }}'
@@ -555,7 +508,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState and currentState != desiredState   %}
 
     {% if desiredState.config.initialRows == true %}           
-        {{ stage('Target Table Initial Load') }}
+        {{ stage('Target Table Initial Load',true,"sql","create") }}
         
         {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
         {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
@@ -596,7 +549,7 @@ does not permit copying or modification for any other purpose.
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
                     {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
                 ,"METADATA$ACTION" AS METADATA$ACTION,
@@ -656,15 +609,15 @@ does not permit copying or modification for any other purpose.
         {% if desiredState.config.devMode == false %}
             {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%}
                 {% set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask) %}
-                {{ stage('Suspend Root Task') }}
+                {{ stage('Suspend Root Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
             {%- endif -%}
   
             
             {%-if currentState !=undefined -%}            
-            {%- if currentState.config.schedulePeriodOption == 'Predecessor' and  currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption-%}
+            {%- if currentState.config.schedulePeriodOption == 'Predecessor' and ( currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption or currentState.config.rootTask != desiredState.config.rootTask)-%}
                 {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
-                {{ stage('Suspend Root Task') }}
+                {{ stage('Suspend Root Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
             {%- endif -%}
             {%-endif -%}
@@ -725,7 +678,7 @@ does not permit copying or modification for any other purpose.
                 {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
  
                 {%- for p in predecessorTasks -%}
-                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '.' + p -%}
+                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p + '"'-%}
                     {%- if not loop.last -%}
                         {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
                     {%- endif %}
@@ -744,7 +697,7 @@ does not permit copying or modification for any other purpose.
             {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
             {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
  
-            {{ stage('Create Task') }}
+            {{ stage('Create Task',true,"sql","create") }}
             CREATE OR REPLACE TASK
                 {{ fullyQualifiedTaskName }}
                 {{ taskType}}
@@ -764,7 +717,7 @@ does not permit copying or modification for any other purpose.
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
                     {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" 
+                    {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" 
                     {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
@@ -817,7 +770,7 @@ does not permit copying or modification for any other purpose.
 							  					 
  
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%}
-                {{ stage('Resume Task') }}
+                {{ stage('Resume Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}
         {%- endif -%}
@@ -832,8 +785,7 @@ does not permit copying or modification for any other purpose.
     {% if currentState.config.devMode == false %}
 		{# FQ Root Task name #}							   
 		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
-																																   
- 
+																								
         {# Task Info #}
         {% set taskName = currentState.node.name + '_TASK' %}
         {% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}

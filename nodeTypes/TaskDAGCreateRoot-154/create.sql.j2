@@ -52,10 +52,10 @@ does not permit copying or modification for any other purpose.
     {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON+"'" %}
 {%- endif -%}
 
-{{ stage('Suspend Root Task') }}
+{{ stage('Suspend Root Task',true,"sql","create") }}
 ALTER TASK IF EXISTS {{ fullyQualifiedTaskName }} SUSPEND
 
-{{ stage('Create Task') }}
+{{ stage('Create Task',true,"sql","create") }}
 CREATE OR REPLACE TASK 
     {{ fullyQualifiedTaskName }} 
     {{ taskType}} 
@@ -74,9 +74,9 @@ AS
 {% set taskName = currentState.node.name  %}
 {% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
 
-{{ stage('Suspend Root Task') }}
+{{ stage('Suspend Root Task',true,"sql","create") }}
     ALTER TASK IF EXISTS {{ fullyQualifiedTaskName }} SUSPEND
-{{ stage('Drop Current Task') }}
+{{ stage('Drop Current Task',true,"sql","create") }}
     DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
 
 {% endif %}

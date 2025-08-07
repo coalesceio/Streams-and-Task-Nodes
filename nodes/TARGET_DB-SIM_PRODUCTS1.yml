@@ -17,13 +17,14 @@ operation:
     flagSrcStream: true
     groupByAll: false
     initialRows: true
-    loadType: Insert
+    loadType: Merge
     orderBy:
       items:
-        - {}
+        - colName: null
+          sortOrd: desc
     partitionBy:
       items:
-        - {}
+        - partColName: null
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: false
     redeploymentBehavior: Create At Existing Stream

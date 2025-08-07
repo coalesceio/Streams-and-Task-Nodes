@@ -14,7 +14,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
     initialRows: true

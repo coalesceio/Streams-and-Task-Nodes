@@ -83,7 +83,7 @@ does not permit copying or modification for any other purpose.
 {% if desiredState %}
 
     {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
-        {{ stage('Create Stream') }}
+        {{ stage('Create Stream',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -91,7 +91,7 @@ does not permit copying or modification for any other purpose.
             {{ streamInsertOnlyMode }}
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists' and desiredState !=currentState %}
-        {{ stage('Re-Create Stream at existing offset') }}
+        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
         CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             {{ streamAppendMode }}
@@ -99,7 +99,7 @@ does not permit copying or modification for any other purpose.
             {{ streamInsertOnlyMode }}
 
     {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' and desiredState !=currentState %}
-        {{ stage('Re-Create Stream at existing offset') }}
+        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
             AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');

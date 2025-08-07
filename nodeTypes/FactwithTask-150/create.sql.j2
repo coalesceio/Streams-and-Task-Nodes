@@ -92,7 +92,7 @@ does not permit copying or modification for any other purpose.
     {% endif %}
 
     {% if currentState == undefined or nsVariables.colchanges == 1 or currentState.storageLocations | length == 0%}
-        {{ stage('Create Fact Table') }}
+        {{ stage('Create Fact Table',true,"sql","create") }}
         CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (
             {% for col in desiredState.columns %}
@@ -112,10 +112,10 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {% if desiredState.config.clusterKey == true %}
-            {{ stage('Apply Table Clustering') }}
+            {{ stage('Apply Table Clustering',true,"sql","create") }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
 
-            {{ stage('Resume Recluster Table') }}
+            {{ stage('Resume Recluster Table',true,"sql","create") }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
         {% endif %}
 
@@ -124,93 +124,38 @@ does not permit copying or modification for any other purpose.
         {# Change Node Name or Change Storage Location #}
         {# Storage Location Tests #}
         {# Only need to account for updated Storage Location mappings   #}     
-         {# Current and Desired Namespace Varialbes initialisation #}
-
-         {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
-
-        {# Current State Storage Location Info #}
-        {% for source in currentState.sources %}
-            {% for dep in source.dependencies %}
-                {% set depSourceLocation = dep.node.location.name %}
-                {% if loop.first %}
-                    {% set nsVariables.nsCurrentDepStorageLocations = depSourceLocation %}
-                {% else %}
-                    {% set nsVariables.nsCurrentDepStorageLocations = nsVariables.nsCurrentDepStorageLocations + ',' + depSourceLocation %}
-                {% endif %}
-            {% endfor %}
-            
-            {% if loop.first %}
-                {% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentDepStorageLocations %}
-            {% else %}
-                {% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentDepStorageLocations %}
-            {% endif %}
-        {% endfor %}
-
-        {% set nsVariables.nsCurrentTargetStorageLocations = currentState.node.location.name  %}
-
-        {% set nsVariables.nsCurrentUsedStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentTargetStorageLocations %}
-
-        {% set currentStorageLocations = (nsVariables.nsCurrentUsedStorageLocations).split(',') | list %}
-        {% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
-
-        {# Desired State Storage Location Info #}
-        {% for source in desiredState.sources %}
-            {% for dep in source.dependencies %}
-                {% set depSourceLocation = dep.node.location.name %}
-                {% if loop.first %}
-                    {% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
-                {% else %}
-                    {% set nsVariables.nsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
-                {% endif %}
-            {% endfor %}
-            
-            {% if loop.first %}
-                {% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredDepStorageLocations %}
-            {% else %}
-                {% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredDepStorageLocations %}
-            {% endif %}
-        {% endfor %}
-
-        {% set nsVariables.nsDesiredTargetStorageLocations = desiredState.node.location.name  %}
-
-        {% set nsVariables.nsDesiredUsedStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredTargetStorageLocations %}
-
-        {% set desiredStorageLocations = (nsVariables.nsDesiredUsedStorageLocations).split(',') | list %}
-        {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
-
-        {# Test  #}
-        {% set nsVariables.storageLocationTest = true %}
-        {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
+         {% set nsVariables = namespace(storageLocationTest=true) %}
         
-        {% for name in desiredUniqueStorageLocations if nsVariables.storageLocationTest == true %}
-            {# Current mappings #}
-           {%if currentState.storageLocations|length == 0%}
-              
-              {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | string %}
-              {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | string %}
+            {# Test  #}
+            {%if currentState.storageLocations|length == 0%}          
+              {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | string %}
+              {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | string %}
                {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
-            {%elif name in currentUniqueStorageLocations %}
-            {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
-            {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-            {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
-			{%endif%}		 
+               
+            {%else %}   
+            {# Current target node mappings #}
+            {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | first %}
+            {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | first %}
+            {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}  
+			{% endif %}		 
+        
+            {# Desired target node mappings #}
+            {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='database') | first %}
+            {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
+            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}           
             
-            {# Desired mappings #}
-            {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
-            {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
-
-            {% if currentDatabaseSchema != desiredDatabaseSchema %}
+             {% if currentDatabaseSchema != desiredDatabaseSchema %}
                 {% set nsVariables.storageLocationTest = false %}
-            {% endif %}
-        {% endfor %}
-
+             {% endif %}
+   
         {# Clustering Test #}
         {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
         {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
         {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig == desiredState.config.clusterKeyConfig %}
         {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions == desiredState.config.clusterKeyConfigExpressions %}
 
+        {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
+ 
         {% if 
             clusterKeyTest == false or
             clusterKeyExpressionsTest == false or
@@ -235,7 +180,7 @@ does not permit copying or modification for any other purpose.
 
 
         {# Change table description #}
-        {% if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
+        {% if (nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
             {{ stage('Change table description') }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             SET COMMENT = '{{ desiredState.node.description | escape }}'
@@ -433,22 +378,22 @@ does not permit copying or modification for any other purpose.
     {% if desiredState.config.devMode == false %}
 		{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
 			{% set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask) %}
-            {{ stage('Suspend Root Task') }}
+            {{ stage('Suspend Root Task',true,"sql","create") }}
             ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
         {%- endif -%}
 
-        {%-if currentState !=undefined and currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption -%}            
+        {%-if currentState !=undefined and (currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption or currentState.config.rootTask != desiredState.config.rootTask)-%}            
         {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%}
             {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
-            {{ stage('Suspend Root Task') }}
+            {{ stage('Suspend Root Task',true,"sql","create") }}
 
             ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
 
         {%- endif -%}
         {%-endif -%}
 
-        {{ stage('Create Task') }}
+        {{ stage('Create Task',true,"sql","create") }}
         {# Set Namespace Variables #}
         {% set nsVariables = namespace(taskWhenRun="") %}
         {% set nsVariables = namespace(poll="WHEN ") %}
@@ -481,7 +426,7 @@ does not permit copying or modification for any other purpose.
             {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
 
             {%- for p in predecessorTasks -%}
-                {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '.' + p -%}
+                {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p+'"' -%}
                 {%- if not loop.last -%} 
                     {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
                 {%- endif %}
@@ -633,7 +578,7 @@ does not permit copying or modification for any other purpose.
 										 
 
         {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
-            {{ stage('Resume Created Task') }}
+            {{ stage('Resume Created Task',true,"sql","create") }}
             ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
         {%- endif -%}
     {%- endif -%}
