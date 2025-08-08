@@ -1,0 +1,276 @@
+fileVersion: 1
+id: 1a043c78-1772-4e65-9655-12ca97405a96
+name: TSKWRK_EMPLOYEES
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TGCR_ROOT
+    rootTask: TGCR_ROOT
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8e5e8c7-46de-4134-8621-69f2dedabba0
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EMPLOYEEID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 28e29595-8883-4f8e-af01-70546cb7c426
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b3ef9341-37d1-42c3-b920-32961d37a665
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: LASTNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10590083-bfda-4fbd-9a87-371f5f1844c4
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 17999f1b-ab81-4ddb-a87d-1b08aac58787
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: FIRSTNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e3fe214c-c659-4ada-ba25-2e3d4f1e1544
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 53fcdddf-0b0a-47e1-ad93-43e7489c9635
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(450)
+        description: ""
+        name: TITLE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 22d25aee-09f9-4c56-8478-2e8e75f2f73e
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 345d30fd-716d-4c95-8abb-a39bb46c036a
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(700)
+        description: ""
+        name: TITLEOFCOURTESY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8ee4e16e-c38e-4e97-88ea-5500d5206d00
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: be3b4ff6-97cb-457e-aa8a-361d0d6f6f6d
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: DATE
+        description: ""
+        name: BIRTHDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3e486ab2-5fff-48ea-9402-eabe21f1867b
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 088821fa-103f-43f5-9f16-4f1520097a50
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: DATE
+        description: ""
+        name: HIREDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ee5eca1f-8ccf-43d2-8b64-ce3a1203d2b5
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8ad4e559-f3ca-4156-86d4-51dc390d04cb
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(1000)
+        description: ""
+        name: ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 69180785-bf25-47ca-a320-d5d8a3c4c63b
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e1152196-6d6f-405e-acc5-556fa356a7b9
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(700)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6746e061-100d-4360-961e-e61ee7c6ac55
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c026d7ac-df21-4ef3-9866-8003631dfed8
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(800)
+        description: ""
+        name: REGION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e77da826-4421-4644-8b46-25da81ee2ca2
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 039b2871-99b5-4b5e-abb5-16ef179dad64
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(800)
+        description: ""
+        name: POSTALCODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 74fce501-6d18-433b-8ec4-649d1bd5a5c3
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 845c2136-6f72-497c-bbb4-479274d6e6a3
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(800)
+        description: ""
+        name: COUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d65e9e31-fd10-45a0-aa2a-a45f5ecaf461
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bb146482-9b89-4670-ba9a-cc1fdb53dafd
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: VARCHAR(400)
+        description: ""
+        name: HOMEPHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c9d5cba6-1b75-40d5-9510-6c0b755c1b49
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e99e4d8-c259-431c-b788-0034d4118205
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EXTENSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f9600fb5-8bfd-4f33-943a-9caa2e2dd0b7
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 82dec868-3f65-4835-9096-265180a45380
+          stepCounter: 1a043c78-1772-4e65-9655-12ca97405a96
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: REPORTSTO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 51bcbe9d-0a17-42c5-b3e5-df12f83827fe
+                stepCounter: 06762122-f1db-4869-b154-8f40f305ef09
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EMPLOYEES: 06762122-f1db-4869-b154-8f40f305ef09
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EMPLOYEES
+          - locationName: TARGET_DB
+            nodeName: TGCR_ROOT
+        join:
+          joinCondition: |
+            FROM {{ ref('SOURCE_DATA', 'EMPLOYEES') }} "EMPLOYEES"
+            --{{ ref('TARGET_DB', 'TGCR_ROOT')}}
+        name: TSKWRK_EMPLOYEES
+        noLinkRefs: []
+  name: TSKWRK_EMPLOYEES
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
