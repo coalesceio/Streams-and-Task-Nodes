@@ -103,20 +103,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bf158e7d-5d12-490a-b35b-fcef273a9e15
-          stepCounter: 3608341b-b948-4ec0-be21-ecdcb3134855
-        config: {}
-        dataType: VARCHAR(79)
-        description: ""
-        name: O_COMMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 3359fa03-c85d-4495-98e8-62dc996608ae
-                stepCounter: c6cb3823-5671-4375-8fa2-85a4dbd15f8b
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 4803ec0a-5dbd-48d7-b876-1339ecfb7c9a
           stepCounter: 3608341b-b948-4ec0-be21-ecdcb3134855
         config: {}
