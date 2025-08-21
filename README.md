@@ -1160,7 +1160,7 @@ If the nodes are redeployed with no changes compared to previous deployment, the
 
 ## Delta Stream Merge
 
-The Coalesce Delta Stream Merge UDN is a node that allows you to develop and deploy a stream on top of a table, view or dynamic table. Also, provides option to create a target table to merge data handling inserts,deletes and updates from source with a task on top of it.
+The Coalesce Delta Stream Merge UDN is a node that allows you to develop and deploy a stream on top of a table, view ,dynamic table,external iceberg and external table. Also, provides option to create a target table to merge data handling inserts,deletes and updates from source with a task on top of it.
 
 A stream logically takes an initial snapshot of every row in the source object (e.g. table, dynamic table, or the underlying tables for a view) by initializing a point in time (called an offset) as the current transactional version of the object. The change tracking system utilized by the stream then records information about the DML changes after this snapshot was taken. Change records provide the state of a row before and after the change. Change information mirrors the column structure of the tracked source object and includes additional metadata columns that describe each change event.
 
@@ -1198,14 +1198,15 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Propagate Deletes : True/False toggle for adding filter for condition METADATA$ACTION != 'DELETE' <br/>- Redeployment Behavior: Options for redeployment<br/>**Dynamic Table**:<br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/>**View**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Redeployment Behavior: Options for redeployment |
+| **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Propagate Deletes : True/False toggle for adding filter for condition METADATA$ACTION != 'DELETE' <br/>- Redeployment Behavior: Options for redeployment<br/>**Dynamic Table**:<br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/>**View**:<br/>- Append Only Stream: True/False toggle for stream type<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Redeployment Behavior: Options for redeployment**External Table**:<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Redeployment Behavior: Options for redeployment**External Table**:<br/>- Show Initial Rows: True/False toggle for initial records<br/>- Redeployment Behavior: Options for redeployment |
 
 #### Delta Stream Merge Target Loading Options
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Load Type** | Choose data loading method:<br/>**Insert** - Data inserted from source<br/>**Merge** - Latest record changes merged into target |
-| **Business keys** | Business key columns for merging data (enabled for Merge load type) |
+| **Table keys** | Business key columns for merging data (enabled for Merge load type) |
+| **Record Date/Timestamp** | Date/Timestamp column for latest record merging (enabled for Merge load type) |
+| **Qualifies selection based on Table Key and Record Date / Timestamp** | True/False toggle for clustering<br/>**True** - Adds qualify keyword to add only latest records from source |
 | **Cluster key** | True/False toggle for clustering<br/>**True** - Specify clustering column and expressions. - **Allow Expressions Cluster Key**: Add an expression to the specified cluster key.<br/>**False** - No clustering |
 
 #### Delta Stream Merge Scheduling Options
