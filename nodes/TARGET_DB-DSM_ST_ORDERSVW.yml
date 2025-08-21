@@ -77,20 +77,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e854dfe9-f5c0-4b62-98dc-ce22f6818cd4
-          stepCounter: 6fe5941e-21b6-42b2-b1df-fb1523a968d2
-        config: {}
-        dataType: VARCHAR(1)
-        description: ""
-        name: O_ORDERSTATUS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 4b806584-b36d-44b8-a473-ad4af9a4cb40
-                stepCounter: 7eb26ced-779a-4b9d-a20e-840012ec6b3b
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: e0d5208d-2d01-410d-a62d-d7f8d3528e9f
           stepCounter: 6fe5941e-21b6-42b2-b1df-fb1523a968d2
         config: {}
