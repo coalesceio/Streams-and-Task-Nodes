@@ -40,6 +40,8 @@ metadata:
           - Table
           - Dynamic Table
           - View
+          - External Table
+          - External Iceberg Table
         isRequired: true
      
       - displayName: Show Initial Rows

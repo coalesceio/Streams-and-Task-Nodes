@@ -94,97 +94,107 @@ does not permit copying or modification for any other purpose.
 
 
     {{ stage('Delta Stream Merge') }}
+    
     BEGIN
-        {# First MERGE: Handle DELETEs (both standalone and DELETE portion of UPDATEs) #}
-        MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
-        -- Select Statement Preparing Data for Merge - DELETE Operations
-        (SELECT  
-                 {% for id in tableColumnIds %}
+        BEGIN TRANSACTION;
+            {# First MERGE: Handle DELETEs (both standalone and DELETE portion of UPDATEs) #}
+            MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
+            -- Select Statement Preparing Data for Merge - DELETE Operations
+            (SELECT  
+                    {% for id in tableColumnIds %}
 
-                    {% set columnTransformation = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
-                    {%- if columnTransformation == "" -%}
-                    {% set col =  sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
-                    "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- else -%}
-                    {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- endif %}
+                        {% set columnTransformation = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
+                        {%- if columnTransformation == "" -%}
+                        {% set col =  sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
+                        "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                        {%- else -%}
+                        {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+                        {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                        {%- endif %}
+                    {%- endfor %}
+                    ,"METADATA$ACTION" AS METADATA$ACTION,
+                    "METADATA$ISUPDATE" AS METADATA$ISUPDATE    
+            FROM {{ ref(streamTargetLocationName, streamName) }}
+            WHERE METADATA$ACTION = 'DELETE'
+            AND   METADATA$ISUPDATE = FALSE
+
+            {% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
+            {% if join_clause.strip() != "" %}
+                AND ({{ join_clause }})
+            {% endif %}
+            QUALIFY {{ nsVariables.rowNumber }} = 1
+            {{after_order_by}}
+            ) src
+            
+            -- Join Condition
+            ON {% for col in nsVariables.tableKey -%}
+                src."{{ col }}" = tgt."{{ col }}"
+            {% if not loop.last %} AND {% endif %}
+                {%- endfor -%}
+
+            -- Handle all DELETE operations (standalone deletes and DELETE portion of updates)
+            WHEN MATCHED AND METADATA$ACTION = 'DELETE'
+            THEN DELETE;
+
+            {# Second MERGE: Handle INSERTs and UPDATEs #}
+            MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
+            -- Select Statement Preparing Data for Merge - INSERT/UPDATE Operations
+            (SELECT  
+                    {% for id in tableColumnIds %}
+
+                        {% set columnTransformation = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
+                        {%- if columnTransformation == "" -%}
+                        {% set col =  sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
+                        "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                        {%- else -%}
+                        {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
+                        {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                        {%- endif %}
+                    {%- endfor %}
+                    ,"METADATA$ACTION" AS METADATA$ACTION,
+                    "METADATA$ISUPDATE" AS METADATA$ISUPDATE    
+            FROM {{ ref(streamTargetLocationName, streamName) }}
+            WHERE METADATA$ACTION = 'INSERT'
+
+            {% if join_clause.strip() != "" %}
+                AND ({{ join_clause }})
+            {% endif %}
+            QUALIFY {{ nsVariables.rowNumber }} = 1
+            {{after_order_by}}
+            ) src
+            
+            -- Join Condition
+            ON {% for col in nsVariables.tableKey -%}
+                src."{{ col }}" = tgt."{{ col }}"
+            {% if not loop.last %} AND {% endif %}
+                {%- endfor -%}
+
+            -- What to do if data is matched based on table key
+            WHEN MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'TRUE' THEN UPDATE SET 
+                {%- for col in columns %}
+                    {% if not (col.isBusinessKey or col.isSystemCreateDate)%}
+                        tgt."{{ col.name }}" = src."{{ col.name }}"
+                        {%- if not loop.last -%}, {%- endif %}
+                    {% endif %}
                 {%- endfor %}
-                ,"METADATA$ACTION" AS METADATA$ACTION,
-                "METADATA$ISUPDATE" AS METADATA$ISUPDATE    
-        FROM {{ fullyQualifiedStreamName }}
-        WHERE METADATA$ACTION = 'DELETE'
-
-        {% set join_clause = ret_clause.lstrip() | replace("AND ", "WHERE ", 1) if ret_clause.lstrip().startswith("AND ") else ret_clause %}
-        {% if join_clause.strip() != "" %}
-            AND ({{ join_clause }})
-        {% endif %}
-        QUALIFY {{ nsVariables.rowNumber }} = 1
-        {{after_order_by}}
-        ) src
-        
-        -- Join Condition
-        ON {% for col in nsVariables.tableKey -%}
-            src."{{ col }}" = tgt."{{ col }}"
-        {% if not loop.last %} AND {% endif %}
-            {%- endfor -%}
-
-        -- Handle all DELETE operations (standalone deletes and DELETE portion of updates)
-        WHEN MATCHED AND METADATA$ACTION = 'DELETE'
-        THEN DELETE;
-
-        {# Second MERGE: Handle INSERTs and UPDATEs #}
-        MERGE INTO {{ fullyQualifiedTargetTableName }} tgt USING
-        -- Select Statement Preparing Data for Merge - INSERT/UPDATE Operations
-        (SELECT  {% if config.selectDistinct -%} DISTINCT {%- endif -%}
-                 {% for id in tableColumnIds %}
-
-                    {% set columnTransformation = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='transform') | first -%}
-                    {%- if columnTransformation == "" -%}
-                    {% set col =  sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='sourceColumns') | first  |  map(attribute='column')  | list |  map(attribute='name') | first   -%}
-                    "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- else -%}
-                    {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
-                    {%- endif %}
-                {%- endfor %}
-                ,"METADATA$ACTION" AS METADATA$ACTION,
-                "METADATA$ISUPDATE" AS METADATA$ISUPDATE    
-        FROM {{ fullyQualifiedStreamName }}
-        WHERE METADATA$ACTION = 'INSERT'
-
-        {% if join_clause.strip() != "" %}
-            AND ({{ join_clause }})
-        {% endif %}
-        QUALIFY {{ nsVariables.rowNumber }} = 1
-        {{after_order_by}}
-        ) src
-        
-        -- Join Condition
-        ON {% for col in nsVariables.tableKey -%}
-            src."{{ col }}" = tgt."{{ col }}"
-        {% if not loop.last %} AND {% endif %}
-            {%- endfor -%}
-
-        -- What to do if data is matched based on table key
-        WHEN MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'TRUE' THEN UPDATE SET 
-            {%- for col in columns %}
-                {% if not (col.isBusinessKey or col.isSystemCreateDate)%}
-                    tgt."{{ col.name }}" = src."{{ col.name }}"
-                    {%- if not loop.last -%}, {%- endif %}
-                {% endif %}
-            {%- endfor %}
-        -- What to do with new records based on table key
-        WHEN NOT MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'FALSE' THEN INSERT 
-            (
-            {%- for col in columns -%}
-                "{{ col.name }}"
-                {%- if not loop.last -%}, {% endif %}
-            {% endfor %}) 
-        VALUES (
-            {%- for col in columns -%}
-                src."{{ col.name }}"
-                {%- if not loop.last -%}, {% endif %}
-            {% endfor %});
+            -- What to do with new records based on table key
+            WHEN NOT MATCHED AND METADATA$ACTION = 'INSERT' AND METADATA$ISUPDATE = 'FALSE' THEN INSERT 
+                (
+                {%- for col in columns -%}
+                    "{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}) 
+            VALUES (
+                {%- for col in columns -%}
+                    src."{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %});
+        COMMIT;
+        EXCEPTION
+        WHEN OTHER THEN
+        -- If any error occurs, rollback
+        ROLLBACK;
+        -- Optionally re-raise the exception to see the error details
+        RAISE;
     END;
 {% endif %}
