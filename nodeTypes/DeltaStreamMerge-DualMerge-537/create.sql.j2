@@ -98,6 +98,14 @@ does not permit copying or modification for any other purpose.
     {% else %}
         {% set streamInitialRowsMode = '' %}
     {% endif %}
+
+    {# Stream Insert Only Behavior #}
+    {% if streamType == 'EXTERNAL TABLE' or desiredState.config.sourceType == 'External Iceberg Table' %}      
+            {% set streamInsertOnlyMode = 'INSERT_ONLY = TRUE' %}
+    {% else %}
+        {% set streamInsertOnlyMode = '' %}
+    {% endif %}
+    
 {% endif %}
 
 {# Column Schema Change Detection - Force Create At Existing Stream if columns changed #}
