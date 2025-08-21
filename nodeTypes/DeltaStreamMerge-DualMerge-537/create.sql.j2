@@ -309,7 +309,7 @@ does not permit copying or modification for any other purpose.
 
             {# Rename / Move Object #}
             {% if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
-                {{ stage('Rename and / or Move Table') }}
+                {{ stage('Rename and / or Move Table',true,"sql","create") }}
                 {% set srcSchName = currentState.node.location.name %}
                 {% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
                 {% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
@@ -320,7 +320,7 @@ does not permit copying or modification for any other purpose.
 
             {# Change table description #}
             {% if (nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
-                {{ stage('Change table description') }}
+                {{ stage('Change table description',true,"sql","create") }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 SET COMMENT = '{{ desiredState.node.description | escape }}'
             {% endif %}
@@ -332,7 +332,7 @@ does not permit copying or modification for any other purpose.
                     {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
                     {% if nsVariables.colchanges == 1 %}
-                        {{ stage('Drop Columns') }}
+                        {{ stage('Drop Columns',true,"sql","create") }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         DROP COLUMN
                     {% else %}
@@ -349,7 +349,7 @@ does not permit copying or modification for any other purpose.
                     {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
                     {% if nsVariables.colchanges == 1 %}
-                        {{ stage('Add Columns') }}
+                        {{ stage('Add Columns',true,"sql","create") }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         ADD COLUMN
                     {% else %}
@@ -368,7 +368,7 @@ does not permit copying or modification for any other purpose.
                 {% if renameCurCol.id in desiredState.columns | map(attribute="id") %}
                     {% set desiredColumnName = desiredState.columns | selectattr('id', 'equalto', renameCurCol.id) | map(attribute='name') | first %}
                     {% if renameCurCol.name != desiredColumnName %}
-                        {{ stage('Rename Column ' + renameCurCol.name) }}
+                        {{ stage('Rename Column ' + renameCurCol.name,true,"sql","create") }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         RENAME COLUMN "{{ renameCurCol.name }}"
                         TO "{{ desiredColumnName }}"
@@ -403,7 +403,7 @@ does not permit copying or modification for any other purpose.
                         {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
                         {% if nsVariables.colchanges == 1 %}
-                            {{ stage('Change Column Attributes') }}
+                            {{ stage('Change Column Attributes',true,"sql","create") }}
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                             MODIFY
                         {% endif %}
@@ -478,7 +478,7 @@ does not permit copying or modification for any other purpose.
                     {% set nsVariables.finalClusterKey = 'DROP CLUSTERING KEY' %}
                 {% endif %}
 
-                {{ stage('Recluster TABLE') }}
+                {{ stage('Recluster TABLE',true,"sql","create") }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 {{ nsVariables.finalClusterKey }}
             {% endif %}
@@ -565,7 +565,7 @@ does not permit copying or modification for any other purpose.
         {% set nsVariables.tableKey = nsVariables.tableKey | map(attribute='partColName.name') | list %}
 
         {% if useInsertOverwrite == true %}
-            {{ stage('Target Table Initial Load') }}
+            {{ stage('Target Table Initial Load',true,"sql","create") }}
             INSERT OVERWRITE INTO {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             SELECT  
                 {% for id in tableColumnIds %}
@@ -592,7 +592,7 @@ does not permit copying or modification for any other purpose.
             {{ after_order_by }}
         {% else %}
             {# Use dual-MERGE logic for initial load #}
-            {{ stage('Target Table Initial Load using Dual-MERGE') }}
+            {{ stage('Target Table Initial Load using Dual-MERGE',true,"sql","create") }}
             BEGIN
                 BEGIN TRANSACTION;
                     {# First MERGE: Handle DELETEs #}
