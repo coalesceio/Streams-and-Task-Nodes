@@ -13,7 +13,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: true
+    devMode: false
     flagSrcStream: true
     groupByAll: false
     initialRows: true
@@ -24,7 +24,9 @@ operation:
           sortOrd: desc
     partitionBy:
       items:
-        - partColName: null
+        - partColName:
+            columnCounter: 557ccd99-dbe6-49f9-b32e-b7b9b6dcda0e
+            stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     propagateDeletes: false
     redeploymentBehavior: Create At Existing Stream

@@ -30,19 +30,6 @@ metadata:
         - transient table
         isRequired: true
      
-      - type: toggleButton
-        attributeName: selectDistinct
-        displayName: Distinct
-        default: false
-        enableIf: "{% if config.groupByAll %} false {% else %} true {% endif %}"
-     
-      - type: toggleButton
-        attributeName: groupByAll
-        displayName: Group By All
-        enableIf: "{% if config.selectDistinct %} false {% else %} true {% endif %}"
-        default: false
-     
-     
     - groupName: Stream Options
       items:
       - displayName: Source Object
@@ -53,6 +40,8 @@ metadata:
           - Table
           - Dynamic Table
           - View
+          - External Table
+          - External Iceberg Table
         isRequired: true
      
       - displayName: Show Initial Rows
@@ -83,9 +72,47 @@ metadata:
         isRequired: true
         enableIf: "false"
      
-      - type: businessKeyColumns
-        isRequired: true
-         
+      - type: tabular
+        displayName: 'Table Key(s)'
+        attributeName: partitionBy
+        columns:
+     
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: partColName
+           isRequired: false
+           
+        isRequired: false
+        enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
+     
+      - type: tabular
+        displayName: 'Record Date / Timestamp'
+        attributeName: orderBy
+        columns:
+     
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: colName
+           isRequired: false
+       
+        -  type: dropdownSelector
+           displayName: Sort Order
+           attributeName: sortOrd
+           default: desc
+           options:
+           - desc
+           - asc
+           isRequired: false
+       
+        isRequired: false
+        enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
+          
+      - type: toggleButton
+        attributeName: latestRowFromSource
+        displayName: Qualifies selection based on Table Key and Record Date / Timestamp
+        default: false
+        isRequired: false
+     
       # Cluster Key-Determine if a node is to be clustered or not #
      
       - type: toggleButton
