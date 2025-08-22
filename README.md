@@ -1283,12 +1283,16 @@ Stream redeployment behavior:
 | **Create or Replace** | Create Stream |
 | **Create at existing stream** | Re-Create Stream at existing offset |
 
+**NOTE:Column Schema Changes results in recreating stream at existing offset irrespective of redeployment beahviour**
+
 Table changes execute:
 
 | **Stage** | **Description** |
 |-----------|----------------|
 | **Rename Table/Alter Column/Delete Column/Add Column/Edit description** | Alters table as needed |
-| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO." |
+| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "Dual Merge statement" |
+
+**NOTE:Column name modification/addition/deletion should be made to mapping grid of DSM node only if the same are done in Upstream source node as here stream is the source for target table.Hence the changes made in mapping grid are not considered**
 
 If the materialization type is changed from one type to another(transient table/table) the following stages execute:
 
@@ -1296,7 +1300,7 @@ If the materialization type is changed from one type to another(transient table/
 |-----------|----------------|
 | **Drop Table/Transient Table** | Drop the target table|
 | **Create Work/Transient table**| Create the target table|
-| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "INSERT INTO." |
+| **Target Initial Load** | If the initial load toggle is enabled and the redeployment behavior of the stream is "Create or Replace," it loads the table with "INSERT OVERWRITE INTO." For all other scenarios, it uses "Dual Merge statement" |
 
 Task changes:
 
