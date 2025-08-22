@@ -11,16 +11,24 @@ does not permit copying or modification for any other purpose.
 {# Development mode -To test the SQL the task will execute to make sure it runs without errors and returns the expected data #}
 
 {% if config.devMode == true %}
-    {% set nsVariables = namespace() %}
+     
+     {% set nsVariables = namespace() %}
+     {# Source Object Location and Name #}
+     
+     {% set ns = namespace(sourceStorageLocation ="",sourceTableName ="") %}  
+      {% for dependency in sources[0].dependencies %}
+        {% if dependency.node.materializationType != 'task' %} 
+            {% set ns.sourceStorageLocation = dependency.node.location.name %}
+            {% set ns.sourceTableName = dependency.node.name %}
+        {% endif %}
+      {% endfor %}
 
-    {# Source Object Location and Name #}
-    {% set sourceStorageLocation = sources[0].dependencies[0].node.location.name %}
-    {% set sourceDatabaseName = storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='database') | first %}
-    {% set sourceSchemaName = storageLocations | selectattr('name', 'equalto', sourceStorageLocation) | map(attribute='schema') | first %}
+    {% set sourceDatabaseName = storageLocations | selectattr('name', 'equalto', ns.sourceStorageLocation) | map(attribute='database') | first %}
+    {% set sourceSchemaName = storageLocations | selectattr('name', 'equalto', ns.sourceStorageLocation) | map(attribute='schema') | first %}
+	
 
-    {% set sourceTableName = sources[0].dependencies[0].node.name %}
-    {% set fullyQualifiedSourceTableName = '"' + sourceDatabaseName + '"."' + sourceSchemaName + '"."' + sourceTableName + '"' %}
-    {% set refLink = "{{ ref('" + sourceStorageLocation + "', '" + sourceTableName + "') }}" %}
+    {% set fullyQualifiedSourceTableName = '"' + sourceDatabaseName + '"."' + sourceSchemaName + '"."' + ns.sourceTableName + '"' %}
+    {% set refLink = "{{ ref('" + ns.sourceStorageLocation + "', '" + ns.sourceTableName + "') }}" %}
 
     {# Target Stream Location and Name #}
     {% set streamTargetLocationName = node.location.name %}
@@ -108,7 +116,7 @@ does not permit copying or modification for any other purpose.
                         "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                         {%- else -%}
                         {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                        {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                        {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                         {%- endif %}
                     {%- endfor %}
                     ,"METADATA$ACTION" AS METADATA$ACTION,
@@ -147,7 +155,7 @@ does not permit copying or modification for any other purpose.
                         "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                         {%- else -%}
                         {% set col = sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                        {{ columnTransformation | replace(sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                        {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                         {%- endif %}
                     {%- endfor %}
                     ,"METADATA$ACTION" AS METADATA$ACTION,
