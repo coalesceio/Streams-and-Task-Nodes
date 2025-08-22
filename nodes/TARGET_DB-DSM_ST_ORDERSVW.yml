@@ -3,15 +3,17 @@ id: 6fe5941e-21b6-42b2-b1df-fb1523a968d2
 name: DSM_ST_ORDERSVW
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 02edb7d6-ac59-430f-8c4b-bd31770cccf6
+            stepCounter: 6fe5941e-21b6-42b2-b1df-fb1523a968d2
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: table
+    createas: transient table
     devMode: false
     flagSrcStream: true
     initialRows: true
@@ -210,14 +212,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          ST_ORDERSVW1: 7eb26ced-779a-4b9d-a20e-840012ec6b3b
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: ST_ORDERSVW
+            nodeName: ST_ORDERSVW1
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'ST_ORDERSVW') }} "ST_ORDERSVW"
+          joinCondition: FROM {{ ref('TARGET_DB', 'ST_ORDERSVW1') }} "ST_ORDERSVW1"
         name: DSM_ST_ORDERSVW
         noLinkRefs: []
   name: DSM_ST_ORDERSVW
