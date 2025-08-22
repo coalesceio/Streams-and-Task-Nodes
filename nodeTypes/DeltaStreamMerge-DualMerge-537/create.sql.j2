@@ -504,7 +504,7 @@ does not permit copying or modification for any other purpose.
 {% endif %}
 
 {# Initial data load #}
-{% if desiredState and desiredState.config.initialRows == true %}
+{% if desiredState and desiredState.config.initialRows == true and desiredState != currentState %}
     {% set nsVariables = namespace(shouldUseInitialLoad=false) %}
     
     {# Determine if initial load should run and what type #}
