@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 2c69fa74-00c8-4710-ae4f-96c22899b68c
-name: DT_COURSES_IT
+id: ac9052b0-5038-432e-9a65-a0f7b3f805bc
+name: NATION
 operation:
   database: ""
   deployEnabled: true
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: fefdfbcc-fc1b-4295-bca3-b1d99933e65b
-          stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
+          columnCounter: 033dcaf0-1292-4bd7-a0f7-ba1e49d21d32
+          stepCounter: ac9052b0-5038-432e-9a65-a0f7b3f805bc
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: COURSE_ID
+        name: N_NATIONKEY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 509e20eb-2e4a-4744-b450-d6353a69c721
-          stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
+          columnCounter: 09e33b03-639c-4d70-8439-80368fecc00d
+          stepCounter: ac9052b0-5038-432e-9a65-a0f7b3f805bc
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(25)
         defaultValue: ""
         description: ""
-        name: COURSE_NAME
+        name: N_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 99105d4e-3b50-4ed5-9cf6-b872701a13e8
-          stepCounter: 2c69fa74-00c8-4710-ae4f-96c22899b68c
+          columnCounter: 6ece7796-ffcd-4b7d-89dc-96cc6eb8fb3d
+          stepCounter: ac9052b0-5038-432e-9a65-a0f7b3f805bc
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: INSTRUCTOR
+        name: N_REGIONKEY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,7 +65,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: DT_COURSES_IT
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c473b55e-26f7-4ab6-98c0-3ba6e8af1a72
+          stepCounter: ac9052b0-5038-432e-9a65-a0f7b3f805bc
+        config: {}
+        dataType: VARCHAR(152)
+        defaultValue: ""
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: NATION
   schema: ""
   sqlType: Source
   type: sourceInput
