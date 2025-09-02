@@ -1,8 +1,14 @@
 fileVersion: 1
 id: "542"
 mappingDefinitions:
+  SOURCE_DATA:
+    database: TANVI_DEV
+    schema: SOURCE
   TARGET_ACC:
-    database: ""
-    schema: ""
+    database: TANVI_DEV
+    schema: QA_PHASE
+  TARGET_DB:
+    database: TANVI_DEV
+    schema: QA_PHASE2
 name: QA1
 type: Environment
