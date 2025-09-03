@@ -1,0 +1,14 @@
+fileVersion: 1
+id: "580"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: TANVI_DEV
+    schema: SOURCE
+  TARGET_ACC:
+    database: TANVI_DEV
+    schema: QA_PHASE2
+  TARGET_DB:
+    database: TANVI_DEV
+    schema: QA_PHASE
+name: DT_QA1
+type: Environment
