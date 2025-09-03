@@ -20,7 +20,9 @@ operation:
     loadType: Merge
     orderBy:
       items:
-        - colName: null
+        - colName:
+            columnCounter: 557ccd99-dbe6-49f9-b32e-b7b9b6dcda0e
+            stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
           sortOrd: desc
     partitionBy:
       items:
@@ -33,7 +35,7 @@ operation:
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
@@ -117,7 +119,7 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            
+
             latteral flatten
         name: SIM_PRODUCTS1
         noLinkRefs: []
