@@ -1,0 +1,159 @@
+fileVersion: 1
+id: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+name: TSKWRK_PRODUCTS1
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a151a342-a7be-4514-a000-6d43afe5ddfa
+          stepCounter: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1ed37959-3e13-4711-9f3d-d8ac8d803612
+                stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b79ca8d8-2ade-4734-b19f-d5cac9a5dfa7
+          stepCounter: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 295094a3-af7e-407f-8d20-c578b44637fb
+                stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8a1fba61-f34d-47b1-8fef-1ddda89fba99
+          stepCounter: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: faaeca02-7116-49d2-b2e7-cf3fed448d99
+                stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 308b7ac3-2062-4fe3-bbb4-c4417a064791
+          stepCounter: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 469fb294-876f-4112-8d4b-5021da4b3e20
+                stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6c08f760-137e-4960-ac6e-854090a2989d
+          stepCounter: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+        config: {}
+        dataType: STRING
+        description: ""
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8bacd8b0-85f7-4b1c-ad04-dbb8599b63b6
+                stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f735b2f6-5943-4576-865b-a3397ae43342
+          stepCounter: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+        config: {}
+        dataType: boolean
+        description: ""
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7b498327-6729-498a-872f-1d9e62f9cf48
+                stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fd492cf3-8c41-4ca8-a07f-23891421d11b
+          stepCounter: 750e8143-6e80-433e-ae7b-8cdc19d6163f
+        config: {}
+        dataType: STRING
+        description: ""
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 86427171-05ac-4153-88a6-5733b506c3d2
+                stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STREAM_PRODUCTS1
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'STREAM_PRODUCTS1') }} "STREAM_PRODUCTS1"
+        name: TSKWRK_PRODUCTS1
+        noLinkRefs: []
+  name: TSKWRK_PRODUCTS1
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node
