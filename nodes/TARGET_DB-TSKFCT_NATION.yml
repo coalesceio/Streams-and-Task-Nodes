@@ -63,7 +63,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b3471b76-239d-4a4f-ba55-6c29d6a42a4a
+              - columnCounter: 556a6419-9034-43e6-923d-57f79261263f
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: ""
       - appliedColumnTests: {}
@@ -93,7 +93,7 @@ operation:
           - columnReferences:
               - columnCounter: fa123cb5-49e8-48e6-90ee-194eb0d4c0fe
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
-            transform: ""
+            transform: UPPER(N_COMMENT)
       - acceptedValues:
           strictMatch: true
           values: []
@@ -139,7 +139,7 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"  WHERE N_NATIONKEY = 0
         name: TSKFCT_NATION
         noLinkRefs: []
   name: TSKFCT_NATION
