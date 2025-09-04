@@ -646,6 +646,15 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
 
                 {# =========================================================
+                DevMode Toggle comparison
+                ========================================================= #}
+                {% if currentState.config.devMode != desiredState.config.devMode %}
+                    
+                    {{ update_metadata("DevMode", {"is": desiredState.config.devMode, "was": currentState.config.devMode}, "DevMode") }}
+
+                {% endif %}
+
+                {# =========================================================
                 Handle detected metadata changes and update
                 ========================================================= #}
                 {% if nsMetaVariables.metaDataChanges | length == 0 %}
