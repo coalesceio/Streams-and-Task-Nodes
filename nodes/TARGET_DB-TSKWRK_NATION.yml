@@ -29,7 +29,7 @@ operation:
     selectDistinct: false
     serverlessSize: MEDIUM
     truncateBefore: true
-    whName: <WAREHOUSE_NAME>
+    whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
