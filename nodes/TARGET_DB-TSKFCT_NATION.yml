@@ -13,7 +13,7 @@ operation:
     clusterKeyExpressions: false
     devMode: true
     flagSrcStream: false
-    groupByAll: true
+    groupByAll: false
     insertStrategy: UNION
     multiStreamBehavior: AND
     orderby: true
@@ -22,6 +22,10 @@ operation:
         - sortColName:
             columnCounter: d543f713-6901-49f7-bacf-0e78cdb35676
             stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+          sortOrder: asc
+        - sortColName:
+            columnCounter: 9de0a6de-3e36-408e-a87c-456eb7175080
+            stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
           sortOrder: desc
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
@@ -29,7 +33,7 @@ operation:
     schedulePeriod: "60"
     schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
-    selectDistinct: false
+    selectDistinct: true
     serverlessSize: MEDIUM
     whName: <WAREHOUSE_NAME>
   database: ""
