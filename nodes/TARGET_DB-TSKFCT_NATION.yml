@@ -47,13 +47,13 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d543f713-6901-49f7-bacf-0e78cdb35676
+          columnCounter: 9de0a6de-3e36-408e-a87c-456eb7175080
           stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(25)
         description: ""
         isBusinessKey: true
-        name: N_NATIONKEY
+        name: N_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -62,13 +62,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9de0a6de-3e36-408e-a87c-456eb7175080
+          columnCounter: d543f713-6901-49f7-bacf-0e78cdb35676
           stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
         config: {}
-        dataType: VARCHAR(25)
+        dataType: NUMBER(38,0)
         description: ""
         isBusinessKey: true
-        name: N_NAME
+        name: N_NATIONKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -102,7 +102,7 @@ operation:
           - columnReferences:
               - columnCounter: fa123cb5-49e8-48e6-90ee-194eb0d4c0fe
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
-            transform: UPPER(N_COMMENT)
+            transform: UPPER/* comment */(N_COMMENT)
       - acceptedValues:
           strictMatch: true
           values: []
@@ -148,7 +148,7 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"  WHERE N_NATIONKEY = 0
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /* comment */ WHERE N_NATIONKEY = 0
         name: TSKFCT_NATION
         noLinkRefs: []
   name: TSKFCT_NATION

@@ -64,13 +64,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7331899d-c5bb-4737-a6c4-9aa689fa39f6
+          columnCounter: e6abc24f-be91-410c-9dd9-21815766417c
           stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(25)
         description: ""
-        isBusinessKey: true
-        name: N_NATIONKEY
+        isChangeTracking: true
+        name: N_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -79,13 +79,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e6abc24f-be91-410c-9dd9-21815766417c
+          columnCounter: 7331899d-c5bb-4737-a6c4-9aa689fa39f6
           stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
         config: {}
-        dataType: VARCHAR(25)
+        dataType: NUMBER(38,0)
         description: ""
-        isChangeTracking: true
-        name: N_NAME
+        isBusinessKey: true
+        name: N_NATIONKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -121,7 +121,7 @@ operation:
           - columnReferences:
               - columnCounter: fa123cb5-49e8-48e6-90ee-194eb0d4c0fe
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
-            transform: UPPER(N_COMMENT)
+            transform: UPPER/* comment */(N_COMMENT)
       - acceptedValues:
           strictMatch: true
           values: []
@@ -235,7 +235,7 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"  WHERE N_NATIONKEY = 0
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"  WHERE /* comment */ N_NATIONKEY = 0
         name: TSKDIM_NATION
         noLinkRefs: []
   name: TSKDIM_NATION
