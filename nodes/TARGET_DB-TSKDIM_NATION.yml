@@ -64,13 +64,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e6abc24f-be91-410c-9dd9-21815766417c
+          columnCounter: 7331899d-c5bb-4737-a6c4-9aa689fa39f6
           stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
         config: {}
-        dataType: VARCHAR(25)
+        dataType: NUMBER(38,0)
         description: ""
-        isChangeTracking: true
-        name: N_NAME
+        isBusinessKey: true
+        name: N_NATIONKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -79,13 +79,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7331899d-c5bb-4737-a6c4-9aa689fa39f6
+          columnCounter: e6abc24f-be91-410c-9dd9-21815766417c
           stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(25)
         description: ""
-        isBusinessKey: true
-        name: N_NATIONKEY
+        isChangeTracking: true
+        name: N_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -108,20 +108,6 @@ operation:
               - columnCounter: bfbf0ab5-4942-4e81-9e2f-9e54b023c488
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 66b36a91-9805-4d62-88e3-e06c4fe2584a
-          stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
-        config: {}
-        dataType: VARCHAR(152)
-        description: ""
-        name: N_COMMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: fa123cb5-49e8-48e6-90ee-194eb0d4c0fe
-                stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
-            transform: UPPER/* comment */(N_COMMENT)
       - acceptedValues:
           strictMatch: true
           values: []
@@ -161,23 +147,6 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 93bf6d16-bdb0-4f29-8fd7-4f988f9b79c1
-          stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
           columnCounter: bde9e7a1-b029-44ee-b654-ab3fb9dfc8c6
           stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
         config: {}
@@ -190,6 +159,23 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 93bf6d16-bdb0-4f29-8fd7-4f988f9b79c1
+          stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - acceptedValues:
           strictMatch: true
           values: []
@@ -224,6 +210,20 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 66b36a91-9805-4d62-88e3-e06c4fe2584a
+          stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fa123cb5-49e8-48e6-90ee-194eb0d4c0fe
+                stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
+            transform: UPPER/* comment */(N_COMMENT)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
