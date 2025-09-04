@@ -1,14 +1,12 @@
 fileVersion: 1
-id: 11aa38f5-ee00-4002-bf53-446f555cce6d
-name: TSKFCT_NATION_NC
+id: 69bdb348-564e-40bb-9f71-5628b28074f0
+name: TSKFCT_NATION
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: d543f713-6901-49f7-bacf-0e78cdb35676
-            stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -21,27 +19,20 @@ operation:
     orderby: false
     orderbycolumn:
       items:
-        - sortColName:
-            columnCounter: d543f713-6901-49f7-bacf-0e78cdb35676
-            stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
-          sortOrder: asc
-        - sortColName:
-            columnCounter: 9de0a6de-3e36-408e-a87c-456eb7175080
-            stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
-          sortOrder: desc
+        - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
-    selectDistinct: true
+    selectDistinct: false
     serverlessSize: MEDIUM
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
-  isMultisource: true
+  isMultisource: false
   locationName: TARGET_DB
   materializationType: task
   metadata:
@@ -49,12 +40,11 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d543f713-6901-49f7-bacf-0e78cdb35676
-          stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+          columnCounter: 138ffead-17d4-4254-8fa2-19be44902ecb
+          stepCounter: 69bdb348-564e-40bb-9f71-5628b28074f0
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        isBusinessKey: true
         name: N_NATIONKEY
         nullable: true
         sourceColumnReferences:
@@ -62,33 +52,24 @@ operation:
               - columnCounter: 556a6419-9034-43e6-923d-57f79261263f
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: ""
-          - columnReferences:
-              - columnCounter: c3158edc-9d89-42e7-b518-3e73810302e0
-                stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9de0a6de-3e36-408e-a87c-456eb7175080
-          stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+          columnCounter: 2ddce1fc-aba6-45be-a946-e459b4ab49d0
+          stepCounter: 69bdb348-564e-40bb-9f71-5628b28074f0
         config: {}
         dataType: VARCHAR(25)
         description: ""
-        isBusinessKey: true
         name: N_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 556a6419-9034-43e6-923d-57f79261263f
+              - columnCounter: b3471b76-239d-4a4f-ba55-6c29d6a42a4a
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: ""
-          - columnReferences:
-              - columnCounter: a7095cf2-7832-45c6-a295-1bc513a626d8
-                stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
-            transform: lower(N_NAME)
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 94a1d6b4-9cf7-4a12-a6a6-b55e411618d4
-          stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+          columnCounter: 88a129e7-05e7-4c92-8b7b-de27243c6152
+          stepCounter: 69bdb348-564e-40bb-9f71-5628b28074f0
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -99,14 +80,10 @@ operation:
               - columnCounter: bfbf0ab5-4942-4e81-9e2f-9e54b023c488
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: ""
-          - columnReferences:
-              - columnCounter: 61388ae7-c761-40f1-89a1-a17cd3fde8aa
-                stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ef73bd60-2751-4ed5-ada8-2f9322f3b1bf
-          stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+          columnCounter: a2658b19-57c7-4567-a93b-1334e0df7b6b
+          stepCounter: 69bdb348-564e-40bb-9f71-5628b28074f0
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -116,18 +93,14 @@ operation:
           - columnReferences:
               - columnCounter: fa123cb5-49e8-48e6-90ee-194eb0d4c0fe
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
-            transform: UPPER/* comment */(N_COMMENT)
-          - columnReferences:
-              - columnCounter: a7095cf2-7832-45c6-a295-1bc513a626d8
-                stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: ed3cb2bb-32ad-42fd-8ac6-149a12a0cc61
-          stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+          columnCounter: 5c302d8f-cfcd-4f8e-b2be-2e45b273563b
+          stepCounter: 69bdb348-564e-40bb-9f71-5628b28074f0
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -138,15 +111,13 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 28ecd32b-4d14-4428-b2fc-156d3bb2863c
-          stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
+          columnCounter: ee1813ae-1fa5-436b-b1c3-f15291052dda
+          stepCounter: 69bdb348-564e-40bb-9f71-5628b28074f0
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -155,8 +126,6 @@ operation:
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
@@ -170,23 +139,10 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: |-
-            FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /* comment */ WHERE N_NATIONKEY = 0
-            AND N_NAME = 'INDIA'
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
         name: TSKFCT_NATION
         noLinkRefs: []
-      - aliases:
-          NATION_COPY1: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
-        customSQL:
-          customSQL: ""
-        dependencies:
-          - locationName: SOURCE_DATA
-            nodeName: NATION_COPY1
-        join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }} "NATION_COPY1" WHERE N_NATIONKEY = 3
-        name: NEW_SOURCE
-        noLinkRefs: []
-  name: TSKFCT_NATION_NC
+  name: TSKFCT_NATION
   overrideSQL: false
   schema: ""
   sqlType: "150"

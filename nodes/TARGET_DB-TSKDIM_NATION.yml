@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+id: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
 name: TSKDIM_NATION
 operation:
   config:
@@ -20,13 +20,13 @@ operation:
     orderbycolumn:
       items:
         - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    predTask: TGCR_NODE
+    rootTask: TGCR_NODE
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Minutes
+    schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
-    selectDistinct: true
+    selectDistinct: false
     serverlessSize: MEDIUM
     whName: COMPUTE_WH
   database: ""
@@ -43,8 +43,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 4cbdeeb9-2f71-4890-9264-6bd9cd2cac4d
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: e6ef0b44-a33a-443b-bbfe-5e86c92939ce
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -57,8 +57,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ea430aed-6fb7-4c44-9a4c-15abbdee346d
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: ffa6a8b3-5209-4718-b8bd-730edc9814fe
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -72,8 +72,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 46cd4826-62ad-4729-abc5-ba754717d265
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: dc495935-c942-4bbf-aece-66e1cf0b61c7
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -86,8 +86,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 74376d0e-396e-4c8e-a905-01f0c32ed07f
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: b0f2d99c-8004-43ab-99f9-255a6345ec51
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -100,8 +100,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9b0aa2e8-76ca-454d-885b-521414905d59
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: 7709a0da-f87e-44af-814a-7a838da40711
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -117,8 +117,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: bf55de3c-64e6-4771-a072-dcfb6d614961
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: 61ca75ca-ae6f-4d74-9aa5-0daa0436ec5f
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -134,8 +134,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 2100126f-0b63-4144-8ba7-1cd447842875
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: 1d790bd0-271f-47f7-aa60-cc079eb47dcb
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: VARCHAR
         defaultValue: ""
@@ -151,8 +151,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7d870664-2c87-4a51-9df1-0cbaf9777751
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: 843569d6-9b41-49a8-b4f0-6189f84c3098
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -168,8 +168,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: f2bfd1ce-2509-476f-8185-30fe595aee82
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: a14bddcb-97b0-41df-aefb-ef1ff66b3390
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -185,8 +185,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 3dddc907-a17d-456b-8aef-ef7127ba354a
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: 72ae0473-1cdd-4745-add1-847de6e19019
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -202,8 +202,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: eace016a-c552-49fd-b34f-5918463aa32e
-          stepCounter: 1314c4ca-3614-41b6-8eb0-2d58eae66811
+          columnCounter: 0f4ca19d-806a-4133-8014-cbcdb01f6e87
+          stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -224,8 +224,12 @@ operation:
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION
+          - locationName: TARGET_DB
+            nodeName: TGCR_NODE
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+          joinCondition: |
+            FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+            --{{ ref('TARGET_DB', 'TGCR_NODE') }}
         name: TSKDIM_NATION
         noLinkRefs: []
   name: TSKDIM_NATION

@@ -1,0 +1,39 @@
+fileVersion: 1
+id: 2aa924e0-c426-4ac8-86a8-7b7c54325f6e
+name: TGCR_NODE
+operation:
+  config:
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    tskSql: select current_timestamp()
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: TGCR_NODE
+        noLinkRefs: []
+  name: TGCR_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "154"
+  type: sql
+  version: 1
+type: Node
