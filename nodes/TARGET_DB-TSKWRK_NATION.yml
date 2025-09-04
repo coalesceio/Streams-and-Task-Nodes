@@ -13,7 +13,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
@@ -30,7 +30,7 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: false
+    truncateBefore: true
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
