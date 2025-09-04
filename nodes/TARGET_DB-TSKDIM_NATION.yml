@@ -13,13 +13,16 @@ operation:
     clusterKeyExpressions: false
     devMode: true
     flagSrcStream: false
-    groupByAll: false
+    groupByAll: true
     insertStrategy: UNION
     multiStreamBehavior: AND
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
-        - {}
+        - sortColName:
+            columnCounter: 7331899d-c5bb-4737-a6c4-9aa689fa39f6
+            stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
+          sortOrder: desc
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
