@@ -28,7 +28,7 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: true
+    truncateBefore: false
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true

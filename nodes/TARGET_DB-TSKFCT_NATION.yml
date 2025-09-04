@@ -45,6 +45,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: N_NATIONKEY
         nullable: true
         sourceColumnReferences:
@@ -59,6 +60,7 @@ operation:
         config: {}
         dataType: VARCHAR(25)
         description: ""
+        isBusinessKey: true
         name: N_NAME
         nullable: true
         sourceColumnReferences:
