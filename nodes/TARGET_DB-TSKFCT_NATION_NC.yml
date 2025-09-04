@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 11aa38f5-ee00-4002-bf53-446f555cce6d
-name: TSKFCT_NATION
+name: TSKFCT_NATION_NC
 operation:
   config:
     clusterKey: false
@@ -168,7 +168,9 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /* comment */ WHERE N_NATIONKEY = 0
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /* comment */ WHERE N_NATIONKEY = 0
+            AND N_NAME = 'INDIA'
         name: TSKFCT_NATION
         noLinkRefs: []
       - aliases:
@@ -182,7 +184,7 @@ operation:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }} "NATION_COPY1" WHERE N_NATIONKEY = 3
         name: NEW_SOURCE
         noLinkRefs: []
-  name: TSKFCT_NATION
+  name: TSKFCT_NATION_NC
   overrideSQL: false
   schema: ""
   sqlType: "150"

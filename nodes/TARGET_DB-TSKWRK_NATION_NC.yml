@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 2386c2dc-8078-45db-9178-d3cfc14ce95f
-name: TSKWRK_NATION
+name: TSKWRK_NATION_NC
 operation:
   config:
     clusterKey: false
@@ -61,7 +61,7 @@ operation:
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: ""
           - columnReferences:
-              - columnCounter: c3158edc-9d89-42e7-b518-3e73810302e0
+              - columnCounter: 61388ae7-c761-40f1-89a1-a17cd3fde8aa
                 stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
             transform: ""
       - appliedColumnTests: {}
@@ -143,7 +143,7 @@ operation:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }} "NATION_COPY1" WHERE N_NATIONKEY = 3
         name: NAME CHANGED
         noLinkRefs: []
-  name: TSKWRK_NATION
+  name: TSKWRK_NATION_NC
   overrideSQL: false
   schema: ""
   sqlType: "151"
