@@ -16,7 +16,19 @@ operation:
     flagSrcStream: true
     groupByAll: false
     initialRows: true
+    latestRowFromSource: true
     loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 86c68d24-cef5-4827-a607-c0958bcebe3f
+            stepCounter: 363a6f2f-663f-4840-b463-d2e3473aeec7
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: b1298ac0-9464-46f0-9e7e-2dc392870ad6
+            stepCounter: 363a6f2f-663f-4840-b463-d2e3473aeec7
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK

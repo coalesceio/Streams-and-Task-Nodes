@@ -18,6 +18,7 @@ operation:
     flagSrcStream: true
     groupByAll: false
     initialRows: true
+    latestRowFromSource: false
     loadType: Merge
     predTask: TGCR_PRODUCTS
     redeploymentBehavior: Create At Existing Stream

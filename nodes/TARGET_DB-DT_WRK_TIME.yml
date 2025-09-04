@@ -1,0 +1,140 @@
+fileVersion: 1
+id: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+name: DT_WRK_TIME
+operation:
+  config:
+    baseLocation: ""
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    cpygrants: false
+    downstreamOption: false
+    externalVolume: ""
+    initialize: ON_CREATE
+    lagSpecification:
+      items:
+        - lagPeriod: Minutes
+          lagValue: "6000"
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 37f9e8a7-973e-4627-9ead-6062562db4fb
+            stepCounter: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+    orderByDateTime:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 74d7c5a8-0082-48db-91d3-3dee71f27f99
+            stepCounter: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+    recordVersioning: Datetime Column
+    refresh_mode: AUTO
+    warehouseName: dev_wh_xs
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: dynamic table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74d7c5a8-0082-48db-91d3-3dee71f27f99
+          stepCounter: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TIME_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 589bce67-0c45-49f5-987c-05186160774b
+                stepCounter: 44297a6c-fa94-4baf-a3bd-11b684757c31
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 37f9e8a7-973e-4627-9ead-6062562db4fb
+          stepCounter: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e96df0b4-cfbe-4c79-9a01-85c7bd583f71
+                stepCounter: 44297a6c-fa94-4baf-a3bd-11b684757c31
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4f022812-e833-4b63-8914-5a7f20705943
+          stepCounter: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0fbdf556-f4e2-4b55-96c7-2926ac50af0e
+                stepCounter: 44297a6c-fa94-4baf-a3bd-11b684757c31
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3aa43118-93a2-4feb-97a3-a9b1188e3f0e
+          stepCounter: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: da6ccce7-e4ff-4431-a20e-e322b21477f0
+                stepCounter: 44297a6c-fa94-4baf-a3bd-11b684757c31
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b944fa0f-2ee1-4800-8023-7d4271d3f57b
+          stepCounter: 66fce555-4fb6-45f1-9b8f-ba9a61a8df2d
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        name: RECORD_CREATED_DATE
+        nullable: true
+        recordCreated: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: FIRST_VALUE({{ order_by_col()}}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: TIME
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'TIME') }} "TIME"
+        name: DT_WRK_TIME
+        noLinkRefs: []
+  name: DT_WRK_TIME
+  overrideSQL: false
+  schema: ""
+  sqlType: dy:::351
+  type: sql
+  version: 1
+type: Node

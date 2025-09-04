@@ -12,7 +12,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: false
+    devMode: true
     flagSrcStream: true
     initialRows: true
     latestRowFromSource: true
