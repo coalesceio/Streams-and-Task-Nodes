@@ -14,7 +14,7 @@ operation:
     devMode: true
     flagSrcStream: true
     groupByAll: false
-    insertStrategy: UNION
+    insertStrategy: UNION ALL
     multiStreamBehavior: AND
     orderby: true
     orderbycolumn:
@@ -81,7 +81,7 @@ operation:
           - columnReferences:
               - columnCounter: a7095cf2-7832-45c6-a295-1bc513a626d8
                 stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
-            transform: ""
+            transform: lower(N_NAME)
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 22fb777a-b6eb-4dd0-89b9-e26c50b67da1
@@ -115,7 +115,7 @@ operation:
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: UPPER/*COMMENT*/(N_COMMENT)
           - columnReferences:
-              - columnCounter: e1a0f060-6751-44b5-b8c9-103ab670e39b
+              - columnCounter: a7095cf2-7832-45c6-a295-1bc513a626d8
                 stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
             transform: ""
     cteString: ""
@@ -140,8 +140,8 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION_COPY1
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }} "NATION_COPY1"
-        name: NEW_SOURCE
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }} "NATION_COPY1" WHERE N_NATIONKEY = 3
+        name: NAME CHANGED
         noLinkRefs: []
   name: TSKWRK_NATION
   overrideSQL: false

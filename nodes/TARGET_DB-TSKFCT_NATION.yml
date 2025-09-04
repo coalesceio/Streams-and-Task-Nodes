@@ -14,7 +14,7 @@ operation:
     devMode: true
     flagSrcStream: false
     groupByAll: false
-    insertStrategy: UNION
+    insertStrategy: UNION ALL
     multiStreamBehavior: AND
     orderby: true
     orderbycolumn:
@@ -82,7 +82,7 @@ operation:
           - columnReferences:
               - columnCounter: a7095cf2-7832-45c6-a295-1bc513a626d8
                 stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
-            transform: ""
+            transform: lower(N_NAME)
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 94a1d6b4-9cf7-4a12-a6a6-b55e411618d4
@@ -116,7 +116,7 @@ operation:
                 stepCounter: 00822ca9-8da3-461e-a63b-71079ef585ea
             transform: UPPER/* comment */(N_COMMENT)
           - columnReferences:
-              - columnCounter: e1a0f060-6751-44b5-b8c9-103ab670e39b
+              - columnCounter: a7095cf2-7832-45c6-a295-1bc513a626d8
                 stepCounter: 1543c041-2aa2-4ae5-8a8b-50c0c4d79252
             transform: ""
       - acceptedValues:
@@ -179,7 +179,7 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION_COPY1
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }} "NATION_COPY1"
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }} "NATION_COPY1" WHERE N_NATIONKEY = 3
         name: NEW_SOURCE
         noLinkRefs: []
   name: TSKFCT_NATION
