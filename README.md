@@ -168,6 +168,24 @@ Subsequent deployments with changes in table like add or drop column and change 
 | **Create Task** | Recreates task with new schedule |
 | **Resume Task** | Resumes task with new schedule |
 
+### Redeployment with only metadata changes
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates when the **Development Mode** is **ON**. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
+
 ### Work With Task Undeployment
 
 If a Work with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then all objects created by the node in the target environment will be dropped.
@@ -336,6 +354,24 @@ Subsequent deployments with changes in table such as add or drop column and chan
 | **Create Task** | Recreates task with new schedule |
 | **Resume Task** | Resumes task with new schedule |
 
+### Redeployment with only metadata changes
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates when the **Development Mode** is **ON**. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
+
 ### Dimension With Task Undeployment
 
 If a Work with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then all objects created by the node in the target environment will be dropped.
@@ -501,6 +537,24 @@ Changes to add or drop column, or change in data type will result in a ALTER, CR
 | **Alter Table** | Modifies table structure |
 | **Create Task** | Recreates task |
 | **Resume Task** | Resumes updated task |
+
+### Redeployment with only metadata changes
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates when the **Development Mode** is **ON**. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
 
 ### Fact With Task Undeployment
 
