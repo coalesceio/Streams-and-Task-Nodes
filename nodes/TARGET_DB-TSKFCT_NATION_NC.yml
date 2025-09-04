@@ -3,10 +3,12 @@ id: 11aa38f5-ee00-4002-bf53-446f555cce6d
 name: TSKFCT_NATION_NC
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: d543f713-6901-49f7-bacf-0e78cdb35676
+            stepCounter: 11aa38f5-ee00-4002-bf53-446f555cce6d
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -14,7 +16,7 @@ operation:
     devMode: true
     flagSrcStream: false
     groupByAll: false
-    insertStrategy: UNION ALL
+    insertStrategy: UNION
     multiStreamBehavior: AND
     orderby: true
     orderbycolumn:

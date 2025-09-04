@@ -3,10 +3,12 @@ id: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
 name: TSKDIM_NATION_NC
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 7331899d-c5bb-4737-a6c4-9aa689fa39f6
+            stepCounter: e23f9a6f-ebb4-493f-bc8c-13ba5af53f55
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -14,7 +16,7 @@ operation:
     devMode: true
     flagSrcStream: false
     groupByAll: false
-    insertStrategy: UNION ALL
+    insertStrategy: UNION
     multiStreamBehavior: AND
     orderby: true
     orderbycolumn:

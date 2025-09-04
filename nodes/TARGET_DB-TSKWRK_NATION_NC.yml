@@ -3,10 +3,12 @@ id: 2386c2dc-8078-45db-9178-d3cfc14ce95f
 name: TSKWRK_NATION_NC
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 6f251a5e-1e56-47ea-8853-417dcf3a3a6b
+            stepCounter: 2386c2dc-8078-45db-9178-d3cfc14ce95f
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -14,7 +16,7 @@ operation:
     devMode: true
     flagSrcStream: true
     groupByAll: false
-    insertStrategy: UNION ALL
+    insertStrategy: UNION
     multiStreamBehavior: AND
     orderby: true
     orderbycolumn:
