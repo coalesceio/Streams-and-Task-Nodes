@@ -6,7 +6,9 @@ operation:
     clusterKey: false
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: a584d1ae-f721-4030-b84b-d1ae671e1921
+            stepCounter: 19bcdb1c-8f1a-4459-acbc-d25bdafdc19f
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -28,7 +30,7 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: true
+    truncateBefore: false
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true

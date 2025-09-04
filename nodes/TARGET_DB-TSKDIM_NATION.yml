@@ -3,10 +3,12 @@ id: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
 name: TSKDIM_NATION
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: ffa6a8b3-5209-4718-b8bd-730edc9814fe
+            stepCounter: 29a5d9b1-782a-4436-ba2e-20c23eafe0df
     clusterKeyConfigExpressions:
       items:
         - {}
