@@ -71,12 +71,34 @@ metadata:
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Minutes' %} true {% else %} false {% endif %}"
 
+      - displayName: Triggered task
+        attributeName: triggertask
+        type: toggleButton
+        default: true
+        isRequired: true 
+
       - displayName: Enter task schedule using CRON
         attributeName: scheduleCRON
         type: textBox
         default: '5 0-23 * * * America/Los_Angeles'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
+      
+      - displayName: When Source Stream has Data Flag
+        attributeName: flagSrcStream
+        type: toggleButton
+        default: true
+        isRequired: true
+
+      - displayName: Multiple Stream has Data Logic
+        attributeName: multiStreamBehavior
+        type: dropdownSelector
+        default: AND
+        options:
+          - AND
+          - OR
+        isRequired: true
+        enableIf: "{% if config.flagSrcStream == true %} true {% else %} false {% endif %}"
 
       - displayName: Root task SQL
         attributeName: tskSql
