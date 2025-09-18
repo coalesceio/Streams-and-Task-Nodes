@@ -1,0 +1,146 @@
+fileVersion: 1
+id: 27597ad0-d3b2-4646-a53b-864f92269b7c
+name: STREAM_NATION_B
+operation:
+  config:
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create At Existing Stream
+    sourceType: Table
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: stream
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 34120fee-7a85-487a-bc66-3f70e1992796
+          stepCounter: 27597ad0-d3b2-4646-a53b-864f92269b7c
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 11722324-3266-43f7-b014-5380f7fbe928
+                stepCounter: b51baa0a-e73f-4e09-a796-cb07e097b7b3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8cc3101-adf8-4c74-9f88-0b55747591b1
+          stepCounter: 27597ad0-d3b2-4646-a53b-864f92269b7c
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2b866e28-6b4e-445e-8992-cc3be8af49a2
+                stepCounter: b51baa0a-e73f-4e09-a796-cb07e097b7b3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 767cb1fa-2468-49e4-9de6-6e154881aa28
+          stepCounter: 27597ad0-d3b2-4646-a53b-864f92269b7c
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 13a56e2b-2878-4ebc-9a36-6a5d18c433c4
+                stepCounter: b51baa0a-e73f-4e09-a796-cb07e097b7b3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f7798e76-4ef0-489c-a840-d00a0e2040c5
+          stepCounter: 27597ad0-d3b2-4646-a53b-864f92269b7c
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 83f5c6e3-9b6c-4468-8ee5-0b8453e06b3d
+                stepCounter: b51baa0a-e73f-4e09-a796-cb07e097b7b3
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 66af7f34-408b-4683-951d-9ece407e1906
+          stepCounter: 27597ad0-d3b2-4646-a53b-864f92269b7c
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataAction: true
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2b0da511-d62f-4889-807f-8485d102adf1
+          stepCounter: 27597ad0-d3b2-4646-a53b-864f92269b7c
+        config: {}
+        dataType: boolean
+        defaultValue: ""
+        description: ""
+        metadataIsUpdate: true
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6a6a1dc9-066a-4a4b-a7a3-d5262e08f7bf
+          stepCounter: 27597ad0-d3b2-4646-a53b-864f92269b7c
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataRowID: true
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION: 3ab31ec7-0a6a-4317-8993-8ce7bbc82857
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: NATION_COPY2
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_COPY2') }} "NATION"
+        name: STREAM_NATION_B
+        noLinkRefs: []
+  name: STREAM_NATION_B
+  overrideSQL: false
+  schema: ""
+  sqlType: "153"
+  type: sql
+  version: 1
+type: Node

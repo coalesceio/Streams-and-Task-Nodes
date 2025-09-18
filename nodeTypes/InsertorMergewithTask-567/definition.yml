@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "151"
+id: "567"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
@@ -17,10 +17,12 @@ metadata:
     - groupName: Target Load Options
       items:
 
-      - displayName: Truncate Before
-        attributeName: truncateBefore
-        type: toggleButton
-        default: true
+      - type: materializationSelector
+        default: table
+        options:
+        - table
+        - transient table
+        isRequired: true
 
         # Cluster Key-determine if a node is to be clustered or not #
 
@@ -119,6 +121,12 @@ metadata:
         type: toggleButton
         isRequired: true
         default: true
+
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: true
+        enableIf: "{% if config.loadType == 'Insert' %} true {% else %} false {% endif %}"
 
       - displayName: Multi Source Strategy
         attributeName: insertStrategy
@@ -268,14 +276,18 @@ metadata:
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
 
-    - groupName: Hidden Config
-      enableIf: "false"
-      items:
-      - displayName: Type
-        type: materializationSelector
-        default: task
-        options:
-        - task
-        isRequired: false
-name: Work with Task
+    systemColumns:
+
+    - displayName: SYSTEM_CREATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemCreateDate
+
+    - displayName: SYSTEM_UPDATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemUpdateDate
+name: Insert or Merge with Task
 type: NodeType
