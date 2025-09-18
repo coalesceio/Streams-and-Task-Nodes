@@ -4,25 +4,24 @@ isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
-  nodeMetadataSpec: |-
-    capitalized: Insert or Merge with Task
-    short: TIM
+  nodeMetadataSpec: |+
+    capitalized: Work with Task
+    short: TSKWRK
     plural: Stages
-    tagColor: "#FFA32D"
+    tagColor: "#FF851F"
 
     deployStrategy: advanced
 
     config:
-
-    - groupName: Target Load Options
+    - groupName: Options
       items:
-
-      - displayName: Truncate Before
-        attributeName: truncateBefore
+      - displayName: Development Mode
+        attributeName: devMode
         type: toggleButton
+        isRequired: true
         default: true
 
-        # Cluster Key-determine if a node is to be clustered or not #
+    # Cluster Key-determine if a node is to be clustered or not #
 
       - type: toggleButton
         attributeName: clusterKey
@@ -69,56 +68,7 @@ metadata:
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
 
-      - displayName: Load Type
-        attributeName: loadType
-        type: dropdownSelector
-        default: Insert
-        options:
-          - Insert
-          - Merge
-        isRequired: true
-     
-      - type: tabular
-        displayName: 'Table Key(s)'
-        attributeName: partitionBy
-        isRequired: false
-        enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
-        columns:
-     
-        -  type: columnDropdownSelector
-           displayName: Column Name
-           attributeName: partColName
-           isRequired: false
-     
-      - type: tabular
-        displayName: 'Record Date / Timestamp'
-        attributeName: orderBy
-        isRequired: false
-        enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
-        columns:
-     
-        -  type: columnDropdownSelector
-           displayName: Column Name
-           attributeName: colName
-           isRequired: false
-       
-        -  type: dropdownSelector
-           displayName: Sort Order
-           attributeName: sortOrd
-           default: desc
-           options:
-           - desc
-           - asc
-           isRequired: false
-
-    - groupName: General Options
-      items:
-
-      - displayName: Development Mode
-        attributeName: devMode
-        type: toggleButton
-        isRequired: true
-        default: true
+      - type: multisourceToggle
 
       - displayName: Multi Source Strategy
         attributeName: insertStrategy
@@ -129,6 +79,15 @@ metadata:
         - "UNION ALL"
         isRequired: true
         enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+        
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: true
+
+
+    - groupName: General Options
+      items:
 
       - type: toggleButton
         attributeName: selectDistinct
@@ -146,12 +105,11 @@ metadata:
         attributeName: orderby
         type: toggleButton
         default: false
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
       - type: tabular
         displayName: 'Sort column'
         attributeName: orderbycolumn
-        isRequired: true
-        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
         columns:
 
           -  type: columnDropdownSelector
@@ -165,11 +123,16 @@ metadata:
              options:
              - desc
              - asc
+           
+        isRequired: true
+        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
 
-    - groupName: Schedule Options
+          
+    - groupName: Scheduling Options
 
      # Schedule mode-specifies whether a warehouse or serverless compute is used to run the task #
-      enableIf: "{% if config.devMode %} false {% else %} true {% endif %}" 
+
+      enableIf: "{% if config.devMode == true %} false {% else %} true {% endif %}" 
       items:
       - displayName: Scheduling Mode
         attributeName: schedulingMode
@@ -181,6 +144,7 @@ metadata:
         isRequired: true
 
       # Checks whether source streams have data before executing a task #
+
       - displayName: When Source Stream has Data Flag
         attributeName: flagSrcStream
         type: toggleButton
@@ -195,7 +159,7 @@ metadata:
           - AND
           - OR
         isRequired: true
-        enableIf: "{% if config.flagSrcStream %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.flagSrcStream == true %} true {% else %} false {% endif %}"
 
       # Warehouse name you want the task to run #
       - type: label
@@ -230,6 +194,7 @@ metadata:
         enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
 
       # Way to schedule the task to run #
+
       - displayName: Task Schedule
         attributeName: schedulePeriodOption
         type: dropdownSelector
@@ -277,5 +242,6 @@ metadata:
         options:
         - task
         isRequired: false
+
 name: Work with Task
 type: NodeType
