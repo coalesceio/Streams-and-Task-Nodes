@@ -35,36 +35,43 @@
     {# Figure out cluster key #}
     {% set nsClustVariable = namespace(finalClusterKey = "") %}
 
-    {% if desiredState.config.clusterKey == true %}
-        {% if desiredState.config.clusterKeyExpressions == true %}
-            {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items')
-                                        | map(attribute='columnNameExpressions.name')
-                                        | list, desiredState.config.clusterKeyConfigExpressions.get('items')
-                                        | map(attribute='sqlExpression')
-                                        | list %}
+    {% if desiredState.config.clusterKey or currentState.config.clusterKey %}
+        {% if desiredState.config.clusterKey %}
+            {% if desiredState.config.clusterKeyExpressions %}
+                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items')
+                                            | map(attribute='columnNameExpressions.name')
+                                            | list, desiredState.config.clusterKeyConfigExpressions.get('items')
+                                            | map(attribute='sqlExpression')
+                                            | list %}
 
-            {%- set nsVariables = namespace(clusterValues = []) %}
-            {% for clustCol in column %}
-                {% if expression[loop.index0] == "" %}
+                {%- set nsVariables = namespace(clusterValues = []) %}
+                {% for clustCol in column %}
+                    {% if expression[loop.index0] == "" %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"' + clustCol + '"'] %}
+                    {% else %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                    {% endif %}
+                {% endfor %}
+                {% set nsClustVariable.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% else %}
+
+                {% set column = desiredState.config.clusterKeyConfig.get('items')
+                                | map(attribute='columnName.name')
+                                | list %}
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+                {% for clustCol in column %}
                     {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"' + clustCol + '"'] %}
-                {% else %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
-                {% endif %}
-            {% endfor %}
-            {% set nsClustVariable.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+                {% endfor %}
+                {% set nsClustVariable.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
 
-        {% else %}
-
-            {% set column = desiredState.config.clusterKeyConfig.get('items')
-                            | map(attribute='columnName.name')
-                            | list %}
-            {%- set nsVariables = namespace(clusterValues=[]) %}
-            {% for clustCol in column %}
-                {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"' + clustCol + '"'] %}
-            {% endfor %}
-            {% set nsClustVariable.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
-
+            {% endif %}
         {% endif %}
+
+        {% if currentState.config.clusterKey and desiredState.config.clusterKey == false %}
+            {% set nsClustVariable.finalClusterKey = 'DROP CLUSTERING KEY' %}
+        {% endif %}
+
     {% endif %}
 
     {% if currentState == undefined or currentState.storageLocations | length == 0 %}
@@ -203,23 +210,6 @@
             {% endif %}
         
             {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
-
-            {# Clustering Test #}
-            {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
-            {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
-            {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig == desiredState.config.clusterKeyConfig %}
-            {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions == desiredState.config.clusterKeyConfigExpressions %}
-
-            {% if 
-                clusterKeyTest == false or
-                clusterKeyExpressionsTest == false or
-                clusterKeyConfigTest == false or
-                clusterKeyConfigExpressionsTest == false %}
-
-                {% set clusterTest = false %}
-            {% else %}
-                {% set clusterTest = true %}
-            {% endif %}
 
             {# Rename / Move Object #}
             {% if (nsVariables.storageLocationTest == false
@@ -423,7 +413,24 @@
             {% endif %}
         {% endfor %}
 
-        {% if clusterTest == false %}
+        {# Clustering Test #}
+        {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
+        {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
+        {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig == desiredState.config.clusterKeyConfig %}
+        {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions == desiredState.config.clusterKeyConfigExpressions %}
+
+        {% if 
+            clusterKeyTest == false or
+            clusterKeyExpressionsTest == false or
+            clusterKeyConfigTest == false or
+            clusterKeyConfigExpressionsTest == false %}
+
+            {% set clusterTest = false %}
+        {% else %}
+            {% set clusterTest = true %}
+        {% endif %}
+
+        {% if clusterTest == false and nsClustVariable.finalClusterKey != '' %}
             {{ stage('Recluster TABLE') }}
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             {{ nsClustVariable.finalClusterKey }}

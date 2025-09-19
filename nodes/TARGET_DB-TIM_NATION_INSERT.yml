@@ -3,7 +3,7 @@ id: aefc3b54-66e8-48d0-9cea-f6e8719e3326
 name: TIM_NATION_INSERT
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
         - columnName:
@@ -11,11 +11,13 @@ operation:
             stepCounter: aefc3b54-66e8-48d0-9cea-f6e8719e3326
     clusterKeyConfigExpressions:
       items:
-        - columnNameExpressions: null
+        - columnNameExpressions:
+            columnCounter: fe3365c1-185a-422e-b73b-e8d99a454ab0
+            stepCounter: aefc3b54-66e8-48d0-9cea-f6e8719e3326
           sqlExpression: ex. trunc("<column_name>", -5)
         - columnNameExpressions: null
           sqlExpression: UPPER("N_NAME")
-    clusterKeyExpressions: true
+    clusterKeyExpressions: false
     devMode: false
     flagSrcStream: false
     groupByAll: false
