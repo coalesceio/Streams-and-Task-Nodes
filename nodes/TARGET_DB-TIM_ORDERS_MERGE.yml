@@ -126,7 +126,7 @@ operation:
           columnCounter: f731bf60-5622-4f04-8761-0a0a11492ec0
           stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
         config: {}
-        dataType: VARCHAR(30)
+        dataType: VARCHAR(100)
         description: ""
         name: O_ORDERPRIORITY
         nullable: true
@@ -140,7 +140,7 @@ operation:
           columnCounter: 7e58b464-60e1-46bb-aaa0-4ffc28015f27
           stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
         config: {}
-        dataType: VARCHAR(15)
+        dataType: VARCHAR(100)
         description: ""
         name: O_CLERK
         nullable: true
