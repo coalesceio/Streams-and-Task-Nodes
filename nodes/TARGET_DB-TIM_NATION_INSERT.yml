@@ -17,7 +17,7 @@ operation:
           sqlExpression: UPPER("N_NAME")
     clusterKeyExpressions: true
     devMode: false
-    flagSrcStream: true
+    flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION ALL
     loadType: Insert
