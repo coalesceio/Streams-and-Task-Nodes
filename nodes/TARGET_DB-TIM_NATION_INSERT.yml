@@ -88,7 +88,7 @@ operation:
           columnCounter: abd54110-1db5-44b3-9b9d-078abc256304
           stepCounter: aefc3b54-66e8-48d0-9cea-f6e8719e3326
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR(50)
         description: ""
         name: N_NAME
         nullable: true
