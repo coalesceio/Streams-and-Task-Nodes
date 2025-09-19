@@ -14,8 +14,14 @@ metadata:
 
     config:
 
-    - groupName: Target Load Options
+    - groupName: General Options
       items:
+
+      - displayName: Development Mode
+        attributeName: devMode
+        type: toggleButton
+        isRequired: true
+        default: true
 
       - type: materializationSelector
         default: table
@@ -71,6 +77,9 @@ metadata:
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
 
+    - groupName: Target Loading Options
+      items:
+
       - displayName: Load Type
         attributeName: loadType
         type: dropdownSelector
@@ -94,7 +103,7 @@ metadata:
      
       - type: tabular
         displayName: 'Record Date / Timestamp'
-        attributeName: orderBy
+        attributeName: mergeOrderBy
         isRequired: false
         enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
         columns:
@@ -113,21 +122,14 @@ metadata:
            - asc
            isRequired: false
 
-    - groupName: General Options
-      items:
-
-      - displayName: Development Mode
-        attributeName: devMode
-        type: toggleButton
-        isRequired: true
-        default: true
-
       - displayName: Truncate Before
         attributeName: truncateBefore
         type: toggleButton
         default: true
         enableIf: "{% if config.loadType == 'Insert' %} true {% else %} false {% endif %}"
 
+      - type: multisourceToggle
+      
       - displayName: Multi Source Strategy
         attributeName: insertStrategy
         type: dropdownSelector

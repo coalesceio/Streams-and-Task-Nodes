@@ -17,7 +17,7 @@ operation:
     flagSrcStream: true
     groupByAll: false
     initialRows: false
-    loadType: Insert
+    loadType: Merge
     orderBy:
       items:
         - colName:
@@ -153,7 +153,7 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" where N_NATIONKEY = 0
         name: SIM_NATION
         noLinkRefs: []
   name: SIM_NATION
