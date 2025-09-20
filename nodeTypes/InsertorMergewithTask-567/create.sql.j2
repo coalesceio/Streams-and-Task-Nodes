@@ -35,7 +35,7 @@
     {# Figure out cluster key #}
     {% set nsClustVariable = namespace(finalClusterKey = "") %}
 
-    {% if desiredState.config.clusterKey or (currentState and currentState.config.clusterKey) %}
+    {% if desiredState.config.clusterKey or (currentState = defined and currentState.config.clusterKey) %}
         {% if desiredState.config.clusterKey %}
             {% if desiredState.config.clusterKeyExpressions %}
                 {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items')
