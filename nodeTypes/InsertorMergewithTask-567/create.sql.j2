@@ -126,6 +126,7 @@
                 transformTest       = true,
                 sourceLinkTest      = true,
                 orderByTest         = true,
+                mergeOrderByTest    = true,
                 metaDataChanged     = false,
                 joinDiff            = [],
                 transformDiff       = [],
@@ -135,6 +136,9 @@
                 distinctDiff        = [],
                 groupByAllDiff      = [],
                 orderByDiff         = [],
+                loadTypeDiff        = [],
+                partByDiff          = [],
+                mergeOrderByDiff    = [],
                 metaDataChanges     = [],
                 metadataUpdate      = 'Metadata Update'
             ) %}
@@ -625,7 +629,7 @@
                     {% set nsMetaVariables.orderByTest = false %}
                     {% set _ = nsMetaVariables.orderByDiff.append({
                             "is": desiredState.config.orderby,
-                        "was": currentState.config.orderby
+                            "was": currentState.config.orderby
                     }) %}
 
                 {% elif currentState.config.orderby and desiredState.config.orderby %}
@@ -667,6 +671,78 @@
                 {% if currentState.config.devMode != desiredState.config.devMode %}
                     
                     {{ update_metadata("DevMode", {"is": desiredState.config.devMode, "was": currentState.config.devMode}, "DevMode") }}
+
+                {% endif %}
+
+                {# =========================================================
+                Load Type comparison
+                ========================================================= #}
+                {% if currentState.config.loadType != desiredState.config.loadType %}
+                    {% set _ = nsMetaVariables.loadTypeDiff.append({
+                        "is": desiredState.config.loadType,
+                        "was": currentState.config.loadType
+                    }) %}
+
+                    {{ update_metadata("Load Type", nsMetaVariables.loadTypeDiff, "Load Type") }}
+
+                {% elif currentState.config.loadType == desiredState.config.loadType %}
+
+                    {# =========================================================
+                    Record Date / Timestamp comparison
+                    ========================================================= #}
+
+                    {% set desiredSortColList = [] %}
+                    {% set currentSortColList = [] %}
+
+                    {# Desired Column sort order #}
+                    {% for item in desiredState.config.mergeOrderBy.get('items', []) %}
+                        {% set _ = desiredSortColList.append({
+                                    "Column Name": item.colName.name,
+                                    "Sort Order": item.sortOrd
+                        }) %}
+                    {% endfor%}
+                    {# Current Column sort order #}
+                    {% for item in currentState.config.mergeOrderBy.get('items', []) %}
+                        {% set _ = currentSortColList.append({
+                                    "Column Name": item.colName.name,
+                                    "Sort Order": item.sortOrd
+                        }) %}
+                    {% endfor%}
+
+                    {% if desiredSortColList != currentSortColList %}
+                        {% set nsMetaVariables.mergeOrderByTest = false %}
+                        {% set _ = nsMetaVariables.mergeOrderByDiff.append({
+                            "is": desiredSortColList,
+                            "was": currentSortColList
+                        }) %}
+                    {% endif %}
+
+                    {% if nsMetaVariables.mergeOrderByTest == false %}
+                        {{ update_metadata("Record Date / Timestamp", nsMetaVariables.mergeOrderByDiff, "Record Date / Timestamp") }}
+                    {% endif %}
+
+                    {# =========================================================
+                    Table Key(s) comparison
+                    ========================================================= #}
+                    {% set desPartBy = desiredState.config.partitionBy["items"]
+                                        | default([], true) 
+                                        | map(attribute='partColName.name')
+                                        | join(', ') %}
+
+                    {% set currPartBy = currentState.config.partitionBy["items"]
+                                        | default([], true) 
+                                        | map(attribute='partColName.name')
+                                        | join(', ') %}
+
+                    {% if desPartBy != currPartBy %}
+                        {% set _ = nsMetaVariables.partByDiff.append({
+                            "is": desPartBy,
+                            "was": currPartBy
+                        }) %}
+
+                        {{ update_metadata("Table Key(s)", nsMetaVariables.partByDiff, "Table Key(s)") }}
+
+                    {% endif %}
 
                 {% endif %}
 

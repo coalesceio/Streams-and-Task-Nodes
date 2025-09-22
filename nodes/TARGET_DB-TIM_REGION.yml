@@ -15,7 +15,7 @@ operation:
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
-    loadType: Merge
+    loadType: Insert
     mergeOrderBy:
       items:
         - colName:
