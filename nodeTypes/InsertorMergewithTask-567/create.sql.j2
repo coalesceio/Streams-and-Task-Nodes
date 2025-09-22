@@ -685,7 +685,7 @@
 
                     {{ update_metadata("Load Type", nsMetaVariables.loadTypeDiff, "Load Type") }}
 
-                {% elif currentState.config.loadType == desiredState.config.loadType %}
+                {% elif currentState.config.loadType == desiredState.config.loadType == "Merge" %}
 
                     {# =========================================================
                     Record Date / Timestamp comparison
