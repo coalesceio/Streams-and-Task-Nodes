@@ -9,6 +9,9 @@ operation:
         - columnName:
             columnCounter: f9c0c23b-3b8d-43f4-84db-6039639a9d16
             stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
+        - columnName:
+            columnCounter: 7ee8ea59-a87f-49c2-bfff-8e723ec5e178
+            stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
     clusterKeyConfigExpressions:
       items:
         - {}
