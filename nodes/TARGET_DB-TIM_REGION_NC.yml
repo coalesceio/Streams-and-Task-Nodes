@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 58920745-a78e-4d18-af39-ec33769c4c9a
-name: TIM_REGION
+name: TIM_REGION_NC
 operation:
   config:
     clusterKey: false
@@ -148,9 +148,9 @@ operation:
             nodeName: REGION_PK
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION_PK') }} "REGION_PK"
-        name: TIM_REGION
+        name: TIM_REGION_NC
         noLinkRefs: []
-  name: TIM_REGION
+  name: TIM_REGION_NC
   overrideSQL: false
   schema: ""
   sqlType: "567"

@@ -1,6 +1,6 @@
 fileVersion: 1
 id: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
-name: TIM_ORDERS
+name: TIM_ORDERS_NC
 operation:
   config:
     clusterKey: true
@@ -237,9 +237,9 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: " FROM {{ ref('SOURCE_DATA', 'ORDERS') }} \"ORDERS\" WHERE O_ORDERKEY  = 197987"
-        name: TIM_ORDERS
+        name: TIM_ORDERS_NC
         noLinkRefs: []
-  name: TIM_ORDERS
+  name: TIM_ORDERS_NC
   overrideSQL: false
   schema: ""
   sqlType: "567"

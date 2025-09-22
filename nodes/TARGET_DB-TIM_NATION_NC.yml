@@ -1,6 +1,6 @@
 fileVersion: 1
 id: b728d093-befa-4254-8802-0e3a3550b93f
-name: TIM_NATION
+name: TIM_NATION_NC
 operation:
   config:
     clusterKey: false
@@ -176,9 +176,9 @@ operation:
             FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" WHERE "N_NATIONKEY" = 0
             -- {{ref ('TARGET_DB', 'STREAM_NATION_B') }} "STREAM_NATION_B"
             -- {{ref ('TARGET_DB', 'STREAM_NATION_A') }} "STREAM_NATION_A"
-        name: TIM_NATION
+        name: TIM_NATION_NC
         noLinkRefs: []
-  name: TIM_NATION
+  name: TIM_NATION_NC
   overrideSQL: false
   schema: ""
   sqlType: "567"
