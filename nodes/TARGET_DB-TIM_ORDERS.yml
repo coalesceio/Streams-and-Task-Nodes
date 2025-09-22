@@ -1,6 +1,6 @@
 fileVersion: 1
-id: e81b6e1d-50ac-423c-af79-50c21e6481a5
-name: TIM_ORDERS_MERGE
+id: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
+name: TIM_ORDERS
 operation:
   config:
     clusterKey: false
@@ -19,8 +19,8 @@ operation:
     mergeOrderBy:
       items:
         - colName:
-            columnCounter: 6bd0c11c-3442-4628-86f3-5a3b1c0a9b08
-            stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+            columnCounter: 0dfbc049-2333-46a3-8c2c-317a95ca574d
+            stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
           sortOrd: desc
     multiStreamBehavior: AND
     orderby: false
@@ -30,8 +30,8 @@ operation:
     partitionBy:
       items:
         - partColName:
-            columnCounter: 46a7a1c4-7084-4b9a-95df-7bb7b0431c46
-            stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+            columnCounter: f9c0c23b-3b8d-43f4-84db-6039639a9d16
+            stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
@@ -44,7 +44,7 @@ operation:
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
-  description: This table level description for MERGE
+  description: ""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: table
@@ -53,11 +53,11 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 46a7a1c4-7084-4b9a-95df-7bb7b0431c46
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: f9c0c23b-3b8d-43f4-84db-6039639a9d16
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: NUMBER(38,0)
-        description: This column level description for MERGE
+        description: ""
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -67,10 +67,10 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5a124ca9-7b59-4e98-bd80-f951619ae074
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: 7ee8ea59-a87f-49c2-bfff-8e723ec5e178
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
-        dataType: NUMBER(31,0)
+        dataType: NUMBER(38,0)
         description: ""
         name: O_CUSTKEY
         nullable: true
@@ -81,8 +81,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fa595a23-c967-4553-892f-7ee75612b83c
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: 17b41f78-256d-4e0d-9705-eed0ac2e9ba7
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: VARCHAR(1)
         description: ""
@@ -95,8 +95,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2877ee44-506a-486d-b40d-f07d3047e099
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: 628faa4d-37dd-4380-8d61-aad9073f6d7b
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -109,8 +109,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6bd0c11c-3442-4628-86f3-5a3b1c0a9b08
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: 0dfbc049-2333-46a3-8c2c-317a95ca574d
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: DATE
         description: ""
@@ -123,10 +123,10 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f731bf60-5622-4f04-8761-0a0a11492ec0
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: d96f3a2c-6be5-4ec8-8204-e0600df95670
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(15)
         description: ""
         name: O_ORDERPRIORITY
         nullable: true
@@ -137,10 +137,10 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7e58b464-60e1-46bb-aaa0-4ffc28015f27
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: f2388865-6076-474f-abfc-71e6acd06b68
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(15)
         description: ""
         name: O_CLERK
         nullable: true
@@ -151,8 +151,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 006346da-b57d-4f5c-8800-56a14da74a33
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: c868f654-a438-40a3-bf1b-fa310a9cdc73
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -165,8 +165,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 91f392f6-ad3f-42df-8658-65824c50d016
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: 32706896-0fd1-4f7b-b922-518331654a19
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: VARCHAR(79)
         description: ""
@@ -182,8 +182,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 51916ffc-d226-44ac-9548-e6650754b3f3
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: d2dfee2c-7244-413c-9c05-410e05abb659
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -199,8 +199,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: ee622f91-6a5d-4024-bcf0-b48c0eab4941
-          stepCounter: e81b6e1d-50ac-423c-af79-50c21e6481a5
+          columnCounter: b798171f-4de3-4db7-b87e-591992115fd9
+          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -222,10 +222,10 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: ORDERS
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"  where o_orderkey = 197987
-        name: TIM_ORDERS_MERGE
+          joinCondition: " FROM {{ ref('SOURCE_DATA', 'ORDERS') }} \"ORDERS\" WHERE O_ORDERKEY  = 197987"
+        name: TIM_ORDERS
         noLinkRefs: []
-  name: TIM_ORDERS_MERGE
+  name: TIM_ORDERS
   overrideSQL: false
   schema: ""
   sqlType: "567"
