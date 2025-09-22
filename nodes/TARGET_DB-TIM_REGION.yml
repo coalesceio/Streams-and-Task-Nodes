@@ -75,7 +75,7 @@ operation:
         config: {}
         dataType: VARCHAR(25)
         description: ""
-        name: R_NAME
+        name: R_NAME_NC
         nullable: false
         sourceColumnReferences:
           - columnReferences:
