@@ -1,0 +1,295 @@
+fileVersion: 1
+id: "567"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Insert or Merge with Task
+    short: TIM
+    plural: Stages
+    tagColor: "#FFA32D"
+
+    deployStrategy: advanced
+
+    config:
+
+    - groupName: General Options
+      items:
+
+      - displayName: Development Mode
+        attributeName: devMode
+        type: toggleButton
+        isRequired: true
+        default: true
+
+      - type: materializationSelector
+        default: table
+        options:
+        - table
+        - transient table
+        isRequired: true
+
+        # Cluster Key-determine if a node is to be clustered or not #
+
+      - type: toggleButton
+        attributeName: clusterKey
+        displayName: Cluster Key
+        default: false
+        isRequired: false
+
+      - type: toggleButton
+        attributeName: clusterKeyExpressions
+        displayName: Allow Expressions in Cluster Key
+        default: false
+        isRequired: false
+        enableIf: "{% if config.clusterKey %} true {% else %} false {% endif %}"
+
+      - type: tabular
+        displayName: 'Cluster Key'
+        attributeName: clusterKeyConfig
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: columnName
+           isRequired: false
+      
+        isRequired: false
+        enableIf: "{% if (config.clusterKey and not config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+
+      - type: tabular
+        displayName: 'Cluster Key'
+        attributeName: clusterKeyConfigExpressions
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: columnNameExpressions
+           isRequired: false
+      
+        -  type: textBox
+           displayName: Expression(Column name to be enclosed within double quotes)
+           attributeName: sqlExpression
+           default: "ex. trunc(\"<column_name>\", -5)"
+           isRequired: false
+      
+        isRequired: false
+        enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+
+    - groupName: Target Loading Options
+      items:
+
+      - displayName: Load Type
+        attributeName: loadType
+        type: dropdownSelector
+        default: Insert
+        options:
+          - Insert
+          - Merge
+        isRequired: true
+     
+      - type: tabular
+        displayName: 'Table Key(s)'
+        attributeName: partitionBy
+        isRequired: false
+        enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
+        columns:
+     
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: partColName
+           isRequired: false
+     
+      - type: tabular
+        displayName: 'Record Date / Timestamp'
+        attributeName: mergeOrderBy
+        isRequired: false
+        enableIf: "{% if config.loadType == 'Merge' %} true {% else %} false {% endif %}"
+        columns:
+     
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: colName
+           isRequired: false
+       
+        -  type: dropdownSelector
+           displayName: Sort Order
+           attributeName: sortOrd
+           default: desc
+           options:
+           - desc
+           - asc
+           isRequired: false
+
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: true
+        enableIf: "{% if config.loadType == 'Insert' %} true {% else %} false {% endif %}"
+
+      - type: multisourceToggle
+      
+      - displayName: Multi Source Strategy
+        attributeName: insertStrategy
+        type: dropdownSelector
+        default: UNION
+        options:
+        - "UNION"
+        - "UNION ALL"
+        isRequired: true
+        enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: selectDistinct
+        displayName: Distinct
+        default: false
+        enableIf: "{% if config.groupByAll %} false {% else %} true {% endif %}"
+
+      - type: toggleButton
+        attributeName: groupByAll
+        displayName: Group By All
+        enableIf: "{% if config.selectDistinct %} false {% else %} true {% endif %}"
+        default: false
+         
+      - displayName: Order By
+        attributeName: orderby
+        type: toggleButton
+        default: false
+
+      - type: tabular
+        displayName: 'Sort column'
+        attributeName: orderbycolumn
+        isRequired: true
+        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
+        columns:
+
+          -  type: columnDropdownSelector
+             displayName: Column Name
+             attributeName: sortColName
+
+          -  type: dropdownSelector
+             displayName: Sort Order
+             attributeName: sortOrder
+             default: desc
+             options:
+             - desc
+             - asc
+
+    - groupName: Schedule Options
+
+     # Schedule mode-specifies whether a warehouse or serverless compute is used to run the task #
+      enableIf: "{% if config.devMode %} false {% else %} true {% endif %}" 
+      items:
+      - displayName: Scheduling Mode
+        attributeName: schedulingMode
+        type: dropdownSelector
+        default: Warehouse Task
+        options:
+          - Warehouse Task
+          - Serverless Task
+        isRequired: true
+
+      # Checks whether source streams have data before executing a task #
+      - displayName: When Source Stream has Data Flag
+        attributeName: flagSrcStream
+        type: toggleButton
+        default: true
+        isRequired: true
+
+      - displayName: Multiple Stream has Data Logic
+        attributeName: multiStreamBehavior
+        type: dropdownSelector
+        default: AND
+        options:
+          - AND
+          - OR
+        isRequired: true
+        enableIf: "{% if config.flagSrcStream %} true {% else %} false {% endif %}"
+
+      # Warehouse name you want the task to run #
+      - type: label
+        attributeName: note2
+        displayName: 
+                       "NOTE:
+                       \n
+                       Ensure the parameter targetTaskWarehouse is added in Workspace and 
+                       deployment environment  for successful creation of Steam.  
+                       For more information, refer to the documentation."
+        enableIf: "{%- if (parameters == {} or parameters.targetTaskWarehouse == '' ) and config.schedulingMode == 'Warehouse Task'-%} true {%- else -%} false {%- endif -%}"
+
+      - displayName: Select Warehouse on which to run task
+        attributeName: whName
+        type: textBox
+        default: '<WAREHOUSE_NAME>'
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Warehouse Task' %} true {% else %} false {% endif %}"
+
+      - displayName: Select initial serverless Warehouse size
+        attributeName: serverlessSize
+        type: dropdownSelector
+        default: 'MEDIUM'
+        options:
+          - XSMALL
+          - SMALL
+          - MEDIUM
+          - LARGE
+          - XLARGE
+          - XXLARGE
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
+
+      # Way to schedule the task to run #
+      - displayName: Task Schedule
+        attributeName: schedulePeriodOption
+        type: dropdownSelector
+        default: Minutes
+        options:
+          - Minutes
+          - CRON
+          - Predecessor
+        isRequired: true
+
+      - displayName: Enter task schedule using minutes
+        attributeName: schedulePeriod
+        type: textBox
+        default: '60'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Minutes' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter task schedule using CRON
+        attributeName: scheduleCRON
+        type: textBox
+        default: '5 0-23 * * * America/Los_Angeles'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter predecessor task(s) separated by a comma
+        attributeName: predTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter root task name
+        attributeName: rootTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+    systemColumns:
+
+    - displayName: SYSTEM_CREATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemCreateDate
+
+    - displayName: SYSTEM_UPDATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemUpdateDate
+name: Insert or Merge with Task
+type: NodeType
