@@ -1,6 +1,0 @@
-excludeSelector: ""
-fileVersion: 1
-id: "64"
-includeSelector: "{ location: TARGET_DB name: TIM_NATION_INSERT } OR { location: TARGET_DB name: TIM_ORDERS_MERGE } OR { location: SOURCE_DATA name: NATION } OR { location: SOURCE_DATA name: NATION_COPY1 } OR { location: SOURCE_DATA name: NATION_COPY2 } OR { location: SOURCE_DATA name: ORDERS } OR { location: TARGET_DB name: STREAM_NATION_A } OR { location: TARGET_DB name: STREAM_NATION_B } OR { location: TARGET_DB name: SIM_NATION } OR { location: TARGET_DB name: TSKWRK_NATION }"
-name: Job_TIM
-type: Job
