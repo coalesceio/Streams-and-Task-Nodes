@@ -401,35 +401,36 @@
         {% endif %}
 
         {# Figure out cluster key #}
-        {% set nsVariables = namespace(finalClusterKey="") %}
+        {% set nsVariables = namespace(finalClusterKey = "") %}
         {% if clusterTest == false %}
-            {% if desiredState.config.clusterKeyExpressions == true %}
-                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+            {% if desiredState.config.clusterKey == true %}
+                {% if desiredState.config.clusterKeyExpressions == true %}
 
-                {%- set nsVariables = namespace(clusterValues=[]) %}
+                    {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+                    {%- set nsVariables = namespace(clusterValues=[]) %}
 
-                {% for clustCol in column %}
-                    {% if expression[loop.index0] == "" %}
+                    {% for clustCol in column %}
+                        {% if expression[loop.index0] == "" %}
+                            {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"' + clustCol + '"'] %}
+                        {% else %}
+                            {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+                {% else %}
+
+                    {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
+                    {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                    {% for clustCol in column %}
                         {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"' + clustCol + '"'] %}
-                    {% else %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
-                    {% endif %}
-                {% endfor %}
+                    {% endfor %}
 
-                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
-
-            {% elif desiredState.config.clusterKey == true %}
-
-                {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
-
-                {%- set nsVariables = namespace(clusterValues=[]) %}
-
-                {% for clustCol in column %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"' + clustCol + '"'] %}
-                {% endfor %}
-
-                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
-            
+                    {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+                {% endif %}
+                
             {% else %}
 
                 {% set nsVariables.finalClusterKey = 'DROP CLUSTERING KEY' %}
