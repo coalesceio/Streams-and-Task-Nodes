@@ -82,20 +82,6 @@ operation:
               - columnCounter: 76d343bf-94af-4d08-a293-3c6b2a3abfc6
                 stepCounter: 6de63410-a28b-4c07-9553-a9cb1b675971
             transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 9ed9ea4e-8e9c-48a5-a5ac-170c4b7f7917
-          stepCounter: 58920745-a78e-4d18-af39-ec33769c4c9a
-        config: {}
-        dataType: VARCHAR(152)
-        description: ""
-        name: R_COMMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 6f4ca5fc-8097-4a4f-9859-6cd10b2ea406
-                stepCounter: 6de63410-a28b-4c07-9553-a9cb1b675971
-            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []

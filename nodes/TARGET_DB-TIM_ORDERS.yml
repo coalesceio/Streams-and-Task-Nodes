@@ -171,20 +171,6 @@ operation:
               - columnCounter: 8024a60c-5f21-4670-829f-f8af4c6b1432
                 stepCounter: 308343f3-8b2c-4634-980b-5a772f38ea25
             transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 32706896-0fd1-4f7b-b922-518331654a19
-          stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
-        config: {}
-        dataType: VARCHAR(79)
-        description: ""
-        name: O_COMMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: bcaaf786-7cf6-458b-ba28-1fe70e8c1e27
-                stepCounter: 308343f3-8b2c-4634-980b-5a772f38ea25
-            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
