@@ -1569,4 +1569,4 @@ When node is deleted, the following stages execute:
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/InsertorMergewithTask-567/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/InsertorMergewithTask-567/run.sql.j2)
 
-[Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
+[Macros](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/macros/macro-1.yml)
