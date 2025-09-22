@@ -162,7 +162,7 @@ operation:
             nodeName: STREAM_NATION_B
         join:
           joinCondition: |-
-            FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+            FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" WHERE "N_NATIONKEY" = 0
             -- {{ref ('TARGET_DB', 'STREAM_NATION_B') }} "STREAM_NATION_B"
             -- {{ref ('TARGET_DB', 'STREAM_NATION_A') }} "STREAM_NATION_A"
         name: TIM_NATION

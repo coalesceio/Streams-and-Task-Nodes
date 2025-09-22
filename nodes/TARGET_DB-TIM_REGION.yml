@@ -15,22 +15,24 @@ operation:
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
-    loadType: Insert
+    loadType: Merge
     mergeOrderBy:
       items:
-        - colName: null
+        - colName:
+            columnCounter: 263bf86e-0a9d-4eed-b521-60283dfdad43
+            stepCounter: 58920745-a78e-4d18-af39-ec33769c4c9a
           sortOrd: desc
     multiStreamBehavior: AND
     orderby: true
     orderbycolumn:
       items:
-        - sortColName:
-            columnCounter: 8bcefa22-1944-4167-8306-ca0520afe963
-            stepCounter: 58920745-a78e-4d18-af39-ec33769c4c9a
+        - sortColName: null
           sortOrder: desc
     partitionBy:
       items:
-        - {}
+        - partColName:
+            columnCounter: 8bcefa22-1944-4167-8306-ca0520afe963
+            stepCounter: 58920745-a78e-4d18-af39-ec33769c4c9a
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
