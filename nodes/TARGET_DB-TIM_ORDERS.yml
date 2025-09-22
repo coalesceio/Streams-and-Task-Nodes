@@ -3,10 +3,12 @@ id: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
 name: TIM_ORDERS
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: f9c0c23b-3b8d-43f4-84db-6039639a9d16
+            stepCounter: fc2b4b56-88a6-493c-9b7f-6f675eed4bcb
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -59,7 +61,7 @@ operation:
         dataType: NUMBER(38,0)
         description: ""
         name: O_ORDERKEY
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 8bfb2e72-3341-4de0-84d8-f548218f2b5d

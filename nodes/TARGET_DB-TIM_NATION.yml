@@ -3,14 +3,17 @@ id: b728d093-befa-4254-8802-0e3a3550b93f
 name: TIM_NATION
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName: null
     clusterKeyConfigExpressions:
       items:
-        - {}
-    clusterKeyExpressions: false
+        - columnNameExpressions:
+            columnCounter: f12a52b9-9ae9-4cf5-931f-0444d88143a4
+            stepCounter: b728d093-befa-4254-8802-0e3a3550b93f
+          sqlExpression: UPPER(N_NAME)
+    clusterKeyExpressions: true
     devMode: false
     flagSrcStream: true
     groupByAll: false
@@ -54,7 +57,7 @@ operation:
         dataType: NUMBER(38,0)
         description: ""
         name: N_NATIONKEY
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 5c19f3c5-6f5b-40bc-a3ef-922a0e507a79
