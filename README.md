@@ -12,6 +12,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Stream and Insert or Merge](#stream-and-insert-or-merge)
 * [Stream for Directory Table](#stream-for-directory-table)
 * [Delta Stream Merge](#delta-stream-merge)
+* [Insert Or Merge with Task](#Insert-Or-Merge-with-Task)
 * [Code](#code)
 ---
 
@@ -1375,6 +1376,139 @@ When node is deleted, the following stages execute:
 
 ---
 
+## Insert or Merge with Task
+
+The Coalesce Insert or Merge with Task UDN is a node that allows you to create a target table to insert or merge data from source with a task on top of it.
+
+### Insert or Merge with Task Node Configuration
+
+The Insert or Merge with Task node has the following configuration groups:
+
+* [Node Properties](#insert-or-merge-with-task-node-properties)
+* [General Options](#insert-or-merge-with-task-general-options)
+* [Target Loading Options](#insert-or-merge-with-task-target-loading-options)
+* [Scheduling Options](#insert-or-merge-with-task-scheduling-options)
+
+#### Insert or Merge with Task Node Properties
+
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Description** | A description of the node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+
+#### Insert or Merge with Task General Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options |
+| **CREATE AS** | Choose target object type:<br/>- Table - Permanent table with data retention and fail-safe<br/>- Transient Table - Temporary table without data retention |
+| **Cluster key** | True/False toggle for clustering<br/>**True** - Specify clustering column and expressions. - **Allow Expressions Cluster Key**: Add an expression to the specified cluster key.<br/>**False** - No clustering |
+
+#### Insert or Merge with Task Target Loading Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Load Type** | Choose data loading method:<br/>**Insert** - Data inserted from source<br/>**Merge** - Latest record changes merged into target |
+| **Table keys** | Business key columns for merging data (enabled for Merge load type) |
+| **Record Date/Timestamp** | Date/Timestamp column for latest record merging (enabled for Merge load type) |
+| **Multi Source** | True / False toggle that is Coalesce implementation of SQL UNIONs<br/>**True** - Multiple sources can be combined using:<br/>- UNION - Combines with duplicate elimination<br/>- UNION ALL - Combines without duplicate elimination<br/>**False** - Single source node or multiple sources combined using a join |
+| **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
+| **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
+| **Order By** | True/False toggle that determines whether to add ORDER BY to SQL Query<br/>**True** - Sort column and order options visible<br/>**False** - Sort options invisible |
+| **Truncate Before** | True / False toggle that determines if table should be truncated before insert<br/>**True** - Uses INSERT OVERWRITE<br/>**False** - Uses INSERT to append data (enabled for Insert load type) |
+
+#### Insert or Merge with Task Scheduling Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
+| **When Source Stream has Data Flag** | True/False toggle to check for stream data<br/>**True** - Only run task if source stream has capture change data<br/>**False** -  Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false. |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
+| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
+
+### Insert or Merge with Task Deployment
+
+#### Insert or Merge with Task Deployment Parameters
+
+The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+
+The parameter name is `targetTaskWarehouse` with default value `DEV ENVIRONMENT`.
+
+```json
+{
+    "targetTaskWarehouse": "DEV ENVIRONMENT"
+}
+```
+
+When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
+
+For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
+
+```json
+{
+    "targetTaskWarehouse": "compute_wh"
+}
+```
+
+#### Insert or Merge with Task Initial Deployment
+
+For tasks without predecessors:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Work Table/Transient Table** | Creates table loaded by task |
+| **Create Task** | Creates scheduled task |
+| **Resume Task** | Enables task execution |
+
+For tasks with predecessors:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Work Table/Transient Table** | Creates target table |
+| **Suspend Root Task** | Suspends root task |
+| **Create Task** | Creates scheduled task |
+
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task DAG Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change
+
+#### Insert or Merge with Task Redeployment
+
+Table changes execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Rename Table/Alter Column/Delete Column/Add Column/Edit description** | Alters table as needed |
+
+If the materialization type is changed from one type to another(transient table/table) the following stages execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table/Transient Table** | Drop the target table|
+| **Create Work/Transient table**| Create the target table|
+
+Task changes:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Task** | Creates scheduled task |
+| **Resume Task**| Resumes the task|
+
+### Insert or Merge with Task Undeployment
+
+When node is deleted, the following stages execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Table** | Drop the table |
+| **Drop Current Task** | Drop the task |
+
+---
 
 ## Code
 
@@ -1428,5 +1562,11 @@ When node is deleted, the following stages execute:
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DeltaStreamMerge-483/run.sql.j2)
+
+### Insert OR Merge with Task Code
+
+* [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/InsertorMergewithTask-567/definition.yml)
+* [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/InsertorMergewithTask-567/create.sql.j2)
+* [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/InsertorMergewithTask-567/run.sql.j2)
 
 [Macros](https://github.com/Coalesce-Software-Inc/coalesce_marketplace/blob/7ed5ad0830c6352f80046993a0664db8d980e7ac/Code-files/macros_basenodetypes.txt)
