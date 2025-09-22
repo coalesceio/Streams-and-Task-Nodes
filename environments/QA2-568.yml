@@ -9,6 +9,6 @@ mappingDefinitions:
     schema: QA_PHASE
   TARGET_DB:
     database: TANVI_DEV
-    schema: QA_PHASE2
+    schema: QA
 name: QA2
 type: Environment
