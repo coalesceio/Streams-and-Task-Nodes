@@ -18,12 +18,16 @@ operation:
     loadType: Insert
     mergeOrderBy:
       items:
-        - {}
+        - colName: null
+          sortOrd: desc
     multiStreamBehavior: AND
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
-        - {}
+        - sortColName:
+            columnCounter: 8bcefa22-1944-4167-8306-ca0520afe963
+            stepCounter: 58920745-a78e-4d18-af39-ec33769c4c9a
+          sortOrder: desc
     partitionBy:
       items:
         - {}
@@ -33,7 +37,7 @@ operation:
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
-    selectDistinct: false
+    selectDistinct: true
     serverlessSize: MEDIUM
     truncateBefore: true
     whName: <WAREHOUSE_NAME>
