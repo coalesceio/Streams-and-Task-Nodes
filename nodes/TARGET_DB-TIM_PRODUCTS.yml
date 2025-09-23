@@ -15,10 +15,11 @@ operation:
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
-    loadType: Insert
+    loadType: Merge
     mergeOrderBy:
       items:
-        - {}
+        - colName: null
+          sortOrd: desc
     multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
@@ -26,7 +27,7 @@ operation:
         - {}
     partitionBy:
       items:
-        - {}
+        - partColName: null
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
