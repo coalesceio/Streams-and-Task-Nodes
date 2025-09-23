@@ -1393,7 +1393,7 @@ The Insert or Merge with Task node has the following configuration groups:
 
 | **Property** | **Description** |
 |-------------|-----------------|
-| **Storage Location** | Storage Location where the Stream will be created |
+| **Storage Location** | Storage Location where the Task will be created |
 | **Node Type** | Name of template used to create node objects |
 | **Description** | A description of the node's purpose |
 | **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
@@ -1417,7 +1417,7 @@ The Insert or Merge with Task node has the following configuration groups:
 | **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
 | **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
 | **Order By** | True/False toggle that determines whether to add ORDER BY to SQL Query<br/>**True** - Sort column and order options visible<br/>**False** - Sort options invisible |
-| **Truncate Before** | True / False toggle that determines if table should be truncated before insert<br/>**True** - Uses INSERT OVERWRITE<br/>**False** - Uses INSERT to append data (enabled for Insert load type) |
+| **Truncate Before** | True / False toggle that determines if table should be truncated before insert (enabled for Insert load type)<br/>**True** - Uses INSERT OVERWRITE<br/>**False** - Uses INSERT to append data |
 
 #### Insert or Merge with Task Scheduling Options
 
