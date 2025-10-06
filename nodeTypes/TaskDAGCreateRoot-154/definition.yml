@@ -62,7 +62,15 @@ metadata:
         options:
           - Minutes
           - CRON
+          - Triggered task
         isRequired: true
+      
+      - displayName: Multiple source streams(if disabled,considered as single source stream)
+        attributeName: mflagSrcStream
+        type: toggleButton
+        default: false
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption == 'Triggered task' %} true {% else %} false {% endif %}"
 
       - displayName: Enter task schedule using minutes
         attributeName: schedulePeriod
@@ -71,24 +79,12 @@ metadata:
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'Minutes' %} true {% else %} false {% endif %}"
 
-      - displayName: Triggered task
-        attributeName: triggertask
-        type: toggleButton
-        default: true
-        isRequired: true 
-
       - displayName: Enter task schedule using CRON
         attributeName: scheduleCRON
         type: textBox
         default: '5 0-23 * * * America/Los_Angeles'
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
-      
-      - displayName: When Source Stream has Data Flag
-        attributeName: flagSrcStream
-        type: toggleButton
-        default: true
-        isRequired: true
 
       - displayName: Multiple Stream has Data Logic
         attributeName: multiStreamBehavior
@@ -98,7 +94,7 @@ metadata:
           - AND
           - OR
         isRequired: true
-        enableIf: "{% if config.flagSrcStream == true %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.schedulePeriodOption == 'Triggered task' and  config.mflagSrcStream == true %} true {% else %} false {% endif %}"
 
       - displayName: Root task SQL
         attributeName: tskSql
