@@ -2,9 +2,10 @@
     Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
 Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
-Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
 does not permit copying or modification for any other purpose.  
 #}
+{# == Node Type Version        : 1  == #}
 {# == Node Type Name           : Task DAG Create Root == #}
 {# == Node Type Description    : This node creates a standalone root task that initiates a run of the DAG == #}
 
@@ -44,12 +45,37 @@ does not permit copying or modification for any other purpose.
         {%- endif -%}
 {% set nsVariables = namespace() %}
 
+{# Set Namespace Variables #}
+            {% set nsVariables = namespace(taskWhenRun="") %}
+            {% set nsVariables = namespace(poll="WHEN ") %}
+			
 {# Schedule Type #}
 {%- if desiredState.config.schedulePeriodOption == 'Minutes' -%} 
     {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + desiredState.config.schedulePeriod + ' MINUTE' + "'" -%} 
-{% else %}
+{% elif desiredState.config.schedulePeriodOption == 'CRON'  %}
     {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON+"'" %}
 {%- endif -%}
+
+{# When Stream has data logic #}
+{# Source Stream Location and Name #}
+    {% if desiredState.config.schedulePeriodOption == 'Triggered task' %}
+                {% for source in desiredState.sources %}
+                    {% for dep in source.dependencies %}
+                        {% if (dep.node.materializationType == 'stream') %}
+                            {% set streamStorageLocation = dep.node.location.name %}
+                            {% set streamSourceDatabase = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='database') | first %}
+                            {% set streamSourceSchema = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='schema') | first %}
+                            {% set streamSourceName = dep.node.name %}
+
+                            {%- if nsVariables.poll == 'WHEN ' -%}
+                                {% set nsVariables.poll = nsVariables.poll + 'SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+                            {% else %}
+                                {% set nsVariables.poll = nsVariables.poll + desiredState.config.multiStreamBehavior + ' SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+                            {%- endif -%}
+                        {%- endif -%}
+                    {% endfor %}
+                {% endfor %}
+    {% endif -%}
 
 {{ stage('Suspend Root Task',true,"sql","create") }}
 ALTER TASK IF EXISTS {{ fullyQualifiedTaskName }} SUSPEND
@@ -62,6 +88,28 @@ CREATE OR REPLACE TASK
     {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
 AS 
 {{desiredState.config.tskSql }} 
+
+ {%if desiredState.config.schedulePeriodOption == 'Triggered task' %}
+ 
+   {#Automatic Stream Consumption#}
+   {{ stage('Create Temporary Trigger',true,"sql","create") }}
+   
+ {%set temp_trig_name = "TMP_"+ desiredState.node.name+ "_TRIGGER" %}
+   CREATE OR REPLACE TEMPORARY TABLE {{ ref_no_link(desiredState.node.location.name, temp_trig_name) }} AS
+    {%- for source in desiredState.sources -%}
+     {%- for dep in source.dependencies %}
+        {% if (dep.node.materializationType == 'stream') %}
+         {% set streamStorageLocation = dep.node.location.name %}
+            {% set streamSourceName = dep.node.name %}         
+              SELECT COUNT(*) AS row_count FROM {{ ref(streamStorageLocation,streamSourceName) }}
+              {% if not loop.last %}
+                    UNION
+              {% endif %}
+        {%- endif -%}
+     {%endfor%}
+    {%endfor%}  
+  {%endif%}   
+
 
 {% elif desiredState == undefined and currentState != undefined%}
 
