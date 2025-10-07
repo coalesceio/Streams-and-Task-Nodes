@@ -107,9 +107,9 @@ metadata:
       items:
       - displayName: Type
         type: materializationSelector
-        default: root task
+        default: task
         options:
-        - root task
+        - task
         isRequired: false
 
 name: Task DAG Create Root

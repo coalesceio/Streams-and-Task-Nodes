@@ -228,19 +228,16 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
+            nodeName: CUSTOMER
+          - locationName: SOURCE_DATA
             nodeName: ORDERS
-          - locationName: TARGET_DB
-            nodeName: CUSTOMERS
-          - locationName: TARGET_DB
-            nodeName: STREAM_CUSTOMER
           - locationName: TARGET_DB
             nodeName: TGCR_PPLN
         join:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
             -- {{ ref('TARGET_DB', 'TGCR_PPLN') }} 
-            -- {{ ref('TARGET_DB', 'STREAM_CUSTOMER') }} 
-            -- {{ ref('TARGET_DB', 'CUSTOMERS')}}
+            -- {{ ref('SOURCE_DATA', 'CUSTOMER')}}
         name: SIM_ORDERS
         noLinkRefs: []
   name: SIM_ORDERS

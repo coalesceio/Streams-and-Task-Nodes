@@ -1,0 +1,111 @@
+fileVersion: 1
+id: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+name: EXT_SAMP_ISO101
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5982fa90-fccf-4385-b10f-1ed2432ef709
+          stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+        config: {}
+        dataType: VARIANT
+        defaultValue: ""
+        description: The value of this row
+        name: VALUE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 844ff377-d63b-48da-8b50-e5c8821e472e
+          stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: Name
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cc4e00f4-0664-4c8b-837b-3de3a5c268ed
+          stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: City
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f001ef0a-689b-4361-8b92-fd736deb5d3a
+          stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: Amount
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9c35160f-b72b-4a0f-9080-3f4bdf1dff8b
+          stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: Currency
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: EXT_SAMP_ISO101
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node
