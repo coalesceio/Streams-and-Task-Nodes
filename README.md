@@ -615,7 +615,9 @@ The Task DAG Create Root node has two configuration groups:
 | **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task** - User managed warehouse executes tasks<br/>- **Serverless Task** - Uses serverless compute |
 | **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. <br/> Name of warehouse to run task on without quotes |
 | **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task <br/> Initial compute size for serverless tasks. Snowflake will adjust size from there based on target schedule and task run times. |
-| **Task Schedule** | Choose schedule type:<br/>- Minutes - Specify interval in minutes<br/>- Cron - Use cron expression |
+| **Task Schedule** | Choose schedule type:<br/>- Minutes - Specify interval in minutes<br/>- Cron - Use cron expression<br/>-Triggered task - To create task when the source streams have data |
+| **Multiple source streams(if disabled,considered as single source stream)** |Toggle- Enabled denotes multiple streams are connected|
+| **Multiple Stream has Data Logic**| AND/OR logic when multiple streams (visible if Stream has Data Flag is true)<br/>**AND** - If there are multiple streams task will run if all streams have data<br/>**OR** -  If there are multiple streams task will run if one or more streams has data | 
 | **Enter root task SQL** | The SQL statement to be run when a standalone root task executes |
 
 ### Task DAG Create Root Deployment
