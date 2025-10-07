@@ -34,7 +34,7 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: Table
+    sourceType: External Table
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true

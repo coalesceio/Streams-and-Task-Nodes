@@ -6,8 +6,8 @@ operation:
     mflagSrcStream: false
     multiStreamBehavior: AND
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Triggered task
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     serverlessSize: MEDIUM
     tskSql: select current_timestamp()
