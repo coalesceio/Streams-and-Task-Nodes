@@ -1,0 +1,174 @@
+fileVersion: 1
+id: 37243631-6f03-4e72-be1d-4ed1961e55ee
+name: TSKWRK_HISTORICAL_SALES_DATA
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 64d8930f-44dd-4ed8-8e3c-436db93d5642
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: STORE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8540afc8-5837-4e23-a53e-249c941de380
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e6a499d2-a88b-4b5f-8265-8dd416a2a085
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ITEM
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f76c825c-84a7-4f74-aa41-807e1445d4e9
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 71f0c815-b27f-487c-b5a7-6f59a079a131
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c16dc8e1-9890-4af6-9614-29f727962011
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3310fc46-8265-4ce9-8ca0-7b1f5ec2bd50
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e4cdd010-654f-44ff-ae65-a5e6902ae7ab
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5492dc8d-44ba-4964-9a7d-9ee3da777cf5
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: LABEL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f974adde-ed8e-4fb0-bcc5-91f888189352
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b520eaf-a4f2-40a4-9fa2-3adfb7595f68
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TEMPERATURE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 388f55d1-cae7-4889-8ee1-5483280ff4ab
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e5d32309-49bb-44c5-b807-f6936f21ad02
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: HUMIDITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7d6058d3-bb45-47fa-81e0-2ef0e1571507
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 22325919-c626-4f95-bc54-c74cbfbf8406
+          stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HOLIDAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 09946225-f288-4eb7-a67a-c7d4d20d5608
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          HISTORICAL_SALES_DATA: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: HISTORICAL_SALES_DATA
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'HISTORICAL_SALES_DATA') }} "HISTORICAL_SALES_DATA"
+        name: TSKWRK_HISTORICAL_SALES_DATA
+        noLinkRefs: []
+  name: TSKWRK_HISTORICAL_SALES_DATA
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node

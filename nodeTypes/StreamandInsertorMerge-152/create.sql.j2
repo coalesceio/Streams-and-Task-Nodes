@@ -46,8 +46,8 @@ does not permit copying or modification for any other purpose.
       --  {% endif %}
       --{% endfor %}
 
-    {% set ns.sourceStorageLocation = desiredState.sources[0].columns[0].sourceColumns[0].node.location.name %}
-    {% set ns.sourceTableName = desiredState.sources[0].columns[0].sourceColumns[0].node.name %}
+    {% set ns.sourceStorageLocation = (desiredState.sources[0].columns| selectattr("sourceColumns", "defined")| selectattr("sourceColumns", "ne", [{}])| first).sourceColumns[0].node.location.name %}
+    {% set ns.sourceTableName = (desiredState.sources[0].columns| selectattr("sourceColumns", "defined")| selectattr("sourceColumns", "ne", [{}])| first).sourceColumns[0].node.name %}
 
     {% set sourceDatabaseName = desiredState.storageLocations | selectattr('name', 'equalto', ns.sourceStorageLocation) | map(attribute='database') | first %}
     {% set sourceSchemaName = desiredState.storageLocations | selectattr('name', 'equalto', ns.sourceStorageLocation) | map(attribute='schema') | first %}

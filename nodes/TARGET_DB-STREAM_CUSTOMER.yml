@@ -204,7 +204,8 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: CUSTOMER
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
+          joinCondition: |
+            FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
         name: STREAM_CUSTOMER
         noLinkRefs: []
   name: STREAM_CUSTOMER

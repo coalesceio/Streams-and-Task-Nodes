@@ -1,0 +1,160 @@
+fileVersion: 1
+id: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+name: DSM_HEAVY_WEATHER
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: true
+    loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 5a4da3f5-89b3-4514-97f6-7d6d4e65b20d
+            stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 484e9d7b-2c57-44de-a0d4-3fa25988dfca
+            stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6943478d-bc78-4949-bc94-155597163ed9
+          stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: START_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 922fc29b-f402-47f1-af82-399f6241862e
+                stepCounter: 0f964a18-4a54-4f5f-ba4b-e273ebfac059
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9398bb6b-8010-49c6-991c-7322e737bfbf
+          stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+        config: {}
+        dataType: NUMBER(3,2)
+        description: ""
+        name: PRECIP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: df7acf38-b52f-4cf1-8e56-571636f941bc
+                stepCounter: 0f964a18-4a54-4f5f-ba4b-e273ebfac059
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 484e9d7b-2c57-44de-a0d4-3fa25988dfca
+          stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7989030b-8cb1-4433-b973-b9f5e166bee3
+                stepCounter: 0f964a18-4a54-4f5f-ba4b-e273ebfac059
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e117e7bc-64ca-4354-95c6-25c9b8b23f88
+          stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: COUNTY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d11a4241-4651-4038-aede-db467ea75f8a
+                stepCounter: 0f964a18-4a54-4f5f-ba4b-e273ebfac059
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5a4da3f5-89b3-4514-97f6-7d6d4e65b20d
+          stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f517072a-72a1-48dc-a1cc-2476342148c4
+          stepCounter: 86db7531-3881-4ab3-b1b3-c5e1ecbf59df
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          HEAVY_WEATHER: 0f964a18-4a54-4f5f-ba4b-e273ebfac059
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: HEAVY_WEATHER
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'HEAVY_WEATHER') }} "HEAVY_WEATHER"
+        name: DSM_HEAVY_WEATHER
+        noLinkRefs: []
+  name: DSM_HEAVY_WEATHER
+  overrideSQL: false
+  schema: ""
+  sqlType: "483"
+  type: sql
+  version: 1
+type: Node

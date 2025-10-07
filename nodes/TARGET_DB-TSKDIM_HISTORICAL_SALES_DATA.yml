@@ -1,0 +1,298 @@
+fileVersion: 1
+id: bb7c3397-83e0-4518-9f11-dcc63705ec37
+name: TSKDIM_HISTORICAL_SALES_DATA
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: false
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: TSKWRK_HISTORICAL_SALES_DATA_TASK
+    rootTask: TSKWRK_HISTORICAL_SALES_DATA_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 65c2a642-4551-4984-a1ae-59b4cead4676
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSurrogateKey: true
+        name: TSKDIM_HISTORICAL_SALES_DATA_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 957c7c7a-875a-454a-82a5-3537dfc7b19f
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        isBusinessKey: true
+        name: STORE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 64d8930f-44dd-4ed8-8e3c-436db93d5642
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8c29d020-a124-4edf-9556-24882f1b9462
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        isChangeTracking: true
+        name: ITEM
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e6a499d2-a88b-4b5f-8265-8dd416a2a085
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a2fa9c3a-bf5e-4c65-8a32-54405b09d29f
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 71f0c815-b27f-487c-b5a7-6f59a079a131
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a812501-f554-4236-a951-bd5d12a6c776
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3310fc46-8265-4ce9-8ca0-7b1f5ec2bd50
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fef2671c-de5c-49ef-a1f3-55b3ae757495
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: LABEL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5492dc8d-44ba-4964-9a7d-9ee3da777cf5
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6b70c3e4-a9ce-4253-a5dd-15312994c394
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TEMPERATURE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7b520eaf-a4f2-40a4-9fa2-3adfb7595f68
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f37e7ce1-b052-40c3-b9d8-8cea3c6e30f1
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: HUMIDITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e5d32309-49bb-44c5-b807-f6936f21ad02
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ff730863-4a03-4c33-bfee-4c153f7fdd34
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HOLIDAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 22325919-c626-4f95-bc54-c74cbfbf8406
+                stepCounter: 37243631-6f03-4e72-be1d-4ed1961e55ee
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b9819874-1ee3-4fea-b6b4-a6639911ea78
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c6474759-1c92-4374-8027-858c8cf03cc9
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c8a6feb5-3187-4c7d-a24d-c85dc02b01ea
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e7d9b05-7b49-4ecf-927e-a5316ce5eaa6
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: af854d28-5dd1-47f4-8342-5ca64e149a34
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 288b1170-bbca-4724-b1d7-adb9aa6f905b
+          stepCounter: bb7c3397-83e0-4518-9f11-dcc63705ec37
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          TSKWRK_HISTORICAL_SALES_DATA: 37243631-6f03-4e72-be1d-4ed1961e55ee
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TGCR_HISTORICAL_SALES_DATA
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_HISTORICAL_SALES_DATA
+        join:
+          joinCondition: |
+            FROM {{ ref('TARGET_DB', 'TSKWRK_HISTORICAL_SALES_DATA') }} "TSKWRK_HISTORICAL_SALES_DATA"
+            -- {{ ref('TARGET_DB', 'TGCR_HISTORICAL_SALES_DATA') }} 
+        name: TSKDIM_HISTORICAL_SALES_DATA
+        noLinkRefs: []
+  name: TSKDIM_HISTORICAL_SALES_DATA
+  overrideSQL: false
+  schema: ""
+  sqlType: "149"
+  type: sql
+  version: 1
+type: Node

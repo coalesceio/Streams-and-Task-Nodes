@@ -1,0 +1,172 @@
+fileVersion: 1
+id: 005a1606-b9d6-418e-972e-d131bcfad964
+name: SIM_EXT_SAMP_ISO101
+operation:
+  config:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 87ce7717-7798-4430-a1c7-ee6af4f6b873
+          stepCounter: 005a1606-b9d6-418e-972e-d131bcfad964
+        config: {}
+        dataType: VARIANT
+        description: The value of this row
+        name: VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5982fa90-fccf-4385-b10f-1ed2432ef709
+                stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5b3d238e-4f9f-44cb-bca8-6ecf6ea6b0ba
+          stepCounter: 005a1606-b9d6-418e-972e-d131bcfad964
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: Name
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 844ff377-d63b-48da-8b50-e5c8821e472e
+                stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 245f6c3b-4c16-4cec-b08a-1bc3ff998c3d
+          stepCounter: 005a1606-b9d6-418e-972e-d131bcfad964
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: City
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cc4e00f4-0664-4c8b-837b-3de3a5c268ed
+                stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e2a8eaf6-a3bf-4413-ae22-088e2c6cf1c8
+          stepCounter: 005a1606-b9d6-418e-972e-d131bcfad964
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: Amount
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f001ef0a-689b-4361-8b92-fd736deb5d3a
+                stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5653db73-cb6b-4c63-b4e5-29207a9a8042
+          stepCounter: 005a1606-b9d6-418e-972e-d131bcfad964
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: Currency
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9c35160f-b72b-4a0f-9080-3f4bdf1dff8b
+                stepCounter: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4d7bbedf-7f32-47d2-a4ff-0e681d198604
+          stepCounter: 005a1606-b9d6-418e-972e-d131bcfad964
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16edae37-cd62-4e7b-98b8-e3749433cf50
+          stepCounter: 005a1606-b9d6-418e-972e-d131bcfad964
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EXT_SAMP_ISO101: 4916d10f-b834-49fe-a2b3-7ead1bca4f15
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EXT_SAMP_ISO101
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'EXT_SAMP_ISO101') }} "EXT_SAMP_ISO101"
+        name: SIM_EXT_SAMP_ISO101
+        noLinkRefs: []
+  name: SIM_EXT_SAMP_ISO101
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node

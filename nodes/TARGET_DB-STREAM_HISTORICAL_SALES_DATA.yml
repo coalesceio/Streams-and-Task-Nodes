@@ -1,0 +1,202 @@
+fileVersion: 1
+id: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+name: STREAM_HISTORICAL_SALES_DATA
+operation:
+  config:
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create At Existing Stream
+    sourceType: Table
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: stream
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 509a12b4-d23d-49d8-9e25-66bd34d756dc
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: STORE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8540afc8-5837-4e23-a53e-249c941de380
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b7917277-42e5-4926-b2ab-b13ebb9d5588
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ITEM
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f76c825c-84a7-4f74-aa41-807e1445d4e9
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 99325bd5-a1d9-4d83-a7a3-170b663957c4
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c16dc8e1-9890-4af6-9614-29f727962011
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d60186e7-0009-4223-97f1-8aac746f85e7
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e4cdd010-654f-44ff-ae65-a5e6902ae7ab
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 52619302-80b0-4fcb-917f-6d39cdb6feb0
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: LABEL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f974adde-ed8e-4fb0-bcc5-91f888189352
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1446445a-98f7-4c6e-bbba-d2b4752bdc0e
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TEMPERATURE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 388f55d1-cae7-4889-8ee1-5483280ff4ab
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: de4a589f-9de0-4d1d-b225-b62d9a9cac15
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: HUMIDITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7d6058d3-bb45-47fa-81e0-2ef0e1571507
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1f79b889-a2a7-4b66-8087-602bd15d64d3
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HOLIDAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 09946225-f288-4eb7-a67a-c7d4d20d5608
+                stepCounter: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 73f91570-6103-49f7-bc75-db3a332d2aee
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataAction: true
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 13f2f782-06fe-4918-bdfd-b0b5c650820a
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: boolean
+        defaultValue: ""
+        description: ""
+        metadataIsUpdate: true
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fa544d26-e46c-451d-968c-40b28d0c47a2
+          stepCounter: 5b7e0851-37d6-4e2b-a638-39d09d8f5b1d
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataRowID: true
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          HISTORICAL_SALES_DATA: a6d8aa4d-74c1-41ce-b561-b37b7aad370b
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: HISTORICAL_SALES_DATA
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'HISTORICAL_SALES_DATA') }} "HISTORICAL_SALES_DATA"
+        name: STREAM_HISTORICAL_SALES_DATA
+        noLinkRefs: []
+  name: STREAM_HISTORICAL_SALES_DATA
+  overrideSQL: false
+  schema: ""
+  sqlType: "153"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,158 @@
+fileVersion: 1
+id: 1c113445-b5f7-4ccc-a8cc-8908b96f834b
+name: SIM_EXT_ICT_TASK
+operation:
+  config:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: External Iceberg Table
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 150388fa-e6a9-488b-ace7-b172cb3a4a65
+          stepCounter: 1c113445-b5f7-4ccc-a8cc-8908b96f834b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5ae6b9e4-8241-49c1-bcf6-a5a2f2749fd1
+                stepCounter: b706f38d-24d6-4961-95e9-3b516122b778
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae282ed7-78d3-47db-b694-3f972f359d33
+          stepCounter: 1c113445-b5f7-4ccc-a8cc-8908b96f834b
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 42cc5629-7bb7-41a7-85d9-a6e4fb6f1a7f
+                stepCounter: b706f38d-24d6-4961-95e9-3b516122b778
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e8c6e635-b2d5-4803-a0e7-85facadf4e9b
+          stepCounter: 1c113445-b5f7-4ccc-a8cc-8908b96f834b
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bb8b713d-3467-4a98-9a03-d5950ebbca78
+                stepCounter: b706f38d-24d6-4961-95e9-3b516122b778
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2f50a283-e9a7-4054-81ab-1cd84e9e77a9
+          stepCounter: 1c113445-b5f7-4ccc-a8cc-8908b96f834b
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 323256df-b34c-466b-a617-bc5befc37e1a
+                stepCounter: b706f38d-24d6-4961-95e9-3b516122b778
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90eabc69-42bd-4a0b-b50e-a7fad66cb374
+          stepCounter: 1c113445-b5f7-4ccc-a8cc-8908b96f834b
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cf27d269-86d8-4640-8c43-31d904697d69
+          stepCounter: 1c113445-b5f7-4ccc-a8cc-8908b96f834b
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EXT_ICT_TASK: b706f38d-24d6-4961-95e9-3b516122b778
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EXT_ICT_TASK
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'EXT_ICT_TASK') }} "EXT_ICT_TASK"
+        name: SIM_EXT_ICT_TASK
+        noLinkRefs: []
+  name: SIM_EXT_ICT_TASK
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node
