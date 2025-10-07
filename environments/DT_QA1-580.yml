@@ -3,12 +3,12 @@ id: "580"
 mappingDefinitions:
   SOURCE_DATA:
     database: ANANDHIS_DEV
-    schema: ""
+    schema: SOURCE_DATA
   TARGET_ACC:
     database: ANANDHIS_DEV
-    schema: ""
+    schema: TARGET_QA
   TARGET_DB:
     database: ANANDHIS_DEV
-    schema: ""
+    schema: TARGET_DEV
 name: DT_QA1
 type: Environment
