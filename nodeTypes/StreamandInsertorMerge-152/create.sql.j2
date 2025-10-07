@@ -32,10 +32,13 @@ does not permit copying or modification for any other purpose.
 	{% set stageNameVar =  desiredState.config.stageName | string %}
     {% set refLink = "{{ ref_no_link('" + stageStorageLocation + "', '" + stageNameVar + "') }}" %}
 	
-    {% else %}	
+    {% else %}
+    	
     {# Source Object Location and Name #}
      
     {% set ns = namespace(sourceStorageLocation ="",sourceTableName ="") %}  
+
+     --{#Code modified to support all task,SIM and DSM node types as upstream nodes #}
      -- {% for dependency in desiredState.sources[0].dependencies %}
       --  {% if dependency.node.materializationType != 'root task' %} 
           --  {% set ns.sourceStorageLocation = dependency.node.location.name %}

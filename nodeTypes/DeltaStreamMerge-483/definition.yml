@@ -7,7 +7,7 @@ metadata:
   nodeMetadataSpec: |-
     capitalized: Delta Stream Merge
     short: DSM
-    tagColor: "#525252"
+    tagColor: "#000C7B"
     plural: Streams and Merges
      
     deployStrategy: advanced
