@@ -47,18 +47,6 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0690678e-9751-47b1-b880-1058de5ecd2e
-          stepCounter: 5b2d9ef3-ba61-4d52-a064-4b898f1a3c65
-        config: {}
-        dataType: NUMBER(38,0)
-        description: ""
-        name: ""
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 5ddeee35-6fc2-42d4-8c9e-d1faa6bdc497
           stepCounter: 5b2d9ef3-ba61-4d52-a064-4b898f1a3c65
         config: {}
