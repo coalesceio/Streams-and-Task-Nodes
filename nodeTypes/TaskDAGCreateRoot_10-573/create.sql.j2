@@ -81,22 +81,16 @@ does not permit copying or modification for any other purpose.
 ALTER TASK IF EXISTS {{ fullyQualifiedTaskName }} SUSPEND
 
 {{ stage('Create Task',true,"sql","create") }}
-CREATE OR REPLACE TASK 
-    {{ fullyQualifiedTaskName }} 
-    {{ taskType}} 
-    {{ nsVariables.taskWhenRun }} 
-    {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
-AS 
-{{desiredState.config.tskSql }} 
-
- {%if desiredState.config.schedulePeriodOption == 'Triggered task' %}
- 
-   {#Automatic Stream Consumption#}
-   {{ stage('Create Temporary Trigger',true,"sql","create") }}
-   
- {%set temp_trig_name = "TMP_"+ desiredState.node.name+ "_TRIGGER" %}
+{%if desiredState.config.schedulePeriodOption == 'Triggered task' %}
+{%set temp_trig_name = "TMP_"+ desiredState.node.name+ "_TRIGGER" %}
+   CREATE OR REPLACE TASK 
+      {{ fullyQualifiedTaskName }} 
+      {{ taskType}} 
+      {{ nsVariables.taskWhenRun }} 
+      {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
+   AS 
    CREATE OR REPLACE TEMPORARY TABLE {{ ref_no_link(desiredState.node.location.name, temp_trig_name) }} AS
-    {%- for source in desiredState.sources -%}
+   {%- for source in desiredState.sources -%}
      {%- for dep in source.dependencies %}
         {% if (dep.node.materializationType == 'stream') %}
          {% set streamStorageLocation = dep.node.location.name %}
@@ -107,9 +101,17 @@ AS
               {% endif %}
         {%- endif -%}
      {%endfor%}
-    {%endfor%}  
-  {%endif%}   
+    {%endfor%}
+{%else%}
+  CREATE OR REPLACE TASK 
+      {{ fullyQualifiedTaskName }} 
+      {{ taskType}} 
+      {{ nsVariables.taskWhenRun }} 
+      {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
+  AS 
+  {{desiredState.config.tskSql }} 
 
+{%endif%}
 
 {% elif desiredState == undefined and currentState != undefined%}
 

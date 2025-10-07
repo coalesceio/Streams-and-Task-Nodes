@@ -1,11 +1,11 @@
 fileVersion: 1
-id: "154"
+id: "573"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |+
-    capitalized: Task DAG Create Root
+    capitalized: Copy of Task DAG Create Root
     short: TGCR
     tagColor: red
     plural: None
@@ -100,17 +100,19 @@ metadata:
         attributeName: tskSql
         type: textBox
         default: 'select current_timestamp()'
-        isRequired: true
+        isRequired: false
+        enableIf: "{% if config.schedulePeriodOption != 'Triggered task' %} true {% else %} false {% endif %}"
+
 
     - groupName: Hidden Config
       enableIf: "false"
       items:
       - displayName: Type
         type: materializationSelector
-        default: root task
+        default: task
         options:
-        - root task
+        - task
         isRequired: false
 
-name: Task DAG Create Root
+name: Task DAG Create Root_1.0
 type: NodeType
