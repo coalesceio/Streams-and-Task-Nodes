@@ -1,0 +1,230 @@
+fileVersion: 1
+id: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+name: DSM_STORE1
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: false
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: true
+    loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: bf8cb5e2-4dfa-473b-91f8-dc81fcbcb173
+            stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: fccdfd55-9442-40d6-969b-e0b17f710fa8
+            stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2afb84ad-86b4-40c1-bdab-3c8fc4e06cf1
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: TSKDIM_STORE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a35b1961-fef9-4e5c-aa71-e8c0585ed56c
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fccdfd55-9442-40d6-969b-e0b17f710fa8
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: STORE_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 61818bf7-98cd-4843-a01f-3cb20d0e63e4
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8c011fa9-cf4e-402f-9836-c1cb7b7f007f
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c18f930e-cbcc-4d0d-ba52-d07c791d095f
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2de4743e-959b-4822-966d-e123bc694626
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: STORE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 538eda57-3863-4a51-ac9c-7eed0dfd72c1
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1795508e-2c40-453e-896b-fda770b81ed3
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: PHONE_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f4ee0b38-32a1-4d73-ad46-4940156aaebc
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7de6c7bd-98db-4a72-a304-03e4552d4ddd
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 24cf8d37-7926-40da-904e-eff1d1447810
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 044d3f77-03f6-403b-89f2-2f8d96576c2a
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ec7de809-ae09-4af4-bb8b-08911824ca3b
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bf8cb5e2-4dfa-473b-91f8-dc81fcbcb173
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 402ee4a2-4ebe-4949-98ea-ecb8dbcb3a0b
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 015ec280-f1a3-45c9-ac2a-2079f516c3fa
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c000939d-658a-44b2-8103-9c1457b75b4e
+                stepCounter: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ef98341e-0452-4b94-b9c7-ea35f9967c49
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f1c0090e-9771-4a02-9b12-f2075bfaef14
+          stepCounter: 0eedeb0d-2a33-4ec9-bb5f-6f744c1e75a7
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          TSKDIM_STORE: 37ad2f55-bff6-48af-80f7-0b2d672aa707
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_STORE
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'TSKDIM_STORE') }} "TSKDIM_STORE"
+        name: DSM_STORE1
+        noLinkRefs: []
+  name: DSM_STORE1
+  overrideSQL: false
+  schema: ""
+  sqlType: "483"
+  type: sql
+  version: 1
+type: Node

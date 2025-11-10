@@ -1,0 +1,216 @@
+fileVersion: 1
+id: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+name: TSKWRK_DYNAMIC_CUSTOMER
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: false
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: true
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 456e2b2f-1723-477d-815e-8c86502fcc54
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4a21021c-94fd-469a-940a-6069080874e7
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ff015c66-3e3c-41f5-8b40-ff6a0ff0ce01
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d6949db8-7e37-4fa8-853f-eeae1f38ae93
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 781f5c16-2594-42d6-9687-74f71211b45e
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: CUSTOMER_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0d6c02a7-2c8c-4ceb-badf-438529ec0335
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 634ba825-50e2-4f3d-80dd-09a304d4c940
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: CUSTOMER_EMAIL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38b82c35-353b-41b9-82b0-1eab126dfbd8
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16820178-a6de-48e9-b8dc-435e836c72c7
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: RECORD_VERSION_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 01694250-3a77-424a-8e63-069ea83d4439
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e0422eb-5a33-41a3-bec1-1b0a03190381
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: LAST_UPDATED_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7ff3886b-804a-4978-90f3-b0ef354179fd
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b76c76e-98ae-4513-8ed9-0b58a8ff7859
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: RECORD_SEQUENCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10179158-f46e-4dc5-9dbb-f812bf2d6d06
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fb66ae53-b98d-4791-98e5-d89894f6002c
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: DATA_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 106e3e9f-f0e3-4726-abeb-d0837c86d565
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 58f5c34d-8347-4dc0-a6f4-4e5e4991540e
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: DATE
+        description: ""
+        name: RECORD_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d363ff7a-cc3b-46bf-a955-b253c0543374
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fc957b2f-c62c-45ac-a26a-8ad56c8fda65
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: TIME(9)
+        description: ""
+        name: RECORD_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b7bcacd3-0c19-4741-930e-6baeaa8902a1
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d7822864-f97c-42eb-8d62-98a2321b0461
+          stepCounter: 58a96e57-35d6-42a9-b7b8-706542b1c3f4
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: ACTIVE_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: de1c757d-e059-4244-89f0-768dca57ac58
+                stepCounter: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DYNAMIC_CUSTOMER: 1d577057-66b7-4e9a-8e3e-1e975fa539d8
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: DYNAMIC_CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'DYNAMIC_CUSTOMER') }} "DYNAMIC_CUSTOMER"
+        name: TSKWRK_DYNAMIC_CUSTOMER
+        noLinkRefs: []
+  name: TSKWRK_DYNAMIC_CUSTOMER
+  overrideSQL: false
+  schema: ""
+  sqlType: "151"
+  type: sql
+  version: 1
+type: Node

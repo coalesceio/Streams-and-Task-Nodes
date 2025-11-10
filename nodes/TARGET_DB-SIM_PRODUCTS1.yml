@@ -20,7 +20,9 @@ operation:
     loadType: Merge
     orderBy:
       items:
-        - colName: null
+        - colName:
+            columnCounter: 7e7c47f5-a9e2-406f-892e-fb19a1a79344
+            stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
           sortOrd: desc
     partitionBy:
       items:
@@ -33,12 +35,12 @@ operation:
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Table
-    whName: <WAREHOUSE_NAME>
+    whName: compute_wh
   database: ""
   deployEnabled: true
   description: ""
@@ -104,6 +106,26 @@ operation:
               - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
                 stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7e7c47f5-a9e2-406f-892e-fb19a1a79344
+          stepCounter: 2e0eed52-9003-48fa-bba5-84b4f0075baa
+        config: {}
+        dataType: timestamp
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: syst_date
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: CURRENT_TIMESTAMP()
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -117,7 +139,7 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            
+
             latteral flatten
         name: SIM_PRODUCTS1
         noLinkRefs: []

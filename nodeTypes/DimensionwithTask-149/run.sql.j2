@@ -10,8 +10,9 @@ does not permit copying or modification for any other purpose.
 
 {# Development mode -To test the SQL the task will execute to make sure it runs without errors and returns the expected data #}
 
-{{ stage('Load Data - Development Mode') }}
+
 {% if config.devMode == true %}
+{{ stage('Load Data - Development Mode') }}
     {% set is_type_2 = columns | selectattr("isChangeTracking") | list | length > 0 %}
 
     {% if is_type_2 %}
@@ -374,4 +375,10 @@ does not permit copying or modification for any other purpose.
             {% endfor -%}
             )
     {% endif %}
+{% else %}
+    {{ stage('Task Mode - No Manual Run') }}
+    -- This node is configured to run as a scheduled task
+    -- Manual Run is only available when Development Mode is enabled
+    -- To execute this task, wait for the scheduled run or manually execute: EXECUTE TASK {{node.name + '_TASK'}}
+    SELECT 1 AS INFO_MESSAGE WHERE FALSE;
 {% endif %}

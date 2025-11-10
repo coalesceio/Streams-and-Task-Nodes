@@ -53,4 +53,11 @@ does not permit copying or modification for any other purpose.
             {% endfor %}
             {% if config.groupByAll %}GROUP BY ALL{% endif %}
              {{sortorder_by_colv()}}
+{% else %}
+    {{ stage('Task Mode - No Manual Run') }}
+    -- This node is configured to run as a scheduled task
+    -- Manual Run is only available when Development Mode is enabled
+    -- To execute this task, wait for the scheduled run or manually execute: EXECUTE TASK {{node.name + '_TASK'}}
+    SELECT 1 AS INFO_MESSAGE WHERE FALSE;
 {% endif -%}
+
