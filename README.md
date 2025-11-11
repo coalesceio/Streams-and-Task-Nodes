@@ -49,7 +49,7 @@ The Work with Task node has two or three configuration groups depending on confi
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action.<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options |
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action.<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
 | **Multi Source** | True / False toggle that is Coalesce implementation of SQL UNIONs<br/>**True** - Multiple sources can be combined using:<br/>- UNION - Combines with duplicate elimination<br/>- UNION ALL - Combines without duplicate elimination<br/>**False** - Single source node or multiple sources combined using a join |
 | **Cluster key** | True/False toggle that determines if clustering is enabled<br/>**True** - Specify clustering column and optionally allow expressions<br/>**False** - No clustering |
 | **Truncate Before** | True / False toggle that determines if table should be truncated before insert<br/>**True** - Uses INSERT OVERWRITE<br/>**False** - Uses INSERT to append data |
@@ -244,7 +244,7 @@ The Dimension with Task node has two or three configuration groups depending on 
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options |
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
 | **Multi Source** | True / False toggle that is Coalesce implementation of SQL UNIONs<br/>**True** - Multiple sources can be combined using:<br/>- UNION - Combines with duplicate elimination<br/>- UNION ALL - Combines without duplicate elimination<br/>**False** - Single source node or multiple sources combined using a join |
 | **Business key** | Required column for both Type 1 and Type 2 Dimensions |
 | **Change tracking** | Required column for Type 2 Dimension |
@@ -429,7 +429,7 @@ The Fact with Task node has two or three configuration groups depending on confi
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options |
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
 | **Multi Source** | True / False toggle that is Coalesce implementation of SQL UNIONs<br/>**True** - Multiple sources can be combined using:<br/>- UNION - Combines with duplicate elimination<br/>- UNION ALL - Combines without duplicate elimination<br/>**False** - Single source node or multiple sources combined using a join |
 | **Cluster key** | True/False toggle that determines if clustering is enabled<br/>**True** - Specify clustering column and optionally allow expressions<br/>**False** - No clustering |
 | **Truncate Before** | Specifies that the target table should be truncated before inserting the values into the table. |
@@ -837,7 +837,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options |
+| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
 | **CREATE AS** | Choose target object type:<br/>- Table - Permanent table with data retention and fail-safe<br/>- Transient Table - Temporary table without data retention |
 | **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
 | **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
@@ -1246,7 +1246,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options |
+| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
 | **CREATE AS** | Choose target object type:<br/>- Table - Permanent table with data retention and fail-safe<br/>- Transient Table - Temporary table without data retention |
 | **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
 | **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
@@ -1404,7 +1404,7 @@ The Insert or Merge with Task node has the following configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options |
+| **Development Mode** | True / False toggle that determines whether a task will be created or if SQL executes as DML<br/>**True** - Table created and SQL executes as Run action<br/>**False** - SQL wrapped in task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
 | **CREATE AS** | Choose target object type:<br/>- Table - Permanent table with data retention and fail-safe<br/>- Transient Table - Temporary table without data retention |
 | **Cluster key** | True/False toggle for clustering<br/>**True** - Specify clustering column and expressions. - **Allow Expressions Cluster Key**: Add an expression to the specified cluster key.<br/>**False** - No clustering |
 
