@@ -8,7 +8,11 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Work With Task == #}
 {# == Node Type Description    : This node creates a work table and a task to insert data into work table == #}
 
-{% set materializationType = desiredState.node.materializationType | default('Table') %}
+{% if desiredState %}
+    {% set materializationType = desiredState.node.materializationType | default('Table') %}
+{% else %}
+    {% set materializationType = 'Table' %}
+{% endif %}
 
 {# Parameter Check for Deployment #}
 {%if desiredState and currentState != desiredState and desiredState.config.schedulingMode == 'Warehouse Task' %}
