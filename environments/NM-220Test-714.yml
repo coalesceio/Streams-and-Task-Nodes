@@ -1,0 +1,14 @@
+fileVersion: 1
+id: "714"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: PRANJAL_DEV
+    schema: SOURCE
+  TARGET_ACC:
+    database: PRANJAL_DEV
+    schema: TARGET_DB
+  TARGET_DB:
+    database: PRANJAL_DEV
+    schema: TEST_DB
+name: "[NM-220] Test"
+type: Environment

@@ -25,7 +25,17 @@ does not permit copying or modification for any other purpose.
 
 
 {% if desiredState and desiredState != currentState%}
-       
+
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
+
+        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
+        {%- if warningMsg | trim | length > 0 -%}
+            {{ stage('Warning! Node Type Switching Detected', false) }}
+            {{ warningMsg }}
+            select 1=0
+        {%- endif -%}
+    {%- endif -%}
             
     {% set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
     {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
@@ -174,10 +184,10 @@ does not permit copying or modification for any other purpose.
         {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
  
         {# Clustering Test #}
-        {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
-        {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
-        {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig == desiredState.config.clusterKeyConfig %}
-        {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions == desiredState.config.clusterKeyConfigExpressions %}
+        {% set clusterKeyTest = currentState.config.clusterKey | default(false) == desiredState.config.clusterKey %}
+        {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions | default(false)  == desiredState.config.clusterKeyExpressions %}
+        {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig  | default({'items': [{}]}) == desiredState.config.clusterKeyConfig %}
+        {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions | default({'items': [{}]}) == desiredState.config.clusterKeyConfigExpressions %}
 
         {% if 
             clusterKeyTest == false or
@@ -565,10 +575,10 @@ does not permit copying or modification for any other purpose.
                 {# =========================================================
                 Insert Strategy comparison
                 ========================================================= #}
-                {% if currentState.config.insertStrategy != desiredState.config.insertStrategy %}
+                {% if currentState.config.insertStrategy | default('') != desiredState.config.insertStrategy %}
                     {% set _ = nsMetaVariables.insertStrategyDiff.append({
                         "is": desiredState.config.insertStrategy,
-                        "was": currentState.config.insertStrategy
+                        "was": currentState.config.insertStrategy | default('')
                     }) %}
 
                     {{ update_metadata("Insert Strategy", nsMetaVariables.insertStrategyDiff, "Insert Strategy") }}
@@ -578,10 +588,10 @@ does not permit copying or modification for any other purpose.
                 {# =========================================================
                 Distinct Toggle comparison
                 ========================================================= #}
-                {% if currentState.config.selectDistinct != desiredState.config.selectDistinct %}
+                {% if currentState.config.selectDistinct | default(false) != desiredState.config.selectDistinct %}
                     {% set _ = nsMetaVariables.distinctDiff.append({
                         "is": desiredState.config.selectDistinct,
-                        "was": currentState.config.selectDistinct
+                        "was": currentState.config.selectDistinct | default(false)
                     }) %}
 
                     {{ update_metadata("Distinct", nsMetaVariables.distinctDiff, "Distinct") }}
@@ -591,10 +601,10 @@ does not permit copying or modification for any other purpose.
                 {# =========================================================
                 GroupByAll Toggle comparison
                 ========================================================= #}
-                {% if currentState.config.groupByAll != desiredState.config.groupByAll %}
+                {% if currentState.config.groupByAll | default(false) != desiredState.config.groupByAll %}
                     {% set _ = nsMetaVariables.groupByAllDiff.append({
                         "is": desiredState.config.groupByAll,
-                        "was": currentState.config.groupByAll
+                        "was": currentState.config.groupByAll | default(false)
                     }) %}
                     
                     {{ update_metadata("GroupByAll", nsMetaVariables.groupByAllDiff, "GroupByAll") }}
@@ -604,15 +614,15 @@ does not permit copying or modification for any other purpose.
                 {# =========================================================
                 Order By comparison (per column)
                 ========================================================= #}
-                {% if currentState.config.orderby != desiredState.config.orderby %}
+                {% if currentState.config.orderby | default(false) != desiredState.config.orderby %}
 
                     {% set nsMetaVariables.orderByTest = false %}
                     {% set _ = nsMetaVariables.orderByDiff.append({
                             "is": desiredState.config.orderby,
-                        "was": currentState.config.orderby
+                        "was": currentState.config.orderby | default(false)
                     }) %}
 
-                {% elif currentState.config.orderby and desiredState.config.orderby %}
+                {% elif currentState.config.orderby | default(false) and desiredState.config.orderby %}
 
                     {% set desiredSortColList = [] %}
                     {% set currentSortColList = [] %}
@@ -648,9 +658,9 @@ does not permit copying or modification for any other purpose.
                 {# =========================================================
                 DevMode Toggle comparison
                 ========================================================= #}
-                {% if currentState.config.devMode != desiredState.config.devMode %}
+                {% if currentState.config.devMode | default(false) != desiredState.config.devMode %}
                     
-                    {{ update_metadata("DevMode", {"is": desiredState.config.devMode, "was": currentState.config.devMode}, "DevMode") }}
+                    {{ update_metadata("DevMode", {"is": desiredState.config.devMode, "was": currentState.config.devMode | default(false)}, "DevMode") }}
 
                 {% endif %}
 
@@ -676,8 +686,9 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
-    {{ stage('Drop Table') }}
-    DROP {{ currentState.node.materializationType }} IF EXISTS {{ fullyQualifiedTargetObjectName }}
+    {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+    {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+    DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
 {% endif %}
 
@@ -698,8 +709,8 @@ does not permit copying or modification for any other purpose.
             ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
         {%- endif -%}
 
-        {%-if currentState !=undefined and (currentState.config.schedulePeriodOption != desiredState.config.schedulePeriodOption or currentState.config.rootTask != desiredState.config.rootTask )-%}            
-          {%- if currentState.config.schedulePeriodOption == 'Predecessor' -%}
+        {%-if currentState !=undefined and (currentState.config.schedulePeriodOption | default('') != desiredState.config.schedulePeriodOption or currentState.config.rootTask | default('') != desiredState.config.rootTask )-%}            
+          {%- if currentState.config.schedulePeriodOption | default('') == 'Predecessor' -%}
             {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
             {{ stage('Suspend Root Task',true,"sql","create") }}
@@ -1185,14 +1196,14 @@ does not permit copying or modification for any other purpose.
     {% set targetTableSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
-    {% if currentState.config.devMode == false %}
+    {% if currentState.config.devMode | default(false) == false %}
         {# FQ Root Task name #}
 		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
         {# Task Info  #}
         {% set taskName = currentState.node.name + '_TASK' %}
         {% set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
-        {%- if currentState.config.schedulePeriodOption == 'Predecessor'-%}
+        {%- if currentState.config.schedulePeriodOption | default('') == 'Predecessor'-%}
         {{ stage('Suspend Root Task') }}
             ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
         {{ stage('Drop Current Task') }}

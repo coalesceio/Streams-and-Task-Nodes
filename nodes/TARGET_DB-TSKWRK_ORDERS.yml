@@ -1,6 +1,6 @@
 fileVersion: 1
-id: c51190d0-95b8-4621-9c9f-152a7523e282
-name: TSKWRK_PRODUCTS2
+id: 9204d154-d078-40cd-907d-d6edd85b75c8
+name: TSKWRK_ORDERS
 operation:
   config:
     clusterKey: false
@@ -11,7 +11,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: false
+    devMode: true
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
@@ -20,16 +20,16 @@ operation:
     orderbycolumn:
       items:
         - {}
-    predTask: TGCR_FACT_ORDERS
-    rootTask: TGCR_FACT_ORDERS
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
     truncateBefore: true
-    whName: COMPUTE_WH
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -41,79 +41,75 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bd4b14de-f2e8-4ec7-b9bb-9a3aa6236aa5
-          stepCounter: c51190d0-95b8-4621-9c9f-152a7523e282
+          columnCounter: d718eb88-b9be-4fa8-bf76-2253fc709edd
+          stepCounter: 9204d154-d078-40cd-907d-d6edd85b75c8
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: PRODUCT_ID
+        name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 1f8cbb3f-0960-4e75-863f-996d5d202997
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: be604df0-185a-47e8-bb18-210233244711
-          stepCounter: c51190d0-95b8-4621-9c9f-152a7523e282
+          columnCounter: ed4b17c2-5d4b-4fe1-abf1-e5d949bb6c9d
+          stepCounter: 9204d154-d078-40cd-907d-d6edd85b75c8
         config: {}
-        dataType: VARCHAR(255)
+        dataType: VARCHAR(25)
         description: ""
-        name: PRODUCT_NAME
+        name: O_ORDERNAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: e61dc414-3ca9-4ef4-bd6c-4c999fcb631d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 35a9702b-6186-48d1-84b6-e6f4c4b490c7
-          stepCounter: c51190d0-95b8-4621-9c9f-152a7523e282
+          columnCounter: 12b24bb1-a3da-4ad2-99c5-419c43f61715
+          stepCounter: 9204d154-d078-40cd-907d-d6edd85b75c8
         config: {}
-        dataType: VARCHAR(100)
+        dataType: DATE
         description: ""
-        name: BRAND
+        name: O_ORDERDATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: b3333e5f-0a6a-4423-a5d5-dd8d978be50d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 27dc0ef8-a4a8-4c71-ab85-e3424ca0bcef
-          stepCounter: c51190d0-95b8-4621-9c9f-152a7523e282
+          columnCounter: 75a7af11-e483-4e8c-8037-bcb600ddaa90
+          stepCounter: 9204d154-d078-40cd-907d-d6edd85b75c8
         config: {}
-        dataType: VARCHAR(50)
+        dataType: TIMESTAMP_NTZ(9)
         description: ""
-        name: COLOUR
+        name: CREATED_AT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          PRODUCTS: f7525a7e-96bd-4514-b428-c468312550a0
+          ORDERS: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
-            nodeName: PRODUCTS
-          - locationName: TARGET_DB
-            nodeName: TGCR_FACT_ORDERS
+            nodeName: ORDERS
         join:
-          joinCondition: |-
-            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            {{ref_link('TARGET_DB','TGCR_FACT_ORDERS')}}
-        name: TSKWRK_PRODUCTS2
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
+        name: TSKWRK_ORDERS
         noLinkRefs: []
-  name: TSKWRK_PRODUCTS2
+  name: TSKWRK_ORDERS
   overrideSQL: false
   schema: ""
   sqlType: "151"
