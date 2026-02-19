@@ -2,13 +2,13 @@ fileVersion: 1
 id: "415"
 mappingDefinitions:
   SOURCE_DATA:
-    database: ANANDHIS_DEV
-    schema: SOURCE_DATA
+    database: PRANJAL_DEV
+    schema: SOURCE
   TARGET_ACC:
-    database: ""
-    schema: ""
+    database: PRANJAL_DEV
+    schema: TARGET_DB
   TARGET_DB:
-    database: ANANDHIS_DEV
-    schema: TARGET_ACC
+    database: PRANJAL_DEV
+    schema: TEST_DB
 name: EDW_QA_1
 type: Environment
