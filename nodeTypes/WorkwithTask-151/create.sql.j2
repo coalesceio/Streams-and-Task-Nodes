@@ -8,11 +8,6 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Work With Task == #}
 {# == Node Type Description    : This node creates a work table and a task to insert data into work table == #}
 
-{% if desiredState %}
-    {% set materializationType = desiredState.node.materializationType | default('Table') %}
-{% else %}
-    {% set materializationType = 'Table' %}
-{% endif %}
 
 {# Parameter Check for Deployment #}
 {%if desiredState and currentState != desiredState and desiredState.config.schedulingMode == 'Warehouse Task' %}
@@ -47,7 +42,7 @@ does not permit copying or modification for any other purpose.
     {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
 
-   {% if materializationType not in ['Task', 'Table'] or (currentState == undefined or currentState.storageLocations | length == 0) %}
+   {% if currentState.node.materializationType | lower not in ['task', 'table'] or (currentState == undefined or currentState.storageLocations | length == 0) %}
         {# Figure out cluster key #}
         {% set nsVariables = namespace(finalClusterKey="") %}
         {% if desiredState.config.clusterKey == true %}
