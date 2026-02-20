@@ -3,22 +3,31 @@ id: 7192833b-472f-4f35-a6f3-305702dc7627
 name: DATA_PROFILING_ORDERS
 operation:
   config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: true
     flagSrcStream: true
-    isRowCount: false
+    groupByAll: false
+    insertStrategy: UNION
     multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    sampleMode: Sample
-    sampleOption: Fixed Row
-    samplePercent: "10"
-    sampleRows: "1000"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
+    selectDistinct: false
     serverlessSize: MEDIUM
-    taskSchedule: true
-    testsEnabled: false
     truncateBefore: true
     whName: COMPUTE_WH
   database: ""
@@ -89,40 +98,6 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: a3fb22f0-c829-44ac-85c2-abc1f7d437ab
-          stepCounter: 7192833b-472f-4f35-a6f3-305702dc7627
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemUpdateDate: true
-        name: PROFILE_METRIC
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: "NULL"
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 23995a48-c54c-4267-a516-b99c70806da4
-          stepCounter: 7192833b-472f-4f35-a6f3-305702dc7627
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemCreateDate: true
-        name: SYSTEM_CREATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -140,7 +115,7 @@ operation:
   name: DATA_PROFILING_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: data-quality:::416
+  sqlType: "151"
   type: sql
   version: 1
 type: Node

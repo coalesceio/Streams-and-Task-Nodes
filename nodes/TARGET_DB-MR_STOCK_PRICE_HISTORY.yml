@@ -3,53 +3,39 @@ id: a05960f1-e114-4eda-8a05-e319440da34c
 name: MR_STOCK_PRICE_HISTORY
 operation:
   config:
-    afterMatchSkip: ""
-    allRowsPerMatch: WITH UNMATCHED ROWS
-    inferMatchRecognize: true
-    orderBy:
-      items:
-        - orderByCol:
-            columnCounter: dbc4a9c8-739c-4f5a-9f12-cba638a1e119
-            stepCounter: a05960f1-e114-4eda-8a05-e319440da34c
-          orderByTextBox: ""
-    partitionBy:
-      items:
-        - partitionByCol:
-            columnCounter: 511a0b85-97fb-422c-9046-b700b9de057c
-            stepCounter: a05960f1-e114-4eda-8a05-e319440da34c
-          partitionByColTextBox: ""
-    pattern: |
-      OVERAVG+
-    rowsPerMatch: ALL ROWS PER MATCH
-    selectOrderBy:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    tabDefine:
-      items:
-        - valDefineColumnName: "OVERAVG "
-          valDefineExpression: price > avg(price) over (rows between unbounded preceding and unbounded following)
-    tabMeasures:
-      items:
-        - valAliasExpressionColumnName: MATCH_NUMBER
-          valMeasureColumnName: ""
-          valMeasureExpression: match_number
-    tabSelectFunction:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    testsEnabled: false
-    to: ""
-    toggleOrderBy: true
-    togglePartitionBy: true
-    toggleSelectFunction: false
-    toggleSelectOrderBy: false
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
     truncateBefore: true
-    varAfterMatchSkip: ""
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -131,7 +117,7 @@ operation:
   name: MR_STOCK_PRICE_HISTORY
   overrideSQL: false
   schema: ""
-  sqlType: functional-node-types:::410
+  sqlType: "151"
   type: sql
   version: 1
 type: Node

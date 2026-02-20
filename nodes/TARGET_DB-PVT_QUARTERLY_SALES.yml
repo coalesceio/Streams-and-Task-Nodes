@@ -3,43 +3,39 @@ id: a8125ba5-5374-4b35-8762-0d57f3877647
 name: PVT_QUARTERLY_SALES
 operation:
   config:
-    Colvol1: "'2023_Q1','2023_Q2'"
-    aggfunc:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    aggfunc1:
-      items:
-        - funcname1: MAX
-    defaultval: ""
-    defvalue: false
-    excolval: false
-    exlcol:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    inferPivot: true
-    samKeyColval: false
-    sincol: true
-    subqueryval1: ""
-    tabKeyColumn:
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
-        - keyColDropdown:
-            columnCounter: 4ff2a48e-58e6-4069-bae1-a1ae33bb773b
-            stepCounter: a8125ba5-5374-4b35-8762-0d57f3877647
-          keyColTextBox: QUARTER
-    tabValueColumn:
-      items:
-        - valColDropdown:
-            columnCounter: ac27e270-5686-405f-aeda-efad578dde75
-            stepCounter: a8125ba5-5374-4b35-8762-0d57f3877647
-          valColTextBox: AMOUNT
-    testsEnabled: false
-    trunc: false
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -102,7 +98,7 @@ operation:
   name: PVT_QUARTERLY_SALES
   overrideSQL: false
   schema: ""
-  sqlType: functional-node-types:::409
+  sqlType: "151"
   type: sql
   version: 1
 type: Node

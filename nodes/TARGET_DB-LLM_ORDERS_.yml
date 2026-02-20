@@ -3,35 +3,39 @@ id: d80f43ea-00a8-4abd-aa52-bff608a762ca
 name: LLM_ORDERS_
 operation:
   config:
-    exby:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    extractfunction: false
-    insertStrategy: INSERT
-    pby:
-      items:
-        - partColName:
-            columnCounter: 07115acc-f030-48ef-9325-27003808e9be
-            stepCounter: d80f43ea-00a8-4abd-aa52-bff608a762ca
-    postSQL: ""
-    preSQL: ""
-    sby:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    sentimentfunction: false
-    summarizefunction: true
-    tby:
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    testsEnabled: true
-    translatefunction: false
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
     truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -108,7 +112,7 @@ operation:
   name: LLM_ORDERS_
   overrideSQL: false
   schema: ""
-  sqlType: cortex:::271
+  sqlType: "151"
   type: sql
   version: 1
 type: Node
