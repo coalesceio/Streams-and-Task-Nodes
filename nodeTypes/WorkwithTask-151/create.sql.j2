@@ -42,7 +42,7 @@ does not permit copying or modification for any other purpose.
     {% set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
 
-   {% if currentState.node.materializationType | lower not in ['task', 'table'] or (currentState == undefined or currentState.storageLocations | length == 0) %}
+   {% if (currentState == undefined or currentState.storageLocations | length == 0) or currentState.node.materializationType | lower not in ['task', 'table'] %}
         {# Figure out cluster key #}
         {% set nsVariables = namespace(finalClusterKey="") %}
         {% if desiredState.config.clusterKey == true %}
