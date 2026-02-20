@@ -101,7 +101,16 @@ does not permit copying or modification for any other purpose.
         {% endif %}
     {% endif %}
 
-    {% if currentState == undefined or nsVariables.colchanges == 1 or currentState.storageLocations | length == 0 %}
+    {% if currentState == undefined or nsVariables.colchanges == 1 or currentState.storageLocations | length == 0 or currentState.node.materializationType | lower not in ['task', 'table']%}
+
+        {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
+            {# Change in materialization type #}
+
+            {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+            {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+            DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+        {% endif %}
+        
         {{ stage('Create Dimension Table',true,"sql","create") }}
         CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (

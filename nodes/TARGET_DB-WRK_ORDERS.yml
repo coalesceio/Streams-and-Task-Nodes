@@ -30,7 +30,6 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: true
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
@@ -43,11 +42,25 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 48b9cfe1-ea61-496a-80e2-53f55e2ac0ab
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: WRK_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 1b5bb223-b3ef-48d1-8678-30226cbe97f6
           stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -97,6 +110,84 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 692a79f9-f46b-4a5e-8602-29048f8995c0
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 843c5544-baa6-4aa5-9748-c8ef44c1a5a2
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 72eee06d-f504-4987-b44d-be1f4c62d58f
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ef9a2ec7-7626-43c6-b20a-00ff5406a475
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7707463f-9879-416f-8a94-2f5c5e5645e0
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d1e64f1f-2da3-46bc-9bd0-8bd7d8f0377f
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -114,7 +205,7 @@ operation:
   name: WRK_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: "151"
+  sqlType: "149"
   type: sql
   version: 1
 type: Node
