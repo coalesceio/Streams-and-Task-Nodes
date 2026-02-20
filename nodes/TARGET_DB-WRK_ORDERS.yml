@@ -3,13 +3,6 @@ id: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
 name: WRK_ORDERS
 operation:
   config:
-    asofColumn:
-      items:
-        - {}
-    asofJoin: true
-    asofJoinMain: false
-    asofJoinON: false
-    asofJoinUSING: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -20,23 +13,31 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
-    insertStrategy: INSERT
+    insertStrategy: UNION
+    multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
       items:
         - {}
-    postSQL: SELECT COUNT(*) FROM  {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS
-    preSQL: ""
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
+    serverlessSize: MEDIUM
     truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -113,7 +114,7 @@ operation:
   name: WRK_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::179
+  sqlType: "151"
   type: sql
   version: 1
 type: Node
