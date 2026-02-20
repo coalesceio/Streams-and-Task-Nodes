@@ -3,18 +3,39 @@ id: 81b14193-e959-4f77-a13d-4591e160f487
 name: V_ORDERS_01
 operation:
   config:
-    OverrideSQLCreate: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
-    secureoption: false
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -91,7 +112,7 @@ operation:
   name: V_ORDERS_01
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types:::188
+  sqlType: "151"
   type: sql
   version: 1
 type: Node
