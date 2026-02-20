@@ -1,0 +1,119 @@
+fileVersion: 1
+id: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+name: WRK_ORDERS
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: true
+    clusterKeyConfig:
+      items:
+        - columnName:
+            columnCounter: 1b5bb223-b3ef-48d1-8678-30226cbe97f6
+            stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: SELECT COUNT(*) FROM  {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b5bb223-b3ef-48d1-8678-30226cbe97f6
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_ORDERKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f8cbb3f-0960-4e75-863f-996d5d202997
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 60bddfb5-8703-47fb-84be-a38f6483b6ff
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: O_ORDERNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e61dc414-3ca9-4ef4-bd6c-4c999fcb631d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ce706b6-3794-4162-b7ee-0f6f5178d348
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b3333e5f-0a6a-4423-a5d5-dd8d978be50d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7dc7bedf-879e-4a6d-98d1-e055440ee6e4
+          stepCounter: b8c97db0-1162-424f-9bcb-48c7bfa7ec83
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ORDERS: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS
+        join:
+          joinCondition: FROM  {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS
+        name: WRK_ORDERS
+        noLinkRefs: []
+  name: WRK_ORDERS
+  overrideSQL: false
+  schema: ""
+  sqlType: base-node-types-advanced-deploy:::179
+  type: sql
+  version: 1
+type: Node

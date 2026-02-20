@@ -1,0 +1,25 @@
+config:
+  entities:
+    nodeTypes:
+      "179":
+        defaultStorageLocation: null
+        isDisabled: false
+      "388":
+        defaultStorageLocation: null
+        isDisabled: false
+      "389":
+        defaultStorageLocation: null
+        isDisabled: false
+      "390":
+        defaultStorageLocation: null
+        isDisabled: false
+      "391":
+        defaultStorageLocation: null
+        isDisabled: false
+  packageVariables: ""
+fileVersion: 1
+id: "@coalesce/snowflake/base-node-types-advanced-deploy"
+name: base-node-types-advanced-deploy
+packageID: "@coalesce/snowflake/base-node-types-advanced-deploy"
+releaseID: 718ea6e1-b27d-412f-a259-9424b855e415
+type: Package
