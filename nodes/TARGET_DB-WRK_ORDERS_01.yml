@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 3c112498-058e-4c3c-a307-ffe76d76c6a4
-name: WRK_ORDERS1
+id: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+name: WRK_ORDERS_01
 operation:
   config:
     asofColumn:
@@ -32,8 +32,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c072755e-db23-4a2f-a442-fedc52f98911
-          stepCounter: 3c112498-058e-4c3c-a307-ffe76d76c6a4
+          columnCounter: 2e2fb682-0fdd-4d4d-856f-0c713a1f8709
+          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -46,8 +46,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 227e3a6c-ac35-41c1-876f-7c2b8f5a0d26
-          stepCounter: 3c112498-058e-4c3c-a307-ffe76d76c6a4
+          columnCounter: 25019f39-8c27-46c9-bab6-a023fbadd94f
+          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -60,8 +60,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: beef3863-e5ef-4448-8b27-ae920206d9af
-          stepCounter: 3c112498-058e-4c3c-a307-ffe76d76c6a4
+          columnCounter: fc8bcdc6-3c0f-432e-b5e2-52ee13920e70
+          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
         config: {}
         dataType: DATE
         description: ""
@@ -74,8 +74,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 32cef278-8e5a-420d-b24a-54aded7345e5
-          stepCounter: 3c112498-058e-4c3c-a307-ffe76d76c6a4
+          columnCounter: 7b488363-cf9f-4228-b7f3-7f0010b3e72d
+          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -98,9 +98,9 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM  {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS
-        name: WRK_ORDERS1
+        name: WRK_ORDERS_01
         noLinkRefs: []
-  name: WRK_ORDERS1
+  name: WRK_ORDERS_01
   overrideSQL: false
   schema: ""
   sqlType: base-node-types:::204

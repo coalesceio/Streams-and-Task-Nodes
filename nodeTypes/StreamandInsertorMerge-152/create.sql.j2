@@ -26,6 +26,17 @@ does not permit copying or modification for any other purpose.
 
 {# Create Stream First #}
 {% if desiredState %}
+
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
+
+        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
+        {%- if warningMsg | trim | length > 0 -%}
+            {{ stage('Warning! Node Type Switching Detected', false) }}
+            {{ warningMsg }}
+            select 1=0
+        {%- endif -%}
+    {%- endif -%}
  
     {% if desiredState.config.sourceType == 'Directory Table' %}
 	{% set stageStorageLocation =  desiredState.config.storageLocation | string %}
@@ -211,7 +222,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
  
  
-        {% if currentState != undefined and currentState.config.createas != desiredState.config.createas %}
+        {% if currentState != undefined and currentState.config.createas | default('') != desiredState.config.createas %}
  
                 {# Change in materialization type #}
  
