@@ -20,6 +20,10 @@ does not permit copying or modification for any other purpose.
             {{ warningMsg }}
             select 1=0
         {%- endif -%}
+
+        {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+        {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+        DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
     {%- endif -%}
 
     {# Source Object Location and Name #}
@@ -91,31 +95,32 @@ does not permit copying or modification for any other purpose.
 {# Create Stream first #}
 
 {% if desiredState %}
+	{% if currentState == undefined or currentState.storageLocations | length == 0 or (currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType) or (currentState.node.materializationType != desiredState.node.materializationType) %}
 
-    {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
-        {{ stage('Create Stream',true,"sql","create") }}
-        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-            ON {{ streamType }} {{ refLink }}
-            {{ streamAppendMode }}
-            {{ streamInitialRowsMode }}
-            {{ streamInsertOnlyMode }}
+        {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
+            {{ stage('Create Stream',true,"sql","create") }}
+            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+                ON {{ streamType }} {{ refLink }}
+                {{ streamAppendMode }}
+                {{ streamInitialRowsMode }}
+                {{ streamInsertOnlyMode }}
 
-    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists' and desiredState !=currentState %}
-        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
-        CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
-            ON {{ streamType }} {{ refLink }}
-            {{ streamAppendMode }}
-            {{ streamInitialRowsMode }}
-            {{ streamInsertOnlyMode }}
+        {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists' and desiredState !=currentState %}
+            {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
+            CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
+                ON {{ streamType }} {{ refLink }}
+                {{ streamAppendMode }}
+                {{ streamInitialRowsMode }}
+                {{ streamInsertOnlyMode }}
 
-    {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' and desiredState !=currentState %}
-        {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
-        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-            ON {{ streamType }} {{ refLink }}
-            AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
+        {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' and desiredState !=currentState %}
+            {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
+            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+                ON {{ streamType }} {{ refLink }}
+                AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
 
+        {% endif %}
     {% endif %}
-
 
 {% elif desiredState == undefined and currentState.storageLocations | length > 0 %}
 
