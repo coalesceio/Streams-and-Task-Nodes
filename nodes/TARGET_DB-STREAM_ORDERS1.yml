@@ -3,10 +3,10 @@ id: 8ef8e8ff-45e7-48f7-903b-dc278f4ce1b3
 name: STREAM_ORDERS1
 operation:
   config:
-    appendOnly: false
-    initialRows: true
     redeploymentBehavior: Create or Replace
-    sourceType: Table
+    sourceType: Directory Table
+    stageName: MY_STAGE
+    storageLocation: SOURCE_DATA
   database: ""
   deployEnabled: true
   description: ""
@@ -140,7 +140,7 @@ operation:
   name: STREAM_ORDERS1
   overrideSQL: false
   schema: ""
-  sqlType: "153"
+  sqlType: "428"
   type: sql
   version: 1
 type: Node
