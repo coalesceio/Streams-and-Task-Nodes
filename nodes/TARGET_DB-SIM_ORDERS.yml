@@ -12,7 +12,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: table
+    createas: transient table
     devMode: true
     flagSrcStream: true
     groupByAll: false

@@ -3,30 +3,16 @@ id: 46321664-f6de-41ca-8fc3-7f9d9e39d26a
 name: WRK_ORDERS_STREAM
 operation:
   config:
-    asofColumn:
-      items:
-        - {}
-    asofJoin: true
-    asofJoinMain: false
-    asofJoinON: false
-    asofJoinUSING: false
-    groupByAll: false
-    insertStrategy: INSERT
-    orderby: false
-    orderbycolumn:
-      items:
-        - {}
-    postSQL: ""
-    preSQL: ""
-    selectDistinct: false
-    testsEnabled: false
-    truncateBefore: true
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create or Replace
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -103,7 +89,7 @@ operation:
   name: WRK_ORDERS_STREAM
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types:::204
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

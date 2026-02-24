@@ -3,30 +3,45 @@ id: 667aa4c0-45bd-46c8-854f-66237f9e98fb
 name: WRK_ORDERS_TABLE
 operation:
   config:
-    asofColumn:
+    appendOnly: false
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    asofJoin: true
-    asofJoinMain: false
-    asofJoinON: false
-    asofJoinUSING: false
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
-    insertStrategy: INSERT
-    orderby: false
-    orderbycolumn:
+    initialRows: true
+    loadType: Insert
+    orderBy:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
-    truncateBefore: true
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -86,6 +101,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 25853076-9352-4efe-848a-52ff306dd3c3
+          stepCounter: 667aa4c0-45bd-46c8-854f-66237f9e98fb
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f26fb6a3-9ed2-42eb-9b1b-3a3428350a61
+          stepCounter: 667aa4c0-45bd-46c8-854f-66237f9e98fb
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -103,7 +144,7 @@ operation:
   name: WRK_ORDERS_TABLE
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types:::204
+  sqlType: "152"
   type: sql
   version: 1
 type: Node
