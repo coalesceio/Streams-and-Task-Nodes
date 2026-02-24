@@ -26,17 +26,6 @@ does not permit copying or modification for any other purpose.
 
 {# Create Stream First #}
 {% if desiredState %}
-
-    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
-        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
-
-        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
-        {%- if warningMsg | trim | length > 0 -%}
-            {{ stage('Warning! Node Type Switching Detected', false) }}
-            {{ warningMsg }}
-            select 1=0
-        {%- endif -%}
-    {%- endif -%}
  
     {% if desiredState.config.sourceType == 'Directory Table' %}
 	{% set stageStorageLocation =  desiredState.config.storageLocation | string %}
@@ -184,7 +173,18 @@ does not permit copying or modification for any other purpose.
  
 {# Create / Alter Table Second #}
 
-{% if desiredState and (currentState is not defined or currentState != desiredState) %}
+{% if desiredState and currentState != desiredState %}
+
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
+
+        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
+        {%- if warningMsg | trim | length > 0 -%}
+            {{ stage('Warning! Node Type Switching Detected', false) }}
+            {{ warningMsg }}
+            select 1=0
+        {%- endif -%}
+    {%- endif -%}
  
     {% if desiredState.config.createas == 'table' or desiredState.config.createas == 'transient table'  %}
        
@@ -222,10 +222,10 @@ does not permit copying or modification for any other purpose.
         {% endif %}
  
  
-        {% if currentState is not defined or currentState.node.materializationType | lower not in ['task', 'table'] or (currentState.config.createas | default('') != desiredState.config.createas)  %}
+        {% if  currentState != undefined and (currentState.config.createas | default('') != desiredState.config.createas or currentState.node.materializationType | lower not in ['task', 'table']) %}
  
             {# Change in materialization type #}
-            {% if currentState is defined and currentState.node.materializationType != desiredState.node.materializationType %}
+            {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
                 {# Change in materialization type #}
 
                 {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
@@ -258,7 +258,7 @@ does not permit copying or modification for any other purpose.
                
         {% endif %}
  
-        {% if currentState is not defined or currentState.storageLocations | length == 0%}
+       {% if currentState == undefined or currentState.storageLocations | length == 0%}
             {{ stage('Create Work '+ ' {{desiredState.config.createas}}',true,"sql","create") }}
             CREATE OR REPLACE {{desiredState.config.createas}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
@@ -704,7 +704,7 @@ does not permit copying or modification for any other purpose.
 
             {%-if currentState !=undefined -%}            
             {%- if currentState.config.schedulePeriodOption | default('') == 'Predecessor' and ( currentState.config.schedulePeriodOption | default('') != desiredState.config.schedulePeriodOption or currentState.config.rootTask | default('') != desiredState.config.rootTask) -%}
-                {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
+                {% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask | default('')) %}
                 {{ stage('Suspend Root Task',true,"sql","create") }}
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
             {%- endif -%}
@@ -919,7 +919,7 @@ does not permit copying or modification for any other purpose.
  
     {% if currentState.config.devMode | default(false) == false %}
 		{# FQ Root Task name #}							   
-		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}							   
+		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask | default('')) %}							   
  
         {# Task Info #}
         {% set taskName = currentState.node.name + '_TASK' %}
