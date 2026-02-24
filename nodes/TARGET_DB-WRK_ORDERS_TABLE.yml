@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 3ae2e4f7-2cf2-4cd8-a5df-49d1f78b6938
-name: WRK_WRK_ORDERS_01
+id: 667aa4c0-45bd-46c8-854f-66237f9e98fb
+name: WRK_ORDERS_TABLE
 operation:
   config:
     asofColumn:
@@ -32,8 +32,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 14cc7eb9-7876-4148-8d7b-10e176524615
-          stepCounter: 3ae2e4f7-2cf2-4cd8-a5df-49d1f78b6938
+          columnCounter: 1b7547c2-5d15-4911-8ad1-fe4cd9a9fa65
+          stepCounter: 667aa4c0-45bd-46c8-854f-66237f9e98fb
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -41,13 +41,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 2e2fb682-0fdd-4d4d-856f-0c713a1f8709
-                stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+              - columnCounter: 1f8cbb3f-0960-4e75-863f-996d5d202997
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 93ee8281-0128-450a-a318-0d955d34637e
-          stepCounter: 3ae2e4f7-2cf2-4cd8-a5df-49d1f78b6938
+          columnCounter: 05ee7dd0-ac09-49e6-8f4c-efaef7639839
+          stepCounter: 667aa4c0-45bd-46c8-854f-66237f9e98fb
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -55,13 +55,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 25019f39-8c27-46c9-bab6-a023fbadd94f
-                stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+              - columnCounter: e61dc414-3ca9-4ef4-bd6c-4c999fcb631d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 959058a9-f98e-4a45-9c4b-c60dac27a839
-          stepCounter: 3ae2e4f7-2cf2-4cd8-a5df-49d1f78b6938
+          columnCounter: 05a71c74-0637-468b-93bd-90fa12904d2b
+          stepCounter: 667aa4c0-45bd-46c8-854f-66237f9e98fb
         config: {}
         dataType: DATE
         description: ""
@@ -69,13 +69,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: fc8bcdc6-3c0f-432e-b5e2-52ee13920e70
-                stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+              - columnCounter: b3333e5f-0a6a-4423-a5d5-dd8d978be50d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 64ac9acf-50f5-44fe-8b91-03477aaf9e85
-          stepCounter: 3ae2e4f7-2cf2-4cd8-a5df-49d1f78b6938
+          columnCounter: 57a2093e-111f-4ebd-807a-d5c8dc1d8e6c
+          stepCounter: 667aa4c0-45bd-46c8-854f-66237f9e98fb
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -83,24 +83,24 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 7b488363-cf9f-4228-b7f3-7f0010b3e72d
-                stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+              - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          WRK_ORDERS_01: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+          ORDERS: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
-            nodeName: WRK_ORDERS_01
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS
         join:
-          joinCondition: FROM  {{ ref('TARGET_DB', 'WRK_ORDERS_01') }} WRK_ORDERS_01
-        name: WRK_WRK_ORDERS_01
+          joinCondition: FROM  {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS
+        name: WRK_ORDERS_TABLE
         noLinkRefs: []
-  name: WRK_WRK_ORDERS_01
+  name: WRK_ORDERS_TABLE
   overrideSQL: false
   schema: ""
   sqlType: base-node-types:::204

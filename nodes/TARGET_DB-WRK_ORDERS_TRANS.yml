@@ -1,25 +1,39 @@
 fileVersion: 1
-id: f3ffcb8d-d332-4527-9afe-5dde87ac870d
-name: WRK_ORDERS_01
+id: c284569f-fa4b-411c-80b1-ed126c2d732f
+name: WRK_ORDERS_TRANS
 operation:
   config:
-    appendOnly: true
-    initialRows: true
-    redeploymentBehavior: Create At Existing Stream
-    sourceType: Table
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: stream
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2e2fb682-0fdd-4d4d-856f-0c713a1f8709
-          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+          columnCounter: 14883aba-d961-4bb6-b0f2-f25d66362013
+          stepCounter: c284569f-fa4b-411c-80b1-ed126c2d732f
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -32,8 +46,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 25019f39-8c27-46c9-bab6-a023fbadd94f
-          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+          columnCounter: 06c8db00-c598-4c40-b645-ebed9a96ce3a
+          stepCounter: c284569f-fa4b-411c-80b1-ed126c2d732f
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -46,8 +60,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fc8bcdc6-3c0f-432e-b5e2-52ee13920e70
-          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+          columnCounter: e884e2ab-d39f-4fda-9fa3-5edfc166756b
+          stepCounter: c284569f-fa4b-411c-80b1-ed126c2d732f
         config: {}
         dataType: DATE
         description: ""
@@ -60,8 +74,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7b488363-cf9f-4228-b7f3-7f0010b3e72d
-          stepCounter: f3ffcb8d-d332-4527-9afe-5dde87ac870d
+          columnCounter: 80aa275e-03f1-4b2c-b39c-24285ffc9399
+          stepCounter: c284569f-fa4b-411c-80b1-ed126c2d732f
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -84,12 +98,12 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM  {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS
-        name: WRK_ORDERS_01
+        name: WRK_ORDERS_TRANS
         noLinkRefs: []
-  name: WRK_ORDERS_01
+  name: WRK_ORDERS_TRANS
   overrideSQL: false
   schema: ""
-  sqlType: "153"
+  sqlType: base-node-types:::204
   type: sql
   version: 1
 type: Node
