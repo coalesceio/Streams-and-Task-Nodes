@@ -89,11 +89,14 @@ does not permit copying or modification for any other purpose.
             {{ warningMsg }}
             select 1=0
         {%- endif -%}
+     {%- endif -%}
+
+    {%- if currentState.node.materializationType != desiredState.node.materializationType %}
 
         {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
         {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
         DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-    {%- endif -%}
+     {%- endif -%}
     
 	{% if currentState == undefined or currentState.storageLocations | length == 0 or (currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType) or (currentState.node.materializationType != desiredState.node.materializationType) %}
 
