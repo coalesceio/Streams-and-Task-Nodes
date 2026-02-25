@@ -3,92 +3,38 @@ id: 2adbf76e-7c49-40a7-9df4-c915e77b1dc3
 name: DMFS_ORDERS1
 operation:
   config:
-    addCustomDMFs: false
-    addcolumnleveldmfs: false
-    adddmfs:
+    asofColumn:
       items:
         - {}
-    adddmfsobject:
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    addobjectleveldmfs: false
-    alertFrequency: 60
-    alertWarehouse: ""
-    blankCntTrigger: false
-    blankPrcntThreshold: 5
-    blankPrcntTrigger: false
-    customDMFsConfig:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    dupCntTrigger: true
-    emailAlertToggle: false
-    emailList: ""
-    freshThreshold: 24
-    freshTrigger: true
-    notfIntegrationName: ""
-    nullCntTrigger: true
-    nullPrcntThreshold: 5
-    nullPrcntTrigger: false
-    overrideEmailAlertToggle: false
-    scheduleCRON: ""
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    universalColumnBlankCountDMF: false
-    universalColumnBlankCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankCountUniversalColumns[]
-    universalColumnBlankPercentDMF: false
-    universalColumnBlankPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankPercentUniversalColumns[]
-    universalColumnDmfs: true
-    universalColumnDuplicateCountDMF: true
-    universalColumnDuplicateCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.duplicateCountUniversalColumns[]
-    universalColumnFreshnessDMF: true
-    universalColumnFreshnessDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.freshnessUniversalColumns[]
-    universalColumnNullCountDMF: true
-    universalColumnNullCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullCountUniversalColumns[]
-    universalColumnNullPercentDMF: false
-    universalColumnNullPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullPercentUniversalColumns[]
-    universalColumnUniqueCountDMF: false
-    universalColumnUniqueCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.uniqueCountUniversalColumns[]
-    universalDmfs: true
-    universalObjectDmfs: true
-    universalObjectDmfsList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.universalObjectDmfs[]
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
@@ -165,7 +111,7 @@ operation:
   name: DMFS_ORDERS1
   overrideSQL: false
   schema: ""
-  sqlType: data-quality:::448
+  sqlType: base-node-types-advanced-deploy:::179
   type: sql
   version: 1
 type: Node
