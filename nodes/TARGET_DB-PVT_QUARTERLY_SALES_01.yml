@@ -3,44 +3,39 @@ id: 11da2408-baa2-4f11-b186-26ce8565b54c
 name: PVT_QUARTERLY_SALES_01
 operation:
   config:
-    Colvol1: "'2023_Q1','2023_Q2'"
-    aggfunc:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    aggfunc1:
-      items:
-        - funcname1: AVG
-        - funcname1: SUM
-    defaultval: ""
-    defvalue: false
-    excolval: false
-    exlcol:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    inferPivot: true
-    samKeyColval: false
-    sincol: true
-    subqueryval1: ""
-    tabKeyColumn:
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
-        - keyColDropdown:
-            columnCounter: 32f188de-db28-47f2-a951-a94733e925bd
-            stepCounter: 11da2408-baa2-4f11-b186-26ce8565b54c
-          keyColTextBox: QUARTER
-    tabValueColumn:
-      items:
-        - valColDropdown:
-            columnCounter: 86860f69-582e-488e-be4f-c3c0498a6fee
-            stepCounter: 11da2408-baa2-4f11-b186-26ce8565b54c
-          valColTextBox: AMOUNT
-    testsEnabled: false
-    trunc: false
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -58,34 +53,63 @@ operation:
               - columnCounter: cabbde51-7da5-4a4e-8e7f-39ed2b418898
                 stepCounter: 93bacfc5-ee8b-479f-9a33-5d932fe67b90
             transform: ""
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 86860f69-582e-488e-be4f-c3c0498a6fee
+          columnCounter: 73e1f20f-4165-443a-a68c-eabe3c0e992f
           stepCounter: 11da2408-baa2-4f11-b186-26ce8565b54c
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(14)
+        defaultValue: ""
         description: ""
-        name: AMOUNT
+        name: AGGREGATE
         nullable: true
+        primaryKey: false
         sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e5cb1382-9c7a-40d9-a070-498aa486284b
-                stepCounter: 93bacfc5-ee8b-479f-9a33-5d932fe67b90
+          - columnReferences: []
             transform: ""
-      - appliedColumnTests: {}
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 32f188de-db28-47f2-a951-a94733e925bd
+          columnCounter: d752aed4-5f89-4d01-8cff-39971ef85fb5
           stepCounter: 11da2408-baa2-4f11-b186-26ce8565b54c
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: NUMBER(38,6)
+        defaultValue: ""
         description: ""
-        name: QUARTER
+        name: "'2023_Q1'"
         nullable: true
+        primaryKey: false
         sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: d897b72a-5396-4cd8-8993-eeb48dabcd58
-                stepCounter: 93bacfc5-ee8b-479f-9a33-5d932fe67b90
+          - columnReferences: []
             transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c03b0827-d97e-4e4f-a3e4-e881f0bbe18c
+          stepCounter: 11da2408-baa2-4f11-b186-26ce8565b54c
+        config: {}
+        dataType: NUMBER(38,6)
+        defaultValue: ""
+        description: ""
+        name: "'2023_Q2'"
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -103,7 +127,7 @@ operation:
   name: PVT_QUARTERLY_SALES_01
   overrideSQL: false
   schema: ""
-  sqlType: functional-node-types:::409
+  sqlType: "151"
   type: sql
   version: 1
 type: Node
