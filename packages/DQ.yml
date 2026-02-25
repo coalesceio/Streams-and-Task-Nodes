@@ -22,7 +22,7 @@ config:
     %}
 fileVersion: 1
 id: "@coalesce/snowflake/data-quality"
-name: data-quality
+name: DQ
 packageID: "@coalesce/snowflake/data-quality"
-releaseID: 52376b6c-dd5a-4dda-81f6-0dcb783ff0d7
+releaseID: 3dbd5cb9-a552-4ca6-84ed-84b0a6d2fec5
 type: Package
