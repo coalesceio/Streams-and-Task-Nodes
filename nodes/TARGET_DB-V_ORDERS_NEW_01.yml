@@ -7,7 +7,7 @@ operation:
     groupByAll: false
     insertStrategy: UNION
     secureoption: false
-    selectDistinct: false
+    selectDistinct: true
     testsEnabled: false
   database: ""
   deployEnabled: true
