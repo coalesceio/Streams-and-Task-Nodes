@@ -3,7 +3,6 @@ id: deaf4612-ae05-4c2c-8639-abfe3be16d7c
 name: CT_ORDERS
 operation:
   config:
-    changetracking: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -14,42 +13,46 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    constraintsspec:
-      items:
-        - {}
-    datretention: ""
-    defaultcoallation: ""
-    eschemaevol: false
-    foreignk: false
-    foreignkeycon:
-      items:
-        - {}
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
-    inlineconst: false
-    insertStrategy: INSERT
-    maxdataretention: ""
+    insertStrategy: UNION
+    multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
       items:
         - {}
-    outlineconst: false
-    primary: false
-    primarykeycon:
-      items:
-        - {}
-    primarykeyname: ""
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
-    truncateBefore: true
+    serverlessSize: MEDIUM
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: transient table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9d41650d-9577-408f-a6cd-daeb24bf4bdd
+          stepCounter: deaf4612-ae05-4c2c-8639-abfe3be16d7c
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: CT_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 7cdfaec6-56b5-44b5-a352-37f2973c93ca
@@ -57,6 +60,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -106,6 +110,84 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 859fb6a7-8762-4e34-9b43-8615982de149
+          stepCounter: deaf4612-ae05-4c2c-8639-abfe3be16d7c
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b5871ae9-1921-4049-a52e-7e833c205745
+          stepCounter: deaf4612-ae05-4c2c-8639-abfe3be16d7c
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f85cb048-460f-4843-8f38-c7e4dcbe42c2
+          stepCounter: deaf4612-ae05-4c2c-8639-abfe3be16d7c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0aa4337a-7016-40de-baa9-dea01c7d09a2
+          stepCounter: deaf4612-ae05-4c2c-8639-abfe3be16d7c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ad45e34-3c9b-4953-9108-1084b9e2381a
+          stepCounter: deaf4612-ae05-4c2c-8639-abfe3be16d7c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c82818a5-2df0-4994-be34-707ea10ab24a
+          stepCounter: deaf4612-ae05-4c2c-8639-abfe3be16d7c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -123,7 +205,7 @@ operation:
   name: CT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: create-or-alter-package:::345
+  sqlType: "149"
   type: sql
   version: 1
 type: Node

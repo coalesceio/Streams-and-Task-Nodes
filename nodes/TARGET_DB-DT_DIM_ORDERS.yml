@@ -3,10 +3,6 @@ id: d6b477d4-4c93-4b65-af64-ca87afbb1245
 name: DT_DIM_ORDERS
 operation:
   config:
-    advanceWarehouse: false
-    backfill: false
-    backfillSource: ""
-    backfillSourceSchema: ""
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -17,49 +13,30 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    cpygrants: false
-    downstreamOption: false
-    immutabilityConstraint: false
-    immutableExpression: ""
-    initialize: ON_CREATE
-    initializeWarehouseSize: ""
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
-    orderBy:
-      items:
-        - colName:
-            columnCounter: d4c27574-76d3-4388-91a1-8c542762a280
-            stepCounter: d6b477d4-4c93-4b65-af64-ca87afbb1245
-    orderByDateTime:
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    orderseq:
-      items:
-        - {}
-    partitionBy:
-      items:
-        - partColName:
-            columnCounter: 799d9d91-232e-4585-b142-4c056e0f4ccd
-            stepCounter: d6b477d4-4c93-4b65-af64-ca87afbb1245
-    recordVersioning: Datetime Column
-    recordorderBy:
-      items:
-        - {}
-    refreshWarehouseSize: ""
-    refresh_mode: AUTO
-    timeTravel: false
-    timeTravelreference: ""
-    timeTraveltype: ""
-    timeTravelvalue: ""
-    warehouseName: COMPUTE_WH
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: transient dynamic table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -71,15 +48,14 @@ operation:
           columnCounter: 0e091768-f36d-48bd-ae05-b42f29c1793e
           stepCounter: d6b477d4-4c93-4b65-af64-ca87afbb1245
         config: {}
-        dataType: STRING
-        defaultValue: ""
+        dataType: NUMBER
         description: ""
         isSurrogateKey: true
         name: DT_DIM_ORDERS_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "{{ dimensionHistoryPk() }}"
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 799d9d91-232e-4585-b142-4c056e0f4ccd
@@ -87,6 +63,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -204,6 +181,58 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: FIRST_VALUE({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%} {{order_by_col_int()}}{%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 25a2fe1b-031c-4a11-b153-f0f0039ce439
+          stepCounter: d6b477d4-4c93-4b65-af64-ca87afbb1245
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cf5f4d98-9a09-4020-af70-685d5ea7add5
+          stepCounter: d6b477d4-4c93-4b65-af64-ca87afbb1245
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 32968f32-3ac0-4af7-83cc-0347eed6f742
+          stepCounter: d6b477d4-4c93-4b65-af64-ca87afbb1245
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb05ad73-0f4d-4cf3-91d3-e219ead187cb
+          stepCounter: d6b477d4-4c93-4b65-af64-ca87afbb1245
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -221,7 +250,7 @@ operation:
   name: DT_DIM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: dynamic-tables:::350
+  sqlType: "149"
   type: sql
   version: 1
 type: Node

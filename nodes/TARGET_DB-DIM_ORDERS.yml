@@ -11,47 +11,30 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    customZeroKeyValues:
-      items:
-        - {}
-    deleteStrategy: NO DELETE
-    excludeMergeList:
-      items:
-        - {}
-    excludeMergeToggle: false
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: false
-    insertZeroKeyAdvanced: false
-    insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedComparison: false
+    multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
-    primary: false
-    primaryKeyCol:
-      items:
-        - {}
-    primaryKeyName: ""
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: false
-    type2Dimension: false
-    updateStrategy: MERGE
+    serverlessSize: MEDIUM
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -248,7 +231,7 @@ operation:
   name: DIM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::388
+  sqlType: "149"
   type: sql
   version: 1
 type: Node

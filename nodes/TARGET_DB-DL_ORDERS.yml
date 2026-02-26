@@ -3,7 +3,6 @@ id: 9b17e85a-b055-42e0-9016-232b15ee2582
 name: DL_ORDERS
 operation:
   config:
-    capUpdate: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -12,53 +11,46 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: table
     devMode: false
-    dmlCol:
-      columnCounter: 33df8e7e-aab2-462c-a85d-a174ed5ffffd
-      stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
-    dmlDelete: D
-    dmlInsert: I
-    dmlUpdate: U
     flagSrcStream: false
-    initialRows: true
-    insertOnly: false
-    orderBy:
-      items:
-        - colName:
-            columnCounter: 4a6651ee-4141-4925-bd76-4d53cd54e168
-            stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
-          sortOrd: desc
-    orderByDateTime:
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    partitionBy:
-      items:
-        - partColName:
-            columnCounter: 2242f612-b1b1-4b7a-b612-9ca0a45fd892
-            stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
     predTask: ""
-    recordVersioning: Datetime Column
-    redeploymentBehavior: Create At Existing Stream
-    retainLastNonDeleteFlag: false
     rootTask: ""
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
+    selectDistinct: false
     serverlessSize: MEDIUM
-    softDeleteFlag: false
-    sourceType: Table
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0fb21a9f-c956-48ff-b018-f24c67e2bf63
+          stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: DL_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 2242f612-b1b1-4b7a-b612-9ca0a45fd892
@@ -66,6 +58,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -115,23 +108,84 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 73cdfbc7-8736-41b0-8517-146ec250ac98
+          columnCounter: ab314b70-7aba-4e35-960e-d8f79ae38600
           stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
         config: {}
-        dataType: timestamp
-        defaultValue: ""
+        dataType: NUMBER
         description: ""
-        hmUpdTs: true
-        name: DM_UPDATE_TIMESTAMP
+        isSystemVersion: true
+        name: SYSTEM_VERSION
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: current_timestamp::timestamp_ntz
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dd83fa45-112e-41a5-bd16-fa7dfa321f96
+          stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3584f41e-53e0-40a1-a57f-423a9e2c63eb
+          stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 159068a9-d1a4-4b33-a50c-46c1af5f6e72
+          stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 136df8be-b202-48d6-ba08-8b7610d38963
+          stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9abf708c-2303-47eb-b3eb-1376eda2bb14
+          stepCounter: 9b17e85a-b055-42e0-9016-232b15ee2582
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -149,7 +203,7 @@ operation:
   name: DL_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: deferred-merge:::301
+  sqlType: "149"
   type: sql
   version: 1
 type: Node

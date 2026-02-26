@@ -3,54 +3,54 @@ id: 460f9f26-0702-403f-b7f4-77cf9b0c6872
 name: CSS_ORDERS
 operation:
   config:
-    allcol: false
-    attrcol:
-      items:
-        - acolname:
-            columnCounter: 529ca758-8895-4422-bb94-9a4bbb256c18
-            stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
-    colpreview:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    createcortex: true
-    embmodel: ""
-    excss: false
-    filcrit:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    filtoggle: false
-    initialize: ON_CREATE
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
-    locCSS: ""
-    lopt: and
-    mulfilcon: false
-    namCSS: ""
-    numboost: false
-    numericboost:
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    query1: ""
-    querycortex: false
-    searchcol:
-      columnCounter: 529ca758-8895-4422-bb94-9a4bbb256c18
-      stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
-    timdec: false
-    timedecay:
-      items:
-        - {}
-    warehouseName: COMPUTE_WH
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: cortex search service
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94fc9179-6c2b-4ec6-8bd5-845cc262e09e
+          stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: CSS_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: b0032757-4c41-41ba-b3c1-ac0cbf6928ed
@@ -58,6 +58,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -107,6 +108,84 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3e4cb2bc-84df-413e-a968-e6c662b4fec0
+          stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 75546f95-19e9-435e-9273-eed737230744
+          stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b057f5fe-c14a-4afa-a1b8-8b6f125e5743
+          stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1798a734-b42d-4671-a15b-b3a63743730a
+          stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e8ed1cf2-3177-49cb-836f-cffa513e7261
+          stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0d9ff1d5-f344-4ac5-90a1-1e9337bb9ede
+          stepCounter: 460f9f26-0702-403f-b7f4-77cf9b0c6872
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -124,7 +203,7 @@ operation:
   name: CSS_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: cortex:::499
+  sqlType: "149"
   type: sql
   version: 1
 type: Node
