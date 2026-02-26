@@ -1,6 +1,6 @@
 fileVersion: 1
 id: b892b3f6-35e3-4268-8615-b6dc137df93d
-name: V_ORDERS_NEW
+name: V_ORDERS_NEW_01
 operation:
   config:
     OverrideSQLCreate: false
@@ -86,9 +86,9 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: V_ORDERS_NEW
+        name: V_ORDERS_NEW_01
         noLinkRefs: []
-  name: V_ORDERS_NEW
+  name: V_ORDERS_NEW_01
   overrideSQL: false
   schema: ""
   sqlType: base-node-types:::188
