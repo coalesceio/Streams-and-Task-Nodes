@@ -1,51 +1,75 @@
 fileVersion: 1
-id: 1f30df99-e0e4-4899-b60d-dbe73496c32f
-name: STREAM_ORDERS
+id: 41b2d971-57db-4001-b3e4-e642d9bcc867
+name: DT_WRK_LRV_ORDERS
 operation:
   config:
-    clusterKey: false
+    advanceWarehouse: false
+    backfill: false
+    backfillSource: ""
+    backfillSourceSchema: ""
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 3424a685-4be2-4efc-9b34-9c31c495d2b8
+            stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: true
-    flagSrcStream: true
-    groupByAll: false
-    insertStrategy: UNION
-    multiStreamBehavior: AND
-    orderby: false
-    orderbycolumn:
+    cpygrants: false
+    downstreamOption: false
+    immutabilityConstraint: false
+    immutableExpression: ""
+    initialize: ON_CREATE
+    initializeWarehouseSize: ""
+    lagSpecification:
+      items:
+        - lagPeriod: Minutes
+          lagValue: "60"
+    orderBy:
+      items:
+        - colName:
+            columnCounter: fcbac580-5e30-4aa1-a221-698b2f7a8c03
+            stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
+    orderByDateTime:
       items:
         - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
-    selectDistinct: false
-    serverlessSize: MEDIUM
-    whName: <WAREHOUSE_NAME>
+    orderseq:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 3424a685-4be2-4efc-9b34-9c31c495d2b8
+            stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
+    recordVersioning: Datetime Column
+    recordorderBy:
+      items:
+        - {}
+    refreshWarehouseSize: ""
+    refresh_mode: AUTO
+    timeTravel: false
+    timeTravelreference: ""
+    timeTraveltype: ""
+    timeTravelvalue: ""
+    warehouseName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: transient dynamic table
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4c863c64-cf63-41cc-8677-d95aa58f3ca2
-          stepCounter: 1f30df99-e0e4-4899-b60d-dbe73496c32f
+          columnCounter: 3424a685-4be2-4efc-9b34-9c31c495d2b8
+          stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -55,8 +79,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2804684f-6851-4633-ae52-f8d379cb93e4
-          stepCounter: 1f30df99-e0e4-4899-b60d-dbe73496c32f
+          columnCounter: 00ad345e-4636-428a-b561-545b6e4078ea
+          stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -69,8 +93,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bdc3c44b-80af-4ed8-9584-a77f36db431a
-          stepCounter: 1f30df99-e0e4-4899-b60d-dbe73496c32f
+          columnCounter: f0672275-2bbb-4ffc-a99c-1791e8b18b2d
+          stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
         config: {}
         dataType: DATE
         description: ""
@@ -83,8 +107,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 29b1f24a-72c1-4907-9a6a-f477052b17e9
-          stepCounter: 1f30df99-e0e4-4899-b60d-dbe73496c32f
+          columnCounter: fcbac580-5e30-4aa1-a221-698b2f7a8c03
+          stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -95,32 +119,23 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 73e8d974-5636-4d3e-8720-dee8f913f4dd
-          stepCounter: 1f30df99-e0e4-4899-b60d-dbe73496c32f
+          columnCounter: 81e96ddd-572e-4062-9bad-652863ebf81a
+          stepCounter: 41b2d971-57db-4001-b3e4-e642d9bcc867
         config: {}
         dataType: TIMESTAMP
+        defaultValue: ""
         description: ""
-        isSystemCreateDate: true
-        name: SYSTEM_CREATE_DATE
+        name: RECORD_CREATED_DATE
         nullable: true
+        recordCreated: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: e231dd6f-e9f2-4219-8297-8d86a1c3f28c
-          stepCounter: 1f30df99-e0e4-4899-b60d-dbe73496c32f
-        config: {}
-        dataType: TIMESTAMP
-        description: ""
-        isSystemUpdateDate: true
-        name: SYSTEM_UPDATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+            transform: FIRST_VALUE({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%} {{order_by_col_int()}}{%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -133,12 +148,12 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: STREAM_ORDERS
+        name: DT_WRK_LRV_ORDERS
         noLinkRefs: []
-  name: STREAM_ORDERS
+  name: DT_WRK_LRV_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: "150"
+  sqlType: dynamic-tables:::351
   type: sql
   version: 1
 type: Node

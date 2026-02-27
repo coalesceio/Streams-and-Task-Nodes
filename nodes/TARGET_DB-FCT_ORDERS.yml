@@ -1,0 +1,158 @@
+fileVersion: 1
+id: 241aad57-9a55-463c-aa5e-916ed2c2122c
+name: FCT_ORDERS
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    deleteStrategy: NO DELETE
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    primary: true
+    primaryKeyCol:
+      items:
+        - primaryKey:
+            columnCounter: 61842bbe-ff84-4f2a-aa70-828dd2ee3ce4
+            stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
+    primaryKeyName: ""
+    selectDistinct: false
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 61842bbe-ff84-4f2a-aa70-828dd2ee3ce4
+          stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_ORDERKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f8cbb3f-0960-4e75-863f-996d5d202997
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3b14dd9b-e640-4d11-b106-9b70b6777bae
+          stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: O_ORDERNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e61dc414-3ca9-4ef4-bd6c-4c999fcb631d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6bd61b84-c3c5-41dc-8798-25cacffca512
+          stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b3333e5f-0a6a-4423-a5d5-dd8d978be50d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 22574354-2582-40f4-aebd-8d05dfdcf585
+          stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 96267768-cb6e-4e3d-af99-730f6d219aab
+          stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 78224cd4-d9cc-4d8c-9e8e-ed85750f923a
+          stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ORDERS: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
+        name: FCT_ORDERS
+        noLinkRefs: []
+  name: FCT_ORDERS
+  overrideSQL: false
+  schema: ""
+  sqlType: base-node-types-advanced-deploy:::389
+  type: sql
+  version: 1
+type: Node
