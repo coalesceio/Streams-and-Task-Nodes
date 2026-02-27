@@ -707,8 +707,6 @@ does not permit copying or modification for any other purpose.
           {%- endif -%}
         {%-endif -%}
 
-        
-        {{ stage('Create Task',true,"sql","create") }}
         {# Set Namespace Variables #}
         {% set nsVariables = namespace(taskWhenRun="") %}
         {% set nsVariables = namespace(poll="WHEN ") %}
@@ -729,12 +727,22 @@ does not permit copying or modification for any other purpose.
             {% endif %}
 		  {%- endif -%}
         {%- else -%}
-            {%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize -%} 
+            {% set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize.split('.')[1] -%}
+            {%- if desiredState.config.sizeBoundToggle -%}
+                {% set minSrvSize = 'SERVERLESS_TASK_MIN_STATEMENT_SIZE = ' + desiredState.config.minServerlessSize.split('.')[1] -%}
+                {% set maxSrvSize = 'SERVERLESS_TASK_MAX_STATEMENT_SIZE = ' + desiredState.config.maxServerlessSize.split('.')[1] -%}
+            {%- endif -%}
         {%- endif -%}
 
         {# Schedule Type #}
-        {%- if desiredState.config.schedulePeriodOption == 'Minutes' -%} 
-            {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + desiredState.config.schedulePeriod + ' MINUTE' + "'" -%} 
+        {%- if desiredState.config.schedulePeriodOption == 'Minutes' %} 
+            {%- set execValue = desiredState.config.execTime.get('items')
+                                    | map(attribute='value')
+                                    | first %}
+            {%- set execPeriod = desiredState.config.execTime.get('items')
+                                    | map(attribute='period')
+                                    | first %}
+            {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + execValue ~ ' ' ~ execPeriod + "'" %}
         {% elif desiredState.config.schedulePeriodOption == 'CRON' %}
             {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON + "'" %}
         {%- else -%}
@@ -770,6 +778,49 @@ does not permit copying or modification for any other purpose.
             {% endfor %}
         {% endif -%}
 
+        {%- set nodeComment = "COMMENT = '" ~ desiredState.node.description | trim ~ "'" if desiredState.node.description | default('') | trim else "" %}
+
+        {%- if desiredState.config.spfcUserToggle -%}
+            {%- if desiredState.parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
+                {%- set userServiceAcct = 'EXECUTE AS USER ' + desiredState.config.userName %}
+            {%- else -%}
+                {%- set userServiceAcct = 'EXECUTE AS USER ' + desiredState.parameters.targetTaskExecuteAsUser %}
+            {%- endif -%}
+        {%- endif -%}
+
+        {%- if desiredState.config.schedulePeriodOption != 'Predecessor' and desiredState.config.autoSuspendToggle %}
+            {%- set suspendTask = 'SUSPEND_TASK_AFTER_NUM_FAILURES = ' + desiredState.config.numFailures %}
+        {%- endif -%}
+
+        {%- if desiredState.config.schedulePeriodOption != 'Predecessor' and desiredState.config.autoRetryToggle -%}
+            {%- set autoTry = 'TASK_AUTO_RETRY_ATTEMPTS = ' + desiredState.config.retryAttmpt %}
+        {%- endif -%}
+
+        {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}
+            {%- set overLapExec = 'ALLOW_OVERLAPPING_EXECUTION  = ' + desiredState.config.overlapExecToggle | string %}
+        {%- endif -%}
+
+        {%- if desiredState.config.schedulePeriodOption != 'Predecessor' and desiredState.config.taskGraphToggle -%}
+            {%- set configJSON = 'CONFIG = $$' + desiredState.config.configJSON + '$$' %}
+        {%- endif -%}
+
+        {# Notification Options #}
+        {%- if desiredState.config.errNotifyToggle -%}
+            {%- if desiredState.parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
+                {%- set errorIntegration = 'ERROR_INTEGRATION = ' + desiredState.config.errIntName %}
+            {%- else -%}
+                {%- set errorIntegration = 'ERROR_INTEGRATION = ' + desiredState.parameters.targetTaskErrorIntegration %}
+            {%- endif -%}
+        {%- endif -%}
+
+        {%- if desiredState.config.successNotifyToggle -%}
+            {% if desiredState.parameters.targetTaskSuccessIntegration | default('') == 'DEV ENVIRONMENT' -%}
+                {%- set successIntegration = 'SUCCESS_INTEGRATION = ' + desiredState.config.succIntName %}
+            {%- else -%}
+                {%- set successIntegration = 'SUCCESS_INTEGRATION = ' + desiredState.parameters.targetTaskSuccessIntegration %}
+            {%- endif -%}
+        {%- endif -%}
+
         {# To mimic truncate behavior #}
         {% if desiredState.config.truncateBefore == true %}
             {% set truncateBehavior = 'INSERT OVERWRITE' %}
@@ -777,10 +828,38 @@ does not permit copying or modification for any other purpose.
             {% set truncateBehavior = 'INSERT' %}
         {% endif -%}
 
+        {{ stage('Create Task',true,"sql","create") }}
         CREATE OR REPLACE TASK 
-            {{ fullyQualifiedTaskName }} 
-            {{ taskType}} 
-            {{ nsVariables.taskWhenRun }} 
+            {{ fullyQualifiedTaskName }}
+            {{ taskType}}
+            {% if desiredState.config.schedulingMode == 'Serverless Task' and desiredState.config.sizeBoundToggle -%}
+                {{ minSrvSize }}
+                {{ maxSrvSize }}
+            {% endif -%}
+            {{ nsVariables.taskWhenRun }}
+            {{ nodeComment }}
+            {%- if desiredState.config.spfcUserToggle %}
+                {{ userServiceAcct }}
+            {%- endif %}
+            {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}
+                {{ overLapExec }}
+                {%- if desiredState.config.autoSuspendToggle %}
+                {{ suspendTask }}
+                {%- endif %}
+                {%- if desiredState.config.autoRetryToggle %}
+                    {{ autoTry }}
+                {%- endif %}
+                {%- if desiredState.config.taskGraphToggle %}
+                    {{ configJSON }}
+                {%- endif %}
+            {%- endif %}
+            {%- if desiredState.config.errNotifyToggle %}
+                {{ errorIntegration }}
+            {%- endif %}
+            {%- if desiredState.config.successNotifyToggle %}
+                {{ successIntegration }}
+            {%- endif %}
+
             {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
         AS 
         {% set is_type_2 = desiredState.columns | selectattr("isChangeTracking") | list | length > 0 %}
