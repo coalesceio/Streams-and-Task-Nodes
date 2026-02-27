@@ -3,51 +3,51 @@ id: 54faaee6-45eb-4df2-91be-269b9c9e35f4
 name: CSS_ORDERS
 operation:
   config:
-    allcol: false
-    attrcol:
+    clusterKey: false
+    clusterKeyConfig:
       items:
-        - acolname:
-            columnCounter: e1f1bd2b-c54d-4753-afc7-6eb65c46355f
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    loadType: Merge
+    mergeOrderBy:
+      items:
+        - colName:
+            columnCounter: f053e6c4-ace3-49a1-b136-f3264f37c276
             stepCounter: 54faaee6-45eb-4df2-91be-269b9c9e35f4
-    colpreview:
+          sortOrd: desc
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    createcortex: true
-    embmodel: ""
-    excss: false
-    filcrit:
+    partitionBy:
       items:
-        - {}
-    filtoggle: false
-    initialize: ON_CREATE
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
-    locCSS: ""
-    lopt: and
-    mulfilcon: false
-    namCSS: ""
-    numboost: false
-    numericboost:
-      items:
-        - {}
-    query1: ""
-    querycortex: false
-    searchcol:
-      columnCounter: e1f1bd2b-c54d-4753-afc7-6eb65c46355f
-      stepCounter: 54faaee6-45eb-4df2-91be-269b9c9e35f4
-    timdec: false
-    timedecay:
-      items:
-        - {}
-    warehouseName: COMPUTE_WH
+        - partColName:
+            columnCounter: 5b0c1436-12ae-45c2-aedc-1cb40cbc8731
+            stepCounter: 54faaee6-45eb-4df2-91be-269b9c9e35f4
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: cortex search service
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -107,6 +107,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 58c59bb5-7125-43e1-9c68-26d512e8db90
+          stepCounter: 54faaee6-45eb-4df2-91be-269b9c9e35f4
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e6f20e0c-65f1-48bc-ad58-ad2917bd608f
+          stepCounter: 54faaee6-45eb-4df2-91be-269b9c9e35f4
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -124,7 +150,7 @@ operation:
   name: CSS_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: cortex:::499
+  sqlType: "567"
   type: sql
   version: 1
 type: Node

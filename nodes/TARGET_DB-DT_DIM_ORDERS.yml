@@ -3,10 +3,6 @@ id: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
 name: DT_DIM_ORDERS
 operation:
   config:
-    advanceWarehouse: false
-    backfill: false
-    backfillSource: ""
-    backfillSourceSchema: ""
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -15,25 +11,17 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    cpygrants: false
-    downstreamOption: false
-    immutabilityConstraint: false
-    immutableExpression: ""
-    initialize: ON_CREATE
-    initializeWarehouseSize: ""
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
-    orderBy:
-      items:
-        - colName:
-            columnCounter: d55c923b-669d-49c7-9b05-a522a9e77bc0
-            stepCounter: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
-    orderByDateTime:
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    loadType: Insert
+    mergeOrderBy:
       items:
         - {}
-    orderseq:
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
       items:
         - {}
     partitionBy:
@@ -41,43 +29,25 @@ operation:
         - partColName:
             columnCounter: 900bc3b7-a80e-4fb6-ab3b-4ae5215d5557
             stepCounter: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
-    recordVersioning: Datetime Column
-    recordorderBy:
-      items:
-        - {}
-    refreshWarehouseSize: ""
-    refresh_mode: AUTO
-    timeTravel: false
-    timeTravelreference: ""
-    timeTraveltype: ""
-    timeTravelvalue: ""
-    warehouseName: COMPUTE_WH
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: dynamic table
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: f19726ee-858c-4273-8946-64a84fa7c9a4
-          stepCounter: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
-        config: {}
-        dataType: STRING
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: DT_DIM_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: "{{ dimensionHistoryPk() }}"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 900bc3b7-a80e-4fb6-ab3b-4ae5215d5557
@@ -134,74 +104,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: b7c5fbd1-1d99-4bb7-ac07-39eecef19fdf
+          columnCounter: 1a0e37af-6043-41f5-a334-7b7e9300355b
           stepCounter: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
-        isSystemStartDate: true
-        name: RECORD_START_TIME
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "{%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%} {{order_by_col_int()}}{%endif%}"
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0e3c322a-f7b0-4a0f-84a9-1083cba1876f
+          columnCounter: 708b1021-e605-4f1f-b3f3-6cfe74dc9f8c
           stepCounter: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
-        isSystemEndDate: true
-        name: RECORD_END_TIME
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: LEAD({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%}{{order_by_col_int()}} {%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 63d07eb1-52b5-40ae-9e56-aba0ad3cf6b3
-          stepCounter: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
-        config: {}
-        dataType: NUMERIC
-        defaultValue: ""
-        description: ""
-        isRecordCurrent: true
-        name: RECORD_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CASE WHEN (LEAD({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%}{{order_by_col_int()}} {%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)) IS NULL THEN 1 ELSE 0 END
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: b6719a87-fa40-4be3-9169-8df4fa91a1b5
-          stepCounter: 01fcb774-0df1-43da-9fd7-4e08e9f3391e
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        name: RECORD_CREATED_DATE
-        nullable: true
-        recordCreated: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: FIRST_VALUE({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%} {{order_by_col_int()}}{%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -219,7 +147,7 @@ operation:
   name: DT_DIM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: dynamic-tables:::350
+  sqlType: "567"
   type: sql
   version: 1
 type: Node

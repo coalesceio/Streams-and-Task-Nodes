@@ -3,7 +3,6 @@ id: 84120262-4571-4806-bad7-d9ab778d3919
 name: CTSK_ORDERS
 operation:
   config:
-    changetracking: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -12,34 +11,28 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    constraintsspec:
-      items:
-        - {}
-    datretention: ""
-    defaultcoallation: ""
     devMode: false
-    eschemaevol: false
     flagSrcStream: true
-    foreignk: false
-    foreignkeycon:
-      items:
-        - {}
     groupByAll: false
-    inlineconst: false
     insertStrategy: UNION
-    maxdataretention: ""
+    loadType: Merge
+    mergeOrderBy:
+      items:
+        - colName:
+            columnCounter: aa2a41ee-b4f8-47dc-b039-5552327e2adc
+            stepCounter: 84120262-4571-4806-bad7-d9ab778d3919
+          sortOrd: desc
     multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
       items:
         - {}
-    outlineconst: false
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: false
-    primarykeycon:
+    partitionBy:
       items:
-        - {}
-    primarykeyname: ""
+        - partColName:
+            columnCounter: 0487f606-f882-44ff-98ae-253ba0e4890e
+            stepCounter: 84120262-4571-4806-bad7-d9ab778d3919
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
@@ -47,7 +40,6 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: true
     serverlessSize: MEDIUM
-    timeOut: 60000
     truncateBefore: true
     whName: COMPUTE_WH
   database: ""
@@ -55,7 +47,7 @@ operation:
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -115,6 +107,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 154afde3-8f48-4b7a-9f4c-075621e1a460
+          stepCounter: 84120262-4571-4806-bad7-d9ab778d3919
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 64d2aaac-12b5-40ba-a0ca-82cdfb798dc0
+          stepCounter: 84120262-4571-4806-bad7-d9ab778d3919
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -132,7 +150,7 @@ operation:
   name: CTSK_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: create-or-alter-package:::548
+  sqlType: "567"
   type: sql
   version: 1
 type: Node

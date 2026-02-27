@@ -3,29 +3,40 @@ id: dacf7a0e-6f4b-47cf-af6c-3abe352547d6
 name: LLM_ORDERS
 operation:
   config:
-    exby:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    extractfunction: false
-    insertStrategy: INSERT
-    pby:
-      items:
-        - partColName:
-            columnCounter: 52bd9df8-0a6c-4dff-bb83-f321ecf362a7
-            stepCounter: dacf7a0e-6f4b-47cf-af6c-3abe352547d6
-    postSQL: ""
-    preSQL: ""
-    sby:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    sentimentfunction: false
-    summarizefunction: true
-    tby:
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    loadType: Insert
+    mergeOrderBy:
       items:
         - {}
-    testsEnabled: true
-    translatefunction: false
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
     truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -91,6 +102,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a4d945b-ff98-4bf6-b01c-3fc1affd3367
+          stepCounter: dacf7a0e-6f4b-47cf-af6c-3abe352547d6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 48eaf1f4-6462-4fab-a49f-164aedbcc6b8
+          stepCounter: dacf7a0e-6f4b-47cf-af6c-3abe352547d6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -108,7 +145,7 @@ operation:
   name: LLM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: cortex:::271
+  sqlType: "567"
   type: sql
   version: 1
 type: Node

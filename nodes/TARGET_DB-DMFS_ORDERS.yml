@@ -3,92 +3,46 @@ id: c394c495-2f76-47fd-a30e-db75a1d1f729
 name: DMFS_ORDERS
 operation:
   config:
-    addCustomDMFs: false
-    addcolumnleveldmfs: false
-    adddmfs:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    adddmfsobject:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    addobjectleveldmfs: false
-    alertFrequency: 60
-    alertWarehouse: ""
-    blankCntTrigger: false
-    blankPrcntThreshold: 5
-    blankPrcntTrigger: false
-    customDMFsConfig:
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    loadType: Insert
+    mergeOrderBy:
       items:
         - {}
-    dupCntTrigger: true
-    emailAlertToggle: false
-    emailList: ""
-    freshThreshold: 24
-    freshTrigger: true
-    notfIntegrationName: ""
-    nullCntTrigger: true
-    nullPrcntThreshold: 5
-    nullPrcntTrigger: false
-    overrideEmailAlertToggle: false
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
-    universalColumnBlankCountDMF: false
-    universalColumnBlankCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankCountUniversalColumns[]
-    universalColumnBlankPercentDMF: false
-    universalColumnBlankPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankPercentUniversalColumns[]
-    universalColumnDmfs: true
-    universalColumnDuplicateCountDMF: true
-    universalColumnDuplicateCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.duplicateCountUniversalColumns[]
-    universalColumnFreshnessDMF: true
-    universalColumnFreshnessDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.freshnessUniversalColumns[]
-    universalColumnNullCountDMF: true
-    universalColumnNullCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullCountUniversalColumns[]
-    universalColumnNullPercentDMF: false
-    universalColumnNullPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullPercentUniversalColumns[]
-    universalColumnUniqueCountDMF: false
-    universalColumnUniqueCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.uniqueCountUniversalColumns[]
-    universalDmfs: true
-    universalObjectDmfs: true
-    universalObjectDmfsList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.universalObjectDmfs[]
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    truncateBefore: true
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -148,6 +102,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8eb3a7d-2579-4ab3-a5b5-0a18061c011c
+          stepCounter: c394c495-2f76-47fd-a30e-db75a1d1f729
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6c91eb08-95ea-40a9-9718-67546ece5fc3
+          stepCounter: c394c495-2f76-47fd-a30e-db75a1d1f729
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -165,7 +145,7 @@ operation:
   name: DMFS_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: DQ:::448
+  sqlType: "567"
   type: sql
   version: 1
 type: Node
