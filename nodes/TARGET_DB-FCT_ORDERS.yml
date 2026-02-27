@@ -11,37 +11,30 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    deleteStrategy: NO DELETE
-    excludeMergeList:
-      items:
-        - {}
-    excludeMergeToggle: false
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION ALL
-    lastModifiedComparison: false
+    multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
-    primary: true
-    primaryKeyCol:
-      items:
-        - primaryKey:
-            columnCounter: 61842bbe-ff84-4f2a-aa70-828dd2ee3ce4
-            stepCounter: 241aad57-9a55-463c-aa5e-916ed2c2122c
-    primaryKeyName: ""
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: false
+    serverlessSize: MEDIUM
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -152,7 +145,7 @@ operation:
   name: FCT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::389
+  sqlType: "150"
   type: sql
   version: 1
 type: Node

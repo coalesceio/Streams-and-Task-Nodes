@@ -3,7 +3,6 @@ id: cab5eccc-9e75-4bf7-b7d3-23ee39a97f11
 name: CPSTG_ORDERS
 operation:
   config:
-    changetracking: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -14,62 +13,33 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    constraintsspec:
-      items:
-        - {}
-    datretention: ""
-    defaultcoallation: ""
-    eschemaevol: false
-    foreignk: false
-    foreignkeycon:
-      items:
-        - {}
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
-    inlineconst: false
     insertStrategy: UNION
-    lastModifiedComparison: false
-    maxdataretention: ""
+    multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
       items:
         - {}
-    outlineconst: false
-    primary: false
-    primarykeycon:
-      items:
-        - {}
-    primarykeyname: ""
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: true
-    type2Dimension: false
+    serverlessSize: MEDIUM
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: transient table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 1a0af761-6134-475d-a240-62a368818046
-          stepCounter: cab5eccc-9e75-4bf7-b7d3-23ee39a97f11
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: CPSTG_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: a6e2e29d-f5b3-4518-9d9c-53d010c68d12
@@ -132,74 +102,6 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: dddf46a2-7a8e-4cee-a84b-5b283a78f18c
-          stepCounter: cab5eccc-9e75-4bf7-b7d3-23ee39a97f11
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0e1c8f91-e848-4bc8-b93b-d6336ac82335
-          stepCounter: cab5eccc-9e75-4bf7-b7d3-23ee39a97f11
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0ced471a-7614-45cd-904a-c7fbdaea1827
-          stepCounter: cab5eccc-9e75-4bf7-b7d3-23ee39a97f11
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: d2466dca-194c-41ab-9341-0a5c87e51bc7
-          stepCounter: cab5eccc-9e75-4bf7-b7d3-23ee39a97f11
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
           columnCounter: 6f55c624-f5c7-42f6-9235-532b2f87a0e9
           stepCounter: cab5eccc-9e75-4bf7-b7d3-23ee39a97f11
         config: {}
@@ -246,7 +148,7 @@ operation:
   name: CPSTG_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: create-or-alter-package:::533
+  sqlType: "150"
   type: sql
   version: 1
 type: Node

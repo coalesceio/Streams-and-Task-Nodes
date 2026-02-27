@@ -3,16 +3,38 @@ id: b14b8ad1-4b4e-49f4-a2e2-fd9c20306ea8
 name: STREAM_ORDERS_002
 operation:
   config:
-    appendOnly: false
-    initialRows: true
-    redeploymentBehavior: Create or Replace
-    sourceType: Table
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: stream
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -123,6 +145,32 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2f2ea691-36fa-4e54-bc72-b81220a21560
+          stepCounter: b14b8ad1-4b4e-49f4-a2e2-fd9c20306ea8
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d129153-21d9-4078-b75b-157497a43950
+          stepCounter: b14b8ad1-4b4e-49f4-a2e2-fd9c20306ea8
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -140,7 +188,7 @@ operation:
   name: STREAM_ORDERS_002
   overrideSQL: false
   schema: ""
-  sqlType: "153"
+  sqlType: "150"
   type: sql
   version: 1
 type: Node
