@@ -3,10 +3,7 @@ id: d1638a3f-4b34-4e90-a113-cdd22d11f488
 name: DT_WRK_LRV_ORDERS_002
 operation:
   config:
-    advanceWarehouse: true
-    backfill: false
-    backfillSource: ""
-    backfillSourceSchema: ""
+    appendOnly: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -15,49 +12,40 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    cpygrants: false
-    downstreamOption: false
-    immutabilityConstraint: false
-    immutableExpression: ""
-    initialize: ON_CREATE
-    initializeWarehouseSize: X-Small
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
     orderBy:
       items:
         - colName:
             columnCounter: d8c001b0-90af-421f-a0a1-04254dca6f84
             stepCounter: d1638a3f-4b34-4e90-a113-cdd22d11f488
-    orderByDateTime:
-      items:
-        - {}
-    orderseq:
-      items:
-        - {}
     partitionBy:
       items:
         - partColName:
             columnCounter: 3e9ea2f0-7b2c-49f1-b09b-2b19cbb00d95
             stepCounter: d1638a3f-4b34-4e90-a113-cdd22d11f488
-    recordVersioning: Datetime Column
-    recordorderBy:
-      items:
-        - {}
-    refreshWarehouseSize: X-Small
-    refresh_mode: AUTO
-    timeTravel: false
-    timeTravelreference: ""
-    timeTraveltype: ""
-    timeTravelvalue: ""
-    warehouseName: dev_wh_xs
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: dynamic table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -117,23 +105,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 003200b0-0a8c-437e-bbf9-f5d3ee590456
+          columnCounter: 66b9f5a8-da81-484b-b12c-be04ce02f120
           stepCounter: d1638a3f-4b34-4e90-a113-cdd22d11f488
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
-        name: RECORD_CREATED_DATE
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
         nullable: true
-        recordCreated: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: FIRST_VALUE({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%} {{order_by_col_int()}}{%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8e8d569a-4731-4818-926a-571462a90f4a
+          stepCounter: d1638a3f-4b34-4e90-a113-cdd22d11f488
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -151,7 +148,7 @@ operation:
   name: DT_WRK_LRV_ORDERS_002
   overrideSQL: false
   schema: ""
-  sqlType: dynamic-tables:::351
+  sqlType: "152"
   type: sql
   version: 1
 type: Node

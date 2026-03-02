@@ -3,7 +3,7 @@ id: e8a73803-37e2-4d95-b3cb-47a661b84a69
 name: INTTBL_ORDERS_002
 operation:
   config:
-    autoRefresh: false
+    appendOnly: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -14,20 +14,36 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
     groupByAll: false
-    insertStrategy: UNION ALL
-    lagSpecification:
+    initialRows: true
+    loadType: Insert
+    orderBy:
       items:
         - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
     selectDistinct: false
-    testsEnabled: false
-    warehouseName: dev_wh_xs
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: interactive table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -87,6 +103,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fbf43086-74d7-492b-b0c7-c73e1af4462e
+          stepCounter: e8a73803-37e2-4d95-b3cb-47a661b84a69
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2f8e997b-3335-40f3-8335-5ed06723061a
+          stepCounter: e8a73803-37e2-4d95-b3cb-47a661b84a69
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -104,7 +146,7 @@ operation:
   name: INTTBL_ORDERS_002
   overrideSQL: false
   schema: ""
-  sqlType: interactive-table:::602
+  sqlType: "152"
   type: sql
   version: 1
 type: Node

@@ -3,6 +3,7 @@ id: 91097820-ee02-4dc3-9ff1-f62618e39d14
 name: MV_ORDERS_002
 operation:
   config:
+    appendOnly: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -11,14 +12,36 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    secureOption: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
     selectDistinct: true
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: Materialized View
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -78,6 +101,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b085591f-aa8a-4dbe-8ca2-13f1d7295e4f
+          stepCounter: 91097820-ee02-4dc3-9ff1-f62618e39d14
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 67550e51-97ad-4630-86b8-2ccbf0c7b089
+          stepCounter: 91097820-ee02-4dc3-9ff1-f62618e39d14
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -95,7 +144,7 @@ operation:
   name: MV_ORDERS_002
   overrideSQL: false
   schema: ""
-  sqlType: materialized-view:::178
+  sqlType: "152"
   type: sql
   version: 1
 type: Node

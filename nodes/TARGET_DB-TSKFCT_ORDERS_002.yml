@@ -3,6 +3,7 @@ id: 1a65dbfd-652e-4448-9aff-5202d7bb3ca3
 name: TSKFCT_ORDERS_002
 operation:
   config:
+    appendOnly: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -11,16 +12,21 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    createas: table
     devMode: false
     flagSrcStream: true
     groupByAll: false
-    insertStrategy: UNION
-    multiStreamBehavior: AND
-    orderby: false
-    orderbycolumn:
+    initialRows: true
+    loadType: Insert
+    orderBy:
+      items:
+        - {}
+    partitionBy:
       items:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
@@ -28,6 +34,7 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: true
     serverlessSize: MEDIUM
+    sourceType: Table
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
@@ -145,7 +152,7 @@ operation:
   name: TSKFCT_ORDERS_002
   overrideSQL: false
   schema: ""
-  sqlType: "150"
+  sqlType: "152"
   type: sql
   version: 1
 type: Node
