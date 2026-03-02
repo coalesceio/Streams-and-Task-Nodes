@@ -3,31 +3,16 @@ id: 551ab5a9-2ad1-46d4-82ec-e48ef0861cba
 name: LLD_ORDERS
 operation:
   config:
-    bucketBy:
-      items:
-        - buckeyByColumn:
-            columnCounter: a267255f-2011-45bc-9e18-da31ece3b695
-            stepCounter: 551ab5a9-2ad1-46d4-82ec-e48ef0861cba
-    dedicatedLoadHistoryTable: true
-    groupCount: "10"
-    groupIncremental: false
-    groupingType: Key Based
-    loadHistoryTableLocation: Same as Target Table
-    loadType: Full Load
-    postSQL: ""
-    preSQL: ""
-    setIncrementalLoadOptions: false
-    sortBy:
-      items:
-        - {}
-    sortDataOnLoad: false
-    testsEnabled: true
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create If Not Exists
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -87,23 +72,6 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 8df019b0-08ae-4f71-9e3a-c17a96b53c20
-          stepCounter: 551ab5a9-2ad1-46d4-82ec-e48ef0861cba
-        config: {}
-        dataType: TIMESTAMP_NTZ(9)
-        defaultValue: ""
-        description: ""
-        loadCurrentTimestamp: true
-        name: LOAD_CURRENT_TIMESTAMP
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CURRENT_TIMESTAMP::TIMESTAMP_NTZ(9)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -121,7 +89,7 @@ operation:
   name: LLD_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: incremental-loading:::278
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

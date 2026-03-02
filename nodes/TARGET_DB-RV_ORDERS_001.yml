@@ -3,19 +3,16 @@ id: 608404d2-fd92-48f6-9df9-b8079dc5234d
 name: RV_ORDERS_001
 operation:
   config:
-    insertStrategy: UNION ALL
-    persistTableLocation: "ex: TARGET"
-    persistTableName: "ex: DIM_ORDERS"
-    refTable: false
-    srcTable: false
-    suffixlength: ex:1
-    testsEnabled: true
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create or Replace
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: run view
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -99,9 +96,9 @@ operation:
         name: RV_ORDERS_001
         noLinkRefs: []
   name: RV_ORDERS_001
-  overrideSQL: true
+  overrideSQL: false
   schema: ""
-  sqlType: incremental-loading:::281
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

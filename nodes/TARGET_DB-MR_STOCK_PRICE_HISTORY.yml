@@ -3,57 +3,16 @@ id: 2bbb559d-3895-4cc8-8757-18b8fc84b60d
 name: MR_STOCK_PRICE_HISTORY
 operation:
   config:
-    afterMatchSkip: ""
-    allRowsPerMatch: ""
-    inferMatchRecognize: true
-    orderBy:
-      items:
-        - orderByCol:
-            columnCounter: b43229ef-fc36-4948-bd06-e4822b62d02c
-            stepCounter: 2bbb559d-3895-4cc8-8757-18b8fc84b60d
-          orderByTextBox: ""
-    partitionBy:
-      items:
-        - {}
-    pattern: ANY_ROW UP+
-    rowsPerMatch: ALL ROWS PER MATCH
-    selectOrderBy:
-      items:
-        - {}
-    tabDefine:
-      items:
-        - valDefineColumnName: "ANY_ROW "
-          valDefineExpression: "TRUE"
-        - valDefineColumnName: UP
-          valDefineExpression: price > lag(price)
-    tabMeasures:
-      items:
-        - valAliasExpressionColumnName: MATCH_NUMBER
-          valMeasureColumnName: ""
-          valMeasureExpression: match_number
-        - valAliasExpressionColumnName: msq
-          valMeasureColumnName: ""
-          valMeasureExpression: match_sequence_number
-        - valAliasExpressionColumnName: cl
-          valMeasureColumnName: ""
-          valMeasureExpression: classifier
-    tabSelectFunction:
-      items:
-        - {}
-    testsEnabled: false
-    to: ""
-    toggleOrderBy: true
-    togglePartitionBy: false
-    toggleSelectFunction: false
-    toggleSelectOrderBy: false
-    truncateBefore: true
-    varAfterMatchSkip: ""
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create or Replace
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -173,7 +132,7 @@ operation:
   name: MR_STOCK_PRICE_HISTORY
   overrideSQL: false
   schema: ""
-  sqlType: functional-node-types:::410
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

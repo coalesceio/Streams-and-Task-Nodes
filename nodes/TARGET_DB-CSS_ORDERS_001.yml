@@ -3,51 +3,16 @@ id: 96ead7b6-802b-419f-a2b8-eaf2ea659e01
 name: CSS_ORDERS_001
 operation:
   config:
-    allcol: false
-    attrcol:
-      items:
-        - acolname:
-            columnCounter: 4c805b26-9cda-4ba8-86f3-2067dd345177
-            stepCounter: 96ead7b6-802b-419f-a2b8-eaf2ea659e01
-    colpreview:
-      items:
-        - {}
-    createcortex: true
-    embmodel: ""
-    excss: false
-    filcrit:
-      items:
-        - {}
-    filtoggle: false
-    initialize: ON_CREATE
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
-    locCSS: ""
-    lopt: and
-    mulfilcon: false
-    namCSS: ""
-    numboost: false
-    numericboost:
-      items:
-        - {}
-    query1: ""
-    querycortex: false
-    searchcol:
-      columnCounter: 4c805b26-9cda-4ba8-86f3-2067dd345177
-      stepCounter: 96ead7b6-802b-419f-a2b8-eaf2ea659e01
-    timdec: false
-    timedecay:
-      items:
-        - {}
-    warehouseName: COMPUTE_WH
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create If Not Exists
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: cortex search service
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -124,7 +89,7 @@ operation:
   name: CSS_ORDERS_001
   overrideSQL: false
   schema: ""
-  sqlType: cortex:::499
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

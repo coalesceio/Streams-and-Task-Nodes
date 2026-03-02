@@ -3,35 +3,16 @@ id: ce340e8c-8bba-4456-a18b-787dcca6cc8e
 name: LLM_ORDERS
 operation:
   config:
-    exby:
-      items:
-        - {}
-    extractfunction: false
-    insertStrategy: INSERT
-    pby:
-      items:
-        - partColName:
-            columnCounter: 7964a271-5e3a-46dc-8e6f-387e5ff5b9bb
-            stepCounter: ce340e8c-8bba-4456-a18b-787dcca6cc8e
-    postSQL: ""
-    preSQL: ""
-    sby:
-      items:
-        - {}
-    sentimentfunction: false
-    summarizefunction: true
-    tby:
-      items:
-        - {}
-    testsEnabled: true
-    translatefunction: false
-    truncateBefore: true
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create or Replace
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -108,7 +89,7 @@ operation:
   name: LLM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: cortex:::271
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

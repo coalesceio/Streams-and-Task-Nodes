@@ -3,50 +3,16 @@ id: bedd9f26-f618-4fcd-afe3-9d2e82e519cd
 name: CFCT_ORDERS
 operation:
   config:
-    changetracking: true
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    constraintsspec:
-      items:
-        - {}
-    datretention: ""
-    defaultcoallation: ""
-    eschemaevol: false
-    foreignk: false
-    foreignkeycon:
-      items:
-        - {}
-    groupByAll: false
-    inlineconst: false
-    insertStrategy: UNION
-    lastModifiedComparison: false
-    maxdataretention: ""
-    orderby: false
-    orderbycolumn:
-      items:
-        - {}
-    outlineconst: false
-    primary: false
-    primarykeycon:
-      items:
-        - {}
-    primarykeyname: ""
-    selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: true
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create If Not Exists
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -123,7 +89,7 @@ operation:
   name: CFCT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: create-or-alter-package:::534
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

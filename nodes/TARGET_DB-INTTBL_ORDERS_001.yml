@@ -3,31 +3,16 @@ id: 6e5551b0-0b74-4277-bd83-f17512aa8e88
 name: INTTBL_ORDERS_001
 operation:
   config:
-    autoRefresh: false
-    clusterKey: true
-    clusterKeyConfig:
-      items:
-        - columnName:
-            columnCounter: 7ab8eeed-afe2-4d44-a4d8-a7c7dbe8f7ce
-            stepCounter: 6e5551b0-0b74-4277-bd83-f17512aa8e88
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    groupByAll: false
-    insertStrategy: UNION ALL
-    lagSpecification:
-      items:
-        - {}
-    selectDistinct: false
-    testsEnabled: false
-    warehouseName: dev_wh_xs
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create or Replace
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: interactive table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -104,7 +89,7 @@ operation:
   name: INTTBL_ORDERS_001
   overrideSQL: false
   schema: ""
-  sqlType: interactive-table:::602
+  sqlType: "153"
   type: sql
   version: 1
 type: Node

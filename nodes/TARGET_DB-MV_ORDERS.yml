@@ -3,22 +3,16 @@ id: daa09f09-7c90-4756-98c0-208a28bc3392
 name: MV_ORDERS
 operation:
   config:
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    secureOption: false
-    selectDistinct: true
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create or Replace
+    sourceType: Table
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: Materialized View
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -95,7 +89,7 @@ operation:
   name: MV_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: materialized-view:::178
+  sqlType: "153"
   type: sql
   version: 1
 type: Node
