@@ -780,7 +780,7 @@ does not permit copying or modification for any other purpose.
     {% set targetTableSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
-    {% if currentState.config.devMode == false %}
+    {% if currentState.config.devMode | default(false) == false %}
 		{% set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask) %}
 
         {# Task Info #}
