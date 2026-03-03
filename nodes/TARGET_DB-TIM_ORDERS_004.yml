@@ -11,43 +11,39 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    createas: table
     devMode: false
     flagSrcStream: true
-    groupByAll: false
-    insertStrategy: UNION
+    initialRows: true
+    latestRowFromSource: false
     loadType: Merge
-    mergeOrderBy:
+    orderBy:
       items:
         - colName:
             columnCounter: 8dbfcb98-e40d-408e-807b-0dc42340389a
             stepCounter: 570dcc5b-a5df-462c-b09d-6da630b2dff7
           sortOrd: desc
-    multiStreamBehavior: AND
-    orderby: false
-    orderbycolumn:
-      items:
-        - {}
     partitionBy:
       items:
         - partColName:
             columnCounter: d1ddfe3b-f35c-4e6b-960b-b211a8f0581d
             stepCounter: 570dcc5b-a5df-462c-b09d-6da630b2dff7
     predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
-    selectDistinct: false
     serverlessSize: MEDIUM
-    truncateBefore: true
+    sourceType: Table
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -158,7 +154,7 @@ operation:
   name: TIM_ORDERS_004
   overrideSQL: false
   schema: ""
-  sqlType: "567"
+  sqlType: "483"
   type: sql
   version: 1
 type: Node

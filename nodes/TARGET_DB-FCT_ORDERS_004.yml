@@ -11,37 +11,39 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    deleteStrategy: NO DELETE
-    excludeMergeList:
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
       items:
-        - {}
-    excludeMergeToggle: false
-    groupByAll: false
-    insertStrategy: UNION ALL
-    lastModifiedComparison: false
-    orderby: false
-    orderbycolumn:
+        - colName:
+            columnCounter: 79b5ab55-5227-49ad-bccf-8bae217d683c
+            stepCounter: 44a959ad-412c-403a-a6d3-4ae71cdb1fd4
+          sortOrd: desc
+    partitionBy:
       items:
-        - {}
-    postSQL: ""
-    preSQL: ""
-    primary: true
-    primaryKeyCol:
-      items:
-        - primaryKey:
+        - partColName:
             columnCounter: 8ea1abbf-e78b-4ca7-afbc-53adce4a6142
             stepCounter: 44a959ad-412c-403a-a6d3-4ae71cdb1fd4
-    primaryKeyName: ""
-    selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: false
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -153,7 +155,7 @@ operation:
   name: FCT_ORDERS_004
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::389
+  sqlType: "483"
   type: sql
   version: 1
 type: Node

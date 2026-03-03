@@ -3,35 +3,47 @@ id: 0ac67c60-d7ee-4554-b282-8f2fcae11785
 name: LLM_ORDERS_004
 operation:
   config:
-    exby:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    extractfunction: false
-    insertStrategy: INSERT
-    pby:
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 3583f33f-a8cf-4601-b070-a5c982ea95e5
+            stepCounter: 0ac67c60-d7ee-4554-b282-8f2fcae11785
+          sortOrd: desc
+    partitionBy:
       items:
         - partColName:
-            columnCounter: 52322669-cc27-4f53-bc76-6fe07fe916ee
+            columnCounter: 1bf57257-db35-4e2b-aa4c-f2670920996d
             stepCounter: 0ac67c60-d7ee-4554-b282-8f2fcae11785
-    postSQL: ""
-    preSQL: ""
-    sby:
-      items:
-        - {}
-    sentimentfunction: false
-    summarizefunction: true
-    tby:
-      items:
-        - {}
-    testsEnabled: true
-    translatefunction: false
-    truncateBefore: true
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -91,6 +103,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 39d82d0a-3047-4066-9985-cafd728ef926
+          stepCounter: 0ac67c60-d7ee-4554-b282-8f2fcae11785
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 05b200fe-52a5-4848-a2bb-a73929347a7e
+          stepCounter: 0ac67c60-d7ee-4554-b282-8f2fcae11785
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -108,7 +146,7 @@ operation:
   name: LLM_ORDERS_004
   overrideSQL: false
   schema: ""
-  sqlType: cortex:::271
+  sqlType: "483"
   type: sql
   version: 1
 type: Node
