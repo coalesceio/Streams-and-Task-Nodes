@@ -3,92 +3,16 @@ id: 82504131-4d4c-4e5d-867c-d4982053c01a
 name: DMFS_ORDERS_003
 operation:
   config:
-    addCustomDMFs: false
-    addcolumnleveldmfs: false
-    adddmfs:
-      items:
-        - {}
-    adddmfsobject:
-      items:
-        - {}
-    addobjectleveldmfs: false
-    alertFrequency: 60
-    alertWarehouse: ""
-    blankCntTrigger: false
-    blankPrcntThreshold: 5
-    blankPrcntTrigger: false
-    customDMFsConfig:
-      items:
-        - {}
-    dupCntTrigger: true
-    emailAlertToggle: false
-    emailList: ""
-    freshThreshold: 24
-    freshTrigger: true
-    notfIntegrationName: ""
-    nullCntTrigger: true
-    nullPrcntThreshold: 5
-    nullPrcntTrigger: false
-    overrideEmailAlertToggle: false
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    universalColumnBlankCountDMF: false
-    universalColumnBlankCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankCountUniversalColumns[]
-    universalColumnBlankPercentDMF: false
-    universalColumnBlankPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankPercentUniversalColumns[]
-    universalColumnDmfs: true
-    universalColumnDuplicateCountDMF: true
-    universalColumnDuplicateCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.duplicateCountUniversalColumns[]
-    universalColumnFreshnessDMF: true
-    universalColumnFreshnessDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.freshnessUniversalColumns[]
-    universalColumnNullCountDMF: true
-    universalColumnNullCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullCountUniversalColumns[]
-    universalColumnNullPercentDMF: false
-    universalColumnNullPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullPercentUniversalColumns[]
-    universalColumnUniqueCountDMF: false
-    universalColumnUniqueCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.uniqueCountUniversalColumns[]
-    universalDmfs: true
-    universalObjectDmfs: true
-    universalObjectDmfsList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.universalObjectDmfs[]
+    redeploymentBehavior: Create or Replace
+    sourceType: Directory Table
+    stageName: MY_STAGE
+    storageLocation: SOURCE_DATA
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -165,7 +89,7 @@ operation:
   name: DMFS_ORDERS_003
   overrideSQL: false
   schema: ""
-  sqlType: DQ:::448
+  sqlType: "428"
   type: sql
   version: 1
 type: Node

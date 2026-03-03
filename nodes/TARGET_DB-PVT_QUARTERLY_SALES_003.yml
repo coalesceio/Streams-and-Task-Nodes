@@ -3,43 +3,16 @@ id: 910bbcd2-e1f4-4c27-9eb4-6580d2cf0c74
 name: PVT_QUARTERLY_SALES_003
 operation:
   config:
-    Colvol1: "'2023_Q1','2023_Q2'"
-    aggfunc:
-      items:
-        - {}
-    aggfunc1:
-      items:
-        - funcname1: AVG
-    defaultval: ""
-    defvalue: false
-    excolval: false
-    exlcol:
-      items:
-        - {}
-    inferPivot: true
-    samKeyColval: false
-    sincol: true
-    subqueryval1: ""
-    tabKeyColumn:
-      items:
-        - keyColDropdown:
-            columnCounter: 19dfd6f9-ad84-4290-9087-d38d9f3004b4
-            stepCounter: 910bbcd2-e1f4-4c27-9eb4-6580d2cf0c74
-          keyColTextBox: QUARTER
-    tabValueColumn:
-      items:
-        - valColDropdown:
-            columnCounter: 662e91d6-3be0-439e-b8ea-ad37676fba3b
-            stepCounter: 910bbcd2-e1f4-4c27-9eb4-6580d2cf0c74
-          valColTextBox: AMOUNT
-    testsEnabled: false
-    trunc: false
+    redeploymentBehavior: Create or Replace
+    sourceType: Directory Table
+    stageName: MY_STAGE
+    storageLocation: SOURCE_DATA
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -112,7 +85,7 @@ operation:
   name: PVT_QUARTERLY_SALES_003
   overrideSQL: false
   schema: ""
-  sqlType: functional-node-types:::409
+  sqlType: "428"
   type: sql
   version: 1
 type: Node

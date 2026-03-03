@@ -3,22 +3,16 @@ id: 397d5bf2-b4e6-4a67-be69-a9b7792c6b81
 name: MV_ORDERS_003
 operation:
   config:
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    secureOption: false
-    selectDistinct: true
+    redeploymentBehavior: Create At Existing Stream
+    sourceType: Directory Table
+    stageName: MY_STAGE
+    storageLocation: SOURCE_DATA
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: Materialized View
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -95,7 +89,7 @@ operation:
   name: MV_ORDERS_003
   overrideSQL: false
   schema: ""
-  sqlType: materialized-view:::178
+  sqlType: "428"
   type: sql
   version: 1
 type: Node

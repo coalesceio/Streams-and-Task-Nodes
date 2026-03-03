@@ -3,81 +3,19 @@ id: 060b6bdf-036b-4f9a-ac27-383c04f618f3
 name: CDIM_ORDERS_003
 operation:
   config:
-    changetracking: false
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    constraintsspec:
-      items:
-        - {}
-    customZeroKeyValues:
-      items:
-        - {}
-    datretention: ""
-    defaultcoallation: ""
-    eschemaevol: false
-    foreignk: false
-    foreignkeycon:
-      items:
-        - {}
-    groupByAll: false
-    inlineconst: false
-    insertStrategy: UNION
-    insertZeroKey: false
-    insertZeroKeyAdvanced: false
-    insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedComparison: false
-    maxdataretention: ""
-    orderby: false
-    orderbycolumn:
-      items:
-        - {}
-    outlineconst: false
-    primary: false
-    primarykeycon:
-      items:
-        - {}
-    primarykeyname: ""
-    selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: true
-    type2Dimension: false
+    redeploymentBehavior: Create or Replace
+    sourceType: Directory Table
+    stageName: MY_STAGE
+    storageLocation: SOURCE_DATA
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0b7971e3-d05e-4df0-8c8d-7f8a18cbb685
-          stepCounter: 060b6bdf-036b-4f9a-ac27-383c04f618f3
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: CDIM_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: adaac1f4-210c-44d5-a19a-12348cdcf5d9
@@ -135,108 +73,6 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: f6e22126-0a4c-410f-9fd3-517bfb32f074
-          stepCounter: 060b6bdf-036b-4f9a-ac27-383c04f618f3
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 7d1e2469-f084-4eef-85ad-7607fca40847
-          stepCounter: 060b6bdf-036b-4f9a-ac27-383c04f618f3
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: ac030893-86a9-40af-979c-0dc1a5d1ff82
-          stepCounter: 060b6bdf-036b-4f9a-ac27-383c04f618f3
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4b3e0727-b2fa-4220-a166-d8f08cf7871f
-          stepCounter: 060b6bdf-036b-4f9a-ac27-383c04f618f3
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 55d7d9b7-95d7-44d8-9c6d-c027fb79de62
-          stepCounter: 060b6bdf-036b-4f9a-ac27-383c04f618f3
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemCreateDate: true
-        name: SYSTEM_CREATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: a998992f-5f1f-410b-87c4-c96e7c40dbdf
-          stepCounter: 060b6bdf-036b-4f9a-ac27-383c04f618f3
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemUpdateDate: true
-        name: SYSTEM_UPDATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -254,7 +90,7 @@ operation:
   name: CDIM_ORDERS_003
   overrideSQL: false
   schema: ""
-  sqlType: create-or-alter-package:::535
+  sqlType: "428"
   type: sql
   version: 1
 type: Node

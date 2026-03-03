@@ -3,38 +3,16 @@ id: 99a0b7f4-8a4a-4656-9689-ee604b73a674
 name: WRK_ORDERS
 operation:
   config:
-    asofColumn:
-      items:
-        - {}
-    asofJoin: true
-    asofJoinMain: false
-    asofJoinON: false
-    asofJoinUSING: false
-    clusterKey: false
-    clusterKeyConfig:
-      items:
-        - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    groupByAll: false
-    insertStrategy: INSERT
-    orderby: false
-    orderbycolumn:
-      items:
-        - {}
-    postSQL: ""
-    preSQL: ""
-    selectDistinct: true
-    testsEnabled: false
-    truncateBefore: true
+    redeploymentBehavior: Create At Existing Stream
+    sourceType: Directory Table
+    stageName: MY_STAGE
+    storageLocation: SOURCE_DATA
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -111,7 +89,7 @@ operation:
   name: WRK_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::179
+  sqlType: "428"
   type: sql
   version: 1
 type: Node

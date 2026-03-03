@@ -3,63 +3,16 @@ id: 15e1aad7-cab1-47f7-91a5-32d10a63faf2
 name: DT_WRK_LRV_ORDERS_003
 operation:
   config:
-    advanceWarehouse: true
-    backfill: false
-    backfillSource: ""
-    backfillSourceSchema: ""
-    clusterKey: true
-    clusterKeyConfig:
-      items:
-        - columnName:
-            columnCounter: fb2b7cd4-0a08-49fe-8974-b0a04aa2910d
-            stepCounter: 15e1aad7-cab1-47f7-91a5-32d10a63faf2
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    cpygrants: false
-    downstreamOption: false
-    immutabilityConstraint: false
-    immutableExpression: CREATED_AT < CURRENT_TIMESTAMP() - INTERVAL '7 days'
-    initialize: ON_CREATE
-    initializeWarehouseSize: X-Small
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: 60
-    orderBy:
-      items:
-        - colName:
-            columnCounter: 70d40010-3ea8-4d80-b7ea-f587151ad724
-            stepCounter: 15e1aad7-cab1-47f7-91a5-32d10a63faf2
-    orderByDateTime:
-      items:
-        - {}
-    orderseq:
-      items:
-        - {}
-    partitionBy:
-      items:
-        - partColName:
-            columnCounter: fb2b7cd4-0a08-49fe-8974-b0a04aa2910d
-            stepCounter: 15e1aad7-cab1-47f7-91a5-32d10a63faf2
-    recordVersioning: Datetime Column
-    recordorderBy:
-      items:
-        - {}
-    refreshWarehouseSize: X-Small
-    refresh_mode: AUTO
-    timeTravel: false
-    timeTravelreference: ""
-    timeTraveltype: ""
-    timeTravelvalue: ""
-    warehouseName: dev_wh_xs
+    redeploymentBehavior: Create At Existing Stream
+    sourceType: Directory Table
+    stageName: MY_STAGE
+    storageLocation: SOURCE_DATA
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: transient dynamic table
+  materializationType: stream
   metadata:
     appliedNodeTests: []
     columns:
@@ -119,23 +72,6 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 77181c44-ab26-4333-949a-041eed5a5ade
-          stepCounter: 15e1aad7-cab1-47f7-91a5-32d10a63faf2
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        name: RECORD_CREATED_DATE
-        nullable: true
-        recordCreated: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: FIRST_VALUE({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%} {{order_by_col_int()}}{%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -153,7 +89,7 @@ operation:
   name: DT_WRK_LRV_ORDERS_003
   overrideSQL: false
   schema: ""
-  sqlType: dynamic-tables:::351
+  sqlType: "428"
   type: sql
   version: 1
 type: Node
