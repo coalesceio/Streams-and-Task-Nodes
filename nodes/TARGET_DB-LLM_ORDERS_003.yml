@@ -1,0 +1,114 @@
+fileVersion: 1
+id: 975b84e1-79fb-4606-ab7f-953fca33c359
+name: LLM_ORDERS_003
+operation:
+  config:
+    exby:
+      items:
+        - {}
+    extractfunction: false
+    insertStrategy: INSERT
+    pby:
+      items:
+        - partColName:
+            columnCounter: ced43008-28cc-4e45-9ed5-f4584f722a56
+            stepCounter: 975b84e1-79fb-4606-ab7f-953fca33c359
+    postSQL: ""
+    preSQL: ""
+    sby:
+      items:
+        - {}
+    sentimentfunction: false
+    summarizefunction: true
+    tby:
+      items:
+        - {}
+    testsEnabled: true
+    translatefunction: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cbd11471-1365-4b46-bfdf-32278ba0cf86
+          stepCounter: 975b84e1-79fb-4606-ab7f-953fca33c359
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_ORDERKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f8cbb3f-0960-4e75-863f-996d5d202997
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ced43008-28cc-4e45-9ed5-f4584f722a56
+          stepCounter: 975b84e1-79fb-4606-ab7f-953fca33c359
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: O_ORDERNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e61dc414-3ca9-4ef4-bd6c-4c999fcb631d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 98ffd657-81ef-42c9-b055-f3e65c4c17ba
+          stepCounter: 975b84e1-79fb-4606-ab7f-953fca33c359
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b3333e5f-0a6a-4423-a5d5-dd8d978be50d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b1147c5-b68d-4944-80f6-39a7d118d567
+          stepCounter: 975b84e1-79fb-4606-ab7f-953fca33c359
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ORDERS: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
+        name: LLM_ORDERS_003
+        noLinkRefs: []
+  name: LLM_ORDERS_003
+  overrideSQL: false
+  schema: ""
+  sqlType: cortex:::271
+  type: sql
+  version: 1
+type: Node

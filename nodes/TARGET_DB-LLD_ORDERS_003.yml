@@ -1,0 +1,127 @@
+fileVersion: 1
+id: d81b6a0c-0821-4832-b13e-17cfd92dba11
+name: LLD_ORDERS_003
+operation:
+  config:
+    bucketBy:
+      items:
+        - buckeyByColumn:
+            columnCounter: 81157c60-07e0-484b-bba1-e6ae6a54764e
+            stepCounter: d81b6a0c-0821-4832-b13e-17cfd92dba11
+    dedicatedLoadHistoryTable: true
+    groupCount: "10"
+    groupIncremental: false
+    groupingType: Key Based
+    loadHistoryTableLocation: Same as Target Table
+    loadType: Full Load
+    postSQL: ""
+    preSQL: ""
+    setIncrementalLoadOptions: false
+    sortBy:
+      items:
+        - {}
+    sortDataOnLoad: false
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 853ccab2-a77f-4082-83b2-49c8e1c0febc
+          stepCounter: d81b6a0c-0821-4832-b13e-17cfd92dba11
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_ORDERKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f8cbb3f-0960-4e75-863f-996d5d202997
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 81157c60-07e0-484b-bba1-e6ae6a54764e
+          stepCounter: d81b6a0c-0821-4832-b13e-17cfd92dba11
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: O_ORDERNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e61dc414-3ca9-4ef4-bd6c-4c999fcb631d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74b977e0-d435-4569-a053-53f7607a06db
+          stepCounter: d81b6a0c-0821-4832-b13e-17cfd92dba11
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b3333e5f-0a6a-4423-a5d5-dd8d978be50d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 23f97562-2c1c-4d1d-a9d4-a30a7c9fead1
+          stepCounter: d81b6a0c-0821-4832-b13e-17cfd92dba11
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1aeceda3-8594-45d3-b8d1-1a039bbaaa5f
+          stepCounter: d81b6a0c-0821-4832-b13e-17cfd92dba11
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        loadCurrentTimestamp: true
+        name: LOAD_CURRENT_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP::TIMESTAMP_NTZ(9)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ORDERS: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
+        name: LLD_ORDERS_003
+        noLinkRefs: []
+  name: LLD_ORDERS_003
+  overrideSQL: false
+  schema: ""
+  sqlType: incremental-loading:::278
+  type: sql
+  version: 1
+type: Node

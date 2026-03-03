@@ -1,0 +1,133 @@
+fileVersion: 1
+id: 53b69883-4ebf-4aa1-8437-30d105b7ce0a
+name: CSS_ORDERS_003
+operation:
+  config:
+    allcol: true
+    attrcol:
+      items:
+        - acolname:
+            columnCounter: 896dd698-60b5-4f42-954b-cff7b95eba00
+            stepCounter: 53b69883-4ebf-4aa1-8437-30d105b7ce0a
+    colpreview:
+      items:
+        - columnName: null
+        - columnName: null
+        - columnName: null
+        - columnName: null
+    createcortex: true
+    embmodel: ""
+    excss: true
+    filcrit:
+      items:
+        - {}
+    filtoggle: false
+    initialize: ON_CREATE
+    lagSpecification:
+      items:
+        - lagPeriod: Minutes
+          lagValue: "60"
+    locCSS: TARGET_DB
+    lopt: and
+    mulfilcon: false
+    namCSS: CSS_ORDERS
+    numboost: false
+    numericboost:
+      items:
+        - {}
+    query1: ""
+    querycortex: false
+    searchcol:
+      columnCounter: 896dd698-60b5-4f42-954b-cff7b95eba00
+      stepCounter: 53b69883-4ebf-4aa1-8437-30d105b7ce0a
+    timdec: false
+    timedecay:
+      items:
+        - {}
+    warehouseName: COMPUTE_WH
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: cortex search service
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6c5bb82f-f6a6-4477-a8e1-f5c2813f3254
+          stepCounter: 53b69883-4ebf-4aa1-8437-30d105b7ce0a
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_ORDERKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f8cbb3f-0960-4e75-863f-996d5d202997
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 896dd698-60b5-4f42-954b-cff7b95eba00
+          stepCounter: 53b69883-4ebf-4aa1-8437-30d105b7ce0a
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: O_ORDERNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e61dc414-3ca9-4ef4-bd6c-4c999fcb631d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 49285326-3328-4b99-b80f-e761bf9bb3a5
+          stepCounter: 53b69883-4ebf-4aa1-8437-30d105b7ce0a
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b3333e5f-0a6a-4423-a5d5-dd8d978be50d
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1a321b8f-35f9-4333-9a34-d58d40d2ec86
+          stepCounter: 53b69883-4ebf-4aa1-8437-30d105b7ce0a
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
+                stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ORDERS: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: ORDERS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
+        name: CSS_ORDERS_003
+        noLinkRefs: []
+  name: CSS_ORDERS_003
+  overrideSQL: false
+  schema: ""
+  sqlType: cortex:::499
+  type: sql
+  version: 1
+type: Node
