@@ -133,15 +133,6 @@ metadata:
       enableIf: "{% if config.devMode == true %} false {% else %} true {% endif %}" 
       items:
 
-      - displayName: Scheduling Options
-        attributeName: schedulingMode
-        type: dropdownSelector
-        default: Warehouse Task
-        options:
-          - Warehouse Task
-          - Serverless Task
-        isRequired: true
-
       # Checks whether source streams have data before executing a task #
       - displayName: When Source Stream has Data Flag
         attributeName: flagSrcStream
@@ -157,6 +148,15 @@ metadata:
           - OR
         isRequired: true
         enableIf: "{% if config.flagSrcStream == true %} true {% else %} false {% endif %}"
+
+      - displayName: Scheduling Options
+        attributeName: schedulingMode
+        type: dropdownSelector
+        default: Warehouse Task
+        options:
+          - Warehouse Task
+          - Serverless Task
+        isRequired: true
 
       # Warehouse name  you want the task to run #
       - type: label

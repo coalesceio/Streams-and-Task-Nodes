@@ -3,8 +3,8 @@ id: cc2de56b-245a-4c21-9e12-902d479708bb
 name: TSKDIM_ORDERS_ENHANCED
 operation:
   config:
-    autoRetryToggle: false
-    autoSuspendToggle: false
+    autoRetryToggle: true
+    autoSuspendToggle: true
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -13,7 +13,9 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    configJSON: ""
+    configJSON: |+
+      {"environment": "production", "path": "/prod_directory/"}
+
     devMode: false
     errIntName: MY_EMAIL_INTEGRATION
     errNotifyToggle: false
@@ -32,25 +34,25 @@ operation:
     orderbycolumn:
       items:
         - {}
-    overlapExecToggle: false
+    overlapExecToggle: true
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
+    schedulingMode: Serverless Task
     selectDistinct: false
     serverlessSize: 3. MEDIUM
-    sizeBoundToggle: false
-    spfcUserToggle: false
+    sizeBoundToggle: true
+    spfcUserToggle: true
     succIntName: MY_EMAIL_INTEGRATION
     successNotifyToggle: false
-    taskGraphToggle: false
-    userName: ""
+    taskGraphToggle: true
+    userName: anandhis
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
-  description: ""
+  description: This is  test message
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task

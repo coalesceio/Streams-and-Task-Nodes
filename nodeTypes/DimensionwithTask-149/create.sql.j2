@@ -838,9 +838,6 @@ does not permit copying or modification for any other purpose.
             {% endif -%}
             {{ nsVariables.taskWhenRun }}
             {{ nodeComment }}
-            {%- if desiredState.config.spfcUserToggle %}
-                {{ userServiceAcct }}
-            {%- endif %}
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}
                 {{ overLapExec }}
                 {%- if desiredState.config.autoSuspendToggle %}
@@ -861,6 +858,9 @@ does not permit copying or modification for any other purpose.
             {%- endif %}
 
             {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
+            {%- if desiredState.config.spfcUserToggle %}
+                {{ userServiceAcct }}
+            {%- endif %}
         AS 
         {% set is_type_2 = desiredState.columns | selectattr("isChangeTracking") | list | length > 0 %}
 
