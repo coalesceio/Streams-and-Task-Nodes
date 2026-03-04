@@ -42,7 +42,7 @@ operation:
     selectDistinct: true
     serverlessSize: 3. MEDIUM
     sizeBoundToggle: true
-    spfcUserToggle: true
+    spfcUserToggle: false
     succIntName: my_sns_integration
     successNotifyToggle: true
     taskGraphToggle: false

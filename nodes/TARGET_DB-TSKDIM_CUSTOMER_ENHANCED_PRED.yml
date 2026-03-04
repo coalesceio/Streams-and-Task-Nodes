@@ -40,7 +40,7 @@ operation:
     schedulePeriodOption: Predecessor
     schedulingMode: Serverless Task
     selectDistinct: true
-    serverlessSize: 3. MEDIUM
+    serverlessSize: 2. SMALL
     sizeBoundToggle: true
     spfcUserToggle: true
     succIntName: my_sns_integration
