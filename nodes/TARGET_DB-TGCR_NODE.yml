@@ -1,15 +1,17 @@
 fileVersion: 1
-id: a552130b-9ee0-48d3-a93d-f9affdd10a35
-name: TGCR_FACT_ORDERS
+id: 45120d2a-849a-45b5-afff-86667a1ce8db
+name: TGCR_NODE
 operation:
   config:
+    mflagSrcStream: false
+    multiStreamBehavior: AND
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     serverlessSize: MEDIUM
     tskSql: select current_timestamp()
-    whName: COMPUTE_WH
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -28,9 +30,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: TGCR_FACT_ORDERS
+        name: TGCR_NODE
         noLinkRefs: []
-  name: TGCR_FACT_ORDERS
+  name: TGCR_NODE
   overrideSQL: false
   schema: ""
   sqlType: "154"

@@ -182,11 +182,11 @@ macroString: |-
 
   {% endmacro %}
 
-  {#-- =====================================================================================================================#}
+  {# =====================================================================================================================
   Input: namespace – An object containing optional advanced configuration properties related to Snowflake task creation.
   Description: This macro centralizes the logic for handling advanced Snowflake task configuration.
   Output: A dynamically constructed SQL fragment containing all valid advanced task creation attributes derived from the provided namespace.
-  {#-- =====================================================================================================================#}
+  ===================================================================================================================== #}
   {% macro getadvancedTaskOptions(ns) %}
       {%- set ns.nodeComment = "COMMENT = '" ~ node.description | trim ~ "'" if node.description | default('') | trim else "" %}
 
@@ -194,40 +194,42 @@ macroString: |-
           {%- if parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
               {%- set ns.userServiceAcct  = 'EXECUTE AS USER ' + config.userName | trim %}
           {%- else -%}
-              {%- set ns.userServiceAcct = 'EXECUTE AS USER ' + parameters.targetTaskExecuteAsUser %}
+              {%- set ns.userServiceAcct = 'EXECUTE AS USER ' + parameters.targetTaskExecuteAsUser | default('') %}
           {%- endif -%}
       {%- endif -%}
 
-      {%- if config.schedulePeriodOption != 'Predecessor' and config.autoSuspendToggle %}
-          {%- set ns.suspendTask = 'SUSPEND_TASK_AFTER_NUM_FAILURES = ' + config.numFailures | trim %}
-      {%- endif -%}
+      {%- if config.schedulePeriodOption not in ['Predecessor'] %}
 
-      {%- if config.schedulePeriodOption != 'Predecessor' and config.autoRetryToggle -%}
-          {%- set ns.autoTry = 'TASK_AUTO_RETRY_ATTEMPTS = ' + config.retryAttmpt | trim %}
-      {%- endif -%}
+          {%- if config.autoSuspendToggle %}
+              {%- set ns.suspendTask = 'SUSPEND_TASK_AFTER_NUM_FAILURES = ' + config.numFailures | trim %}
+          {%- endif -%}
 
-      {%- if config.schedulePeriodOption != 'Predecessor' %}
+          {%- if config.autoRetryToggle -%}
+              {%- set ns.autoTry = 'TASK_AUTO_RETRY_ATTEMPTS = ' + config.retryAttmpt | trim %}
+          {%- endif -%}
+
           {%- set ns.overLapExec = 'ALLOW_OVERLAPPING_EXECUTION  = ' + config.overlapExecToggle | string %}
-      {%- endif -%}
 
-      {%- if config.schedulePeriodOption != 'Predecessor' and config.taskGraphToggle -%}
-          {%- set ns.configJSON = 'CONFIG = $$' + config.configJSON | trim + '$$' %}
-      {%- endif -%}
-
-      {%- if config.errNotifyToggle -%}
-          {%- if parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
-              {%- set ns.errorIntegration = 'ERROR_INTEGRATION = ' + config.errIntName | trim %}
-          {%- else -%}
-              {%- set ns.errorIntegration = 'ERROR_INTEGRATION = ' + parameters.targetTaskErrorIntegration %}
+          {%- if config.taskGraphToggle -%}
+              {%- set ns.configJSON = 'CONFIG = $$' + config.configJSON | trim + '$$' %}
           {%- endif -%}
-      {%- endif -%}
 
-      {%- if config.successNotifyToggle -%}
-          {% if parameters.targetTaskSuccessIntegration | default('') == 'DEV ENVIRONMENT' -%}
-              {%- set ns.successIntegration = 'SUCCESS_INTEGRATION = ' + config.succIntName | trim %}
-          {%- else -%}
-              {%- set ns.successIntegration = 'SUCCESS_INTEGRATION = ' + parameters.targetTaskSuccessIntegration %}
+          {%- if config.errNotifyToggle -%}
+              {%- if parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
+                  {%- set ns.errorIntegration = 'ERROR_INTEGRATION = ' + config.errIntName | trim %}
+              {%- else -%}
+                  {%- set ns.errorIntegration = 'ERROR_INTEGRATION = ' + parameters.targetTaskErrorIntegration | default('') %}
+              {%- endif -%}
           {%- endif -%}
+
+          {%- if config.successNotifyToggle -%}
+              {% if parameters.targetTaskSuccessIntegration | default('') == 'DEV ENVIRONMENT' -%}
+                  {%- set ns.successIntegration = 'SUCCESS_INTEGRATION = ' + config.succIntName | trim %}
+              {%- else -%}
+                  {%- set ns.successIntegration = 'SUCCESS_INTEGRATION = ' + parameters.targetTaskSuccessIntegration | default('') %}
+              {%- endif -%}
+          {%- endif -%}
+
       {%- endif -%}
   {% endmacro %}
 name: macro

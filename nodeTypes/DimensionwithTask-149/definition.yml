@@ -311,6 +311,11 @@ metadata:
         displayName: "ℹ️ Runs the task on behalf of a specified user account. Requires GRANT IMPERSONATE ON USER privilege."
         enableIf: "{% if config.spfcUserToggle %} true {% else %} false {% endif %}"
 
+      - type: label
+        attributeName: warningSpfcUser
+        displayName: "⚠️ Warning: targetTaskExecuteAsUser parameter is not provided."
+        enableIf: "{% if config.spfcUserToggle and parameters.targetTaskExecuteAsUser | trim | default('') == '' %} true {% else %} false {% endif %}"
+
       - displayName: User Name
         attributeName: userName
         type: textBox
@@ -337,7 +342,7 @@ metadata:
         type: textBox
         default: ''
         isRequired: false
-        enableIf: "{% if config.schedulePeriodOption not in ['Predecessor'] and config.autoSuspendToggle %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.schedulePeriodOption not in ['Predecessor'] and config.taskGraphToggle %} true {% else %} false {% endif %}"
 
       - displayName: Auto-Suspend After Failures
         attributeName: autoSuspendToggle
@@ -368,7 +373,7 @@ metadata:
         enableIf: "{% if config.schedulePeriodOption not in ['Predecessor'] and config.autoSuspendToggle %} true {% else %} false {% endif %}"
 
     - groupName: Notification Options
-      enableIf: "{% if config.devMode %} false {% else %} true {% endif %}"
+      enableIf: "{% if config.devMode or config.schedulePeriodOption in ['Predecessor'] %} false {% else %} true {% endif %}"
       items:
 
       - displayName: Enable Error Notifications
@@ -376,6 +381,11 @@ metadata:
         type: toggleButton
         default: false
         isRequired: false
+
+      - type: label
+        attributeName: warningErrIntName
+        displayName: "⚠️ Warning: targetTaskErrorIntegration parameter is not provided."
+        enableIf: "{% if config.errNotifyToggle and parameters.targetTaskErrorIntegration | trim | default('') == '' %} true {% else %} false {% endif %}"
 
       - displayName: Error Integration Name
         attributeName: errIntName
@@ -389,6 +399,11 @@ metadata:
         type: toggleButton
         default: false
         isRequired: false
+
+      - type: label
+        attributeName: warningSuccIntName
+        displayName: "⚠️ Warning: targetTaskSuccessIntegration parameter is not provided."
+        enableIf: "{% if config.successNotifyToggle and parameters.targetTaskSuccessIntegration | trim | default('') == '' %} true {% else %} false {% endif %}"
 
       - displayName: Success Integration Name
         attributeName: succIntName
