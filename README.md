@@ -19,34 +19,50 @@ These nodes work together to create **Continuous Data Pipelines**. The **Stream*
 
 ## Nodetypes Config Matrix
 
-| Category | Feature | Work with Task | Dimension with Task | Fact with Task | Insert or Merge with Task | Stream and Insert or Merge | Delta Stream Merge | Stream | Stream for Directory Table | Task DAG Create Root | Task DAG Resume Root |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Source Object** | **Source: Table** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
-| | **Source: View** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
-| | **Source: Dynamic Table** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
-| | **Source: External Table** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
-| | **Source: External Iceberg Table** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜| ⬜ | ⬜ | ⬜ |
-| | **Source: Directory Table (Stage)** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ |
-| **Development** | Development Mode | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Multi Source | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Create As  | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| **Logic** | Distinct / Group By All | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Order By | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Truncate Before (Overwrite) | ✅ | ⬜ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| **Keys/CDC** | Business Key / Table Keys | ⬜ | ✅ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Change Tracking (Type 2) | ⬜ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Record Date / Timestamp | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Qualify Selection (Latest Record) | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Cluster Key | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| **Stream Config** | Append Only Option | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
-| | Show Initial Rows | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
-| | Propagate Deletes | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Redeployment Behavior | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
-| **Scheduling** | Warehouse / Serverless Mode | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ✅ | ⬜ |
-| | Stream Has Data Flag | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ✅ | ⬜ |
-| | Multi-Stream Logic (AND/OR) | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ⬜ |
-| | Schedule (Min / Cron) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ✅ | ⬜ |
-| | Predecessor / Root Task Logic | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ✅ |
+### Matrix 1: Task-Based Node Types
+
+| Category | Feature | Work with Task | Dimension with Task | Fact with Task | Insert or Merge with Task | Task DAG Create Root | Task DAG Resume Root |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Development** | Development Mode | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
+| | Multi Source | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
+| | Create As | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ |
+| **Logic** | Distinct / Group By All | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
+| | Order By | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
+| | Truncate Before | ✅ | ⬜ | ✅ | ✅ | ⬜ | ⬜ |
+| **Keys** | Business / Table Keys | ⬜ | ✅ | ⬜ | ✅ | ⬜ | ⬜ |
+| | Change Tracking (Type 2) | ⬜ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Record Date / Timestamp | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ |
+| | Cluster Key | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
+| **Scheduling** | Warehouse / Serverless | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
+| | Stream Has Data Flag | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
+| | Multi-Stream Logic | ✅ | ✅ | ✅ | ⬜ | ✅ | ⬜ |
+| | Schedule (Min / Cron) | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
+| | Predecessor / Root Task | ✅ | ✅ | ✅ | ✅ | ⬜ | ✅ |
+
+### Matrix 2: Stream-based Node Types
+
+| Category | Feature | Stream and Insert or Merge | Delta Stream Merge | Stream | Stream for Directory Table |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Source Support** | **Source: Table** | ✅ | ✅ | ✅ | ⬜ |
+| | **Source: View** | ✅ | ✅ | ✅ | ⬜ |
+| | **Source: Dynamic Table** | ✅ | ✅ | ✅ | ⬜ |
+| | **Source: External Table** | ✅ | ✅ | ✅ | ⬜ |
+| | **Source: Directory Table** | ⬜ | ⬜ | ⬜ | ✅ |
+| **Development** | Development Mode | ✅ | ✅ | ⬜ | ⬜ |
+| | Create As  | ✅ | ✅ | ⬜ | ⬜ |
+| **Logic** | Distinct / Group By All | ✅ | ✅ | ⬜ | ⬜ |
+| | Record Date / Timestamp | ✅ | ✅ | ⬜ | ⬜ |
+| | Qualify Latest Record | ⬜ | ✅ | ⬜ | ⬜ |
+| **Keys** | Business / Table Keys | ✅ | ✅ | ⬜ | ⬜ |
+| | Cluster Key | ✅ | ✅ | ⬜ | ⬜ |
+| **Stream Config** | Append Only Option | ✅ | ✅ | ✅ | ⬜ |
+| | Show Initial Rows | ✅ | ✅ | ✅ | ⬜ |
+| | Propagate Deletes | ✅ | ✅ | ⬜ | ⬜ |
+| | Redeployment Behavior | ✅ | ✅ | ✅ | ✅ |
+| **Scheduling** | Warehouse / Serverless | ✅ | ✅ | ⬜ | ⬜ |
+| | Stream Has Data Flag | ✅ | ✅ | ⬜ | ⬜ |
+| | Schedule (Min / Cron) | ✅ | ✅ | ⬜ | ⬜ |
+| | Predecessor Task Logic | ✅ | ✅ | ⬜ | ⬜ |
 
 ---
 
@@ -1466,6 +1482,7 @@ When node is deleted, the following stages execute:
 |------------|--------|-------|
 | Task | Task | Follows existing redeployment stages |
 | Stream | Stream | Follows existing redeployment stages |
+| Table | Task | 1. Warning (if applicable)<br/>2. Alter |
 | Any Other | Task | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 | Any Other | Stream | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 
