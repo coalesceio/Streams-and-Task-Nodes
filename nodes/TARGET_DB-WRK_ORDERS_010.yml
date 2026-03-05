@@ -3,13 +3,6 @@ id: a2bbf333-1d27-45a7-8520-c3a68f9e2c7c
 name: WRK_ORDERS_010
 operation:
   config:
-    asofColumn:
-      items:
-        - {}
-    asofJoin: true
-    asofJoinMain: false
-    asofJoinON: false
-    asofJoinUSING: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -18,23 +11,39 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    groupByAll: false
-    insertStrategy: INSERT
-    orderby: false
-    orderbycolumn:
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
       items:
-        - {}
-    postSQL: ""
-    preSQL: ""
-    selectDistinct: false
-    testsEnabled: false
-    truncateBefore: true
+        - colName:
+            columnCounter: f72cf912-bec7-47e3-9f1a-c934f2cd61c5
+            stepCounter: a2bbf333-1d27-45a7-8520-c3a68f9e2c7c
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 7ee5744e-c9a7-446b-b759-c016cf5b9ff5
+            stepCounter: a2bbf333-1d27-45a7-8520-c3a68f9e2c7c
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -94,6 +103,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 98dc1d7b-9918-441c-a6db-027892cf8d89
+          stepCounter: a2bbf333-1d27-45a7-8520-c3a68f9e2c7c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a26edf0-703a-4d11-b99c-99027568e4d1
+          stepCounter: a2bbf333-1d27-45a7-8520-c3a68f9e2c7c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -111,7 +146,7 @@ operation:
   name: WRK_ORDERS_010
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::179
+  sqlType: "483"
   type: sql
   version: 1
 type: Node

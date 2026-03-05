@@ -3,92 +3,47 @@ id: fd17bb91-12a2-4735-b3af-4342712125c8
 name: DMFS_ORDERS_010
 operation:
   config:
-    addCustomDMFs: false
-    addcolumnleveldmfs: false
-    adddmfs:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    adddmfsobject:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    addobjectleveldmfs: false
-    alertFrequency: 60
-    alertWarehouse: ""
-    blankCntTrigger: false
-    blankPrcntThreshold: 5
-    blankPrcntTrigger: false
-    customDMFsConfig:
+    clusterKeyExpressions: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
       items:
-        - {}
-    dupCntTrigger: true
-    emailAlertToggle: false
-    emailList: ""
-    freshThreshold: 24
-    freshTrigger: true
-    notfIntegrationName: ""
-    nullCntTrigger: true
-    nullPrcntThreshold: 5
-    nullPrcntTrigger: false
-    overrideEmailAlertToggle: false
+        - colName:
+            columnCounter: 8e439782-a09d-49c9-a80d-2ea4e7d49f69
+            stepCounter: fd17bb91-12a2-4735-b3af-4342712125c8
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: d046135f-300f-416b-905c-bcee3b560c2d
+            stepCounter: fd17bb91-12a2-4735-b3af-4342712125c8
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create If Not Exists
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
-    universalColumnBlankCountDMF: false
-    universalColumnBlankCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankCountUniversalColumns[]
-    universalColumnBlankPercentDMF: false
-    universalColumnBlankPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.blankPercentUniversalColumns[]
-    universalColumnDmfs: true
-    universalColumnDuplicateCountDMF: true
-    universalColumnDuplicateCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.duplicateCountUniversalColumns[]
-    universalColumnFreshnessDMF: true
-    universalColumnFreshnessDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.freshnessUniversalColumns[]
-    universalColumnNullCountDMF: true
-    universalColumnNullCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullCountUniversalColumns[]
-    universalColumnNullPercentDMF: false
-    universalColumnNullPercentDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.nullPercentUniversalColumns[]
-    universalColumnUniqueCountDMF: false
-    universalColumnUniqueCountDMFList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.uniqueCountUniversalColumns[]
-    universalDmfs: true
-    universalObjectDmfs: true
-    universalObjectDmfsList: |2-
-       -- This field is auto-populated from the Package Configuration.
-       -- Redeployment behavior is controlled by toggles, NOT Package Configuration.
-       -- To edit, update the below Config in Package Configuration.
-       packageConfiguration.universalObjectDmfs[]
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -148,6 +103,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5f532a3a-0baa-41b6-8d54-f6ec35ee40b1
+          stepCounter: fd17bb91-12a2-4735-b3af-4342712125c8
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 53947da8-5d06-4703-b759-99d8ae705848
+          stepCounter: fd17bb91-12a2-4735-b3af-4342712125c8
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -165,7 +146,7 @@ operation:
   name: DMFS_ORDERS_010
   overrideSQL: false
   schema: ""
-  sqlType: DQ:::448
+  sqlType: "483"
   type: sql
   version: 1
 type: Node
