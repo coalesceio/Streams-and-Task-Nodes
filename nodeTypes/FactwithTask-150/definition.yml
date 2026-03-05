@@ -144,6 +144,7 @@ metadata:
       - displayName: When Source Stream has Data Flag
         attributeName: flagSrcStream
         type: toggleButton
+        default: true
         isRequired: true
 
       - displayName: Multiple Stream has Data Logic
