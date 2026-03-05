@@ -268,8 +268,8 @@ does not permit copying or modification for any other purpose.
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
             {% endif %}
     
-
-        {% elif currentState == undefined or currentState.storageLocations | length == 0 %}
+        {% endif %}
+        {% if currentState == undefined or currentState.storageLocations | length == 0 %}
             {{ stage('Create Work '+ ' {{desiredState.config.createas}}',true,"sql","create") }}
             CREATE OR REPLACE {{ desiredState.config.createas }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
