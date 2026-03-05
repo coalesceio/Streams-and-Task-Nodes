@@ -1,5 +1,54 @@
 <!-- markdownlint-disable MD033 -->
-# Streams and Tasks Package
+## Snowflake - Streams and Tasks Package - Brief Summary
+
+-   **Work with Task:** Used for intermediate "Work" tables. It automates the cleaning and transformation of data in the middle of a pipeline using a scheduled Task.
+-   **Dimension with Task:** Automates the loading of descriptive business data (e.g., Customers, Products). It uses a Task to ensure that attributes are kept up-to-date incrementally.
+-   **Fact with Task:** Handles large-scale transactional data. This node uses a Task to process new metrics or events at regular intervals, ensuring large tables stay current without full reloads.
+-   **Task DAG Create Root:** Defines the "parent" or starting point of a **Directed Acyclic Graph (DAG)**. This is the first task in a sequence that triggers all other dependent child tasks.
+-   **Task DAG Resume Root:** A management node used to "start" or "enable" the entire chain of tasks. In Snowflake, tasks are created in a 'Suspended' state; this node ensures the pipeline is actually running.
+-   **Stream:** Directly implements Snowflake's **Change Data Capture (CDC)**. It acts as a bookmark on a source table to track new Inserts, Updates, and Deletes without moving data itself.
+-   **Stream and Insert or Merge:** A combined logic node. It reads the "delta" changes from a Stream and applies them to a target table using either a simple INSERT or a MERGE statement.
+-   **Delta Stream Merge:** An advanced CDC node designed for high-precision synchronization. It uses the Stream’s metadata (like `METADATA$ACTION`) to ensure the target table perfectly mirrors the source, even when complex updates or deletes occur.
+-   **Stream for Directory Table:** Specifically designed for **Unstructured Data**. It tracks changes to files (like PDFs or images) stored in a Snowflake Stage, allowing you to trigger processing as soon as a new file is uploaded.
+-   **Insert or Merge with Task:** A general-purpose automation node. It encapsulates the SQL logic to update a target table and schedules it to run via a Task, either on a set interval or when data arrives in a stream.
+
+**Summary:**
+These nodes work together to create **Continuous Data Pipelines**. The **Stream** nodes capture the "Delta" (CDC), and the **Task** nodes provide the "Schedule" (Orchestration). By using these together, you achieve **Transactional Consistency**: data is only processed once, and the stream's offset only advances when the task successfully commits.
+
+----
+
+## Nodetypes Config Matrix
+
+| Category | Feature | Work with Task | Dimension with Task | Fact with Task | Insert or Merge with Task | Stream and Insert or Merge | Delta Stream Merge | Stream | Stream for Directory Table | Task DAG Create Root | Task DAG Resume Root |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Source Object** | **Source: Table** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
+| | **Source: View** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
+| | **Source: Dynamic Table** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
+| | **Source: External Table** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
+| | **Source: External Iceberg Table** | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜| ⬜ | ⬜ | ⬜ |
+| | **Source: Directory Table (Stage)** | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ |
+| **Development** | Development Mode | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Multi Source | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Create As  | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| **Logic** | Distinct / Group By All | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Order By | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Truncate Before (Overwrite) | ✅ | ⬜ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| **Keys/CDC** | Business Key / Table Keys | ⬜ | ✅ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Change Tracking (Type 2) | ⬜ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Record Date / Timestamp | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Qualify Selection (Latest Record) | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Cluster Key | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| **Stream Config** | Append Only Option | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
+| | Show Initial Rows | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ |
+| | Propagate Deletes | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| | Redeployment Behavior | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
+| **Scheduling** | Warehouse / Serverless Mode | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ✅ | ⬜ |
+| | Stream Has Data Flag | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ✅ | ⬜ |
+| | Multi-Stream Logic (AND/OR) | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ✅ | ⬜ |
+| | Schedule (Min / Cron) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ✅ | ⬜ |
+| | Predecessor / Root Task Logic | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | ✅ |
+
+---
 
 The Coalesce Stream and Task Node Types Package includes:
 
@@ -187,6 +236,14 @@ The following stages are executed:
 |-----------|----------------|
 | **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
 
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
 ### Work With Task Undeployment
 
 If a Work with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then all objects created by the node in the target environment will be dropped.
@@ -373,6 +430,14 @@ The following stages are executed:
 |-----------|----------------|
 | **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
 
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
 ### Dimension With Task Undeployment
 
 If a Work with Task node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then all objects created by the node in the target environment will be dropped.
@@ -556,6 +621,14 @@ The following stages are executed:
 | **Stage** | **Description** |
 |-----------|----------------|
 | **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
+
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Fact With Task Undeployment
 
@@ -796,6 +869,14 @@ After initial deployment, subsequent deployments will create a new stream based 
 | Create or Replace | Create Stream |
 | Create at existing stream | Re-Create Stream at existing offset |
 
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
 ### Stream Undeployment
 
 When a Stream Node is deleted from a Workspace and that commit is deployed, the following stage executes:
@@ -961,6 +1042,14 @@ Task changes:
 | **Create Task** | Creates scheduled task |
 | **Resume Task**| Resumes the task|
 
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
 ### Stream and Insert or Merge Undeployment
 
 When node is deleted, the following stages execute:
@@ -1041,6 +1130,14 @@ After initial deployment, subsequent deployments will create a new stream based 
 | Create or Replace | Create Stream |
 | Create at existing stream | Re-Create Stream at existing offset |
 
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
 ### Stream for Directory Table Undeployment
 
 When a Stream Node is deleted from a Workspace and that commit is deployed, the following stage executes:
@@ -1050,170 +1147,6 @@ When a Stream Node is deleted from a Workspace and that commit is deployed, the 
 | **Drop Stream** | Removes the stream from the target environment |
 
 ---
-
-## Iceberg Tables With Task
-
-The Iceberg Tables with Task node is an external Iceberg table node wrapped with task functionality.
-
-An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats. [Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
-
-An Iceberg table that uses an external catalog provides limited Snowflake platform support with read-only access. With this table type, Snowflake uses a catalog integration to retrieve information about your Iceberg metadata and schema.
-
-### Iceberg Tables With Task Prerequisites
-
-* The Role in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' in order to successfully create an Iceberg table. You can also grant SYSADMIN roles to EXTERNAL VOLUME, CATALOG INTEGRATION created.
-* An EXTERNAL VOLUME, CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
-
-### Iceberg Tables With Task Node Configuration
-
-The Iceberg Tables with Task node has three configuration groups:
-
-* [Node Properties](#iceberg-tables-with-task-node-properties)
-* [Iceberg Options](#iceberg-tables-with-task-options)
-* [Scheduling Options](#iceberg-tables-with-task-scheduling-options)
-
-#### Iceberg Tables With Task Node Properties
-
-| **Property** | **Description** |
-|-------------|-----------------|
-| **Storage Location** | Storage Location where the Dynamic Table will be created |
-| **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
-
-#### Iceberg Tables With Task Options
-
-| **Option** | **Description** |
-|------------|----------------|
-| **Type of Catalog** | Specify catalog type:<br/>- AWS Glue<br/>- Object Storage |
-| **Snowflake EXTERNAL VOLUME name** | Identifier for external volume storing metadata files and data. .[External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in Snowflake as a prerequisite. |
-| **Catalog integration** | Identifier for [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) |
-| **Catalog namespace** | Namespace for AWS Glue Data Catalog source (for AWS Glue) |
-| **Catalog table name** | Name of catalog table (for AWS Glue) |
-| **Metadata filepath** | Relative path of Iceberg metadata file for column definitions (for Object Storage) |
-| **Schedule refresh** | True/False toggle for task creation<br/>**True** - Setting Schedule refresh Mode to true will wrap the SQL statement in a task with options specified in Scheduling Options.<br/>**False** - A table will be created and SQL will execute as a Run action. |
-
-#### Iceberg Tables With Task Scheduling Options
-
-| **Option** | **Description** |
-|------------|----------------|
-| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task**: User managed warehouse executes tasks<br/>- **Serverless Task**: Uses serverless compute |
-| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. Enter the name of the warehouse you want the task to run on without quotes.|
-| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task.<br/> Select the initial compute size on which to run the task. Snowflake will adjust size from there based on target schedule and task run times. |
-| **Task Schedule** | Choose schedule type:<br/>- **Minutes** - Specify interval in minutes. Enter a whole number from 1 to 11520 which represents the number of minutes between task runs.<br/>- **Cron** - Uses [Cron expressions](https://docs.coalesce.io/docs/reference/cron-reference/). Specifies a cron expression and time zone for periodically running the task. Supports a subset of standard cron utility syntax.<br/>- **Predecessor** - Specify dependent tasks |
-| **Enter predecessor tasks separated by a comma**| Visible when Task Schedule is set to Predecessor. <br/>One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
-| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma and no spaces.|
-
-### Iceberg Tables With Task System Columns
-
-| **Column** | **Description** |
-|------------|----------------|
-| **DATA** | Column added for deployment but not added to Iceberg table as columns specifications are not required |
-
-### Iceberg Tables With Task Deployment
-
-#### Iceberg Tables With Task Deployment Parameters
-
-The Iceberg tables With Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
-
-The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
-
-When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run the task will be used when creating the task.
-
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
-
-#### Iceberg Tables With Task Initial Deployment
-
-For tasks without predecessors:
-
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Create/Replace Iceberg Table** | Create Iceberg Table in target environment |
-| **Create Task** | Creates scheduled task |
-| **Resume Task** | Resume task |
-
-For tasks with predecessors:
-
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Create/Replace Iceberg Table** | Create Iceberg Table in target environment |
-| **Suspend Root Task** | Suspends root task |
-| **Create Task** | Creates scheduled task |
-
-If a task is part of a DAG of tasks, the DAG needs to include a node type called "Task DAG Resume Root." This node will resume the root node once all the dependent tasks have been created as part of a deployment.
-
-The task node has no ALTER capabilities. All task-enabled nodes are CREATE OR REPLACE only, though this is subject to change.
-
-#### Iceberg Tables With Task Redeployment
-
-Changes in configuration options will execute a CREATE or REPLACE. Changes such as:
-
-* Volume
-* Base location
-* Node properties
-* Columns
-
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Create Iceberg Table** | Recreates table with new configuration |
-
-#### Iceberg tables With Task Recreating the Task Redeployment
-
-Changes such as task schedule, warehouse, or scheduling options will result in a CREATE TASK AND RESUME TASK statements being issued.
-
-For tasks without predecessors:
-
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Create Task** | Recreates task with new schedule |
-| **Resume Task** | Resumes updated task |
-
-For tasks with predecessors:
-
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Suspend Root Task** | Suspends root task |
-| **Create Task** | Creates scheduled task |
-
-### Iceberg Tables With Task Undeployment
-
-If a Snowflake Iceberg Table with a task is dropped from the workspace and committed to Git, it results in the table and task being dropped from the target environment.
-
-For tasks without predecessors:
-
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Drop Iceberg Table** | Drop the table |
-| **Drop Current Task** | Drop the task |
-
-For tasks with predecessors:
-
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Drop Iceberg Table** | Drop the table |
-| **Suspend Root Task** | Suspends root task |
-| **Drop Task** | Removes the task |
-
-If a task is part of a DAG of tasks, the DAG needs to include a node type called "Task DAG Resume Root." This node will resume the root node once all the dependent tasks have been created as part of a deployment.
-
----
-### Redeployment with no changes
- 
-If the nodes are redeployed with no changes compared to previous deployment, then no stages are executed
 
 ## Delta Stream Merge
 
@@ -1366,6 +1299,14 @@ Task changes:
 | **Create Task** | Creates scheduled task |
 | **Resume Task**| Resumes the task|
 
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
 ### Delta Stream Merge Undeployment
 
 When node is deleted, the following stages execute:
@@ -1501,6 +1442,14 @@ Task changes:
 | **Create Task** | Creates scheduled task |
 | **Resume Task**| Resumes the task|
 
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
 ### Insert or Merge with Task Undeployment
 
 When node is deleted, the following stages execute:
@@ -1510,7 +1459,36 @@ When node is deleted, the following stages execute:
 | **Drop Table** | Drop the table |
 | **Drop Current Task** | Drop the task |
 
----
+-----------------
+
+#### Node Type Switching Logic
+| Current MaterializationType | Desired MaterializationType | Stage |
+|------------|--------|-------|
+| Task | Task | Follows existing redeployment stages |
+| Stream | Stream | Follows existing redeployment stages |
+| Any Other | Task | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
+| Any Other | Stream | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
+
+Please review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
+
+#### ⚠ Limitations of Node Type Switching (Current)
+
+| # | Current Materialization | Desired Materialization | Limitation |
+|---|--------------------------|--------------------------|------------|
+| 1 | Older Version Iceberg Table | Table | Results in `ALTER` failure. Iceberg tables require `ALTER ICEBERG TABLE`. Works only if latest package (with switching support) is already used. |
+| 2 | Older Version<br/>Create or Alter-View<br/>Data Quality-DMF | Any(except View) | Switch fails unless current node uses latest package supporting node type switching. |
+| 3 | First Node in Pipeline | Any | Not supported. First node is foundational and switching may disrupt the pipeline. |
+| 4 | External Packages | Any | Not supported as they typically act as first nodes in the pipeline. |
+| 5 | Functional Packages | Any | Not supported due to column re-sync behavior which may cause schema inconsistencies. |
+| 6 | Dynamic Dimension / LRV | Any | System columns must be manually dropped before redeployment. |
+| 7 | Any | Any Other | After performing node switching, the `Create/Run` in Workspace browser may not work as expected due to changes in the node’s materialization type. |
+| 8 | Table(Data Profiling) | Table | This may result in ALTER failure unless latest package is used(with system column removal support)**(Pending Release)** |
+| 9 | Any | Any Stream-based Node (Stream, Stream & I/M, Delta Merge, or Directory Stream) | When switching to a Stream-based node, do not select **'Create At Existing Stream'** from the Redeployment Behavior; this causes deployment errors. Use **'Create or Replace'** or **'Create If Not Exists'**. |
+| 10 | Stream | Stream for Directory Table (and vice versa) | Metadata columns are not automatically synchronized. Specific directory columns (e.g., `relative_path`, `size`, `md5`) are not added when switching to Directory Table, nor are they removed when switching back to a standard Stream. |
+| 11 | Stream | Any Other (and vice versa) | Snowflake CDC metadata columns (`METADATA$ACTION`, `METADATA$ISUPDATE`, `METADATA$ROW_ID`) are not automatically managed. They are neither removed nor added when there's a node type switch |
+
+--------------
+
 
 ## Code
 
