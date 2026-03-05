@@ -116,31 +116,36 @@ does not permit copying or modification for any other purpose.
 
 {# Column Schema Change Detection - Force Create At Existing Stream if columns changed #}
 {% if desiredState and currentState != undefined %}
-    {% set nsVariables = namespace(columnSchemaChanged=false) %}
-    
-    {# Check for column additions #}
-    {% for addDesCol in desiredState.columns %}
-        {% if addDesCol.id not in currentState.columns | map(attribute="id") %}
-            {% set nsVariables.columnSchemaChanged = true %}
-        {% endif %}
-    {% endfor %}
-    
-    {# Check for column deletions #}
-    {% for dropCurCol in currentState.columns %}
-        {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
-            {% set nsVariables.columnSchemaChanged = true %}
-        {% endif %}
-    {% endfor %}
-    
-    {# Force Create At Existing Stream if columns changed #}
-    {% if nsVariables.columnSchemaChanged == true %}
-        {% set forceCreateAtExistingStream = true %}
-    {% else %}
+    {% if currentState.node.nodeType != desiredState.node.nodeType %}
         {% set forceCreateAtExistingStream = false %}
+    {% else %}
+        {% set nsVariables = namespace(columnSchemaChanged=false) %}
+        
+        {# Check for column additions #}
+        {% for addDesCol in desiredState.columns %}
+            {% if addDesCol.id not in currentState.columns | map(attribute="id") %}
+                {% set nsVariables.columnSchemaChanged = true %}
+            {% endif %}
+        {% endfor %}
+        
+        {# Check for column deletions #}
+        {% for dropCurCol in currentState.columns %}
+            {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
+                {% set nsVariables.columnSchemaChanged = true %}
+            {% endif %}
+        {% endfor %}
+        
+        {# Force Create At Existing Stream if columns changed #}
+        {% if nsVariables.columnSchemaChanged == true %}
+            {% set forceCreateAtExistingStream = true %}
+        {% else %}
+            {% set forceCreateAtExistingStream = false %}
+        {% endif %}
     {% endif %}
 {% else %}
     {% set forceCreateAtExistingStream = false %}
 {% endif %}
+
 
 {# Create Stream first #}
 {% if desiredState and currentState != desiredState %}
@@ -262,9 +267,9 @@ does not permit copying or modification for any other purpose.
                 {{ stage('Resume Recluster Table',true,"sql","create") }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
             {% endif %}
-        {% endif %}
+    
 
-        {% if currentState == undefined or currentState.storageLocations | length == 0 %}
+        {% elif currentState == undefined or currentState.storageLocations | length == 0 %}
             {{ stage('Create Work '+ ' {{desiredState.config.createas}}',true,"sql","create") }}
             CREATE OR REPLACE {{ desiredState.config.createas }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (

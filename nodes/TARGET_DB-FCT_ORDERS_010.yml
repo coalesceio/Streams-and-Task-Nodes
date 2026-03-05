@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 50eca014-3d4b-49d0-a781-9f4c89640169
-name: DMFS_ORDERS_NEW
+id: e5ee14d4-1dd6-4108-9793-31b09e62d956
+name: FCT_ORDERS_010
 operation:
   config:
     clusterKey: false
@@ -11,49 +11,46 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: table
-    devMode: true
-    flagSrcStream: true
-    initialRows: true
-    latestRowFromSource: false
-    loadType: Merge
-    orderBy:
+    deleteStrategy: NO DELETE
+    excludeMergeList:
       items:
-        - colName:
-            columnCounter: 5787c7c3-9ba9-4b53-8605-024af5d763dd
-            stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
-          sortOrd: desc
-    partitionBy:
+        - {}
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
       items:
-        - partColName:
-            columnCounter: fae25413-2f56-43ed-ac0f-87ebff38faf6
-            stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    redeploymentBehavior: Create or Replace
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
-    serverlessSize: MEDIUM
-    sourceType: Table
-    whName: <WAREHOUSE_NAME>
+        - {}
+    postSQL: ""
+    preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
+    selectDistinct: false
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fae25413-2f56-43ed-ac0f-87ebff38faf6
-          stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
+          columnCounter: 922fcd5e-f39b-4327-ad8c-b2bfb113546f
+          stepCounter: e5ee14d4-1dd6-4108-9793-31b09e62d956
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -63,8 +60,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7fbb4524-05a5-4550-ad5d-ab99bfa350f4
-          stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
+          columnCounter: b789db91-40d0-4189-be9b-c8dfd561dc94
+          stepCounter: e5ee14d4-1dd6-4108-9793-31b09e62d956
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -77,8 +74,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5b101ffb-0a13-40a0-ba04-3f2573becee6
-          stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
+          columnCounter: e804dfcf-18e9-4f7d-80d8-1985c34ce252
+          stepCounter: e5ee14d4-1dd6-4108-9793-31b09e62d956
         config: {}
         dataType: DATE
         description: ""
@@ -91,8 +88,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5787c7c3-9ba9-4b53-8605-024af5d763dd
-          stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
+          columnCounter: cb0a87bf-0e56-4de5-8bda-adb5df3089d7
+          stepCounter: e5ee14d4-1dd6-4108-9793-31b09e62d956
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -103,12 +100,16 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 90ac69bb-5c5e-40aa-8c28-3f77b47ce649
-          stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
+          columnCounter: b9f7e6c9-f937-475a-90d1-a5bfe1b325cd
+          stepCounter: e5ee14d4-1dd6-4108-9793-31b09e62d956
         config: {}
         dataType: TIMESTAMP
+        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -116,12 +117,16 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: bcf31548-ba38-47fe-b5fc-d7ebeac7494a
-          stepCounter: 50eca014-3d4b-49d0-a781-9f4c89640169
+          columnCounter: 334dec7c-58df-4588-9fbf-56713271a5c3
+          stepCounter: e5ee14d4-1dd6-4108-9793-31b09e62d956
         config: {}
         dataType: TIMESTAMP
+        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -141,12 +146,12 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: DMFS_ORDERS_NEW
+        name: FCT_ORDERS_010
         noLinkRefs: []
-  name: DMFS_ORDERS_NEW
+  name: FCT_ORDERS_010
   overrideSQL: false
   schema: ""
-  sqlType: "483"
+  sqlType: base-node-types-advanced-deploy:::389
   type: sql
   version: 1
 type: Node

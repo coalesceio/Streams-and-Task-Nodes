@@ -1,6 +1,6 @@
 fileVersion: 1
-id: df9baa30-d248-425f-bfe2-ae9bba0eec12
-name: PSTG_ORDERS_NEW
+id: 97a7dc42-05d0-42ae-82ed-a3f2fe21ffad
+name: TIM_ORDERS_010
 operation:
   config:
     clusterKey: false
@@ -11,50 +11,48 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: table
     devMode: true
     flagSrcStream: true
-    initialRows: true
-    latestRowFromSource: false
-    loadType: Merge
-    orderBy:
+    groupByAll: false
+    insertStrategy: UNION
+    loadType: Insert
+    mergeOrderBy:
       items:
-        - colName:
-            columnCounter: c8da4a65-59fe-48d8-8bb9-0dde2ef962b6
-            stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
-          sortOrd: desc
+        - {}
+    multiStreamBehavior: AND
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
     partitionBy:
       items:
-        - partColName:
-            columnCounter: ee31f725-7aa7-4ffb-8bf0-dd44e566596a
-            stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+        - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: ""
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
+    selectDistinct: false
     serverlessSize: MEDIUM
-    sourceType: Table
+    truncateBefore: true
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ee31f725-7aa7-4ffb-8bf0-dd44e566596a
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+          columnCounter: 8547cb6a-0280-4682-ae22-eb79624f5592
+          stepCounter: 97a7dc42-05d0-42ae-82ed-a3f2fe21ffad
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -64,12 +62,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b9fbf466-9e71-4dfd-9b59-c4b4f9ecbca5
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+          columnCounter: 8511a93d-cc88-447b-a934-7ff231e1f517
+          stepCounter: 97a7dc42-05d0-42ae-82ed-a3f2fe21ffad
         config: {}
         dataType: VARCHAR(25)
         description: ""
-        isChangeTracking: true
         name: O_ORDERNAME
         nullable: true
         sourceColumnReferences:
@@ -79,8 +76,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9446b01e-2bad-4d3e-ae80-f0a070ac1451
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+          columnCounter: 6514e35e-ac73-4088-9071-85d6c8f236c0
+          stepCounter: 97a7dc42-05d0-42ae-82ed-a3f2fe21ffad
         config: {}
         dataType: DATE
         description: ""
@@ -93,8 +90,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c8da4a65-59fe-48d8-8bb9-0dde2ef962b6
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+          columnCounter: d616f138-d265-4e83-a201-806f0747fc2b
+          stepCounter: 97a7dc42-05d0-42ae-82ed-a3f2fe21ffad
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -110,8 +107,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 5b1cb913-3b56-4d2a-b6e6-2f4a309e594c
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+          columnCounter: c9c90ad9-e01f-4645-93dd-daa6f1eb895d
+          stepCounter: 97a7dc42-05d0-42ae-82ed-a3f2fe21ffad
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -127,8 +124,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 9b1b1124-8a32-4e25-8440-db1f670193fb
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+          columnCounter: 6c549f8f-d0b9-4c2f-abcb-0216970e2721
+          stepCounter: 97a7dc42-05d0-42ae-82ed-a3f2fe21ffad
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -151,12 +148,12 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: PSTG_ORDERS_NEW
+        name: TIM_ORDERS_010
         noLinkRefs: []
-  name: PSTG_ORDERS_NEW
+  name: TIM_ORDERS_010
   overrideSQL: false
   schema: ""
-  sqlType: "483"
+  sqlType: "567"
   type: sql
   version: 1
 type: Node
