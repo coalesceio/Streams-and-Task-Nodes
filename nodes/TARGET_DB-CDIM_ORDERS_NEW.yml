@@ -3,7 +3,6 @@ id: 5783c792-ee77-4bcc-94af-11bf48038532
 name: CDIM_ORDERS_NEW
 operation:
   config:
-    changetracking: true
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -12,72 +11,42 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    constraintsspec:
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
       items:
-        - {}
-    customZeroKeyValues:
+        - colName:
+            columnCounter: 35b186c9-da74-41bf-9e82-93b0473a1258
+            stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
+          sortOrd: desc
+    partitionBy:
       items:
-        - {}
-    datretention: ""
-    defaultcoallation: ""
-    eschemaevol: false
-    foreignk: false
-    foreignkeycon:
-      items:
-        - {}
-    groupByAll: false
-    inlineconst: false
-    insertStrategy: UNION
-    insertZeroKey: false
-    insertZeroKeyAdvanced: false
-    insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedComparison: false
-    maxdataretention: ""
-    orderby: false
-    orderbycolumn:
-      items:
-        - {}
-    outlineconst: false
-    primary: false
-    primarykeycon:
-      items:
-        - {}
-    primarykeyname: ""
-    selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: true
-    type2Dimension: false
+        - partColName:
+            columnCounter: e1699d80-86d2-4cce-b335-8ae0983188d9
+            stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create If Not Exists
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 730f5278-4da1-4630-bd50-0ad0a960831a
-          stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: CDIM_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: e1699d80-86d2-4cce-b335-8ae0983188d9
@@ -140,74 +109,6 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: cce824b7-dde3-4c57-acf9-088d0a73008d
-          stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0cde36c7-3430-4fc9-9a44-efbc7686d5f3
-          stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: ec715d9c-0c68-413f-8c2c-4d713898e795
-          stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 85c85b0e-8833-43ed-a20d-15945bee7ece
-          stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
           columnCounter: f8bef0f1-0013-4cc1-b8e6-1f27a40c52e1
           stepCounter: 5783c792-ee77-4bcc-94af-11bf48038532
         config: {}
@@ -254,7 +155,7 @@ operation:
   name: CDIM_ORDERS_NEW
   overrideSQL: false
   schema: ""
-  sqlType: create-or-alter-package:::535
+  sqlType: "483"
   type: sql
   version: 1
 type: Node

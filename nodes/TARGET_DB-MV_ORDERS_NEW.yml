@@ -11,14 +11,39 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    secureOption: false
-    selectDistinct: true
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: a6e4350f-73dc-4ef3-bc6a-67f125c67efa
+            stepCounter: e7f74ec1-aa6c-476e-97f6-4cce24a72a91
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 2a4c1423-2f92-4df6-b6f9-c55300e5402e
+            stepCounter: e7f74ec1-aa6c-476e-97f6-4cce24a72a91
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: Materialized View
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -78,6 +103,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5046c3e9-69bf-4cf1-b4fc-66822499d6cd
+          stepCounter: e7f74ec1-aa6c-476e-97f6-4cce24a72a91
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f74a24f3-0439-447c-b7ee-428fef0409be
+          stepCounter: e7f74ec1-aa6c-476e-97f6-4cce24a72a91
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -95,7 +146,7 @@ operation:
   name: MV_ORDERS_NEW
   overrideSQL: false
   schema: ""
-  sqlType: materialized-view:::178
+  sqlType: "483"
   type: sql
   version: 1
 type: Node

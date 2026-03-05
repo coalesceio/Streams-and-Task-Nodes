@@ -3,19 +3,47 @@ id: b9efa042-86ff-4e8d-b158-0504a503e975
 name: RV_ORDERS_NEW
 operation:
   config:
-    insertStrategy: UNION ALL
-    persistTableLocation: "ex: TARGET"
-    persistTableName: "ex: DIM_ORDERS"
-    refTable: false
-    srcTable: false
-    suffixlength: ex:1
-    testsEnabled: true
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 7e529086-9cb5-4ad6-8314-9314d7b20507
+            stepCounter: b9efa042-86ff-4e8d-b158-0504a503e975
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 86f62b11-f072-49de-9aa4-c4723353844d
+            stepCounter: b9efa042-86ff-4e8d-b158-0504a503e975
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: run view
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
@@ -75,6 +103,32 @@ operation:
               - columnCounter: dd554916-8918-4a97-900f-f0ec92ae1134
                 stepCounter: 05ddc075-2c7b-4482-b573-4dd0ed9d9e3a
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ac0effd8-6cc8-4767-8547-34a85acf1b2b
+          stepCounter: b9efa042-86ff-4e8d-b158-0504a503e975
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c7e26630-b6ba-4d83-a58f-4059116f9f95
+          stepCounter: b9efa042-86ff-4e8d-b158-0504a503e975
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -99,9 +153,9 @@ operation:
         name: RV_ORDERS_NEW
         noLinkRefs: []
   name: RV_ORDERS_NEW
-  overrideSQL: true
+  overrideSQL: false
   schema: ""
-  sqlType: incremental-loading:::281
+  sqlType: "483"
   type: sql
   version: 1
 type: Node

@@ -11,46 +11,42 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    groupByAll: false
-    insertStrategy: UNION ALL
-    lastModifiedComparison: false
-    orderby: false
-    orderbycolumn:
+    createas: table
+    devMode: true
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    orderBy:
       items:
-        - {}
-    postSQL: ""
-    preSQL: ""
-    selectDistinct: false
-    testsEnabled: false
-    treatNullAsCurrentTimestamp: false
-    truncateBefore: false
-    type2Dimension: false
+        - colName:
+            columnCounter: c8da4a65-59fe-48d8-8bb9-0dde2ef962b6
+            stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: ee31f725-7aa7-4ffb-8bf0-dd44e566596a
+            stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create or Replace
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: ""
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: MEDIUM
+    sourceType: Table
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: task
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: ccc55cd7-4056-4977-8f32-41d1f1778b2b
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: PSTG_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: ee31f725-7aa7-4ffb-8bf0-dd44e566596a
@@ -114,74 +110,6 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 52d3fb5f-8598-4cea-9703-c33868db40e0
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 7b6a7c1b-f6a4-45ff-a8c3-a8e8a0ceaf4b
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0380d556-b096-46f5-8a8d-a7def903676c
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4a6c6855-eff9-4951-8e69-3fc3238a59b6
-          stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
           columnCounter: 5b1cb913-3b56-4d2a-b6e6-2f4a309e594c
           stepCounter: df9baa30-d248-425f-bfe2-ae9bba0eec12
         config: {}
@@ -228,7 +156,7 @@ operation:
   name: PSTG_ORDERS_NEW
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::391
+  sqlType: "483"
   type: sql
   version: 1
 type: Node
