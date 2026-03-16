@@ -312,10 +312,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SOURCE_DATA
+          - locationName: TARGET_ACC
             nodeName: CUSTOMER
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_ACC', 'CUSTOMER') }} "CUSTOMER"
         name: TSKDIM_CUSTOMER_ENHANCED_MINUTE
         noLinkRefs: []
   name: TSKDIM_CUSTOMER_ENHANCED_MINUTE

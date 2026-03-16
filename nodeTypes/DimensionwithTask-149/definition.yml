@@ -104,7 +104,7 @@ metadata:
           attributeName: orderby
           type: toggleButton
           default: false
-          enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+          enableIf: ""
 
         - type: tabular
           displayName: 'Sort column'
@@ -249,7 +249,7 @@ metadata:
           - Minutes
           - CRON
           - Predecessor
-        isRequired: TRUE
+        isRequired: true
 
       - type: tabular
         displayName: 'Execution Time'
@@ -283,7 +283,7 @@ metadata:
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption == 'CRON' %} true {% else %} false {% endif %}"
 
-      - displayName: Enter predecessor task(s) seperated by a comma 
+      - displayName: Enter predecessor task(s) separated by a comma 
         attributeName: predTask
         type: textBox
         default: 'DATA_TRANSFORMATION_ROOT_TASK'

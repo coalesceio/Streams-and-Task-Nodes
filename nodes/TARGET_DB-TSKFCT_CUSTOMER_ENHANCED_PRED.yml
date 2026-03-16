@@ -1,14 +1,16 @@
 fileVersion: 1
-id: d956a5b8-9000-4e96-b07f-6d5b9a377737
-name: TSKDIM_CUSTOMER_ENHANCED_PRED
+id: 16c508a7-580b-42dd-8d27-3cec07fe99ce
+name: TSKFCT_CUSTOMER_ENHANCED_PRED
 operation:
   config:
     autoRetryToggle: true
     autoSuspendToggle: true
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: c55c5c9a-3cf1-458a-9846-38d585bfaf64
+            stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -19,12 +21,12 @@ operation:
     errNotifyToggle: true
     execTime:
       items:
-        - period: Minutes
+        - period: Seconds
           value: "60"
-    flagSrcStream: false
+    flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
-    maxServerlessSize: 4. LARGE
+    maxServerlessSize: 6. XXLARGE
     minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
     numFailures: "10"
@@ -37,7 +39,7 @@ operation:
     retryAttmpt: "0"
     rootTask: TGCR_NODE
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriodOption: Minutes
+    schedulePeriodOption: Predecessor
     schedulingMode: Serverless Task
     selectDistinct: true
     serverlessSize: 3. MEDIUM
@@ -45,9 +47,9 @@ operation:
     spfcUserToggle: true
     succIntName: my_sns_integration
     successNotifyToggle: true
-    taskGraphToggle: false
+    taskGraphToggle: true
     userName: anandhis
-    whName: COMPUTE_WH
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -57,27 +59,10 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4dfb4d81-c66b-4f81-878b-758c88b201d7
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: TSKDIM_CUSTOMER_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e191dd58-babc-4ac1-a7a2-8f85e07f3dd3
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: 7f8a06ef-4b15-464e-b20c-3b3fa4e3024a
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -91,12 +76,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0a39a4ac-6d1d-449d-8586-5859d4f5d534
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: c55c5c9a-3cf1-458a-9846-38d585bfaf64
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: VARCHAR(25)
         description: ""
-        isChangeTracking: true
+        isBusinessKey: true
         name: C_NAME
         nullable: true
         sourceColumnReferences:
@@ -106,8 +91,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 69306fb8-2bd4-495a-b479-db3911dcefde
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: 581e4b97-1519-476d-b25f-4b90841c3681
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: VARCHAR(40)
         description: ""
@@ -120,8 +105,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 08088360-df57-4711-b7c1-3b36d9a24034
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: 3d7aa61a-6407-42a0-bb5b-a357e35235af
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -134,8 +119,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2ffb2d60-657a-49f7-b6c5-7d0f4d3ef58c
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: b9005a0e-9202-4c5c-8038-d0e9340d81ed
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -148,8 +133,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6cc2a34d-1695-408c-957d-0c805a776e12
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: 962baa12-d407-4b0d-a1e6-c02089a86e2e
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -162,8 +147,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2503caf0-1e3e-47c8-b8f9-4a633806ecc4
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: 71d1c815-75b5-46be-8287-479d43476fc9
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: VARCHAR(10)
         description: ""
@@ -176,8 +161,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d5188b80-e2fd-4ddb-b530-ff72bd3f098b
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: e26c8331-a3da-41f2-9c7d-0b53e8838086
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: VARCHAR(117)
         description: ""
@@ -190,8 +175,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c8196bc1-d721-49ea-b8d0-7e065f4ec812
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: 84761d43-b427-4e98-98dc-ea7a63add56e
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -207,76 +192,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 030c92a5-5a54-41f7-ad31-91d936f86495
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 74931965-311d-4044-8333-2c1d080015a9
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: d8b48060-e73a-4ffb-b06c-9cd7b7af9b82
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 94ad57ab-cd08-41fb-9105-00a9bea6c75d
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 1545d059-c1ce-4da0-aac3-f9a99ba7ffeb
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: c94ae5de-401e-4644-8c5c-be525b734870
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -292,8 +209,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 602ef2cd-2791-4450-902e-b13a5664ef1e
-          stepCounter: d956a5b8-9000-4e96-b07f-6d5b9a377737
+          columnCounter: 7b37cb44-5836-497c-b420-70b8e61aaf60
+          stepCounter: 16c508a7-580b-42dd-8d27-3cec07fe99ce
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -320,12 +237,12 @@ operation:
           joinCondition: |-
             FROM {{ ref('TARGET_ACC', 'CUSTOMER') }} "CUSTOMER"
             --FROM {{ ref('TARGET_DB', 'TGCR_NODE') }} "ROOT"
-        name: TSKDIM_CUSTOMER_ENHANCED_PRED
+        name: TSKFCT_CUSTOMER_ENHANCED_PRED
         noLinkRefs: []
-  name: TSKDIM_CUSTOMER_ENHANCED_PRED
+  name: TSKFCT_CUSTOMER_ENHANCED_PRED
   overrideSQL: false
   schema: ""
-  sqlType: "149"
+  sqlType: "150"
   type: sql
   version: 1
 type: Node

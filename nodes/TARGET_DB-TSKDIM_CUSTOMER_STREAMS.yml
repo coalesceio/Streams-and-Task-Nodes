@@ -349,15 +349,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          STREAM_CUSTOMER: 083d4f56-098d-4d08-8ec3-40d46371385b
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_ACC
             nodeName: STREAM_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'STREAM_CUSTOMER') }} "STREAM_CUSTOMER"
+          joinCondition: |
+            FROM {{ ref('TARGET_ACC', 'STREAM_CUSTOMER') }} "STREAM_CUSTOMER"
         name: TSKDIM_CUSTOMER_STREAMS
         noLinkRefs: []
   name: TSKDIM_CUSTOMER_STREAMS

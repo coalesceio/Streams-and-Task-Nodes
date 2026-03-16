@@ -3,14 +3,34 @@ id: 45120d2a-849a-45b5-afff-86667a1ce8db
 name: TGCR_NODE
 operation:
   config:
-    mflagSrcStream: false
+    autoRetryToggle: true
+    autoSuspendToggle: true
+    configJSON: "{\"environment\":\"production\", \"dir\":\"/my_prod_directory/\"}"
+    errIntName: my_sns_integration
+    errNotifyToggle: true
+    execTime:
+      items:
+        - period: Hours
+          value: "60"
+    maxServerlessSize: 6. XXLARGE
+    mflagSrcStream: true
+    minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
+    numFailures: "10"
+    overlapExecToggle: true
+    retryAttmpt: "0"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Minutes
+    schedulePeriodOption: CRON
     schedulingMode: Warehouse Task
-    serverlessSize: MEDIUM
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: true
+    spfcUserToggle: true
+    succIntName: my_sns_integration
+    successNotifyToggle: true
+    taskGraphToggle: true
     tskSql: select current_timestamp()
+    userName: anandhis
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
@@ -24,12 +44,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STREAM_CUSTOMER: 083d4f56-098d-4d08-8ec3-40d46371385b
         customSQL:
           customSQL: ""
-        dependencies: []
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STREAM_CUSTOMER
         join:
-          joinCondition: ""
+          joinCondition: FROM {{ ref('TARGET_DB', 'STREAM_CUSTOMER') }} "STREAM_CUSTOMER"
         name: TGCR_NODE
         noLinkRefs: []
   name: TGCR_NODE

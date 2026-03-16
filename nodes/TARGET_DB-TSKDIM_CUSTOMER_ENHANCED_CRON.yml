@@ -25,7 +25,7 @@ operation:
     groupByAll: false
     insertStrategy: UNION
     maxServerlessSize: 4. LARGE
-    minServerlessSize: 2. SMALL
+    minServerlessSize: 4. LARGE
     multiStreamBehavior: AND
     numFailures: "10"
     orderby: false
@@ -37,7 +37,7 @@ operation:
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriodOption: CRON
+    schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: true
     serverlessSize: 3. MEDIUM
@@ -312,10 +312,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SOURCE_DATA
+          - locationName: TARGET_ACC
             nodeName: CUSTOMER
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_ACC', 'CUSTOMER') }} "CUSTOMER"
         name: TSKDIM_CUSTOMER_ENHANCED_CRON
         noLinkRefs: []
   name: TSKDIM_CUSTOMER_ENHANCED_CRON

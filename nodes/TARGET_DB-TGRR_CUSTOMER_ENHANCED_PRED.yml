@@ -280,9 +280,19 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
+            nodeName: SIM_CUSTOMER_PRED
+          - locationName: TARGET_DB
             nodeName: TSKDIM_CUSTOMER_ENHANCED_PRED
+          - locationName: TARGET_DB
+            nodeName: TSKFCT_CUSTOMER_ENHANCED_PRED
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_CUSTOMER_ENHANCED_PRED
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'TSKDIM_CUSTOMER_ENHANCED_PRED') }} "TSKDIM_CUSTOMER_ENHANCED_PRED"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'TSKDIM_CUSTOMER_ENHANCED_PRED') }} "TSKDIM_CUSTOMER_ENHANCED_PRED"
+            -- FROM {{ ref('TARGET_DB', 'TSKFCT_CUSTOMER_ENHANCED_PRED') }} "TSKFCT_CUSTOMER_ENHANCED_PRED"
+            -- FROM {{ ref('TARGET_DB', 'TSKWRK_CUSTOMER_ENHANCED_PRED') }} "TSKWRK_CUSTOMER_ENHANCED_PRED"
+            -- FROM {{ ref('TARGET_DB', 'SIM_CUSTOMER_PRED') }} "SIM_CUSTOMER_PRED"
         name: TGRR_CUSTOMER_ENHANCED_PRED
         noLinkRefs: []
   name: TGRR_CUSTOMER_ENHANCED_PRED

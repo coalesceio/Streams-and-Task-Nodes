@@ -747,10 +747,10 @@ does not permit copying or modification for any other purpose.
             {% endif %}
 		  {%- endif -%}
         {%- else -%}
-            {% set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize.split('.')[1] -%}
+            {% set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + getServerSize(desiredState.config.serverlessSize) -%}
             {%- if desiredState.config.sizeBoundToggle -%}
-                {% set minSrvSize = 'SERVERLESS_TASK_MIN_STATEMENT_SIZE = ' + desiredState.config.minServerlessSize.split('.')[1] -%}
-                {% set maxSrvSize = 'SERVERLESS_TASK_MAX_STATEMENT_SIZE = ' + desiredState.config.maxServerlessSize.split('.')[1] -%}
+                {% set minSrvSize = 'SERVERLESS_TASK_MIN_STATEMENT_SIZE = ' + getServerSize(desiredState.config.minServerlessSize) -%}
+                {% set maxSrvSize = 'SERVERLESS_TASK_MAX_STATEMENT_SIZE = ' + getServerSize(desiredState.config.maxServerlessSize) -%}
             {%- endif -%} 
         {%- endif -%}
 
