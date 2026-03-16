@@ -1,5 +1,14 @@
 fileVersion: 1
 id: "732"
-mappingDefinitions: {}
+mappingDefinitions:
+  SOURCE_DATA:
+    database: TANVI_DEV
+    schema: SOURCE
+  TARGET_ACC:
+    database: TANVI_DEV
+    schema: QA_PHASE2
+  TARGET_DB:
+    database: TANVI_DEV
+    schema: QA_PHASE
 name: NM-209-TaskEnhancement
 type: Environment

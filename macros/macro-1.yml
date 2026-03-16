@@ -168,8 +168,7 @@ macroString: |-
    
   {% endmacro %}
 
-  {#-- The below block of code initializes metadata changes variables for the display #}
-  {#-- ===============================================================================#}
+
   {% macro update_metadata(tag, diff, label) %}
       {% set nsMetaVariables.metadataUpdate = nsMetaVariables.metadataUpdate + '-' + tag %}
 
@@ -245,5 +244,76 @@ macroString: |-
           -- ⚠️ Warning: This node is used for data quality checks and may not represent the final static schema. Deployment or execution could fail or interrupt email notifications.
       {%- endif %}
   {% endmacro %}
+
+  {####################################################################################################################################
+  Input: namespace – An object containing optional advanced configuration properties related to Snowflake task creation.
+  Description: This macro centralizes the logic for handling advanced Snowflake task configuration.
+  Output: A dynamically constructed SQL fragment containing all valid advanced task creation attributes derived from the provided namespace.
+  ######################################################################################################################################}
+  {% macro getadvancedTaskOptions(ns) %}
+      {%- set ns.nodeComment = "COMMENT = '" ~ node.description | trim ~ "'" if node.description | default('') | trim else "" %}
+
+      {%- if config.spfcUserToggle -%}
+          {%- if parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
+              {%- set ns.userServiceAcct  = 'EXECUTE AS USER ' + config.userName | trim %}
+          {%- else -%}
+              {%- set ns.userServiceAcct = 'EXECUTE AS USER ' + parameters.targetTaskExecuteAsUser | default('') %}
+          {%- endif -%}
+      {%- endif -%}
+
+      {%- if config.schedulePeriodOption not in ['Predecessor'] %}
+
+          {%- if config.autoSuspendToggle %}
+              {%- set ns.suspendTask = 'SUSPEND_TASK_AFTER_NUM_FAILURES = ' + config.numFailures | trim %}
+          {%- endif -%}
+
+          {%- if config.autoRetryToggle -%}
+              {%- set ns.autoTry = 'TASK_AUTO_RETRY_ATTEMPTS = ' + config.retryAttmpt | trim %}
+          {%- endif -%}
+
+          {%- set ns.overLapExec = 'ALLOW_OVERLAPPING_EXECUTION  = ' + config.overlapExecToggle | string %}
+
+          {%- if config.taskGraphToggle -%}
+              {%- set ns.configJSON = 'CONFIG = $$' + config.configJSON | trim + '$$' %}
+          {%- endif -%}
+
+          {%- if config.errNotifyToggle -%}
+              {%- if parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
+                  {%- set ns.errorIntegration = 'ERROR_INTEGRATION = ' + config.errIntName | trim %}
+              {%- else -%}
+                  {%- set ns.errorIntegration = 'ERROR_INTEGRATION = ' + parameters.targetTaskErrorIntegration | default('') %}
+              {%- endif -%}
+          {%- endif -%}
+
+          {%- if config.successNotifyToggle -%}
+              {% if parameters.targetTaskSuccessIntegration | default('') == 'DEV ENVIRONMENT' -%}
+                  {%- set ns.successIntegration = 'SUCCESS_INTEGRATION = ' + config.succIntName | trim %}
+              {%- else -%}
+                  {%- set ns.successIntegration = 'SUCCESS_INTEGRATION = ' + parameters.targetTaskSuccessIntegration | default('') %}
+              {%- endif -%}
+          {%- endif -%}
+
+      {%- endif -%}
+  {% endmacro %}
+
+  {####################################################################################################################################
+  Input: serverlessSize (string)
+
+  Output: Returns the server size only (e.g., XSMALL).
+
+  Description:
+      Handles both old and new formats safely.
+      If the value contains a '.', it returns the part after the dot.
+      If there is no '.', it returns the value as-is.
+      Returns nothing if input is missing.
+  ######################################################################################################################################}
+  {%- macro getServerSize(serverlessSize) %}
+
+      {%- if serverlessSize %}
+          {%- set parts = serverlessSize.split('.') %}
+          {{ parts[-1] }}
+      {%- endif %}
+
+  {%- endmacro %}
 name: macro
 type: Macro
