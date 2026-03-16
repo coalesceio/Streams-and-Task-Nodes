@@ -168,7 +168,8 @@ macroString: |-
    
   {% endmacro %}
 
-
+  {#-- The below block of code initializes metadata changes variables for the display #}
+  {#-- ===============================================================================#}
   {% macro update_metadata(tag, diff, label) %}
       {% set nsMetaVariables.metadataUpdate = nsMetaVariables.metadataUpdate + '-' + tag %}
 

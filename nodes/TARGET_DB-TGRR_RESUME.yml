@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 028e80f4-5752-490d-b357-7bffe30c5129
-name: TGRR_CUSTOMER_ENHANCED_PRED
+name: TGRR_RESUME
 operation:
   config:
     rootTask: TGCR_NODE
@@ -293,9 +293,9 @@ operation:
             -- FROM {{ ref('TARGET_DB', 'TSKFCT_CUSTOMER_ENHANCED_PRED') }} "TSKFCT_CUSTOMER_ENHANCED_PRED"
             -- FROM {{ ref('TARGET_DB', 'TSKWRK_CUSTOMER_ENHANCED_PRED') }} "TSKWRK_CUSTOMER_ENHANCED_PRED"
             -- FROM {{ ref('TARGET_DB', 'SIM_CUSTOMER_PRED') }} "SIM_CUSTOMER_PRED"
-        name: TGRR_CUSTOMER_ENHANCED_PRED
+        name: TGRR_RESUME
         noLinkRefs: []
-  name: TGRR_CUSTOMER_ENHANCED_PRED
+  name: TGRR_RESUME
   overrideSQL: false
   schema: ""
   sqlType: "155"
