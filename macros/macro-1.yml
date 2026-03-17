@@ -255,7 +255,7 @@ macroString: |-
       {%- set ns.nodeComment = "COMMENT = '" ~ node.description | trim ~ "'" if node.description | default('') | trim else "" %}
 
       {%- if config.spfcUserToggle -%}
-          {%- if parameters.targetTaskErrorIntegration | default('') == 'DEV ENVIRONMENT' -%}
+          {%- if parameters.targetTaskExecuteAsUser | default('') == 'DEV ENVIRONMENT' -%}
               {%- set ns.userServiceAcct  = 'EXECUTE AS USER ' + config.userName | trim %}
           {%- else -%}
               {%- set ns.userServiceAcct = 'EXECUTE AS USER ' + parameters.targetTaskExecuteAsUser | default('') %}

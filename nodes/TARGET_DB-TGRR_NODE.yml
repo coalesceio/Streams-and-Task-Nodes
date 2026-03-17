@@ -1,0 +1,79 @@
+fileVersion: 1
+id: acb2d537-f683-4243-94bc-cd533c26d589
+name: TGRR_NODE
+operation:
+  config:
+    rootTask: TGCR_NODE
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 176db9e4-592a-48ac-a091-851f6eebb22d
+          stepCounter: acb2d537-f683-4243-94bc-cd533c26d589
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 970cc89f-3742-411e-b8e8-16d47ef84c40
+          stepCounter: acb2d537-f683-4243-94bc-cd533c26d589
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: DSM_CUSTOMER_PRED
+          - locationName: TARGET_DB
+            nodeName: TIM_CUSTOMER_TC_PRED
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_CUSTOMER_PRED
+          - locationName: TARGET_DB
+            nodeName: TSKFCT_CUSTOMER_PRED
+        join:
+          joinCondition: |-
+            --FROM {{ ref('TARGET_DB', 'DSM_CUSTOMER_PRED') }} "DSM_CUSTOMER_PRED"
+            --FROM {{ ref('TARGET_DB', 'TSKDIM_CUSTOMER_PRED') }} "TSKDIM_CUSTOMER_PRED"
+            --FROM {{ ref('TARGET_DB', 'TSKFCT_CUSTOMER_PRED') }} "TSKFCT_CUSTOMER_PRED"
+            --FROM {{ ref('TARGET_DB', 'TIM_CUSTOMER_TC_PRED') }} "TIM_CUSTOMER_TC_PRED"
+        name: TGRR_NODE
+        noLinkRefs: []
+  name: TGRR_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,63 @@
+fileVersion: 1
+id: ea514770-00b7-4684-8444-bfac687af9a6
+name: TGCR_NODE_TT
+operation:
+  config:
+    autoRetryToggle: true
+    autoSuspendToggle: true
+    configJSON: "{\"environment\":\"production\", \"dir\":\"/my_prod_directory/\"}"
+    errIntName: my_sns_integration
+    errNotifyToggle: true
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
+    maxServerlessSize: 6. XXLARGE
+    mflagSrcStream: false
+    minServerlessSize: 1. XSMALL
+    multiStreamBehavior: AND
+    numFailures: "10"
+    overlapExecToggle: true
+    retryAttmpt: "0"
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriodOption: Triggered task
+    schedulingMode: Serverless Task
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    spfcUserToggle: true
+    succIntName: my_sns_integration
+    successNotifyToggle: true
+    taskGraphToggle: true
+    tskSql: select current_timestamp()
+    userName: tkamat
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STREAM_CUSTOMER: ae440e44-2d57-4b65-91c7-fb502356ce2c
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STREAM_CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'STREAM_CUSTOMER') }} "STREAM_CUSTOMER"
+        name: TGCR_NODE_TT
+        noLinkRefs: []
+  name: TGCR_NODE_TT
+  overrideSQL: false
+  schema: ""
+  sqlType: "154"
+  type: sql
+  version: 1
+type: Node

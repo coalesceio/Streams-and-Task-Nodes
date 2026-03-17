@@ -1,0 +1,60 @@
+fileVersion: 1
+id: dacfa03b-1ea0-4fbe-89c0-cda840673092
+name: TGCR_NODE
+operation:
+  config:
+    autoRetryToggle: true
+    autoSuspendToggle: true
+    configJSON: "{\"environment\":\"production\", \"dir\":\"/my_prod_directory/\"}"
+    errIntName: my_sns_integration
+    errNotifyToggle: true
+    execTime:
+      items:
+        - period: Hours
+          value: "60"
+    maxServerlessSize: 6. XXLARGE
+    mflagSrcStream: false
+    minServerlessSize: 1. XSMALL
+    multiStreamBehavior: AND
+    numFailures: "10"
+    overlapExecToggle: true
+    retryAttmpt: "0"
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriodOption: CRON
+    schedulingMode: Serverless Task
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: true
+    spfcUserToggle: true
+    succIntName: my_sns_integration
+    successNotifyToggle: true
+    taskGraphToggle: true
+    tskSql: select current_timestamp()
+    userName: tkamat
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: TGCR_NODE
+        noLinkRefs: []
+  name: TGCR_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "154"
+  type: sql
+  version: 1
+type: Node

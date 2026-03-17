@@ -223,7 +223,7 @@ metadata:
 
       - type: label
         attributeName: boundErr
-        displayName: "⚠️ Min size ≤ Initial size ≤ Max size"
+        displayName: "⚠️ Warning! Min size ≤ Initial size ≤ Max size"
         enableIf: "{% if config.schedulingMode == 'Serverless Task'
                       and config.sizeBoundToggle
                       and 
