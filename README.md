@@ -188,22 +188,7 @@ The Work with Task node has two or three configuration groups depending on confi
 
 ### Work With Task Deployment
 
-#### Work With Task Deployment Parameters
-
-The Work with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
-
-<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
-
-| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
-|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
-| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
-| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
-| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
-| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
-| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
-| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
-| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Work With Task Initial Deployment
 
@@ -405,22 +390,7 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 ### Dimension With Task Deployment
 
-#### Dimenson With Task Deployment Parameters
-
-The Dimenson with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
-
-<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
-
-| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
-|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
-| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
-| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
-| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
-| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
-| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
-| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
-| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Dimension With Task Initial Deployment
 
@@ -620,22 +590,7 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 ### Fact With Task Deployment
 
-#### Fact With Task Deployment Parameters
-
-The Fact with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
-
-<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
-
-| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
-|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
-| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
-| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
-| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
-| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
-| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
-| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
-| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Fact With Task Initial Deployment
 
@@ -810,22 +765,7 @@ The Task DAG Create Root node has two configuration groups:
 
 ### Task DAG Create Root Deployment
 
-#### Task DAG Create Root Deployment Parameters
-
-The DAG Create Root with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
-
-<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
-
-| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
-|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
-| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
-| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
-| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
-| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
-| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
-| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
-| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Task DAG Create Root Initial Deployment
 
@@ -1102,22 +1042,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 ### Stream and Insert or Merge Deployment
 
-#### Stream and Insert or Merge Deployment Parameters
-
-The Stream and Insert or Merge includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
-
-<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
-
-| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
-|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
-| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
-| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
-| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
-| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
-| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
-| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
-| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Stream and Insert or Merge Initial Deployment
 
@@ -1380,22 +1305,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 ### Delta Stream Merge Deployment
 
-#### Delta Stream Merge Deployment Parameters
-
-The Delta Stream Merge includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
-
-<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
-
-| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
-|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
-| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
-| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
-| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
-| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
-| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
-| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
-| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Delta Stream Merge Initial Deployment
 
@@ -1566,22 +1476,7 @@ The Insert or Merge with Task node has the following configuration groups:
 
 ### Insert or Merge with Task Deployment
 
-#### Insert or Merge with Task Deployment Parameters
-
-The Insert or Merge with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
-
-<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
-
-| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
-|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
-| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
-| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
-| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
-| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
-| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
-| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
-| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
-| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Insert or Merge with Task Initial Deployment
 
@@ -1674,7 +1569,48 @@ Please review the documented limitations before performing a node type switch to
 | 11 | Stream | Any Other (and vice versa) | Snowflake CDC metadata columns (`METADATA$ACTION`, `METADATA$ISUPDATE`, `METADATA$ROW_ID`) are not automatically managed. They are neither removed nor added when there's a node type switch |
 
 --------------
+## Prerequisites to Use Task Scheduling Options
 
+### 1. Task Deployment Parameters
+
+The task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
+
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
+
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
+
+### 2. Using EXECUTE AS USER
+
+You must have:
+
+- `ACCOUNTADMIN` role (recommended)
+ 
+```sql
+GRANT IMPERSONATE ON USER <user_name> TO ROLE SYSADMIN;
+```
+
+### 3. Create the Notification Integration
+```sql
+CREATE OR REPLACE NOTIFICATION INTEGRATION my_sns_integration
+  TYPE = QUEUE
+  NOTIFICATION_PROVIDER = AWS_SNS
+  ENABLED = TRUE
+  AWS_SNS_TOPIC_ARN = '<your_sns_topic_arn>'
+  AWS_SNS_ROLE_ARN = '<your_iam_role_arn>';
+```
+
+Please refer [this documentation](https://docs.snowflake.com/en/user-guide/notifications/about-notifications) for more info about notifications.
+
+-------------
 
 ## Code
 
