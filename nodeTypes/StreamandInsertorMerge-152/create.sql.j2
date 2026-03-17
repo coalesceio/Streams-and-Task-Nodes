@@ -1,15 +1,12 @@
 {#Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
 Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
-Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
 does not permit copying or modification for any other purpose.  
-#}  
-{# == Node Type Version        : 1.1  == #}
+#} 
 {# == Node Type Name           : Stream and Insert or Merge == #}
 {# == Node Type Description    : This node creates and deploys a stream on top of a table, view or external table.Also provides option to create a target table/transient  able to insert or merge data from source with a task on top of it.
 == #}
-
- {#Release date:20250114  Released By:PM  Description: Added support for Dynamic Table as a source #}
 
 {# Parameter Check for Deployment #}
 {%if desiredState and currentState != desiredState and desiredState.config.schedulingMode == 'Warehouse Task' %}
@@ -756,20 +753,30 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
                {% endif %}
             {%- else -%}
-                {%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + desiredState.config.serverlessSize -%}
+                {% set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + getServerSize(desiredState.config.serverlessSize) -%}
+                {%- if desiredState.config.sizeBoundToggle -%}
+                    {% set minSrvSize = 'SERVERLESS_TASK_MIN_STATEMENT_SIZE = ' + getServerSize(desiredState.config.minServerlessSize) -%}
+                    {% set maxSrvSize = 'SERVERLESS_TASK_MAX_STATEMENT_SIZE = ' + getServerSize(desiredState.config.maxServerlessSize) -%}
+                {%- endif -%} 
             {%- endif -%}
  
             {# Schedule Type #}
             {%- if desiredState.config.schedulePeriodOption == 'Minutes' -%}
-                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + desiredState.config.schedulePeriod + ' MINUTE' + "'" -%}
-            {% elif desiredState.config.schedulePeriodOption == 'CRON' %}
-                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON + "'" %}
+            {%- set execValue = desiredState.config.execTime.get('items')
+                                    | map(attribute='value')
+                                    | first %}
+            {%- set execPeriod = desiredState.config.execTime.get('items')
+                                    | map(attribute='period')
+                                    | first %}
+            {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + execValue | trim ~ ' ' ~ execPeriod | trim + "'" %}
+        {% elif desiredState.config.schedulePeriodOption == 'CRON' %}
+            {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON | trim + "'" %}
             {%- else -%}
                 {%- set nsVariables.taskWhenRun = 'AFTER ' -%}
                 {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
  
                 {%- for p in predecessorTasks -%}
-                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p + '"'-%}
+                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p + '"' -%}
                     {%- if not loop.last -%}
                         {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
                     {%- endif %}
@@ -816,12 +823,48 @@ does not permit copying or modification for any other purpose.
                 {%- set nsVariables.tableKey = desiredState.config.partitionBy.get('items') %}
                 {% set nsVariables.tableKey = nsVariables.tableKey | map(attribute='partColName.name') | list %}
             {%- endif -%}
+
+            {%- set nsTaskVar = namespace(nodeComment='',
+                                        userServiceAcct='',
+                                        suspendTask='',
+                                        autoTry='',
+                                        overLapExec='',
+                                        configJSON='',
+                                        errorIntegration='',
+                                        successIntegration='') %}
+            {{ getadvancedTaskOptions(nsTaskVar) }}
  
             {{ stage('Create Task',true,"sql","create") }}
             CREATE OR REPLACE TASK
                 {{ fullyQualifiedTaskName }}
-                {{ taskType}}
-                {{ nsVariables.taskWhenRun }}
+                {{ taskType }}
+                {% if desiredState.config.schedulingMode == 'Serverless Task' and desiredState.config.sizeBoundToggle -%}
+                    {{ minSrvSize }}
+                    {{ maxSrvSize }}
+                {% endif -%}
+                    {{ nsVariables.taskWhenRun }}
+                {{ nsTaskVar.nodeComment }}
+                {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}
+                    {{ nsTaskVar.overLapExec }}
+                    {%- if desiredState.config.autoSuspendToggle %}
+                    {{ nsTaskVar.suspendTask }}
+                    {%- endif %}
+                    {%- if desiredState.config.autoRetryToggle %}
+                        {{ nsTaskVar.autoTry }}
+                    {%- endif %}
+                    {%- if desiredState.config.taskGraphToggle %}
+                        {{ nsTaskVar.configJSON }}
+                    {%- endif %}
+                {%- if desiredState.config.errNotifyToggle %}
+                    {{ nsTaskVar.errorIntegration }}
+                {%- endif %}
+                {%- if desiredState.config.successNotifyToggle %}
+                    {{ nsTaskVar.successIntegration }}
+                {%- endif %}
+                {%- endif %}
+                {%- if desiredState.config.spfcUserToggle %}
+                    {{ nsTaskVar.userServiceAcct }}
+                {%- endif %}
                 {% if nsVariables.poll != 'WHEN ' %} {{ nsVariables.poll }} {% endif %}
             AS
         {% if desiredState.config.loadType == 'Insert' -%}

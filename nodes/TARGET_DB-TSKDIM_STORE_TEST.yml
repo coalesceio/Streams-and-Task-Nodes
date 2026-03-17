@@ -1,8 +1,10 @@
 fileVersion: 1
 id: 37ad2f55-bff6-48af-80f7-0b2d672aa707
-name: TSKDIM_STORE
+name: TSKDIM_STORE_TEST
 operation:
   config:
+    autoRetryToggle: true
+    autoSuspendToggle: true
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -11,23 +13,41 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: true
+    configJSON: "{\"environment\":\"production\", \"dir\":\"/my_prod_directory/\"}"
+    devMode: false
+    errIntName: my_sns_integration
+    errNotifyToggle: true
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
     flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
+    numFailures: "10"
     orderby: false
     orderbycolumn:
       items:
         - {}
+    overlapExecToggle: true
     predTask: DATA_TRANSFORMATION_ROOT_TASK
+    retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
+    schedulingMode: Serverless Task
     selectDistinct: false
-    serverlessSize: MEDIUM
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: true
+    spfcUserToggle: true
+    succIntName: my_sns_integration
+    successNotifyToggle: true
+    taskGraphToggle: true
+    userName: tkamat
     whName: compute_wh
   database: ""
   deployEnabled: true
@@ -225,9 +245,9 @@ operation:
             nodeName: TSKWRK_STORE
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'TSKWRK_STORE') }} "TSKWRK_STORE"
-        name: TSKDIM_STORE
+        name: TSKDIM_STORE_TEST
         noLinkRefs: []
-  name: TSKDIM_STORE
+  name: TSKDIM_STORE_TEST
   overrideSQL: false
   schema: ""
   sqlType: "149"
