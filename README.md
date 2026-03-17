@@ -190,27 +190,20 @@ The Work with Task node has two or three configuration groups depending on confi
 
 #### Work With Task Deployment Parameters
 
-The Work with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Work with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
 
-The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
 
-When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run the task will be used when creating the task.
-
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
 
 #### Work With Task Initial Deployment
 
@@ -414,27 +407,20 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 #### Dimenson With Task Deployment Parameters
 
-The Dimenson with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Dimenson with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
 
-The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
 
-When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run the task will be used when creating the task.
-
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
 
 #### Dimension With Task Initial Deployment
 
@@ -636,27 +622,20 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 #### Fact With Task Deployment Parameters
 
-The Fact with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Fact with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
 
-The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
 
-When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run task will be used when creating the task.
-
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
 
 #### Fact With Task Initial Deployment
 
@@ -833,25 +812,20 @@ The Task DAG Create Root node has two configuration groups:
 
 #### Task DAG Create Root Deployment Parameters
 
-The parameter name is `targetTaskWarehouse` and the default value is `DEV ENVIRONMENT`.
+The DAG Create Root with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
 
-When set to `DEV ENVIRONMENT` the value entered in the Scheduling Options config Select Warehouse on which to run task will be used when creating the task.
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
 
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
 
 #### Task DAG Create Root Initial Deployment
 
@@ -1130,25 +1104,20 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 #### Stream and Insert or Merge Deployment Parameters
 
-The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Stream and Insert or Merge includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
 
-The parameter name is `targetTaskWarehouse` with default value `DEV ENVIRONMENT`.
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
 
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
 
 #### Stream and Insert or Merge Initial Deployment
 
@@ -1413,25 +1382,20 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 #### Delta Stream Merge Deployment Parameters
 
-The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Delta Stream Merge includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
 
-The parameter name is `targetTaskWarehouse` with default value `DEV ENVIRONMENT`.
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
 
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
 
 #### Delta Stream Merge Initial Deployment
 
@@ -1604,25 +1568,20 @@ The Insert or Merge with Task node has the following configuration groups:
 
 #### Insert or Merge with Task Deployment Parameters
 
-The Dimension with Task includes an environment parameter that allows you to specify a different warehouse used to run a task in different environments.
+The Insert or Merge with Task includes an environment parameters that allows you to specify a different warehouse used to run a task in different environments.
 
-The parameter name is `targetTaskWarehouse` with default value `DEV ENVIRONMENT`.
+<img width="848" height="247" alt="image" src="https://github.com/user-attachments/assets/de6314cf-32c2-4f04-889c-11f0fbc12dd7" />
 
-```json
-{
-    "targetTaskWarehouse": "DEV ENVIRONMENT"
-}
-```
-
-When set to any value other than `DEV ENVIRONMENT` the node will attempt to create the task using a Snowflake warehouse with the specified value.
-
-For example, with the below setting for the parameter in a QA environment, the task will execute using a warehouse named `compute_wh`.
-
-```json
-{
-    "targetTaskWarehouse": "compute_wh"
-}
-```
+| Parameter Name                 | Config Value       | Refers To / Used From                                      | Behavior                                                                 |
+|--------------------------------|--------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|
+| targetTaskWarehouse            | DEV ENVIRONMENT    | Scheduling Options → Select Warehouse                       | Uses warehouse selected in UI                                            |
+| targetTaskWarehouse            | COMPUTE_WH         | Explicit warehouse name                                     | Uses COMPUTE_WH directly                                                 |
+| targetTaskErrorIntegration     | DEV ENVIRONMENT    | Notification Options → Error Integration                    | Uses error integration from UI                                           |
+| targetTaskErrorIntegration     | <err_int>          | Explicit Error Integration                                  | Uses <err_int> directly                                                  |
+| targetTaskSuccessIntegration   | DEV ENVIRONMENT    | Notification Options → Success Integration                  | Uses success integration from UI                                         |
+| targetTaskSuccessIntegration   | <suc_int>          | Explicit Success Integration                                | Uses <suc_int> directly                                                  |
+| targetTaskExecuteAsUser        | DEV ENVIRONMENT    | Advanced Scheduling Options → Execute As                    | Uses user defined in UI                                                  |
+| targetTaskExecuteAsUser        | <execute_as>       | Explicit Execute As                                         | Uses <execute_as> directly                                               |
 
 #### Insert or Merge with Task Initial Deployment
 
