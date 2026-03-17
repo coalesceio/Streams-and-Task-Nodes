@@ -5,8 +5,8 @@ mappingDefinitions:
     database: TANVI_DEV
     schema: SOURCE
   TARGET_ACC:
-    database: TANVI_DEV
-    schema: QA_PHASE2
+    database: ANANDHIS_DEV
+    schema: SOURCE_DATA
   TARGET_DB:
     database: TANVI_DEV
     schema: QA_PHASE
