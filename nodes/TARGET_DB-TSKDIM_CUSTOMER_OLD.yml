@@ -3,6 +3,8 @@ id: ab4890de-0c69-4a6e-a27e-e8113a3c9b01
 name: TSKDIM_CUSTOMER_OLD
 operation:
   config:
+    autoRetryToggle: false
+    autoSuspendToggle: false
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -11,23 +13,40 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    configJSON: ""
     devMode: false
+    errIntName: ""
+    errNotifyToggle: false
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
+    numFailures: "10"
     orderby: false
     orderbycolumn:
       items:
         - {}
+    overlapExecToggle: false
     predTask: DATA_TRANSFORMATION_ROOT_TASK
+    retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     selectDistinct: false
-    serverlessSize: MEDIUM
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    spfcUserToggle: false
+    succIntName: ""
+    successNotifyToggle: false
+    taskGraphToggle: false
+    userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
@@ -301,7 +320,7 @@ operation:
   name: TSKDIM_CUSTOMER_OLD
   overrideSQL: false
   schema: ""
-  sqlType: streams-and-tasks-243:::149
+  sqlType: "149"
   type: sql
   version: 1
 type: Node
