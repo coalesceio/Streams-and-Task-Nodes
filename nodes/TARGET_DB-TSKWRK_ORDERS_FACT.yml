@@ -28,7 +28,9 @@ operation:
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: MEDIUM
+    spfcUserToggle: false
     truncateBefore: true
+    userName: ""
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true

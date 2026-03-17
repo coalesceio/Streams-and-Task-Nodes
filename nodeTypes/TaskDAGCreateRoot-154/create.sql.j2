@@ -107,8 +107,8 @@ CREATE OR REPLACE TASK
         {{ minSrvSize }}
         {{ maxSrvSize }}
     {% endif -%}
-    {{ nsVariables.taskWhenRun }}
     {{ nsTaskVar.nodeComment }}
+    {{ nsVariables.taskWhenRun }}
     {{ nsTaskVar.overLapExec }}
     {%- if desiredState.config.autoSuspendToggle %}
     {{ nsTaskVar.suspendTask }}
