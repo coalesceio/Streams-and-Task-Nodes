@@ -206,9 +206,9 @@ metadata:
                       and config.sizeBoundToggle
                       and 
                       (
-                        config.minServerlessSize.split('.')[0] | int >= config.serverlessSize.split('.')[0] | int
-                        or config.maxServerlessSize.split('.')[0] | int <= config.serverlessSize.split('.')[0] | int
-                        or config.maxServerlessSize.split('.')[0] | int <= config.minServerlessSize.split('.')[0] | int
+                        config.minServerlessSize.split('.')[0] | int > config.serverlessSize.split('.')[0] | int
+                        or config.maxServerlessSize.split('.')[0] | int < config.serverlessSize.split('.')[0] | int
+                        or config.maxServerlessSize.split('.')[0] | int < config.minServerlessSize.split('.')[0] | int
                       )
                     %} true {% else %} false {% endif %}"
 
@@ -367,12 +367,12 @@ metadata:
         isRequired: false
         enableIf: "{% if config.schedulePeriodOption not in ['Predecessor'] %} true {% else %} false {% endif %}"
 
-      - displayName: Retry Attempts (💡Range. 0 - 30)
+      - displayName: Retry Attempts
         attributeName: retryAttmpt
         type: textBox
         default: '0'
         isRequired: false
-        enableIf: "{% if config.schedulePeriodOption not in ['Predecessor'] and config.autoSuspendToggle %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.schedulePeriodOption not in ['Predecessor'] and config.autoRetryToggle %} true {% else %} false {% endif %}"
 
     - groupName: Notification Options
       enableIf: "{% if config.devMode or config.schedulePeriodOption in ['Predecessor'] %} false {% else %} true {% endif %}"

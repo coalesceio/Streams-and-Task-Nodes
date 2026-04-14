@@ -3,6 +3,10 @@ id: a552130b-9ee0-48d3-a93d-f9affdd10a35
 name: TGCR_FACT_ORDERS
 operation:
   config:
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
     schedulePeriodOption: Minutes

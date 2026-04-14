@@ -19,6 +19,17 @@ operation:
     groupByAll: false
     initialRows: true
     loadType: Merge
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 2d951cb5-9309-45c7-acb6-0067ec67bb57
+            stepCounter: 15f6717e-f627-4e18-aaca-e3f979893aa4
+          sortOrd: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 9c934262-397c-49cf-99c6-39ae2f4c13c9
+            stepCounter: 15f6717e-f627-4e18-aaca-e3f979893aa4
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     redeploymentBehavior: Create or Replace
     rootTask: DATA_TRANSFORMATION_ROOT_TASK

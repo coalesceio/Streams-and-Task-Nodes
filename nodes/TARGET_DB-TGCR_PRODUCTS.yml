@@ -3,6 +3,10 @@ id: 6e53696d-2bc4-4f19-803f-fc9d4850dab8
 name: TGCR_PRODUCTS
 operation:
   config:
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "6000"
     schedulePeriodOption: Minutes

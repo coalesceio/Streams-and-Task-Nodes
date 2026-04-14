@@ -13,6 +13,10 @@ operation:
     clusterKeyExpressions: false
     createas: table
     devMode: false
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
     flagSrcStream: true
     initialRows: true
     latestRowFromSource: false

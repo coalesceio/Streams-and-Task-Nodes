@@ -272,7 +272,11 @@ macroString: |-
               {%- set ns.autoTry = 'TASK_AUTO_RETRY_ATTEMPTS = ' + config.retryAttmpt | trim %}
           {%- endif -%}
 
-          {%- set ns.overLapExec = 'ALLOW_OVERLAPPING_EXECUTION  = ' + config.overlapExecToggle | string %}
+          {%- if config.overlapExecToggle %}
+              {%- set ns.overLapExec = 'OVERLAP_POLICY  =  ALLOW_CHILD_OVERLAP' %}
+          {%- else %}
+              {%- set ns.overLapExec = 'OVERLAP_POLICY  =  NO_OVERLAP' %}
+          {%- endif -%}
 
           {%- if config.taskGraphToggle -%}
               {%- set ns.configJSON = 'CONFIG = $$' + config.configJSON | trim + '$$' %}

@@ -734,10 +734,10 @@ does not permit copying or modification for any other purpose.
 
         {# Schedule Type #}
         {%- if desiredState.config.schedulePeriodOption == 'Minutes' %} 
-            {%- set execValue = desiredState.config.execTime.get('items')
+            {%- set execValue = desiredState.config.get('execTime').get('items')
                                     | map(attribute='value')
                                     | first %}
-            {%- set execPeriod = desiredState.config.execTime.get('items')
+            {%- set execPeriod = desiredState.config.get('execTime').get('items')
                                     | map(attribute='period')
                                     | first %}
             {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + execValue | trim ~ ' ' ~ execPeriod | trim + "'" %}
