@@ -59,7 +59,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: Commented
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task

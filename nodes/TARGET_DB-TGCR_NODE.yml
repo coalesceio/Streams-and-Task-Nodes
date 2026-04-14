@@ -20,10 +20,10 @@ operation:
     overlapExecToggle: true
     retryAttmpt: "0"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriodOption: CRON
+    schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     serverlessSize: 3. MEDIUM
-    sizeBoundToggle: true
+    sizeBoundToggle: false
     spfcUserToggle: true
     succIntName: my_sns_integration
     successNotifyToggle: true

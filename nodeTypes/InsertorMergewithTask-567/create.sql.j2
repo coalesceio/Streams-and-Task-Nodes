@@ -953,8 +953,8 @@
                 {{ minSrvSize }}
                 {{ maxSrvSize }}
             {% endif -%}
-            {{ nsVariables.taskWhenRun }}
             {{ nsTaskVar.nodeComment }}
+            {{ nsVariables.taskWhenRun }}
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}
                 {{ nsTaskVar.overLapExec }}
                 {%- if desiredState.config.autoSuspendToggle %}

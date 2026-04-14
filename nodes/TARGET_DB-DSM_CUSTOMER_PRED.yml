@@ -22,7 +22,7 @@ operation:
       items:
         - period: Hours
           value: "60"
-    flagSrcStream: false
+    flagSrcStream: true
     initialRows: true
     latestRowFromSource: false
     loadType: Merge
@@ -59,7 +59,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: Commented
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
