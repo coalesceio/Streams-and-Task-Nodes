@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 8be6eca7-55a3-4969-9d24-abf022a3e150
-name: SIM_ORDERS1234
+name: SIM_ORDERS12345
 operation:
   config:
     appendOnly: false
@@ -13,7 +13,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: true
+    devMode: false
     flagSrcStream: true
     groupByAll: false
     initialRows: true
@@ -235,9 +235,9 @@ operation:
             nodeName: ORDERS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS') }} "ORDERS"
-        name: SIM_ORDERS1234
+        name: SIM_ORDERS12345
         noLinkRefs: []
-  name: SIM_ORDERS1234
+  name: SIM_ORDERS12345
   overrideSQL: false
   schema: ""
   sqlType: "152"

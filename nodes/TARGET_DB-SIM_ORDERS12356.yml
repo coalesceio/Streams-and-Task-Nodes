@@ -1,6 +1,6 @@
 fileVersion: 1
 id: a1037e82-67ce-4d63-87c2-da5ce96a2cd6
-name: SIM_ORDERS1235
+name: SIM_ORDERS12356
 operation:
   config:
     appendOnly: false
@@ -13,7 +13,11 @@ operation:
         - {}
     clusterKeyExpressions: false
     createas: table
-    devMode: true
+    devMode: false
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
     flagSrcStream: true
     groupByAll: false
     initialRows: true
@@ -30,8 +34,8 @@ operation:
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: ""
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
-    schedulingMode: Warehouse Task
+    schedulePeriodOption: Minutes
+    schedulingMode: Serverless Task
     selectDistinct: false
     serverlessSize: MEDIUM
     sourceType: Table
@@ -234,9 +238,9 @@ operation:
             FROM {{ ref('TARGET_DB', 'SIM_ORDERS1234') }} "SIM_ORDERS1234"
             --ref
             --ref
-        name: SIM_ORDERS1235
+        name: SIM_ORDERS12356
         noLinkRefs: []
-  name: SIM_ORDERS1235
+  name: SIM_ORDERS12356
   overrideSQL: false
   schema: ""
   sqlType: "152"

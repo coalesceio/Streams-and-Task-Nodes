@@ -821,12 +821,16 @@ does not permit copying or modification for any other purpose.
 
         {# Schedule Type #}
         {%- if desiredState.config.schedulePeriodOption == 'Minutes' %}
-            {%- set execValue = desiredState.config.get('execTime').get('items')
-                                    | map(attribute='value')
-                                    | first %}
-            {%- set execPeriod = desiredState.config.get('execTime').get('items')
-                                    | map(attribute='period')
-                                    | first %}
+            {%- set execValue = desiredState.config.get('execTime', {})
+                                .get('items', [])
+                                | map(attribute='value')
+                                | first
+            %}
+            {%- set execPeriod = desiredState.config.get('execTime', {})
+                                .get('items', [])
+                                | map(attribute='period')
+                                | first
+            %}
             {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + execValue | trim ~ ' ' ~ execPeriod | trim + "'" %}
         {% elif desiredState.config.schedulePeriodOption == 'CRON' %}
             {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON | trim + "'" %}
