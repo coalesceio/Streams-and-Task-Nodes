@@ -81,7 +81,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Code](#code)
 ---
 
-## Work with Task
+## WORk With Task
 
 The Coalesce Work with Task UDN is a work node that wraps the standard Coalesce Work node with a Task.
 
@@ -99,7 +99,7 @@ The Work with Task node has two or three configuration groups depending on confi
 * [Options](#work-with-task-options)
 * [Scheduling Options](#work-with-task-scheduling-options) - Visible when Development Mode is false
 
-#### Work with Task Properties
+#### WORk With Task Properties
 
 | **Property** | **Description** |
 |-------------|-----------------|
@@ -108,7 +108,7 @@ The Work with Task node has two or three configuration groups depending on confi
 | **Description** | A description of the Node's purpose |
 | **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-#### Work with Task Options
+#### WORk With Task Options
 
 ![Worktask-opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/2582e574-e368-4c00-8172-b259a86a4548)
 
@@ -444,7 +444,7 @@ Subsequent deployments with changes in table such as add or drop column and chan
 | **Create Task** | Recreates task with new schedule |
 | **Resume Task** | Resumes task with new schedule |
 
-### Redeployment with only metadata changes
+### Redeployment With Only Metadata Changes
 
 Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates when the **Development Mode** is **ON**. A few cases are listed below:
 
@@ -644,7 +644,7 @@ Changes to add or drop column, or change in data type will result in a ALTER, CR
 | **Create Task** | Recreates task |
 | **Resume Task** | Resumes updated task |
 
-### Redeployment with only metadata changes
+### Redeployment With Only Metadata Changes
 
 Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates when the **Development Mode** is **ON**. A few cases are listed below:
 
@@ -1614,19 +1614,19 @@ Please refer [this documentation](https://docs.snowflake.com/en/user-guide/notif
 
 ## Code
 
-### Work with Task Code
+### WORk With Task Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/run.sql.j2)
 
-### Dimension with Task
+### Dimension With Task
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/run.sql.j2)
 
-### Fact with Task
+### Fact With Task
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/FactwithTask-150/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/FactwithTask-150/create.sql.j2)
