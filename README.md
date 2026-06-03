@@ -81,7 +81,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Code](#code)
 ---
 
-## Work with Task
+## WORk With Task
 
 The Coalesce Work with Task UDN is a work node that wraps the standard Coalesce Work node with a Task.
 
@@ -99,16 +99,16 @@ The Work with Task node has two or three configuration groups depending on confi
 * [Options](#work-with-task-options)
 * [Scheduling Options](#work-with-task-scheduling-options) - Visible when Development Mode is false
 
-#### Work with Task Properties
+#### WORk With Task Properties
 
 | **Property** | **Description** |
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-#### Work with Task Options
+#### WORk With Task Options
 
 ![Worktask-opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/2582e574-e368-4c00-8172-b259a86a4548)
 
@@ -188,7 +188,7 @@ The Work with Task node has two or three configuration groups depending on confi
 
 ### Work With Task Deployment
 
-Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Work With Task Initial Deployment
 
@@ -266,7 +266,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Work With Task Undeployment
 
@@ -316,8 +316,8 @@ The Dimension with Task node has two or three configuration groups depending on 
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Dimension With Task Options
 
@@ -390,7 +390,7 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 ### Dimension With Task Deployment
 
-Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Dimension With Task Initial Deployment
 
@@ -444,7 +444,7 @@ Subsequent deployments with changes in table such as add or drop column and chan
 | **Create Task** | Recreates task with new schedule |
 | **Resume Task** | Resumes task with new schedule |
 
-### Redeployment with only metadata changes
+### Redeployment With Only Metadata Changes
 
 Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates when the **Development Mode** is **ON**. A few cases are listed below:
 
@@ -468,7 +468,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Dimension With Task Undeployment
 
@@ -517,8 +517,8 @@ The Fact with Task node has two or three configuration groups depending on confi
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Fact With Task Options
 
@@ -590,7 +590,7 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 ### Fact With Task Deployment
 
-Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Fact With Task Initial Deployment
 
@@ -644,7 +644,7 @@ Changes to add or drop column, or change in data type will result in a ALTER, CR
 | **Create Task** | Recreates task |
 | **Resume Task** | Resumes updated task |
 
-### Redeployment with only metadata changes
+### Redeployment With Only Metadata Changes
 
 Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates when the **Development Mode** is **ON**. A few cases are listed below:
 
@@ -668,7 +668,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Fact With Task Undeployment
 
@@ -716,8 +716,8 @@ The Task DAG Create Root node has two configuration groups:
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Task DAG Create Root Scheduling Options
 
@@ -765,7 +765,7 @@ The Task DAG Create Root node has two configuration groups:
 
 ### Task DAG Create Root Deployment
 
-Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Task DAG Create Root Initial Deployment
 
@@ -821,8 +821,8 @@ The Task DAG Resume Root node has two configuration groups:
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Task DAG Resume Root Scheduling Options
 
@@ -876,8 +876,8 @@ The Stream has two configuration groups:
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Stream Options
 
@@ -925,7 +925,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Stream Undeployment
 
@@ -961,8 +961,8 @@ The Stream and Insert or Merge node has the following configuration groups:
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Stream and Insert or Merge General Options
 
@@ -1042,7 +1042,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 ### Stream and Insert or Merge Deployment
 
-Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Stream and Insert or Merge Initial Deployment
 
@@ -1108,7 +1108,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Stream and Insert or Merge Undeployment
 
@@ -1141,8 +1141,8 @@ The Stream has two configuration groups:
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Stream Options
 
@@ -1196,7 +1196,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Stream for Directory Table Undeployment
 
@@ -1232,8 +1232,8 @@ The Stream and Insert or Merge node has the following configuration groups:
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Stream will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Delta Stream Merge General Options
 
@@ -1305,7 +1305,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 ### Delta Stream Merge Deployment
 
-Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Delta Stream Merge Initial Deployment
 
@@ -1375,7 +1375,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Delta Stream Merge Undeployment
 
@@ -1408,8 +1408,8 @@ The Insert or Merge with Task node has the following configuration groups:
 |-------------|-----------------|
 | **Storage Location** | Storage Location where the Task will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Insert or Merge with Task General Options
 
@@ -1476,7 +1476,7 @@ The Insert or Merge with Task node has the following configuration groups:
 
 ### Insert or Merge with Task Deployment
 
-Please refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Insert or Merge with Task Initial Deployment
 
@@ -1528,7 +1528,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Insert or Merge with Task Undeployment
 
@@ -1550,7 +1550,7 @@ When node is deleted, the following stages execute:
 | Any Other | Task | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 | Any Other | Stream | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 
-Please review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
+Review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
 
 #### ⚠ Limitations of Node Type Switching (Current)
 
@@ -1614,19 +1614,19 @@ Please refer [this documentation](https://docs.snowflake.com/en/user-guide/notif
 
 ## Code
 
-### Work with Task Code
+### WORk With Task Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/run.sql.j2)
 
-### Dimension with Task
+### Dimension With Task
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/create.sql.j2)
 * [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/DimensionwithTask-149/run.sql.j2)
 
-### Fact with Task
+### Fact With Task
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/FactwithTask-150/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/FactwithTask-150/create.sql.j2)
