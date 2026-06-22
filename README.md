@@ -5,6 +5,7 @@
 -   **Dimension with Task:** Automates the loading of descriptive business data (e.g., Customers, Products). It uses a Task to ensure that attributes are kept up-to-date incrementally.
 -   **Fact with Task:** Handles large-scale transactional data. This node uses a Task to process new metrics or events at regular intervals, ensuring large tables stay current without full reloads.
 -   **Task DAG Create Root:** Defines the "parent" or starting point of a **Directed Acyclic Graph (DAG)**. This is the first task in a sequence that triggers all other dependent child tasks.
+-   **Task DAG Custom-SQL:** Executes a developer-defined custom SQL statement as a child task within an existing Task DAG. The task is triggered after one or more predecessor tasks complete successfully, allowing arbitrary SQL (via Override SQL) to be chained into an existing workflow.
 -   **Task DAG Resume Root:** A management node used to "start" or "enable" the entire chain of tasks. In Snowflake, tasks are created in a 'Suspended' state; this node ensures the pipeline is actually running.
 -   **Stream:** Directly implements Snowflake's **Change Data Capture (CDC)**. It acts as a bookmark on a source table to track new Inserts, Updates, and Deletes without moving data itself.
 -   **Stream and Insert or Merge:** A combined logic node. It reads the "delta" changes from a Stream and applies them to a target table using either a simple INSERT or a MERGE statement.
@@ -19,25 +20,39 @@ These nodes work together to create **Continuous Data Pipelines**. The **Stream*
 
 ## Nodetypes Config Matrix
 
-### Matrix 1: Task-Based Node Types
+### Matrix 1: Task-Based Node Types - 1
 
-| Category | Feature | Work with Task | Dimension with Task | Fact with Task | Insert or Merge with Task | Task DAG Create Root | Task DAG Resume Root |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Development** | Development Mode | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
-| | Multi Source | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
-| | Create As | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ |
-| **Logic** | Distinct / Group By All | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
-| | Order By | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
-| | Truncate Before | ✅ | ⬜ | ✅ | ✅ | ⬜ | ⬜ |
-| **Keys** | Business / Table Keys | ⬜ | ✅ | ⬜ | ✅ | ⬜ | ⬜ |
-| | Change Tracking (Type 2) | ⬜ | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
-| | Record Date / Timestamp | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | ⬜ |
-| | Cluster Key | ✅ | ✅ | ✅ | ✅ | ⬜ | ⬜ |
-| **Scheduling** | Warehouse / Serverless | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
-| | Stream Has Data Flag | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
-| | Multi-Stream Logic | ✅ | ✅ | ✅ | ⬜ | ✅ | ⬜ |
-| | Schedule (Min / Cron) | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
-| | Predecessor / Root Task | ✅ | ✅ | ✅ | ✅ | ⬜ | ✅ |
+| Category | Feature | Work with Task | Dimension with Task | Fact with Task | Insert or Merge with Task |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Development** | Development Mode | ✅ | ✅ | ✅ | ✅ |
+| | Multi Source | ✅ | ✅ | ✅ | ✅ |
+| | Create As | ⬜ | ⬜ | ⬜ | ✅ |
+| **Logic** | Distinct / Group By All | ✅ | ✅ | ✅ | ✅ |
+| | Order By | ✅ | ✅ | ✅ | ✅ |
+| | Truncate Before | ✅ | ⬜ | ✅ | ✅ |
+| **Keys** | Business / Table Keys | ⬜ | ✅ | ⬜ | ✅ |
+| | Change Tracking (Type 2) | ⬜ | ✅ | ⬜ | ⬜ |
+| | Record Date / Timestamp | ⬜ | ⬜ | ⬜ | ✅ |
+| | Cluster Key | ✅ | ✅ | ✅ | ✅ |
+| **Scheduling** | Warehouse / Serverless | ✅ | ✅ | ✅ | ✅ |
+| | Stream Has Data Flag | ✅ | ✅ | ✅ | ✅ |
+| | Multi-Stream Logic | ✅ | ✅ | ✅ | ⬜ |
+| | Schedule (Min / Cron) | ✅ | ✅ | ✅ | ✅ |
+| | Predecessor / Root Task | ✅ | ✅ | ✅ | ✅ |
+| **Advanced Scheduling** | * Serverless Size<br/>* Size Bounds<br/>* Execute As user<br/>* Overlapping Execution<br/>* Task Graph Config<br/>* Auto-Suspend<br/>* Auto-Retry<br/>* Error Notifications | ✅ | ✅ | ✅ | ✅ |
+
+### Matrix 1: Task-Based Node Types - 2
+
+| Category | Feature | Task DAG Create Root | Task DAG custom-SQL | Task DAG Resume Root |
+| :--- | :--- | :---: | :---: | :---: |
+| **Development** | Development Mode | ⬜ | ✅ | ⬜ | 
+| **Scheduling** | Warehouse / Serverless | ✅ | ✅ | ⬜ |
+| | Stream Has Data Flag | ✅ | ✅ |⬜ |
+| | Multi-Stream Logic | ✅ | ✅ | ⬜ |
+| | Schedule (Min / Cron) | ✅ | ⬜ | ⬜ |
+| | Predecessor / Root Task | ⬜ | ✅ | ✅ |
+| **Advanced Scheduling** | * Serverless Size<br/>* Size Bounds<br/>* Execute As user<br/>* Overlapping Execution<br/>* Task Graph Config<br/>* Auto-Suspend<br/>* Auto-Retry<br/>* Error Notifications | ✅ | Only Execute As user | ⬜ |
+| **Logic** | Override/Custom-SQL | ✅ | ✅ | ⬜ |
 
 ### Matrix 2: Stream-based Node Types
 
@@ -72,6 +87,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Dimension with Task](#dimension-with-task)
 * [Fact with Task](#fact-with-task)
 * [Task DAG Create Root](#task-dag-create-root)
+* [Task DAG Custom-SQL](#task-dag-custom-sql)
 * [Task DAG Resume Root](#task-dag-resume-root)
 * [Stream](#stream)
 * [Stream and Insert or Merge](#stream-and-insert-or-merge)
@@ -795,6 +811,90 @@ When a Task DAG Create Root node is deleted, two stages are executed:
 |-----------|----------------|
 | **Suspend Root task** | Suspends root task |
 | **Drop current task** | Removes the task |
+
+---
+
+## Task DAG Custom-SQL
+
+The Coalesce Task DAG Custom-SQL UDN is a node that creates a dependent task within an existing Task DAG.
+
+The task is configured with one or more predecessor tasks and executes only after all predecessor tasks complete successfully. The SQL executed by the task is provided by the developer using the Override SQL property, allowing arbitrary SQL statements such as stored procedure calls, DML, or other custom operations to be incorporated into a Task DAG.
+
+During deployment, the node follows the same suspend/resume behavior as other predecessor-based task nodes, allowing it to be added safely to an existing Task DAG.
+
+More information about Tasks can be found in [Snowflake's Introduction to tasks](https://docs.snowflake.com/en/user-guide/tasks-intro).
+
+### Task DAG Custom-SQL Node Configuration
+
+The Task DAG Custom-SQL node has two configuration groups:
+
+* [Node Properties](#task-dag-custom-sql-node-properties)
+* [Scheduling Options](#task-dag-custom-sql-scheduling-options)
+
+#### Task DAG Custom-SQL Node Properties
+
+| **Property** | **Description** |
+|-------------|-----------------|
+| **Storage Location** | Storage Location where the Stream will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+
+#### Task DAG Custom-SQL Scheduling Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
+| **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task** - User managed warehouse executes tasks<br/>- **Serverless Task** - Uses serverless compute |
+| **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. <br/> Name of warehouse to run task on without quotes |
+| **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task <br/> Initial compute size for serverless tasks. Snowflake will adjust size from there based on target schedule and task run times. |
+| **Enable Size Bounds** | Toggle to set explicit limits on serverless scaling. (Visible if **Serverless Task** is selected).<br/>**Validation Rules:**<br/>- Min size must be ≤ Initial size<br/>- Max size must be ≥ Initial size<br/>- Min size must be ≤ Max size |
+| **Minimum Warehouse Size** | The smallest compute size allowed for the task (e.g., 1. XSMALL). |
+| **Maximum Warehouse Size** | The largest compute size allowed for the task (e.g., 6. XXLARGE). |
+| **Task Schedule** | - Predecessor - Specify dependent tasks |
+| **Multiple source streams(if disabled,considered as single source stream)** |(visible obly for Triggered Task)Toggle- Enabled denotes multiple streams are connected|
+| **Multiple Stream has Data Logic**| AND/OR logic when multiple streams (visible obly for Triggered Task and multiple streams is enabled)<br/>**AND** - If there are multiple streams task will run if all streams have data<br/>**OR** -  If there are multiple streams task will run if one or more streams has data | 
+| **Enter predecessor tasks separated by a comma**| One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma |
+| **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. |
+
+#### Root with Task Advanced Scheduling Options
+
+| **Option** | **Description** |
+|------------|----------------|
+| **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
+| **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
+
+### Task DAG Custom-SQL Deployment
+
+refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
+
+#### Task DAG Custom-SQL Initial Deployment
+
+When deployed for the first time into an environment, the following stages execute:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task for creation |
+| **Create Task** | Creates task that will execute custom-SQL on schedule |
+
+If a task is part of a DAG of tasks, the DAG needs to include a node type called `Task Dag Resume Root`. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
+
+#### Task DAG Custom-SQL Redeployment
+
+After the Task has deployed for the first time into a target environment, subsequent deployments will execute two stages:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root Task** | Suspends root task |
+| **Create Root Task** | Recreates task |
+
+### Task DAG Custom-SQL Undeployment
+
+When a Task DAG Custom-SQL node is deleted, two stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Suspend Root task** | Suspends root task |
+| **Drop current task** | Drops the task |
 
 ---
 
@@ -1614,7 +1714,7 @@ Please refer [this documentation](https://docs.snowflake.com/en/user-guide/notif
 
 ## Code
 
-### WORk With Task Code
+### Work With Task Code
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/WorkwithTask-151/create.sql.j2)
@@ -1636,6 +1736,12 @@ Please refer [this documentation](https://docs.snowflake.com/en/user-guide/notif
 
 * [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGCreateRoot-154/definition.yml)
 * [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGCreateRoot-154/create.sql.j2)
+
+### Task DAG Custom-SQL Code
+
+* [Node definition]()
+* [Create Template]()
+* [Run Template]()
 
 ### Task DAG Resume Root Code
 
