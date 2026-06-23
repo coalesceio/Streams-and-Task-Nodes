@@ -1,0 +1,139 @@
+{#
+    Copyright (c) 2026 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Name           : Custom-SQL With Task == #}
+{# == Node Type Description    : This node creates customSQL with task which can be part of DAG == #}
+
+{%- if desiredState %}
+    {# Parameter Check for Deployment #}
+    {%- if currentState != desiredState and desiredState.config.schedulingMode == 'Warehouse Task' %}
+        {%- if desiredState.parameters == {} or 'targetTaskWarehouse' not in desiredState.parameters or desiredState.parameters.targetTaskWarehouse == '' %}
+            {{ stage('⚠️Warning! Missing parameter - targetTaskWarehouse') }}
+            /* Add parameter targetTaskWarehouse in workspace settings and deployment environment for successful execution of node.
+            The default value for the parameter is 'DEV ENVIRONMENT'.
+            For more information, refer to the documentation.*/
+        {%- endif %}
+    {%- endif %}
+
+    {# Create Task #}
+    {%- if desiredState != currentState and desiredState.node.override.create.enabled %}
+
+        {# Target Table Info #}
+        {%- set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
+        {%- set targetTableSchema = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1] %} 
+        {%- set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
+
+		{%- if desiredState.config.devMode == false %}
+			{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
+				{%- set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask | trim) %}
+				{{ stage('Suspend Root Task', true, "sql", "create") }}
+				ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+			{%- endif -%}
+
+            {%- if currentState != undefined and (currentState.config.schedulePeriodOption | default('') != desiredState.config.schedulePeriodOption or currentState.config.rootTask | trim | default('') != desiredState.config.rootTask | trim) -%}            
+                {%- if currentState.config.schedulePeriodOption | default('') == 'Predecessor' -%}
+                    {%- set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask | trim) %}
+                    {{ stage('Suspend Root Task', true, "sql", "create") }}
+                    ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+                {%- endif -%}
+            {%- endif -%}
+			
+			{# Task Info - Use ref() #}
+			{%- set taskName = desiredState.node.name + '_TASK' %}
+			{%- set fullyQualifiedTaskName = ref_no_link(desiredState.node.location.name, taskName) %}
+
+            {# Task Type #}
+            {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
+                {# Can be updated during deployment via a parameter to account for different warehouse names in different deployments #}
+			    {%- if 'targetTaskWarehouse'  in  desiredState.parameters %}
+                    {%- if desiredState.parameters.targetTaskWarehouse == 'DEV ENVIRONMENT' %}
+                        {%- set taskType = 'WAREHOUSE = ' + desiredState.config.whName | trim %}
+                    {%- else %}
+                        {%- set taskType = 'WAREHOUSE = ' + desiredState.parameters.targetTaskWarehouse %}
+                    {%- endif %}
+			    {%- endif %}
+            {%- else -%}
+                {%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + getServerSize(desiredState.config.serverlessSize) -%}
+                {%- if desiredState.config.sizeBoundToggle -%}
+                    {%- set minSrvSize = 'SERVERLESS_TASK_MIN_STATEMENT_SIZE = ' + getServerSize(desiredState.config.minServerlessSize) -%}
+                    {%- set maxSrvSize = 'SERVERLESS_TASK_MAX_STATEMENT_SIZE = ' + getServerSize(desiredState.config.maxServerlessSize) -%}
+                {%- endif -%} 
+            {%- endif -%}
+
+            {%- set nsVariables = namespace(taskWhenRun="AFTER ", poll="WHEN ", comment="COMMENT ", user="EXECUTE AS USER ") %}
+
+            {# Schedule Type #}
+            {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
+            {%- for p in predecessorTasks -%}
+                {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p | trim + '"' -%}
+                {%- if not loop.last -%} 
+                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
+                {%- endif %}
+            {%- endfor %}    
+
+            {# When Stream has data logic #}
+            {# Source Stream Location and Name #}
+            {%- if desiredState.config.flagSrcStream %}
+                {%- for source in desiredState.sources %}
+                    {%- for dep in source.dependencies %}
+                        {%- if (dep.node.materializationType == 'stream') %}
+                            {%- set streamStorageLocation = dep.node.location.name %}
+                            {%- set streamSourceDatabase = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='database') | first %}
+                            {%- set streamSourceSchema = desiredState.storageLocations | selectattr('name', 'equalto', streamStorageLocation) | map(attribute='schema') | first %}
+                            {%- set streamSourceName = dep.node.name %}
+                            {%- if nsVariables.poll == 'WHEN ' -%}
+                                {%- set nsVariables.poll = nsVariables.poll + 'SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+                            {%- else %}
+                                {%- set nsVariables.poll = nsVariables.poll + " " + desiredState.config.multiStreamBehavior + ' SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
+                            {%- endif -%}
+                        {%- endif -%}
+                    {%- endfor %}
+                {%- endfor %}
+            {%- endif -%}
+
+            {%- set nsVariables.comment = nsVariables.comment + (node.description | trim ~ "'" if node.description | default('') | trim else "") %}
+
+            {%- if config.spfcUserToggle -%}
+                {%- if parameters.targetTaskExecuteAsUser | default('') == 'DEV ENVIRONMENT' -%}
+                    {%- set nsVariables.user  = nsVariables.user + config.userName | trim %}
+                {%- else -%}
+                    {%- set nsVariables.user = nsVariables.user + parameters.targetTaskExecuteAsUser | default('') %}
+                {%- endif -%}
+            {%- endif -%}
+
+            {{ stage('Create Custom-SQL Task', true, "sql", "create") }}
+            CREATE OR REPLACE TASK 
+            {{ fullyQualifiedTaskName }} 
+            {{ taskType }}
+            {% if desiredState.config.schedulingMode == 'Serverless Task' and desiredState.config.sizeBoundToggle %}
+                {{ minSrvSize }}
+                {{ maxSrvSize }}
+            {% endif %}
+            {{ nsVariables.taskWhenRun }}
+            {% if desiredState.config.spfcUserToggle %}
+                {{ nsVariables.user }}
+            {% endif %}
+            {% if nsVariables.comment != 'COMMENT ' %} {{ nsVariables.comment }} {% endif %}
+            {% if desiredState.config.flagSrcStream %} {{ nsVariables.poll }} {% endif %}
+            AS 
+            {{ desiredState.node.override.create.script }}
+        {%- endif -%}
+     {%- endif -%}
+
+{%- elif currentState != undefined and desiredState == undefined %}
+    {%- if currentState.config.devMode | default(false) == false %}
+		{%- set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask | trim) %}
+        {%- set taskName = currentState.node.name + '_TASK' %}
+        {%- set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
+
+        {{ stage('Suspend Root Task') }}
+        ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
+
+        {{ stage('Drop Current Task') }}
+        DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+    {%- endif -%}
+{%- endif %}

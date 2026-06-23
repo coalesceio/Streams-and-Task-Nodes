@@ -1,8 +1,0 @@
-fileVersion: 1
-id: "542"
-mappingDefinitions:
-  TARGET_ACC:
-    database: ""
-    schema: ""
-name: QA1
-type: Environment

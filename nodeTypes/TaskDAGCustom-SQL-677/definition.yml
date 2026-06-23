@@ -1,0 +1,209 @@
+fileVersion: 1
+id: "677"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Task DAG Custom-SQL
+    short: CTSK
+    plural: Customs
+    tagColor: "#ff661f70"
+
+    deployStrategy: advanced
+
+    config:
+    - groupName: Options
+      items:
+
+      - type: label
+        attributeName: noteDevModeOn
+        displayName: "ℹ️Info: 𝗖𝗿𝗲𝗮𝘁𝗲 𝗦𝗤𝗟 will be executed as part of the run"
+        enableIf: "{% if config.devMode and node.override.create.enabled %} true {% else %} false {% endif %}"
+
+      - displayName: Development Mode
+        attributeName: devMode
+        type: toggleButton
+        isRequired: false
+        default: true
+
+      - type: label
+        attributeName: noteToggleOn
+        displayName: "❗Please ensure 𝐎𝐯𝐞𝐫𝐫𝐢𝐝𝐞 𝐂𝐫𝐞𝐚𝐭𝐞 𝐒𝐐𝐋 is enabled"
+        enableIf: "{% if node.override.create.enabled == false %} true {% else %} false {% endif %}"
+
+      - type: label
+        attributeName: noteStageRemoval
+        displayName: "⚠️ Heads up! Ensure 𝘀𝘁𝗮𝗴𝗲() isn't included in 𝗖𝗿𝗲𝗮𝘁𝗲 𝗦𝗤𝗟"
+        enableIf: "{% if node.override.create.enabled %} true {% else %} false {% endif %}"
+
+      - type: overrideSQLToggle
+        displayName: "Custom-SQL"
+        enableIf: "true"
+        isRequired: true
+          
+    - groupName: Scheduling Options
+
+      # Schedule mode-specifies whether a warehouse or serverless compute is used to run the task #
+      enableIf: "{% if config.devMode == false and node.override.create.enabled %} true {% else %} false {% endif %}" 
+      items:
+
+      # Checks whether source streams have data before executing a task #
+      - displayName: When Source Stream has Data Flag
+        attributeName: flagSrcStream
+        type: toggleButton
+        default: false
+        isRequired: false
+
+      - displayName: Multiple Stream has Data Logic
+        attributeName: multiStreamBehavior
+        type: dropdownSelector
+        default: AND
+        options:
+          - AND
+          - OR
+        isRequired: false
+        enableIf: "{% if config.flagSrcStream %} true {% else %} false {% endif %}"
+
+      - displayName: Scheduling Mode
+        attributeName: schedulingMode
+        type: dropdownSelector
+        default: Warehouse Task
+        options:
+          - Warehouse Task
+          - Serverless Task
+        isRequired: true
+
+        # Warehouse name you want the task to run #
+      - type: label
+        attributeName: note
+        displayName: "⚠️Warning! targetTaskWarehouse parameter is not provided."
+        enableIf: "{% if (parameters == {} or parameters.targetTaskWarehouse == '' or 'targetTaskWarehouse' not in parameters) and config.schedulingMode == 'Warehouse Task' %} true {% else %} false {% endif %}"
+
+      - displayName: Select Warehouse on which to run task
+        attributeName: whName
+        type: textBox
+        default: '<WAREHOUSE_NAME>'
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Warehouse Task' %} true {% else %} false {% endif %}"
+
+      - displayName: Select initial serverless Warehouse size
+        attributeName: serverlessSize
+        type: dropdownSelector
+        default: '3. MEDIUM'
+        options:
+          - 1. XSMALL
+          - 2. SMALL
+          - 3. MEDIUM
+          - 4. LARGE
+          - 5. XLARGE
+          - 6. XXLARGE
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
+
+      - displayName: Enable Size Bounds
+        attributeName: sizeBoundToggle
+        type: toggleButton
+        default: false
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Serverless Task' %} true {% else %} false {% endif %}"
+
+      - type: label
+        attributeName: boundErr
+        displayName: "⚠️ Min size ≤ Initial size ≤ Max size"
+        enableIf: "{% if config.schedulingMode == 'Serverless Task'
+                      and config.sizeBoundToggle
+                      and 
+                      (
+                        config.minServerlessSize.split('.')[0] | int > config.serverlessSize.split('.')[0] | int
+                        or config.maxServerlessSize.split('.')[0] | int < config.serverlessSize.split('.')[0] | int
+                        or config.maxServerlessSize.split('.')[0] | int < config.minServerlessSize.split('.')[0] | int
+                      )
+                    %} true {% else %} false {% endif %}"
+
+      - displayName: Minimum Warehouse Size
+        attributeName: minServerlessSize
+        type: dropdownSelector
+        default: '1. XSMALL'
+        options:
+          - 1. XSMALL
+          - 2. SMALL
+          - 3. MEDIUM
+          - 4. LARGE
+          - 5. XLARGE
+          - 6. XXLARGE
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Serverless Task' and config.sizeBoundToggle %} true {% else %} false {% endif %}"
+
+      - displayName: Maximum Warehouse Size
+        attributeName: maxServerlessSize
+        type: dropdownSelector
+        default: '6. XXLARGE'
+        options:
+          - 1. XSMALL
+          - 2. SMALL
+          - 3. MEDIUM
+          - 4. LARGE
+          - 5. XLARGE
+          - 6. XXLARGE
+        isRequired: false
+        enableIf: "{% if config.schedulingMode == 'Serverless Task' and config.sizeBoundToggle %} true {% else %} false {% endif %}"
+
+      # Way to schedule the task to run #
+
+      - displayName: Task Schedule
+        attributeName: schedulePeriodOption
+        type: dropdownSelector
+        default: Predecessor
+        options:
+          - Predecessor
+        isRequired: true
+
+      - displayName: Enter Predecessor Task(s) [ℹ️Separated by comma]
+        attributeName: predTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_ROOT_TASK'
+        isRequired: true
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+      - displayName: Enter Root Task Name
+        attributeName: rootTask
+        type: textBox
+        default: 'DATA_TRANSFORMATION_PRED_TASK'
+        isRequired: true
+        enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
+
+      - displayName: Execute As Specific User
+        attributeName: spfcUserToggle
+        type: toggleButton
+        default: false
+        isRequired: false
+
+      - type: label
+        attributeName: userInfo
+        displayName: "ℹ️ Runs the task on behalf of a specified user account. Requires 𝐆𝐑𝐀𝐍𝐓 𝐈𝐌𝐏𝐄𝐑𝐒𝐎𝐍𝐀𝐓𝐄 𝐎𝐍 𝐔𝐒𝐄𝐑 privilege."
+        enableIf: "{% if config.spfcUserToggle %} true {% else %} false {% endif %}"
+
+      - type: label
+        attributeName: warningSpfcUser
+        displayName: "⚠️Warning! targetTaskExecuteAsUser parameter is not provided."
+        enableIf: "{% if config.spfcUserToggle and parameters.targetTaskExecuteAsUser | trim | default('') == '' %} true {% else %} false {% endif %}"
+
+      - displayName: User Name
+        attributeName: userName
+        type: textBox
+        default: ''
+        isRequired: false
+        enableIf: "{% if config.spfcUserToggle %} true {% else %} false {% endif %}"
+
+    - groupName: Hidden Config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: task
+        options:
+        - task
+        isRequired: false
+name: Task DAG Custom-SQL
+type: NodeType

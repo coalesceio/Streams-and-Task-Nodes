@@ -1,0 +1,57 @@
+fileVersion: 1
+id: cf35e14a-45ac-4248-85e2-706327b8188e
+name: CTSK_NODE_B
+operation:
+  config:
+    devMode: false
+    flagSrcStream: true
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
+    multiStreamBehavior: OR
+    predTask: "   TSKWRK_NATION_TEST_A_TASK    ,    TSKWRK_NATION_TEST_B_TASK   "
+    rootTask: "    TGCR_NODE_Custom  "
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    spfcUserToggle: true
+    userName: tkamat
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: |-
+            UPDATE {{ ref('TARGET_DB', 'TSKWRK_NATION_TEST_B') }}
+            SET N_COMMENT = 'NODE-B UPDATED'
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STREAM_NATION_TEST_A
+          - locationName: TARGET_DB
+            nodeName: STREAM_NATION_TEST_B
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_NATION_TEST_B
+        join:
+          joinCondition: |-
+            -- FROM {{ ref('TARGET_DB', 'STREAM_NATION_TEST_A') }} "STREAM_NATION_TEST_A"
+            -- FROM {{ ref('TARGET_DB', 'STREAM_NATION_TEST_B') }} "STREAM_NATION_TEST_B"
+            -- FROM {{ ref('TARGET_DB', 'TSKWRK_NATION_TEST_B') }} "TSKWRK_NATION_TEST_B
+        name: CTSK_NODE_B
+        noLinkRefs: []
+  name: CTSK_NODE_B
+  overrideSQL: true
+  schema: ""
+  sqlType: "677"
+  type: sql
+  version: 1
+type: Node

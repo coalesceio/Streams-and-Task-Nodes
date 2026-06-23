@@ -1,0 +1,50 @@
+fileVersion: 1
+id: 94172308-6ac3-4c19-9b0d-3118ebe33ff7
+name: CTSK_NODE_A
+operation:
+  config:
+    devMode: false
+    flagSrcStream: false
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
+    multiStreamBehavior: AND
+    predTask: "TSKWRK_NATION_TEST_A_TASK   "
+    rootTask: "     TGCR_NODE_Custom   "
+    schedulePeriodOption: Predecessor
+    schedulingMode: Serverless Task
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: true
+    spfcUserToggle: true
+    userName: tkamat
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: |-
+            UPDATE {{ ref('TARGET_DB', 'TSKWRK_NATION_TEST_A') }}
+            SET N_COMMENT = 'NODE-A UPDATED'
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: TSKWRK_NATION_TEST_A
+        join:
+          joinCondition: "-- FROM {{ ref('TARGET_DB', 'TSKWRK_NATION_TEST_A') }} \"TSKWRK_NATION_TEST_A\""
+        name: CTSK_NODE_A
+        noLinkRefs: []
+  name: CTSK_NODE_A
+  overrideSQL: true
+  schema: ""
+  sqlType: "677"
+  type: sql
+  version: 1
+type: Node

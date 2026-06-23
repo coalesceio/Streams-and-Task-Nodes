@@ -1,0 +1,69 @@
+fileVersion: 1
+id: de8e9148-ca5d-4161-8dd7-4658c7ea9740
+name: TGRR_NODE_Custom
+operation:
+  config:
+    rootTask: "            TGCR_NODE_Custom       "
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: aa884f86-0808-4d04-b87f-29b26ebdf6f7
+          stepCounter: de8e9148-ca5d-4161-8dd7-4658c7ea9740
+        config: {}
+        dagResumeTS: true
+        dataType: timestamp_ntz
+        defaultValue: ""
+        description: ""
+        name: DAG_RESUME_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16d6e6c5-0194-4fe4-bccc-ef62c3ec68fe
+          stepCounter: de8e9148-ca5d-4161-8dd7-4658c7ea9740
+        config: {}
+        dagResumeTS: true
+        dataType: string
+        defaultValue: ""
+        description: ""
+        name: DAG_ROOT_TASK_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: desiredState.config.rootTask
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: CTSK_NODE_B
+        join:
+          joinCondition: "-- FROM {{ ref('TARGET_DB', 'CTSK_NODE_B') }} \"CTSK_NODE_B\""
+        name: TGRR_NODE_Custom
+        noLinkRefs: []
+  name: TGRR_NODE_Custom
+  overrideSQL: false
+  schema: ""
+  sqlType: "155"
+  type: sql
+  version: 1
+type: Node
