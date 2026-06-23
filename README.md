@@ -843,7 +843,10 @@ The Task DAG Custom-SQL node has two configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
-| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - A table will be created and SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
+| **Development Mode** | True / False toggle that determines whether a task will be created or if the SQL to be used in the task will execute as DML as a Run action<br/>**True** - Custom-SQL will execute as a Run action<br/>**False** - After testing the SQL as a Run action, setting to false will wrap SQL in a task with specified Scheduling Options. When Run is executed, a message appears prompting the user to wait or suggesting a manual run. |
+| **Override Create SQL** | Toggle: True/False<br/>**True**: Custom Create SQL<br/>**False**: N/A<br/> Please ensure **toggle is always enabled** for this nodetype |
+| **When Source Stream has Data Flag** | True/False toggle to check for stream data<br/>**True** - Only run task if source stream has capture change data<br/>**False** -  Run task on schedule regardless of whether the source stream has data. If the source is not a stream should set this to false. |
+| **Multiple Stream has Data Logic** | AND/OR logic when multiple streams (visible if Stream has Data Flag is true)<br/>**AND** - If there are multiple streams task will run if all streams have data<br/>**OR** -  If there are multiple streams task will run if one or more streams has data | 
 | **Scheduling Mode** | Choose compute type:<br/>- **Warehouse Task** - User managed warehouse executes tasks<br/>- **Serverless Task** - Uses serverless compute |
 | **Select Warehouse** | Visible if Scheduling Mode is set to Warehouse Task. <br/> Name of warehouse to run task on without quotes |
 | **Select initial serverless size** | Visible when Scheduling Mode is set to Serverless Task <br/> Initial compute size for serverless tasks. Snowflake will adjust size from there based on target schedule and task run times. |
@@ -851,15 +854,8 @@ The Task DAG Custom-SQL node has two configuration groups:
 | **Minimum Warehouse Size** | The smallest compute size allowed for the task (e.g., 1. XSMALL). |
 | **Maximum Warehouse Size** | The largest compute size allowed for the task (e.g., 6. XXLARGE). |
 | **Task Schedule** | - Predecessor - Specify dependent tasks |
-| **Multiple source streams(if disabled,considered as single source stream)** |(visible obly for Triggered Task)Toggle- Enabled denotes multiple streams are connected|
-| **Multiple Stream has Data Logic**| AND/OR logic when multiple streams (visible obly for Triggered Task and multiple streams is enabled)<br/>**AND** - If there are multiple streams task will run if all streams have data<br/>**OR** -  If there are multiple streams task will run if one or more streams has data | 
-| **Enter predecessor tasks separated by a comma**| One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma |
+| **Enter predecessor tasks separated by a comma**| One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma(,) |
 | **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. |
-
-#### Root with Task Advanced Scheduling Options
-
-| **Option** | **Description** |
-|------------|----------------|
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 
@@ -868,6 +864,8 @@ The Task DAG Custom-SQL node has two configuration groups:
 refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
 
 #### Task DAG Custom-SQL Initial Deployment
+
+<img width="1129" height="284" alt="image" src="https://github.com/user-attachments/assets/cfb9ed8a-4f87-4285-a9bf-7358d8f16764" />
 
 When deployed for the first time into an environment, the following stages execute:
 
@@ -1739,9 +1737,9 @@ Please refer [this documentation](https://docs.snowflake.com/en/user-guide/notif
 
 ### Task DAG Custom-SQL Code
 
-* [Node definition]()
-* [Create Template]()
-* [Run Template]()
+* [Node definition](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGCustom-SQL-677/definition.yml)
+* [Create Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGCustom-SQL-677/create.sql.j2)
+* [Run Template](https://github.com/coalesceio/Streams-and-Task-Nodes/blob/main/nodeTypes/TaskDAGCustom-SQL-677/run.sql.j2)
 
 ### Task DAG Resume Root Code
 
