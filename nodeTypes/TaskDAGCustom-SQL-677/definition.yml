@@ -163,14 +163,14 @@ metadata:
         attributeName: predTask
         type: textBox
         default: 'DATA_TRANSFORMATION_ROOT_TASK'
-        isRequired: false
+        isRequired: true
         enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
 
       - displayName: Enter Root Task Name
         attributeName: rootTask
         type: textBox
         default: 'DATA_TRANSFORMATION_PRED_TASK'
-        isRequired: false
+        isRequired: true
         enableIf: "{% if config.schedulePeriodOption == 'Predecessor' %} true {% else %} false {% endif %}"
 
       - displayName: Execute As Specific User

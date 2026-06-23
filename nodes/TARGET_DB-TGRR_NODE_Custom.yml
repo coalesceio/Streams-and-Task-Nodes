@@ -3,7 +3,7 @@ id: de8e9148-ca5d-4161-8dd7-4658c7ea9740
 name: TGRR_NODE_Custom
 operation:
   config:
-    rootTask: TGCR_NODE_Custom
+    rootTask: "            TGCR_NODE_Custom       "
   database: ""
   deployEnabled: true
   description: ""
