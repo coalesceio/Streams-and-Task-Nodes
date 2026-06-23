@@ -1,0 +1,14 @@
+fileVersion: 1
+id: "820"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: TANVI_DEV
+    schema: SOURCE
+  TARGET_ACC:
+    database: TANVI_DEV
+    schema: INFORMATION_SCHEMA
+  TARGET_DB:
+    database: TANVI_DEV
+    schema: QA
+name: "[NM-250]-CustomSQL"
+type: Environment

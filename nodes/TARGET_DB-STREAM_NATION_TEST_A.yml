@@ -1,11 +1,11 @@
 fileVersion: 1
-id: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
-name: STREAM_PRODUCTS1
+id: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+name: STREAM_NATION_TEST_A
 operation:
   config:
     appendOnly: false
     initialRows: true
-    redeploymentBehavior: Create At Existing Stream
+    redeploymentBehavior: Create or Replace
     sourceType: Table
   database: ""
   deployEnabled: true
@@ -18,67 +18,81 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1ed37959-3e13-4711-9f3d-d8ac8d803612
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 857c3f7a-4324-49d9-b78b-2b1a9361cf98
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: PRODUCT_ID
+        name: N_NATIONKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 13d11207-58e4-4a14-8285-633ea5a77231
+                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 295094a3-af7e-407f-8d20-c578b44637fb
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 56df3bde-2df9-4479-99a1-a5af6527488e
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
         config: {}
-        dataType: VARCHAR(255)
+        dataType: VARCHAR(25)
         description: ""
-        name: PRODUCT_NAME
+        name: N_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 1e07a5e8-7c18-4b76-8677-2708abecebec
+                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: faaeca02-7116-49d2-b2e7-cf3fed448d99
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 697280eb-8975-4790-8560-6ef392ca354f
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
         config: {}
-        dataType: VARCHAR(100)
+        dataType: NUMBER(38,0)
         description: ""
-        name: BRAND
+        name: N_REGIONKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 586eb279-6db0-4106-8910-586b91bef444
+                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 469fb294-876f-4112-8d4b-5021da4b3e20
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 8177c114-049f-4e34-b26a-1b333d31b8ab
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(152)
         description: ""
-        name: COLOUR
+        name: N_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 35d767dc-1aaa-4927-a572-6eab8da93678
+                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 26d3b88f-ecc2-46bc-9605-abe0643f0ff8
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 010bbb84-ece4-47b7-9273-a781836ea4e0
+                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8bacd8b0-85f7-4b1c-ad04-dbb8599b63b6
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 99f5e7f5-95d2-4daa-b87d-4896f4efa519
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -94,8 +108,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7b498327-6729-498a-872f-1d9e62f9cf48
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: d7b1b342-c0c6-4acb-b00a-0adc2c6491c7
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
         config: {}
         dataType: boolean
         defaultValue: ""
@@ -111,8 +125,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 86427171-05ac-4153-88a6-5733b506c3d2
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 44e45f6a-515e-4401-a85b-ab7af42ce848
+          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -127,20 +141,17 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          PRODUCTS: f7525a7e-96bd-4514-b428-c468312550a0
+          NATION_TEST: 8f378895-7ae2-4abe-b434-2fded476c300
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
-            nodeName: PRODUCTS
+            nodeName: NATION_TEST
         join:
-          joinCondition: |-
-            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-            
-            latteral FLATTEN()
-        name: STREAM_PRODUCTS1
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+        name: STREAM_NATION_TEST_A
         noLinkRefs: []
-  name: STREAM_PRODUCTS1
+  name: STREAM_NATION_TEST_A
   overrideSQL: false
   schema: ""
   sqlType: "153"
