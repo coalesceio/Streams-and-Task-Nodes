@@ -64,7 +64,7 @@ does not permit copying or modification for any other purpose.
                 {%- endif -%} 
             {%- endif -%}
 
-            {%- set nsVariables = namespace(taskWhenRun="AFTER ", poll="WHEN ", comment="COMMENT ", user="EXECUTE AS USER ") %}
+            {%- set nsVariables = namespace(taskWhenRun="AFTER ", poll="WHEN ", comment="COMMENT =", user="EXECUTE AS USER ") %}
 
             {# Schedule Type #}
             {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
@@ -95,7 +95,7 @@ does not permit copying or modification for any other purpose.
                 {%- endfor %}
             {%- endif -%}
 
-            {%- set nsVariables.comment = nsVariables.comment + (node.description | trim ~ "'" if node.description | default('') | trim else "") %}
+            {%- set nsVariables.comment = nsVariables.comment + "'" + (node.description | trim | escape ~ "'" if node.description | default('') | trim else "") %}
 
             {%- if config.spfcUserToggle -%}
                 {%- if parameters.targetTaskExecuteAsUser | default('') == 'DEV ENVIRONMENT' -%}
@@ -113,11 +113,11 @@ does not permit copying or modification for any other purpose.
                 {{ minSrvSize }}
                 {{ maxSrvSize }}
             {% endif %}
+            {% if nsVariables.comment != 'COMMENT =' %} {{ nsVariables.comment }} {% endif %}
             {{ nsVariables.taskWhenRun }}
             {% if desiredState.config.spfcUserToggle %}
                 {{ nsVariables.user }}
             {% endif %}
-            {% if nsVariables.comment != 'COMMENT ' %} {{ nsVariables.comment }} {% endif %}
             {% if desiredState.config.flagSrcStream %} {{ nsVariables.poll }} {% endif %}
             AS 
             {{ desiredState.node.override.create.script }}

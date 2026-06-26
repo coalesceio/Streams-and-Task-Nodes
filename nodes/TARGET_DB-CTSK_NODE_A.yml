@@ -19,7 +19,7 @@ operation:
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: Added comment with quotes ' and double quotes " also some \ and spl chars ^!@#$%^&*(+)~
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
