@@ -28,34 +28,39 @@ does not permit copying or modification for any other purpose.
         {%- set fullyQualifiedTargetTableName = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
 
 		{%- if desiredState.config.devMode == false %}
-			{%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
-				{%- set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask | trim) %}
-				{{ stage('Suspend Root Task', true, "sql", "create") }}
-				ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
-			{%- endif -%}
+            {%- if desiredState.config.schedulePeriodOption == 'Predecessor' -%} 
+                {%- set fullyQualifiedRootTaskName = ref_no_link(desiredState.node.location.name, desiredState.config.rootTask | trim) %}
+                {{ stage('Suspend Root Task', true, "sql", "create") }}
+                ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
+            {%- endif %}
 
-            {%- if currentState != undefined and (currentState.config.schedulePeriodOption | default('') != desiredState.config.schedulePeriodOption or currentState.config.rootTask | trim | default('') != desiredState.config.rootTask | trim) -%}            
+            {%- if currentState != undefined and (currentState.config.schedulePeriodOption | default('') != desiredState.config.schedulePeriodOption 
+                or currentState.config.rootTask | trim | default('') != desiredState.config.rootTask | trim) -%}            
                 {%- if currentState.config.schedulePeriodOption | default('') == 'Predecessor' -%}
                     {%- set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask | trim) %}
                     {{ stage('Suspend Root Task', true, "sql", "create") }}
                     ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
-                {%- endif -%}
-            {%- endif -%}
-			
-			{# Task Info - Use ref() #}
-			{%- set taskName = desiredState.node.name + '_TASK' %}
-			{%- set fullyQualifiedTaskName = ref_no_link(desiredState.node.location.name, taskName) %}
+                {%- endif %}
+            {%- endif %}
+
+            {# Set Namespace Variables #}
+            {% set nsVariables = namespace(taskWhenRun="") %}
+            {% set nsVariables = namespace(poll="WHEN ") %}
+            
+            {# Task Info - Use ref() #}
+            {%- set taskName = desiredState.node.name + '_TASK' %}
+            {%- set fullyQualifiedTaskName = ref_no_link(desiredState.node.location.name, taskName) %}
 
             {# Task Type #}
             {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
                 {# Can be updated during deployment via a parameter to account for different warehouse names in different deployments #}
-			    {%- if 'targetTaskWarehouse'  in  desiredState.parameters %}
+                {%- if 'targetTaskWarehouse' in desiredState.parameters %}
                     {%- if desiredState.parameters.targetTaskWarehouse == 'DEV ENVIRONMENT' %}
                         {%- set taskType = 'WAREHOUSE = ' + desiredState.config.whName | trim %}
                     {%- else %}
                         {%- set taskType = 'WAREHOUSE = ' + desiredState.parameters.targetTaskWarehouse %}
                     {%- endif %}
-			    {%- endif %}
+                {%- endif %}
             {%- else -%}
                 {%- set taskType = 'USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = ' + getServerSize(desiredState.config.serverlessSize) -%}
                 {%- if desiredState.config.sizeBoundToggle -%}
@@ -64,16 +69,32 @@ does not permit copying or modification for any other purpose.
                 {%- endif -%} 
             {%- endif -%}
 
-            {%- set nsVariables = namespace(taskWhenRun="AFTER ", poll="WHEN ", comment="COMMENT ", user="EXECUTE AS USER ") %}
-
             {# Schedule Type #}
-            {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
-            {%- for p in predecessorTasks -%}
-                {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p | trim + '"' -%}
-                {%- if not loop.last -%} 
-                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
-                {%- endif %}
-            {%- endfor %}    
+            {%- if desiredState.config.schedulePeriodOption == 'Minutes' %} 
+                {%- set execValue = desiredState.config.get('execTime', {})
+                                    .get('items', [])
+                                    | map(attribute='value')
+                                    | first
+                %}
+                {%- set execPeriod = desiredState.config.get('execTime', {})
+                                    .get('items', [])
+                                    | map(attribute='period')
+                                    | first
+                %}
+                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + execValue | trim ~ ' ' ~ execPeriod | trim + "'" %}
+            {% elif desiredState.config.schedulePeriodOption == 'CRON' %}
+                {%- set nsVariables.taskWhenRun = 'SCHEDULE = ' + "'" + 'USING CRON ' + desiredState.config.scheduleCRON | trim + "'" %}
+            {%- else -%}
+                {%- set nsVariables.taskWhenRun = 'AFTER ' -%}
+                {%- set predecessorTasks = (desiredState.config.predTask).split(",") -%}
+
+                {%- for p in predecessorTasks -%}
+                    {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + targetTableDatabase + '.' + targetTableSchema + '."' + p | trim + '"' -%}
+                    {%- if not loop.last -%} 
+                        {%- set nsVariables.taskWhenRun = nsVariables.taskWhenRun + ',' -%}
+                    {%- endif %}
+                {%- endfor %}
+            {%- endif %}   
 
             {# When Stream has data logic #}
             {# Source Stream Location and Name #}
@@ -89,51 +110,93 @@ does not permit copying or modification for any other purpose.
                                 {%- set nsVariables.poll = nsVariables.poll + 'SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
                             {%- else %}
                                 {%- set nsVariables.poll = nsVariables.poll + " " + desiredState.config.multiStreamBehavior + ' SYSTEM$STREAM_HAS_DATA(\'"' + streamSourceDatabase + '"."'  + streamSourceSchema + '"."' + streamSourceName + '"\')'  %}
-                            {%- endif -%}
-                        {%- endif -%}
+                            {%- endif %}
+                        {%- endif %}
                     {%- endfor %}
                 {%- endfor %}
-            {%- endif -%}
-
-            {%- set nsVariables.comment = nsVariables.comment + (node.description | trim ~ "'" if node.description | default('') | trim else "") %}
-
-            {%- if config.spfcUserToggle -%}
-                {%- if parameters.targetTaskExecuteAsUser | default('') == 'DEV ENVIRONMENT' -%}
-                    {%- set nsVariables.user  = nsVariables.user + config.userName | trim %}
-                {%- else -%}
-                    {%- set nsVariables.user = nsVariables.user + parameters.targetTaskExecuteAsUser | default('') %}
-                {%- endif -%}
-            {%- endif -%}
+            {%- endif %}
+            {%- set nsTaskVar = namespace(nodeComment='',
+                                        timeOut='',
+                                        userServiceAcct='',
+                                        suspendTask='',
+                                        autoTry='',
+                                        overLapExec='',
+                                        configJSON='',
+                                        errorIntegration='',
+                                        successIntegration='') %}
+            {{ getadvancedTaskOptions(nsTaskVar) }}
 
             {{ stage('Create Custom-SQL Task', true, "sql", "create") }}
             CREATE OR REPLACE TASK 
             {{ fullyQualifiedTaskName }} 
             {{ taskType }}
-            {% if desiredState.config.schedulingMode == 'Serverless Task' and desiredState.config.sizeBoundToggle %}
+            {% if desiredState.config.schedulingMode == 'Serverless Task' and desiredState.config.sizeBoundToggle -%}
                 {{ minSrvSize }}
                 {{ maxSrvSize }}
-            {% endif %}
+            {% endif -%}
+            {{ nsTaskVar.timeOut }}
+            {{ nsTaskVar.nodeComment }}
             {{ nsVariables.taskWhenRun }}
-            {% if desiredState.config.spfcUserToggle %}
-                {{ nsVariables.user }}
-            {% endif %}
-            {% if nsVariables.comment != 'COMMENT ' %} {{ nsVariables.comment }} {% endif %}
+            {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}
+                {{ nsTaskVar.overLapExec }}
+                {%- if desiredState.config.autoSuspendToggle %}
+                {{ nsTaskVar.suspendTask }}
+                {%- endif %}
+                {%- if desiredState.config.autoRetryToggle %}
+                    {{ nsTaskVar.autoTry }}
+                {%- endif %}
+                {%- if desiredState.config.taskGraphToggle %}
+                    {{ nsTaskVar.configJSON }}
+                {%- endif %}
+            {%- if desiredState.config.errNotifyToggle %}
+                {{ nsTaskVar.errorIntegration }}
+            {%- endif %}
+            {%- if desiredState.config.successNotifyToggle %}
+                {{ nsTaskVar.successIntegration }}
+            {%- endif %}
+            {%- endif %}
+            {%- if desiredState.config.spfcUserToggle %}
+                {{ nsTaskVar.userServiceAcct }}
+            {%- endif %}
             {% if desiredState.config.flagSrcStream %} {{ nsVariables.poll }} {% endif %}
             AS 
             {{ desiredState.node.override.create.script }}
-        {%- endif -%}
-     {%- endif -%}
+            {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %} 
+                {{ stage('Resume Created Task', true, "sql", "create") }}
+                ALTER TASK {{ fullyQualifiedTaskName }} RESUME
+            {%- endif %}
+        {%- else %}
+            {{ stage('Manual Run - No task created') }}
+            -- This node is configured to run SQL manually
+            -- Create task is only available when Development Mode is OFF
+            SELECT 1 AS INFO_MESSAGE WHERE FALSE
+        {%- endif %}
+    {%- endif %}
 
 {%- elif currentState != undefined and desiredState == undefined %}
+
+    {# Target Table Info #}
+    {%- set targetTableDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+    {%- set targetTableSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+    {%- set fullyQualifiedTargetTableName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+
     {%- if currentState.config.devMode | default(false) == false %}
+        {# FQ Root Task name #}
 		{%- set fullyQualifiedRootTaskName = ref_no_link(currentState.node.location.name, currentState.config.rootTask | trim) %}
-        {%- set taskName = currentState.node.name + '_TASK' %}
+		
+        {# Task Info #}
+        {%- set taskName = currentState.node.name + '_TASK'  %}
         {%- set fullyQualifiedTaskName = ref_no_link(currentState.node.location.name, taskName) %}
 
-        {{ stage('Suspend Root Task') }}
-        ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
+        {%- if currentState.config.schedulePeriodOption | default('') == 'Predecessor' -%} 
+            {{ stage('Suspend Root Task') }}
+                ALTER TASK IF EXISTS {{ fullyQualifiedRootTaskName }} SUSPEND
+            {{ stage('Drop Current Task') }}
+                DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+        {%- else -%}
+            {{ stage('Drop Current Task') }}
+                DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
+        {%- endif %}
+    {%- endif %}
 
-        {{ stage('Drop Current Task') }}
-        DROP TASK IF EXISTS {{ fullyQualifiedTaskName }} 
-    {%- endif -%}
 {%- endif %}

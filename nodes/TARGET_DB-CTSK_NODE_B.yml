@@ -15,11 +15,12 @@ operation:
     serverlessSize: 3. MEDIUM
     sizeBoundToggle: false
     spfcUserToggle: true
+    timeOut: "60000"
     userName: tkamat
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: Adding comment with ' "" *^)*$@^)*@$+)~(*)#$^
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
