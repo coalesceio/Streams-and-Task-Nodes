@@ -895,6 +895,8 @@ When a Task DAG Custom-SQL node is deleted, two stages are executed:
 | **Suspend Root task** | Suspends root task |
 | **Drop current task** | Drops the task |
 
+> **Note:** Preview Data is not supported for nodes created with this nodetype because the node exists only within Coalesce. The corresponding object created in Snowflake uses the _TASK suffix, so there is no matching object available for Preview Data.
+
 ---
 
 ## Task DAG Resume Root
