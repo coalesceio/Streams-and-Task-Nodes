@@ -856,6 +856,7 @@ The Task DAG Custom-SQL node has two configuration groups:
 | **Task Schedule** | - Predecessor - Specify dependent tasks |
 | **Enter predecessor tasks separated by a comma**| One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma(,) |
 | **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. |
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced|
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 
