@@ -1,5 +1,5 @@
 fileVersion: 1
-id: fce02393-3dcb-4fa5-80c9-fd7fc6dbbf53
+id: ae7eb78e-3be0-453d-817e-654fabf1d7b4
 name: CTSK_NATION_TEST
 operation:
   config:
@@ -8,18 +8,19 @@ operation:
     maxServerlessSize: 6. XXLARGE
     minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
-    predTask: TGCR_NODE_Custom
-    rootTask: TGCR_NODE_Custom
+    predTask: TSKDIM_NATION_TEST_TASK
+    rootTask: TGCR_1
     schedulePeriodOption: Predecessor
-    schedulingMode: Warehouse Task
+    schedulingMode: Serverless Task
     serverlessSize: 3. MEDIUM
-    sizeBoundToggle: false
-    spfcUserToggle: true
+    sizeBoundToggle: true
+    spfcUserToggle: false
+    timeOut: 60000
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: "*(&\"'''"
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -28,8 +29,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2b680786-bacf-4fb5-abfb-7ef881967be0
-          stepCounter: fce02393-3dcb-4fa5-80c9-fd7fc6dbbf53
+          columnCounter: ca9b3dc5-ae3b-4b7d-bff2-ac33abeacbbc
+          stepCounter: ae7eb78e-3be0-453d-817e-654fabf1d7b4
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -37,13 +38,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 13d11207-58e4-4a14-8285-633ea5a77231
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: dab68d42-d340-4f60-bd24-3a548e8a9a1f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b73c0b9a-134d-4c8d-a33d-4b72c6354cb8
-          stepCounter: fce02393-3dcb-4fa5-80c9-fd7fc6dbbf53
+          columnCounter: 1174fd14-3e17-46af-b8c2-cd4006491788
+          stepCounter: ae7eb78e-3be0-453d-817e-654fabf1d7b4
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -51,13 +52,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1e07a5e8-7c18-4b76-8677-2708abecebec
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: 6ee67c76-abe3-47eb-9f6a-8ce89be9da6f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fb1ac681-5e66-408b-a403-40244f3f68f0
-          stepCounter: fce02393-3dcb-4fa5-80c9-fd7fc6dbbf53
+          columnCounter: a0a5f45f-40c6-48cc-92c1-3baf8ca5f9c5
+          stepCounter: ae7eb78e-3be0-453d-817e-654fabf1d7b4
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -65,13 +66,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 586eb279-6db0-4106-8910-586b91bef444
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: f28989c9-8df2-4d15-b7b0-7662e7e36bbd
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a4e2b2d1-a2fa-4c65-9d1e-8b85deb5f264
-          stepCounter: fce02393-3dcb-4fa5-80c9-fd7fc6dbbf53
+          columnCounter: b063d9ed-725f-4903-9e4c-a2c275e620ce
+          stepCounter: ae7eb78e-3be0-453d-817e-654fabf1d7b4
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -79,13 +80,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 35d767dc-1aaa-4927-a572-6eab8da93678
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: 5257595a-70bb-46fa-bb30-e840ac16c7d5
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1daea3b8-9d84-4de7-98bf-3bb42e5e124a
-          stepCounter: fce02393-3dcb-4fa5-80c9-fd7fc6dbbf53
+          columnCounter: e30dad1a-0b49-4c29-8432-221da05ae2ff
+          stepCounter: ae7eb78e-3be0-453d-817e-654fabf1d7b4
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -93,14 +94,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 010bbb84-ece4-47b7-9273-a781836ea4e0
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: ddba47d9-4a9d-469a-9b27-7697714747dc
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          NATION_TEST: 8f378895-7ae2-4abe-b434-2fded476c300
+      - aliases: {}
         customSQL:
           customSQL: |-
 
@@ -114,10 +114,10 @@ operation:
              FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }}
             	)
         dependencies:
-          - locationName: SOURCE_DATA
-            nodeName: NATION_TEST
+          - locationName: TARGET_DB
+            nodeName: TSKDIM_NATION_TEST
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+          joinCondition: "--FROM {{ ref('TARGET_DB', 'TSKDIM_NATION_TEST') }} \"TSKDIM_NATION_TEST\""
         name: CTSK_NATION_TEST
         noLinkRefs: []
   name: CTSK_NATION_TEST

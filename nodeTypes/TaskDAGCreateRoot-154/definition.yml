@@ -183,6 +183,12 @@ metadata:
       enableIf: ""
       items:
 
+      - displayName: Task Time Out in milliseconds (0 - 604800000)
+        attributeName: timeOut
+        type: textBox
+        default: 60000
+        isRequired: false
+
       - displayName: Execute As Specific User
         attributeName: spfcUserToggle
         type: toggleButton

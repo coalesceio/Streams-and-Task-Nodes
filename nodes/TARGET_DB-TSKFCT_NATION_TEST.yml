@@ -1,0 +1,185 @@
+fileVersion: 1
+id: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+name: TSKFCT_NATION_TEST
+operation:
+  config:
+    autoRetryToggle: false
+    autoSuspendToggle: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    configJSON: ""
+    devMode: false
+    errIntName: ""
+    errNotifyToggle: false
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
+    flagSrcStream: true
+    groupByAll: false
+    insertStrategy: UNION
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
+    multiStreamBehavior: AND
+    numFailures: "10"
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    overlapExecToggle: false
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    retryAttmpt: "0"
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    spfcUserToggle: false
+    succIntName: ""
+    successNotifyToggle: false
+    taskGraphToggle: false
+    timeOut: 60000
+    userName: ""
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: "&%(&\"\"\"'''"
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b56cd4a-294c-491d-b765-037fbcd1e261
+          stepCounter: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dab68d42-d340-4f60-bd24-3a548e8a9a1f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2033e9ec-d226-4b71-ad0f-4881703c2973
+          stepCounter: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6ee67c76-abe3-47eb-9f6a-8ce89be9da6f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e29d0c06-9afe-4ec3-be82-5b46c938d333
+          stepCounter: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f28989c9-8df2-4d15-b7b0-7662e7e36bbd
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4bedb30-d136-41b9-8a19-02e3a630e5f1
+          stepCounter: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5257595a-70bb-46fa-bb30-e840ac16c7d5
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: aa06a288-363b-4797-96a9-2f425519013f
+          stepCounter: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ddba47d9-4a9d-469a-9b27-7697714747dc
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 348d102d-13f5-482c-b050-e5b9ff64d7b7
+          stepCounter: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 67c647cc-1eaa-4996-a0e1-d18b3b3ee144
+          stepCounter: 8abf4319-318c-4014-bdc8-ef05e51eaa4c
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION_TEST: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: NATION_TEST
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+        name: TSKFCT_NATION_TEST
+        noLinkRefs: []
+  name: TSKFCT_NATION_TEST
+  overrideSQL: false
+  schema: ""
+  sqlType: "150"
+  type: sql
+  version: 1
+type: Node

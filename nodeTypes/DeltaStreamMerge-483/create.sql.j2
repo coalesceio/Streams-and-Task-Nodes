@@ -857,6 +857,7 @@ does not permit copying or modification for any other purpose.
         {% set tableColumnIds = desiredState.columns | map(attribute='id') | list %}
         {% set tableColumnNames = desiredState.columns | map(attribute='name') | list %}
         {%- set nsTaskVar = namespace(nodeComment='',
+                                    timeOut='',
                                     userServiceAcct='',
                                     suspendTask='',
                                     autoTry='',
@@ -874,6 +875,7 @@ does not permit copying or modification for any other purpose.
                 {{ minSrvSize }}
                 {{ maxSrvSize }}
             {% endif -%}
+            {{ nsTaskVar.timeOut }}
             {{ nsTaskVar.nodeComment }}
             {{ nsVariables.taskWhenRun }}
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}

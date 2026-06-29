@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 6f0e87c8-f79d-47e8-b402-1de840247acd
-name: TSKWRK_NATION_TEST_B
+id: 83630951-295b-475a-ab53-eabe4227b852
+name: TSKWRK_NATION_TEST
 operation:
   config:
     autoRetryToggle: false
@@ -21,7 +21,7 @@ operation:
       items:
         - period: Minutes
           value: "60"
-    flagSrcStream: false
+    flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
     maxServerlessSize: 6. XXLARGE
@@ -32,12 +32,12 @@ operation:
     orderbycolumn:
       items:
         - {}
-    overlapExecToggle: false
-    predTask: CTSK_NODE_A_TASK
+    overlapExecToggle: true
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
     retryAttmpt: "0"
-    rootTask: TGCR_NODE_Custom
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: 3. MEDIUM
@@ -46,12 +46,13 @@ operation:
     succIntName: ""
     successNotifyToggle: false
     taskGraphToggle: false
+    timeOut: 60000
     truncateBefore: true
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: "&^&*'''\"\"\""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -60,8 +61,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 44c191fd-e315-446e-b2dd-a1d2fceafffd
-          stepCounter: 6f0e87c8-f79d-47e8-b402-1de840247acd
+          columnCounter: 4a8ee15d-363f-41ad-9c7d-be3b2cad3010
+          stepCounter: 83630951-295b-475a-ab53-eabe4227b852
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -69,13 +70,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 13d11207-58e4-4a14-8285-633ea5a77231
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: dab68d42-d340-4f60-bd24-3a548e8a9a1f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 692af5a0-0d8f-448a-8969-8464ed955d7a
-          stepCounter: 6f0e87c8-f79d-47e8-b402-1de840247acd
+          columnCounter: 603e68b1-7603-4572-98db-3717981bd1ff
+          stepCounter: 83630951-295b-475a-ab53-eabe4227b852
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -83,13 +84,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1e07a5e8-7c18-4b76-8677-2708abecebec
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: 6ee67c76-abe3-47eb-9f6a-8ce89be9da6f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 220586b1-1b98-46e1-8de6-8b0c25f489e1
-          stepCounter: 6f0e87c8-f79d-47e8-b402-1de840247acd
+          columnCounter: 3b329735-74a3-42a3-a3b7-dd1e330e8d5b
+          stepCounter: 83630951-295b-475a-ab53-eabe4227b852
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -97,13 +98,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 586eb279-6db0-4106-8910-586b91bef444
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: f28989c9-8df2-4d15-b7b0-7662e7e36bbd
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 24b50df4-1580-4d88-8235-c9be11fe1d4c
-          stepCounter: 6f0e87c8-f79d-47e8-b402-1de840247acd
+          columnCounter: 9d22d3df-c239-403b-bade-d24fd386a574
+          stepCounter: 83630951-295b-475a-ab53-eabe4227b852
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -111,13 +112,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 35d767dc-1aaa-4927-a572-6eab8da93678
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: 5257595a-70bb-46fa-bb30-e840ac16c7d5
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 303dca60-8990-4ad1-8b86-731b9735798a
-          stepCounter: 6f0e87c8-f79d-47e8-b402-1de840247acd
+          columnCounter: cd742f30-50ba-4b38-8cec-24618fd3135c
+          stepCounter: 83630951-295b-475a-ab53-eabe4227b852
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -125,28 +126,24 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 010bbb84-ece4-47b7-9273-a781836ea4e0
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: ddba47d9-4a9d-469a-9b27-7697714747dc
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          NATION_TEST: 8f378895-7ae2-4abe-b434-2fded476c300
+          NATION_TEST: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION_TEST
-          - locationName: TARGET_DB
-            nodeName: CTSK_NODE_A
         join:
-          joinCondition: |-
-            FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
-            -- {{ ref('TARGET_DB', 'CTSK_NODE_A') }} "CTSK_NODE_A"
-        name: TSKWRK_NATION_TEST_B
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+        name: TSKWRK_NATION_TEST
         noLinkRefs: []
-  name: TSKWRK_NATION_TEST_B
+  name: TSKWRK_NATION_TEST
   overrideSQL: false
   schema: ""
   sqlType: "151"

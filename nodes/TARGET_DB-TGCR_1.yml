@@ -1,19 +1,37 @@
 fileVersion: 1
-id: a552130b-9ee0-48d3-a93d-f9affdd10a35
-name: TGCR_FACT_ORDERS
+id: 1769f1e6-f4ce-4310-bbd7-f6104e616b20
+name: TGCR_1
 operation:
   config:
+    autoRetryToggle: false
+    autoSuspendToggle: false
+    configJSON: ""
+    errIntName: ""
+    errNotifyToggle: false
     execTime:
       items:
         - period: Minutes
           value: "60"
+    maxServerlessSize: 6. XXLARGE
+    mflagSrcStream: false
+    minServerlessSize: 1. XSMALL
+    multiStreamBehavior: AND
+    numFailures: "10"
+    overlapExecToggle: false
+    retryAttmpt: "0"
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
-    serverlessSize: MEDIUM
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    spfcUserToggle: false
+    succIntName: ""
+    successNotifyToggle: false
+    taskGraphToggle: false
+    timeOut: 60000
     tskSql: select current_timestamp()
-    whName: COMPUTE_WH
+    userName: ""
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
@@ -32,9 +50,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: TGCR_FACT_ORDERS
+        name: TGCR_1
         noLinkRefs: []
-  name: TGCR_FACT_ORDERS
+  name: TGCR_1
   overrideSQL: false
   schema: ""
   sqlType: "154"

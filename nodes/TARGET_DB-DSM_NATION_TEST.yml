@@ -1,0 +1,194 @@
+fileVersion: 1
+id: 9379693e-6f41-447e-8505-618f1a0f65b2
+name: DSM_NATION_TEST
+operation:
+  config:
+    autoRetryToggle: false
+    autoSuspendToggle: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    configJSON: ""
+    createas: table
+    devMode: false
+    errIntName: ""
+    errNotifyToggle: false
+    execTime:
+      items:
+        - period: Minutes
+          value: "60"
+    flagSrcStream: true
+    initialRows: true
+    latestRowFromSource: false
+    loadType: Merge
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
+    numFailures: "10"
+    orderBy:
+      items:
+        - colName:
+            columnCounter: 57ac4ad4-6057-4570-a291-cac382bac5af
+            stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          sortOrd: desc
+    overlapExecToggle: false
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: cabf026d-d9a4-4da0-825f-840dc13e3b3c
+            stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    redeploymentBehavior: Create If Not Exists
+    retryAttmpt: "0"
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    sourceType: Table
+    spfcUserToggle: false
+    succIntName: ""
+    successNotifyToggle: false
+    taskGraphToggle: false
+    timeOut: ""
+    userName: ""
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: sfhdjk468587^)*@^$%!""''
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cabf026d-d9a4-4da0-825f-840dc13e3b3c
+          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dab68d42-d340-4f60-bd24-3a548e8a9a1f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c6d4d127-a488-408e-b65f-25a2ff920e95
+          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6ee67c76-abe3-47eb-9f6a-8ce89be9da6f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e2c6123f-6ddc-48f3-9def-458d00472361
+          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f28989c9-8df2-4d15-b7b0-7662e7e36bbd
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b867a6c-3e9c-40d9-a826-484780cea9ef
+          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5257595a-70bb-46fa-bb30-e840ac16c7d5
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 57ac4ad4-6057-4570-a291-cac382bac5af
+          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ddba47d9-4a9d-469a-9b27-7697714747dc
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ed5313c-9a41-4890-b2b9-3e1633864de1
+          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74ff5b8b-70d1-49b9-add1-62979de70c67
+          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION_TEST: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: NATION_TEST
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+        name: DSM_NATION_TEST
+        noLinkRefs: []
+  name: DSM_NATION_TEST
+  overrideSQL: false
+  schema: ""
+  sqlType: "483"
+  type: sql
+  version: 1
+type: Node

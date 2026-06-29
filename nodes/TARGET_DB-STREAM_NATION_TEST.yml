@@ -1,11 +1,11 @@
 fileVersion: 1
-id: 8b4f5439-941e-49f2-a9ce-19046679f5ea
-name: STREAM_NATION_TEST_A
+id: a9dd4a71-1389-44d8-8c48-3f771b9e2740
+name: STREAM_NATION_TEST
 operation:
   config:
     appendOnly: false
     initialRows: true
-    redeploymentBehavior: Create or Replace
+    redeploymentBehavior: Create At Existing Stream
     sourceType: Table
   database: ""
   deployEnabled: true
@@ -18,8 +18,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 857c3f7a-4324-49d9-b78b-2b1a9361cf98
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: 5db3c765-dd3a-4ac3-b333-970818d8d5c1
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -27,13 +27,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 13d11207-58e4-4a14-8285-633ea5a77231
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: dab68d42-d340-4f60-bd24-3a548e8a9a1f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 56df3bde-2df9-4479-99a1-a5af6527488e
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: 6c4a9ef4-24af-4671-b754-bda2bc584684
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -41,13 +41,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1e07a5e8-7c18-4b76-8677-2708abecebec
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: 6ee67c76-abe3-47eb-9f6a-8ce89be9da6f
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 697280eb-8975-4790-8560-6ef392ca354f
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: bb0eb978-3027-4716-ae33-4aa7bfc26e93
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -55,13 +55,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 586eb279-6db0-4106-8910-586b91bef444
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: f28989c9-8df2-4d15-b7b0-7662e7e36bbd
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8177c114-049f-4e34-b26a-1b333d31b8ab
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: 34053af4-e78d-4c25-bd83-afd9802d4216
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -69,13 +69,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 35d767dc-1aaa-4927-a572-6eab8da93678
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: 5257595a-70bb-46fa-bb30-e840ac16c7d5
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 26d3b88f-ecc2-46bc-9605-abe0643f0ff8
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: d510edeb-2e05-42c9-a3f5-1729a39c1113
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -83,16 +83,16 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 010bbb84-ece4-47b7-9273-a781836ea4e0
-                stepCounter: 8f378895-7ae2-4abe-b434-2fded476c300
+              - columnCounter: ddba47d9-4a9d-469a-9b27-7697714747dc
+                stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 99f5e7f5-95d2-4daa-b87d-4896f4efa519
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: 34dcdcb1-8a2b-4ec5-bb27-0d2aec6fa553
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -108,8 +108,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: d7b1b342-c0c6-4acb-b00a-0adc2c6491c7
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: 8556de0d-4006-4154-b574-ef6c020b7f70
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: boolean
         defaultValue: ""
@@ -125,8 +125,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 44e45f6a-515e-4401-a85b-ab7af42ce848
-          stepCounter: 8b4f5439-941e-49f2-a9ce-19046679f5ea
+          columnCounter: 57d2ef97-e86e-4fae-b745-fe0227ce0e8d
+          stepCounter: a9dd4a71-1389-44d8-8c48-3f771b9e2740
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -141,7 +141,7 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          NATION_TEST: 8f378895-7ae2-4abe-b434-2fded476c300
+          NATION_TEST: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
         customSQL:
           customSQL: ""
         dependencies:
@@ -149,9 +149,9 @@ operation:
             nodeName: NATION_TEST
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
-        name: STREAM_NATION_TEST_A
+        name: STREAM_NATION_TEST
         noLinkRefs: []
-  name: STREAM_NATION_TEST_A
+  name: STREAM_NATION_TEST
   overrideSQL: false
   schema: ""
   sqlType: "153"
