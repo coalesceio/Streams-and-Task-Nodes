@@ -39,7 +39,7 @@ These nodes work together to create **Continuous Data Pipelines**. The **Stream*
 | | Multi-Stream Logic | ✅ | ✅ | ✅ | ⬜ |
 | | Schedule (Min / Cron) | ✅ | ✅ | ✅ | ✅ |
 | | Predecessor / Root Task | ✅ | ✅ | ✅ | ✅ |
-| **Advanced Scheduling** | * Serverless Size<br/>* Size Bounds<br/>* Execute As user<br/>* Overlapping Execution<br/>* Task Graph Config<br/>* Auto-Suspend<br/>* Auto-Retry<br/>* Error Notifications | ✅ | ✅ | ✅ | ✅ |
+| **Advanced Scheduling** | * Serverless Size<br/>* Size Bounds<br/>* User Task Timeout<br/>* Execute As user<br/>* Overlapping Execution<br/>* Task Graph Config<br/>* Auto-Suspend<br/>* Auto-Retry<br/>* Error Notifications | ✅ | ✅ | ✅ | ✅ |
 
 ### Matrix 1: Task-Based Node Types - 2
 
@@ -51,7 +51,7 @@ These nodes work together to create **Continuous Data Pipelines**. The **Stream*
 | | Multi-Stream Logic | ✅ | ✅ | ⬜ |
 | | Schedule (Min / Cron) | ✅ | ⬜ | ⬜ |
 | | Predecessor / Root Task | ⬜ | ✅ | ✅ |
-| **Advanced Scheduling** | * Serverless Size<br/>* Size Bounds<br/>* Execute As user<br/>* Overlapping Execution<br/>* Task Graph Config<br/>* Auto-Suspend<br/>* Auto-Retry<br/>* Error Notifications | ✅ | Only Execute As user | ⬜ |
+| **Advanced Scheduling** | * Serverless Size<br/>* Size Bounds<br/>* User Task Timeout<br/>* Execute As user<br/>* Overlapping Execution<br/>* Task Graph Config<br/>* Auto-Suspend<br/>* Auto-Retry<br/>* Error Notifications | ✅ | * User Task Timeout<br/>* Execute As user | ⬜ |
 | **Logic** | Override/Custom-SQL | ✅ | ✅ | ⬜ |
 
 ### Matrix 2: Stream-based Node Types
@@ -97,7 +97,7 @@ The Coalesce Stream and Task Node Types Package includes:
 * [Code](#code)
 ---
 
-## WORk With Task
+## Work With Task
 
 The Coalesce Work with Task UDN is a work node that wraps the standard Coalesce Work node with a Task.
 
@@ -115,7 +115,7 @@ The Work with Task node has two or three configuration groups depending on confi
 * [Options](#work-with-task-options)
 * [Scheduling Options](#work-with-task-scheduling-options) - Visible when Development Mode is false
 
-#### WORk With Task Properties
+#### Work With Task Properties
 
 | **Property** | **Description** |
 |-------------|-----------------|
@@ -124,7 +124,7 @@ The Work with Task node has two or three configuration groups depending on confi
 | **Description** | A description of the Node's purpose |
 | **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-#### WORk With Task Options
+#### Work With Task Options
 
 ![Worktask-opt](https://github.com/coalesceio/Streams-and-Task-Nodes/assets/7216836/2582e574-e368-4c00-8172-b259a86a4548)
 
@@ -170,6 +170,7 @@ The Work with Task node has two or three configuration groups depending on confi
 
 | **Option** | **Description** |
 |------------|----------------|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 | **Allow Overlapping Execution** | Allows a new instance of the task to start if the previous one is still running. |
@@ -384,6 +385,7 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 | **Option** | **Description** |
 |------------|----------------|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 | **Allow Overlapping Execution** | Allows a new instance of the task to start if the previous one is still running. |
@@ -584,6 +586,7 @@ If Development Mode is set to false, use Scheduling Options to configure how and
 
 | **Option** | **Description** |
 |------------|----------------|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 | **Allow Overlapping Execution** | Allows a new instance of the task to start if the previous one is still running. |
@@ -759,6 +762,7 @@ The Task DAG Create Root node has two configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 | **Allow Overlapping Execution** | Allows a new instance of the task to start if the previous one is still running. |
@@ -856,7 +860,7 @@ The Task DAG Custom-SQL node has two configuration groups:
 | **Task Schedule** | - Predecessor - Specify dependent tasks |
 | **Enter predecessor tasks separated by a comma**| One or more task names that precede the task being created in the current node. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. If there are multiple predecessor task separate the task names using a comma(,) |
 | **Root task name** | Visible when Task Schedule is set to Predecessor.<br/> Name of the root task that controls scheduling for the DAG of tasks. Task names are case sensitive, should not be quoted and must exist in the same schema in which the current task is being created. |
-| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 
@@ -1111,6 +1115,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 | **Allow Overlapping Execution** | Allows a new instance of the task to start if the previous one is still running. |
@@ -1384,6 +1389,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 | **Allow Overlapping Execution** | Allows a new instance of the task to start if the previous one is still running. |
@@ -1555,6 +1561,7 @@ The Insert or Merge with Task node has the following configuration groups:
 
 | **Option** | **Description** |
 |------------|----------------|
+| **User Task Timeout** | Specifies the time limit on a single run of the task before it times out (in milliseconds)<br/>Values: 0 - 604800000 (7 days). A value of 0 specifies that the maximum timeout value is enforced |
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 | **Allow Overlapping Execution** | Allows a new instance of the task to start if the previous one is still running. |
