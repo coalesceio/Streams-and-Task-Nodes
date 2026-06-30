@@ -6,9 +6,9 @@ mappingDefinitions:
     schema: SOURCE
   TARGET_ACC:
     database: TANVI_DEV
-    schema: QA
+    schema: QA_PHASE
   TARGET_DB:
     database: TANVI_DEV
-    schema: TARGET
+    schema: QA
 name: "[NM-252]-UserTaskAddition"
 type: Environment
