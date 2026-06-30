@@ -52,7 +52,7 @@ operation:
     succIntName: my_sns_integration
     successNotifyToggle: true
     taskGraphToggle: true
-    timeOut: "6000"
+    timeOut: "600"
     userName: tkamat
     whName: <WAREHOUSE_NAME>
   database: ""

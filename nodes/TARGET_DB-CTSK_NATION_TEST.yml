@@ -112,7 +112,7 @@ operation:
              "N_COMMENT" AS "N_COMMENT",
              "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP"
              FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }}
-             WHERE N_NATIONKEY = 2
+             WHERE N_NATIONKEY = 3
             	)
         dependencies:
           - locationName: TARGET_DB
