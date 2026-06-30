@@ -42,15 +42,15 @@ operation:
     selectDistinct: false
     serverlessSize: 3. MEDIUM
     sizeBoundToggle: false
-    spfcUserToggle: false
+    spfcUserToggle: true
     succIntName: ""
     successNotifyToggle: false
     taskGraphToggle: false
-    userName: ""
+    userName: tkamat
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: ""
+  description: 1432'';;;"""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -197,16 +197,12 @@ operation:
               - columnCounter: b8e27d1c-b5df-4359-8b10-278c13730456
                 stepCounter: c6cb3823-5671-4375-8fa2-85a4dbd15f8b
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 964482c0-ef53-4aa8-8994-1c90234b873a
+          columnCounter: aeb37e9d-1129-4e57-87c7-007181a0d2bd
           stepCounter: 68844019-c8f1-48a6-b515-4fb109a9e92b
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -214,16 +210,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 93c9a790-cbfb-4f4a-b86b-dc44b381304c
+          columnCounter: 739535cd-abf8-4f8f-83d6-a3bc616bc322
           stepCounter: 68844019-c8f1-48a6-b515-4fb109a9e92b
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -248,7 +240,7 @@ operation:
   name: TSKFCT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: "150"
+  sqlType: st271:::150
   type: sql
   version: 1
 type: Node

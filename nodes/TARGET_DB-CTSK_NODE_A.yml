@@ -3,7 +3,7 @@ id: 94172308-6ac3-4c19-9b0d-3118ebe33ff7
 name: CTSK_NODE_A
 operation:
   config:
-    devMode: true
+    devMode: false
     flagSrcStream: true
     maxServerlessSize: 6. XXLARGE
     minServerlessSize: 1. XSMALL
@@ -16,7 +16,7 @@ operation:
     sizeBoundToggle: true
     spfcUserToggle: true
     timeOut: "60000"
-    userName: tkamat
+    userName: "      tkamat"
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true

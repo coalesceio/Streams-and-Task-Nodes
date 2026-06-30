@@ -735,6 +735,7 @@ does not permit copying or modification for any other purpose.
             {% endif -%}
 
         {%- set nsTaskVar = namespace(nodeComment='',
+                                    timeOut='',
                                     userServiceAcct='',
                                     suspendTask='',
                                     autoTry='',
@@ -759,6 +760,7 @@ does not permit copying or modification for any other purpose.
                     {{ minSrvSize }}
                     {{ maxSrvSize }}
                 {% endif -%}
+                {{ nsTaskVar.timeOut }}
                 {{ nsTaskVar.nodeComment }}
                 {{ nsVariables.taskWhenRun }}
                 {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}

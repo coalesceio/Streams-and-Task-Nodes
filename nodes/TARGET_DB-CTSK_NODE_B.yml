@@ -52,7 +52,7 @@ operation:
   name: CTSK_NODE_B
   overrideSQL: true
   schema: ""
-  sqlType: "677"
+  sqlType: st271:::677
   type: sql
   version: 1
 type: Node

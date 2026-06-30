@@ -898,6 +898,7 @@
         {% endif -%}
 
         {%- set nsTaskVar = namespace(nodeComment='',
+                                    timeOut='',
                                     userServiceAcct='',
                                     suspendTask='',
                                     autoTry='',
@@ -957,6 +958,7 @@
                 {{ minSrvSize }}
                 {{ maxSrvSize }}
             {% endif -%}
+            {{ nsTaskVar.timeOut }}
             {{ nsTaskVar.nodeComment }}
             {{ nsVariables.taskWhenRun }}
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' %}
