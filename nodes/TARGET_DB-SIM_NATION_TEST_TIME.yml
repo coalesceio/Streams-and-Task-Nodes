@@ -1,10 +1,11 @@
 fileVersion: 1
-id: 9379693e-6f41-447e-8505-618f1a0f65b2
-name: DSM_NATION_TEST
+id: 5d523a47-bd24-487d-bebb-02b9d4790f44
+name: SIM_NATION_TEST_TIME
 operation:
   config:
-    autoRetryToggle: false
-    autoSuspendToggle: false
+    appendOnly: false
+    autoRetryToggle: true
+    autoSuspendToggle: true
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -13,54 +14,51 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    configJSON: ""
+    configJSON: "{\"environment\":\"production\", \"dir\":\"/my_prod_directory/\"} "
     createas: table
     devMode: false
-    errIntName: ""
-    errNotifyToggle: false
+    errIntName: my_sns_integration
+    errNotifyToggle: true
     execTime:
       items:
-        - period: Minutes
+        - period: Hours
           value: "60"
     flagSrcStream: true
+    groupByAll: false
     initialRows: true
-    latestRowFromSource: false
-    loadType: Merge
+    loadType: Insert
     maxServerlessSize: 6. XXLARGE
     minServerlessSize: 1. XSMALL
     numFailures: "10"
     orderBy:
       items:
-        - colName:
-            columnCounter: 57ac4ad4-6057-4570-a291-cac382bac5af
-            stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
-          sortOrd: desc
-    overlapExecToggle: false
+        - {}
+    overlapExecToggle: true
     partitionBy:
       items:
-        - partColName:
-            columnCounter: cabf026d-d9a4-4da0-825f-840dc13e3b3c
-            stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+        - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    redeploymentBehavior: Create If Not Exists
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
+    selectDistinct: false
     serverlessSize: 3. MEDIUM
     sizeBoundToggle: false
     sourceType: Table
-    spfcUserToggle: false
-    succIntName: ""
-    successNotifyToggle: false
-    taskGraphToggle: false
-    timeOut: "60000"
-    userName: ""
+    spfcUserToggle: true
+    succIntName: my_sns_integration
+    successNotifyToggle: true
+    taskGraphToggle: true
+    timeOut: 60000
+    userName: tkamat
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: sfhdjk468587^)*@^$%!""''
+  description: Comment Added - 'with Timeout'
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -69,8 +67,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: cabf026d-d9a4-4da0-825f-840dc13e3b3c
-          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          columnCounter: 4c37a846-d868-409f-a9bd-050410f8f834
+          stepCounter: 5d523a47-bd24-487d-bebb-02b9d4790f44
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -83,8 +81,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c6d4d127-a488-408e-b65f-25a2ff920e95
-          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          columnCounter: 6daf50e1-3c9a-44bc-b351-b4b41e04380b
+          stepCounter: 5d523a47-bd24-487d-bebb-02b9d4790f44
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -97,8 +95,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e2c6123f-6ddc-48f3-9def-458d00472361
-          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          columnCounter: cac7ad23-6a26-4cd6-9ce4-d733f4a55477
+          stepCounter: 5d523a47-bd24-487d-bebb-02b9d4790f44
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -111,8 +109,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7b867a6c-3e9c-40d9-a826-484780cea9ef
-          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          columnCounter: 6e6accc9-1cb1-4c30-83b4-755fdb9720c4
+          stepCounter: 5d523a47-bd24-487d-bebb-02b9d4790f44
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -125,8 +123,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 57ac4ad4-6057-4570-a291-cac382bac5af
-          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          columnCounter: cd8b4244-7430-427e-9064-216527579833
+          stepCounter: 5d523a47-bd24-487d-bebb-02b9d4790f44
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -142,8 +140,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6ed5313c-9a41-4890-b2b9-3e1633864de1
-          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          columnCounter: 0d5cfbde-8198-4af6-8722-f0c6956142ba
+          stepCounter: 5d523a47-bd24-487d-bebb-02b9d4790f44
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -159,8 +157,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 74ff5b8b-70d1-49b9-add1-62979de70c67
-          stepCounter: 9379693e-6f41-447e-8505-618f1a0f65b2
+          columnCounter: 97be184b-0133-4110-bda6-b22b17be7046
+          stepCounter: 5d523a47-bd24-487d-bebb-02b9d4790f44
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -183,12 +181,12 @@ operation:
             nodeName: NATION_TEST
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
-        name: DSM_NATION_TEST
+        name: SIM_NATION_TEST_TIME
         noLinkRefs: []
-  name: DSM_NATION_TEST
+  name: SIM_NATION_TEST_TIME
   overrideSQL: false
   schema: ""
-  sqlType: "483"
+  sqlType: "152"
   type: sql
   version: 1
 type: Node
