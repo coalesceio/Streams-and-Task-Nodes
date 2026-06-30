@@ -33,11 +33,11 @@ operation:
       items:
         - {}
     overlapExecToggle: true
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    predTask: TGCR_1
     retryAttmpt: "0"
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: TGCR_1
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriodOption: Minutes
+    schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
     selectDistinct: false
     serverlessSize: 3. MEDIUM
@@ -139,8 +139,12 @@ operation:
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION_TEST
+          - locationName: TARGET_DB
+            nodeName: TGCR_1
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+            -- FROM {{ ref('TARGET_DB', 'TGCR_1') }} "TGCR_1"
         name: TSKWRK_NATION_TEST
         noLinkRefs: []
   name: TSKWRK_NATION_TEST
