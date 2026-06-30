@@ -46,7 +46,7 @@ operation:
     succIntName: ""
     successNotifyToggle: false
     taskGraphToggle: false
-    timeOut: 60000
+    timeOut: ""
     truncateBefore: true
     userName: ""
     whName: <WAREHOUSE_NAME>

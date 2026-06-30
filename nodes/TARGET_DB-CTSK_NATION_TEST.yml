@@ -103,7 +103,6 @@ operation:
       - aliases: {}
         customSQL:
           customSQL: |-
-
             	CREATE OR REPLACE VIEW {{ ref('TARGET_DB', 'CTSK_NATION_TEST')}} AS (
             		SELECT 
              "N_NATIONKEY" AS "N_NATIONKEY",
