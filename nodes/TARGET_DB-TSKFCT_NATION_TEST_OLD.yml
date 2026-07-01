@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 547788ee-dd06-4ef9-a34a-a1ca1a44c734
-name: TSKFCT_NATION_TESTOLD
+name: TSKFCT_NATION_TEST_OLD
 operation:
   config:
     autoRetryToggle: false
@@ -174,9 +174,9 @@ operation:
             nodeName: NATION_TEST
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
-        name: TSKFCT_NATION_TESTOLD
+        name: TSKFCT_NATION_TEST_OLD
         noLinkRefs: []
-  name: TSKFCT_NATION_TESTOLD
+  name: TSKFCT_NATION_TEST_OLD
   overrideSQL: false
   schema: ""
   sqlType: st271:::150
