@@ -53,6 +53,7 @@ operation:
     succIntName: ""
     successNotifyToggle: false
     taskGraphToggle: false
+    timeOut: 60000
     truncateBefore: true
     userName: ""
     whName: <WAREHOUSE_NAME>
@@ -135,16 +136,12 @@ operation:
               - columnCounter: ddba47d9-4a9d-469a-9b27-7697714747dc
                 stepCounter: e378479a-02cb-4ee9-a5fe-2f9ee5482be3
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: af7b0c80-93a7-40d6-8a74-5d6f8f19dba6
+          columnCounter: c346c3f6-9a7a-43bd-8429-f8fb9ad92f1f
           stepCounter: 99480bd4-8b1f-4377-b196-1c88eb0e55cd
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -152,16 +149,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 15118baa-2422-4d54-b446-59fea6f670dd
+          columnCounter: c464807e-98b5-42d4-a8a5-b8bbea67baba
           stepCounter: 99480bd4-8b1f-4377-b196-1c88eb0e55cd
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -190,7 +183,7 @@ operation:
   name: TIM_NATION_TEST_OLD
   overrideSQL: false
   schema: ""
-  sqlType: st271:::567
+  sqlType: "567"
   type: sql
   version: 1
 type: Node
