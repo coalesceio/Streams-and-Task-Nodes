@@ -111,7 +111,7 @@ does not permit copying or modification for any other purpose.
                 {{ streamInsertOnlyMode }}
 
         {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists' and desiredState !=currentState %}
-            {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
+            {{ stage('Create Stream If Not Exists',true,"sql","create") }}
             CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
                 ON {{ streamType }} {{ refLink }}
                 {{ streamAppendMode }}
