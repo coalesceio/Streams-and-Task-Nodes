@@ -1020,7 +1020,7 @@ After initial deployment, subsequent deployments will create a new stream based 
 
 | **Redeployment Behavior** | **Stage Executed** |
 |--------------------------|-------------------|
-| Create Stream if not exists | Re-Create Stream at existing offset |
+| Create Stream if not exists | Create Stream if not exists |
 | Create or Replace | Create Stream |
 | Create at existing stream | Re-Create Stream at existing offset |
 
@@ -1182,7 +1182,7 @@ Stream redeployment behavior:
 
 | **Redeployment Behavior** | **Stage Executed** |
 |--------------------------|-------------------|
-| **Create Stream if not exists** | Re-Create Stream at existing offset |
+| **Create Stream if not exists** | Create Stream if not exists |
 | **Create or Replace** | Create Stream |
 | **Create at existing stream** | Re-Create Stream at existing offset |
 
@@ -1292,7 +1292,7 @@ After initial deployment, subsequent deployments will create a new stream based 
 
 | **Redeployment Behavior** | **Stage Executed** |
 |--------------------------|-------------------|
-| Create Stream if not exists | Re-Create Stream at existing offset |
+| Create Stream if not exists | Create Stream if not exists |
 | Create or Replace | Create Stream |
 | Create at existing stream | Re-Create Stream at existing offset |
 
@@ -1446,7 +1446,7 @@ Stream redeployment behavior:
 
 | **Redeployment Behavior** | **Stage Executed** |
 |--------------------------|-------------------|
-| **Create Stream if not exists** | Re-Create Stream at existing offset |
+| **Create Stream if not exists** | Create Stream if not exists |
 | **Create or Replace** | Create Stream |
 | **Create at existing stream** | Re-Create Stream at existing offset |
 
