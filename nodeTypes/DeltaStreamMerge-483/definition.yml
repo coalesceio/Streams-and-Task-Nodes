@@ -55,7 +55,6 @@ metadata:
 
       - type: toggleButton
         displayName: Use Selected Table Key as Primary Key
-        default: true
         attributeName: useTableKeyAsPrimary
         enableIf: "{% if config.sourceType == 'Table' and  config.primary == false %} true {% else %} false {% endif %}"
      
