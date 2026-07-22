@@ -1,0 +1,43 @@
+config:
+  entities:
+    nodeTypes:
+      "149":
+        defaultStorageLocation: null
+        isDisabled: false
+      "150":
+        defaultStorageLocation: null
+        isDisabled: false
+      "151":
+        defaultStorageLocation: null
+        isDisabled: false
+      "152":
+        defaultStorageLocation: null
+        isDisabled: false
+      "153":
+        defaultStorageLocation: null
+        isDisabled: false
+      "154":
+        defaultStorageLocation: null
+        isDisabled: false
+      "155":
+        defaultStorageLocation: null
+        isDisabled: false
+      "428":
+        defaultStorageLocation: null
+        isDisabled: false
+      "483":
+        defaultStorageLocation: null
+        isDisabled: false
+      "567":
+        defaultStorageLocation: null
+        isDisabled: false
+      "677":
+        defaultStorageLocation: null
+        isDisabled: false
+  packageVariables: ""
+fileVersion: 1
+id: "@coalesce/snowflake/streams-and-tasks"
+name: streams-and-tasks
+packageID: "@coalesce/snowflake/streams-and-tasks"
+releaseID: 62efb9a3-b9ec-44cd-8d5b-ee2c614a2ae7
+type: Package
