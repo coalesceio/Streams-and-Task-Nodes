@@ -321,5 +321,51 @@ macroString: |-
       {%- endif %}
 
   {%- endmacro %}
+
+  {###############################################################################################
+     Macro: generatePrimaryKeyConstraint
+     Purpose: Builds the CONSTRAINT ... PRIMARY KEY (...) clause
+                - Streams/Tasks keyed nodes (manual OR "use table key")
+     Params:
+       desiredState      - the node's desiredState object (as used today)
+       tableKeyColumns    - (optional) list of column names from the
+                            node's existing Table Key selection.
+                            Pass this in only for nodes that support
+                            "Use Selected Table Key as Primary Key".
+                            Leave as none for Advanced Deploy nodes.
+  ##############################################################################################}
+
+  {%- macro generatePrimaryKeyConstraint(desiredState) %}
+
+      {%- if desiredState.config.primary == true %}
+
+          {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                                   | selectattr('primaryKey', 'defined')
+                                   | selectattr('primaryKey', 'ne', none)
+                                   | map(attribute='primaryKey')
+                                   | selectattr('name', 'defined')
+                                   | map(attribute='name')
+                                   | list %}
+
+      {%- elif desiredState.config.useTableKeyAsPrimary == true %}
+
+          {%- set primaryKeyList = desiredState.config.partitionBy.get('items', [])
+                                   | selectattr('partColName', 'defined')
+                                   | selectattr('partColName', 'ne', none)
+                                   | map(attribute='partColName')
+                                   | selectattr('name', 'defined')
+                                   | map(attribute='name')
+                                   | list %}
+
+      {%- else %}
+          {%- set primaryKeyList = [] %}
+      {%- endif %}
+
+      {%- if primaryKeyList | length > 0 %}
+          {%- set pkName = desiredState.config.primaryKeyName | default('') | trim %}
+  CONSTRAINT {{ pkName if pkName != '' else 'pk_' + desiredState.node.name }} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+      {%- endif %}
+
+  {%- endmacro %}
 name: macro
 type: Macro
