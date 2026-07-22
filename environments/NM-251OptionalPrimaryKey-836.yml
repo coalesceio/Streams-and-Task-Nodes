@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "835"
+id: "836"
 mappingDefinitions:
   SOURCE_DATA:
     database: PRANJAL_DEV
@@ -10,5 +10,5 @@ mappingDefinitions:
   TARGET_DB:
     database: PRANJAL_DEV
     schema: TEST_DB
-name: "[NM-251]Optional PrimaryKey"
+name: "[NM-251]OptionalPrimaryKey"
 type: Environment
