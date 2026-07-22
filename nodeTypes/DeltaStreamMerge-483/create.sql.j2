@@ -511,7 +511,7 @@ does not permit copying or modification for any other purpose.
                     {{ stage('Rename Primary Key') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     RENAME CONSTRAINT {{ currentPkName if currentPkName != '' else 'pk_' + currentState.node.name }} TO {{ desiredPkName if desiredPkName != '' else 'pk_' + desiredState.node.name }}
-                {% elif  primaryKeyColList == false or tableKeyForPkTest == false or useTableKeyAsPrimaryTest == false %}
+                {% elif  primaryKeyColList == false or tableKeyForPkTest == false %}
                     {{ stage('Drop Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP PRIMARY KEY
@@ -519,7 +519,7 @@ does not permit copying or modification for any other purpose.
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     ADD {{ generatePrimaryKeyConstraint(desiredState) }}
 
-                {% else %}
+                {% elif primaryKeyTest == false or useTableKeyAsPrimaryTest == false %}
                     {{ stage('Alter Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     ADD {{ generatePrimaryKeyConstraint(desiredState) }}
