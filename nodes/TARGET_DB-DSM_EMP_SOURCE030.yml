@@ -1,6 +1,6 @@
 fileVersion: 1
-id: a3cf5d5f-3b17-4733-a986-4c03b98c3def
-name: DSM_EMP_SOURCE020
+id: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
+name: DSM_EMP_SOURCE030
 operation:
   config:
     autoRetryToggle: false
@@ -31,23 +31,16 @@ operation:
     orderBy:
       items:
         - colName:
-            columnCounter: c13d6002-bfbe-4d17-a182-15a72af19c6e
-            stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+            columnCounter: 2ec1b74e-7dfd-4378-a58f-f4aa9aa7900b
+            stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
           sortOrd: desc
     overlapExecToggle: false
     partitionBy:
       items:
         - partColName:
-            columnCounter: 3a887c19-b458-4609-8c1a-43d01bfdcd70
-            stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+            columnCounter: 6983c7b6-e8a0-458f-9473-d264dca42b2b
+            stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: true
-    primaryKeyCol:
-      items:
-        - primaryKey:
-            columnCounter: c87ba1cc-322e-4a6a-8fc5-c55cb1bbd5a2
-            stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
-    primaryKeyName: ""
     redeploymentBehavior: Create or Replace
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
@@ -62,7 +55,6 @@ operation:
     successNotifyToggle: false
     taskGraphToggle: false
     timeOut: 60000
-    useTableKeyAsPrimary: false
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
@@ -76,8 +68,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3a887c19-b458-4609-8c1a-43d01bfdcd70
-          stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+          columnCounter: 6983c7b6-e8a0-458f-9473-d264dca42b2b
+          stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -90,8 +82,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c87ba1cc-322e-4a6a-8fc5-c55cb1bbd5a2
-          stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+          columnCounter: 73033167-87f0-4b06-b1c9-1587777244de
+          stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -104,8 +96,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 46f18b82-a9b4-4c47-800a-7ab4cbf07fbe
-          stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+          columnCounter: a6255975-2e2a-43f6-a645-aaaf7822cdb8
+          stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -118,8 +110,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9b2ee54c-52ba-46e4-88a0-04fdac8dcaab
-          stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+          columnCounter: 7d98393b-adad-4a89-8199-c989f4e25dcc
+          stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -132,8 +124,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c13d6002-bfbe-4d17-a182-15a72af19c6e
-          stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+          columnCounter: 2ec1b74e-7dfd-4378-a58f-f4aa9aa7900b
+          stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -149,8 +141,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 3178433e-9251-477d-9aa5-a3e1ba9c8178
-          stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+          columnCounter: 73b7e790-45cf-4b35-a519-5cfc22acb849
+          stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -166,8 +158,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6ed36ae1-248d-449b-abb5-d676f8f8048f
-          stepCounter: a3cf5d5f-3b17-4733-a986-4c03b98c3def
+          columnCounter: aa1806fb-a70c-43ff-9da3-1f1b8d80ea15
+          stepCounter: 2ef9e61e-4e3c-4c05-bb3d-5c51f41a07d1
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -190,12 +182,12 @@ operation:
             nodeName: EMP_SOURCE
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} "EMP_SOURCE"
-        name: DSM_EMP_SOURCE020
+        name: DSM_EMP_SOURCE030
         noLinkRefs: []
-  name: DSM_EMP_SOURCE020
+  name: DSM_EMP_SOURCE030
   overrideSQL: false
   schema: ""
-  sqlType: "483"
+  sqlType: streams-and-tasks:::483
   type: sql
   version: 1
 type: Node
