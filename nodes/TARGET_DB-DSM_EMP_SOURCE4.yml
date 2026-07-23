@@ -60,7 +60,7 @@ operation:
     successNotifyToggle: false
     taskGraphToggle: false
     timeOut: 60000
-    useTableKeyAsPrimary: false
+    useTableKeyAsPrimary: true
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
