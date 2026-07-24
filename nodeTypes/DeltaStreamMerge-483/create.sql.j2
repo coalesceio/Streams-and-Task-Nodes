@@ -507,22 +507,20 @@ does not permit copying or modification for any other purpose.
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP PRIMARY KEY
 
-                {% elif primaryKeyNameTest == false%}
+                {% elif primaryKeyNameTest == false and (currentState.config.primary or currentState.config.useTableKeyAsPrimary) %}
                     {{ stage('Rename Primary Key') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     RENAME CONSTRAINT {{ currentPkName if currentPkName != '' else 'pk_' + currentState.node.name }} TO {{ desiredPkName if desiredPkName != '' else 'pk_' + desiredState.node.name }}
-                {% elif  primaryKeyColList == false or tableKeyForPkTest == false %}
+
+                {% else %}
+                    {# Only drop if one exists currently #}
                     {% if currentState.config.primary == true or currentState.config.useTableKeyAsPrimary == true %}
                         {{ stage('Drop Primary Key Constraint') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         DROP PRIMARY KEY
                     {% endif %}
-                    {{ stage('Add Primary Key Constraint') }}
-                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                    ADD {{ generatePrimaryKeyConstraint(desiredState) }}
 
-                {% elif primaryKeyTest == false or useTableKeyAsPrimaryTest == false %}
-                    {{ stage('Alter Primary Key Constraint') }}
+                    {{ stage('Add Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     ADD {{ generatePrimaryKeyConstraint(desiredState) }}
                 {% endif %}

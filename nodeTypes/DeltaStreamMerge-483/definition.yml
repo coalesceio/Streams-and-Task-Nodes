@@ -30,16 +30,11 @@ metadata:
         - transient table
         isRequired: true
 
-      - displayName: Primary Key
+      - displayName: Add a Primary Key
         attributeName: primary
         type: toggleButton
         enableIf: "{% if config.sourceType == 'Table' and config.useTableKeyAsPrimary == false %} true {% else %} false {% endif %}"
 
-      - type: textBox
-        displayName: Primary Key Name
-        attributeName: primaryKeyName
-        default: ''
-        enableIf: "{% if (config.sourceType == 'Table' and config.primary == true) and config.useTableKeyAsPrimary == false  %} true {% else %} false {% endif %}"
 
       - type: tabular   
         displayName: Primary Key Columns
@@ -57,6 +52,12 @@ metadata:
         displayName: Use Selected Table Key as Primary Key
         attributeName: useTableKeyAsPrimary
         enableIf: "{% if config.sourceType == 'Table' and  config.primary == false %} true {% else %} false {% endif %}"
+
+      - type: textBox
+        displayName: Primary Key Name
+        attributeName: primaryKeyName
+        default: ''
+        enableIf: "{% if (config.sourceType == 'Table' and config.primary == true) and config.useTableKeyAsPrimary == false  %} true {% else %} false {% endif %}"
      
     - groupName: Stream Options
       items:
