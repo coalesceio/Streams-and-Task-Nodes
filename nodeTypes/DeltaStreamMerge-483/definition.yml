@@ -57,7 +57,7 @@ metadata:
         displayName: Primary Key Name
         attributeName: primaryKeyName
         default: ''
-        enableIf: "{% if (config.sourceType == 'Table' and config.primary == true) and config.useTableKeyAsPrimary == false  %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.sourceType == 'Table' and (config.primary == true or config.useTableKeyAsPrimary == true) %} true {% else %} false {% endif %}"
      
     - groupName: Stream Options
       items:
