@@ -47,9 +47,6 @@ operation:
         - primaryKey:
             columnCounter: 87df440e-6320-437f-a2b1-e161a2fb1b09
             stepCounter: b6d98ba9-8896-49bf-bafe-0ccf69d93d3a
-        - primaryKey:
-            columnCounter: fb09d8f3-6408-4ed5-97e8-c39ccfd9eac1
-            stepCounter: b6d98ba9-8896-49bf-bafe-0ccf69d93d3a
     primaryKeyName: PK_DEMO_02
     redeploymentBehavior: Create or Replace
     retryAttmpt: "0"

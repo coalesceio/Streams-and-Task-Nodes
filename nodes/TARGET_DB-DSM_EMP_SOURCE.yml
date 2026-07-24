@@ -47,7 +47,10 @@ operation:
         - primaryKey:
             columnCounter: 5585c17d-8731-4c57-bbb6-7eceb8c0fa82
             stepCounter: 901f3226-c0f9-4df3-a31b-f5def66bcf44
-    primaryKeyName: PK_DEMO_03
+        - primaryKey:
+            columnCounter: 259c536e-83f3-4fce-bade-d2390f4665d5
+            stepCounter: 901f3226-c0f9-4df3-a31b-f5def66bcf44
+    primaryKeyName: PK_DEMO_04
     redeploymentBehavior: Create or Replace
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
