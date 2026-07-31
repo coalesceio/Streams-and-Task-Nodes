@@ -33,7 +33,7 @@ operation:
         - {}
     overlapExecToggle: false
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: true
+    primary: false
     primaryKeyCol:
       items:
         - primaryKey:

@@ -39,9 +39,6 @@ operation:
         - primaryKey:
             columnCounter: 9a9a03e2-b8a1-424c-bad7-1327fc1f4e3d
             stepCounter: 2e394e50-fc42-4749-a542-211c30a4f0ab
-        - primaryKey:
-            columnCounter: 2ae40f18-e89b-4adf-b975-3967cb788735
-            stepCounter: 2e394e50-fc42-4749-a542-211c30a4f0ab
     primaryKeyName: PK_COL
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK

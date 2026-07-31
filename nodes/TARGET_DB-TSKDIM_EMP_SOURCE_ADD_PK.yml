@@ -33,10 +33,12 @@ operation:
         - {}
     overlapExecToggle: false
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: false
+    primary: true
     primaryKeyCol:
       items:
-        - {}
+        - primaryKey:
+            columnCounter: 62fc1732-1410-444b-80c2-34cb93ca9ae7
+            stepCounter: 71390fca-7472-4081-9c33-858608e98b63
     primaryKeyName: ""
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK

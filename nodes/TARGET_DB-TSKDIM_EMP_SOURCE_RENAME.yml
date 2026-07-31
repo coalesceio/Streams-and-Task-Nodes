@@ -39,7 +39,7 @@ operation:
         - primaryKey:
             columnCounter: ecc7cb07-6ce1-453f-b907-eee19bfbc512
             stepCounter: e40c5c9e-b895-4f58-89a1-a4a8bb4b05d2
-    primaryKeyName: ""
+    primaryKeyName: PK_COL_NEW
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
