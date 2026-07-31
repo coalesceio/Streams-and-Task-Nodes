@@ -37,7 +37,7 @@ operation:
       items:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: true
+    primary: false
     primaryKeyCol:
       items:
         - primaryKey:
