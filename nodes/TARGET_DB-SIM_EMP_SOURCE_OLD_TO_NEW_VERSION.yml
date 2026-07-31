@@ -1,0 +1,191 @@
+fileVersion: 1
+id: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+name: SIM_EMP_SOURCE_OLD_TO_NEW_VERSION
+operation:
+  config:
+    appendOnly: false
+    autoRetryToggle: false
+    autoSuspendToggle: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    configJSON: ""
+    createas: table
+    devMode: true
+    errIntName: ""
+    errNotifyToggle: false
+    execTime:
+      items:
+        - {}
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
+    numFailures: "10"
+    orderBy:
+      items:
+        - {}
+    overlapExecToggle: false
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    retryAttmpt: "0"
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    sourceType: Table
+    spfcUserToggle: false
+    succIntName: ""
+    successNotifyToggle: false
+    taskGraphToggle: false
+    timeOut: 60000
+    userName: ""
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bd4a7498-9a75-4c3e-b552-55aab3291e39
+          stepCounter: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EMP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5df1455a-9105-4b2e-b172-4630ff85e5c4
+                stepCounter: 3f07140c-793d-4ace-8b26-520615de2a6d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: df31f0be-6931-4ada-b5de-197c81fc0951
+          stepCounter: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ad304469-f1f7-4786-b660-c7b2d6297122
+                stepCounter: 3f07140c-793d-4ace-8b26-520615de2a6d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fdd6dcd9-e05f-4d03-837b-93eaeef6722a
+          stepCounter: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9e82501b-1b24-4868-80f9-49be147932d4
+                stepCounter: 3f07140c-793d-4ace-8b26-520615de2a6d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fb662b29-43a6-4979-8cc1-ffc4e1221ccb
+          stepCounter: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DML_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 27edd933-526b-405f-89ad-ed27db39661f
+                stepCounter: 3f07140c-793d-4ace-8b26-520615de2a6d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63b25db6-0286-4d15-88a9-402d67441be3
+          stepCounter: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 49c872da-ad58-436f-a85e-4d26d4e426b1
+                stepCounter: 3f07140c-793d-4ace-8b26-520615de2a6d
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fecb1120-ca92-41bd-b1ee-264d319e9f81
+          stepCounter: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4493713-26f8-4b43-8371-ae8d239d1dfd
+          stepCounter: 47fa9561-4991-46f7-aa57-bb57bc9824eb
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EMP_SOURCE: 3f07140c-793d-4ace-8b26-520615de2a6d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EMP_SOURCE
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} "EMP_SOURCE"
+        name: SIM_EMP_SOURCE_OLD_TO_NEW_VERSION
+        noLinkRefs: []
+  name: SIM_EMP_SOURCE_OLD_TO_NEW_VERSION
+  overrideSQL: false
+  schema: ""
+  sqlType: streams-and-tasks:::152
+  type: sql
+  version: 1
+type: Node
