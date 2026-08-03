@@ -43,13 +43,13 @@ operation:
           - locationName: TARGET_DB
             nodeName: C3
         join:
-          joinCondition: FROM {{ ref_link('TARGET_DB', 'C3') }} "NATION_TEST"
+          joinCondition: FROM {{ ref('TARGET_DB', 'C3') }} "NATION_TEST"
         name: C4
         noLinkRefs: []
   name: C4
   overrideSQL: true
   schema: ""
-  sqlType: "677"
+  sqlType: "697"
   type: sql
   version: 1
 type: Node

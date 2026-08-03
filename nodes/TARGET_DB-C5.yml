@@ -46,14 +46,14 @@ operation:
             nodeName: C4
         join:
           joinCondition: |-
-            FROM {{ ref_link('TARGET_DB', 'C2') }} "NATION_TEST"
-            --FROM {{ ref_link('TARGET_DB', 'C4') }} "NATION_TEST"
+            FROM {{ ref('TARGET_DB', 'C2') }} "NATION_TEST"
+            --FROM {{ ref('TARGET_DB', 'C4') }} "NATION_TEST"
         name: C5
         noLinkRefs: []
   name: C5
   overrideSQL: true
   schema: ""
-  sqlType: "677"
+  sqlType: "697"
   type: sql
   version: 1
 type: Node
