@@ -9,6 +9,6 @@ mappingDefinitions:
     schema: QA
   TARGET_DB:
     database: TANVI_DEV
-    schema: QA_PHASE
+    schema: QA_PHASE2
 name: "[NM-250]-CustomSQL"
 type: Environment
