@@ -33,7 +33,12 @@ operation:
       - aliases:
           NATION_TEST: 590dd615-7824-4451-9c56-7b8b95950ab3
         customSQL:
-          customSQL: SELECT DATEADD(DAY, 1, CURRENT_TIMESTAMP())
+          customSQL: |-
+            CREATE OR REPLACE VIEW  {{ ref('TARGET_DB', 'VW_DUMMY1') }} AS
+            SELECT
+                1 AS ID,
+                'TEST' AS NAME,
+                CURRENT_TIMESTAMP() AS CREATED_DATE;
         dependencies:
           - locationName: TARGET_DB
             nodeName: Root
