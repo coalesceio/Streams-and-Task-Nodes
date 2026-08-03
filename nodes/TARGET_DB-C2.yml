@@ -33,7 +33,7 @@ operation:
       - aliases:
           NATION_TEST: 89f12bbb-36a5-4e7f-8eda-603b59a8f474
         customSQL:
-          customSQL: SELECT CURRENT_TIMESTAMP()
+          customSQL: SELECT DATEADD(DAY, 1, CURRENT_TIMESTAMP())
         dependencies:
           - locationName: TARGET_DB
             nodeName: C1
