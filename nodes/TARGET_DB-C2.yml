@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 94172308-6ac3-4c19-9b0d-3118ebe33ff7
-name: CTSK_NODE_A
+id: 7f405760-150b-4d56-9a61-10123af5df41
+name: C2
 operation:
   config:
     devMode: false
@@ -8,18 +8,19 @@ operation:
     maxServerlessSize: 6. XXLARGE
     minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
-    predTask: "TSKWRK_NATION_TEST_A_TASK   "
-    rootTask: "     TGCR_NODE_Custom   "
+    predTask: C1_TASK
+    rootTask: Root
     schedulePeriodOption: Predecessor
     schedulingMode: Serverless Task
     serverlessSize: 3. MEDIUM
-    sizeBoundToggle: true
-    spfcUserToggle: true
-    userName: tkamat
+    sizeBoundToggle: false
+    spfcUserToggle: false
+    timeOut: 60000
+    userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
-  description: Added comment with quotes ' and double quotes " also some \ and spl chars ^!@#$%^&*(+)~
+  description: ""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: task
@@ -29,19 +30,18 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          NATION_TEST: 89f12bbb-36a5-4e7f-8eda-603b59a8f474
         customSQL:
-          customSQL: |-
-            UPDATE {{ ref('TARGET_DB', 'TSKWRK_NATION_TEST_A') }}
-            SET N_COMMENT = 'NODE-A UPDATED'
+          customSQL: SELECT CURRENT_TIMESTAMP()
         dependencies:
           - locationName: TARGET_DB
-            nodeName: TSKWRK_NATION_TEST_A
+            nodeName: C1
         join:
-          joinCondition: "-- FROM {{ ref('TARGET_DB', 'TSKWRK_NATION_TEST_A') }} \"TSKWRK_NATION_TEST_A\""
-        name: CTSK_NODE_A
+          joinCondition: FROM {{ ref('TARGET_DB', 'C1') }} "NATION_TEST"
+        name: C2
         noLinkRefs: []
-  name: CTSK_NODE_A
+  name: C2
   overrideSQL: true
   schema: ""
   sqlType: "677"

@@ -1,9 +1,9 @@
 fileVersion: 1
 id: de8e9148-ca5d-4161-8dd7-4658c7ea9740
-name: TGRR_NODE_Custom
+name: Resume
 operation:
   config:
-    rootTask: "            TGCR_NODE_Custom       "
+    rootTask: "Root    "
   database: ""
   deployEnabled: true
   description: ""
@@ -55,12 +55,12 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: CTSK_NODE_B
+            nodeName: C2
         join:
-          joinCondition: "-- FROM {{ ref('TARGET_DB', 'CTSK_NODE_B') }} \"CTSK_NODE_B\""
-        name: TGRR_NODE_Custom
+          joinCondition: "-- FROM {{ ref('TARGET_DB', 'C2') }} \"C2\""
+        name: Resume
         noLinkRefs: []
-  name: TGRR_NODE_Custom
+  name: Resume
   overrideSQL: false
   schema: ""
   sqlType: "155"

@@ -1,0 +1,50 @@
+fileVersion: 1
+id: 89f12bbb-36a5-4e7f-8eda-603b59a8f474
+name: C1
+operation:
+  config:
+    devMode: false
+    flagSrcStream: false
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
+    multiStreamBehavior: AND
+    predTask: Root
+    rootTask: Root
+    schedulePeriodOption: Predecessor
+    schedulingMode: Serverless Task
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    spfcUserToggle: false
+    timeOut: 60000
+    userName: ""
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION_TEST: 590dd615-7824-4451-9c56-7b8b95950ab3
+        customSQL:
+          customSQL: SELECT CURRENT_TIMESTAMP()
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: Root
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'Root') }} "NATION_TEST"
+        name: C1
+        noLinkRefs: []
+  name: C1
+  overrideSQL: true
+  schema: ""
+  sqlType: "677"
+  type: sql
+  version: 1
+type: Node

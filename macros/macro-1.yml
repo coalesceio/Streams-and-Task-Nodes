@@ -253,6 +253,7 @@ macroString: |-
   ######################################################################################################################################}
   {% macro getadvancedTaskOptions(ns) %}
       {%- set ns.nodeComment = "COMMENT = '" ~ node.description | trim | escape ~ "'" if node.description | default('') | trim else "" %}
+      {%- set ns.timeOut = "USER_TASK_TIMEOUT_MS = " ~ config.timeOut | trim if config.timeOut | default('') | trim else "" %}
 
       {%- if config.spfcUserToggle -%}
           {%- if parameters.targetTaskExecuteAsUser | default('') == 'DEV ENVIRONMENT' -%}
