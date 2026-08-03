@@ -55,13 +55,9 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: C2
-          - locationName: TARGET_DB
             nodeName: C5
         join:
-          joinCondition: |-
-            -- FROM {{ ref('TARGET_DB', 'C2') }} "C2"
-            -- FROM {{ ref('TARGET_DB', 'C5') }} "C5"
+          joinCondition: "-- FROM {{ ref('TARGET_DB', 'C5') }} \"C5\""
         name: Resume
         noLinkRefs: []
   name: Resume
