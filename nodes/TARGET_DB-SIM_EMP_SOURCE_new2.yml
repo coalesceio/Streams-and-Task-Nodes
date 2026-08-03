@@ -1,6 +1,6 @@
 fileVersion: 1
-id: c3d21985-bd2f-4345-92e5-325380fd471d
-name: SIM_EMP_SOURCE
+id: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
+name: SIM_EMP_SOURCE_new2
 operation:
   config:
     appendOnly: false
@@ -32,22 +32,20 @@ operation:
     orderBy:
       items:
         - colName:
-            columnCounter: da3fe76d-7828-4d79-a552-97cce9190d41
-            stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+            columnCounter: 813753f7-d381-4c8b-9510-2403be70815f
+            stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
           sortOrd: desc
     overlapExecToggle: false
     partitionBy:
       items:
         - partColName:
-            columnCounter: 1a11df4a-c777-4260-8d70-83006b5fe8e6
-            stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+            columnCounter: 86b8fcc0-88cd-43f7-a963-93254cd5e30c
+            stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: true
+    primary: false
     primaryKeyCol:
       items:
-        - primaryKey:
-            columnCounter: 7f61024c-a511-4771-8345-dbf81b261ef6
-            stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+        - primaryKey: null
     primaryKeyName: ""
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
@@ -65,7 +63,7 @@ operation:
     successNotifyToggle: false
     taskGraphToggle: false
     timeOut: 60000
-    useTableKeyAsPrimary: false
+    useTableKeyAsPrimary: true
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
@@ -79,8 +77,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1a11df4a-c777-4260-8d70-83006b5fe8e6
-          stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+          columnCounter: 86b8fcc0-88cd-43f7-a963-93254cd5e30c
+          stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -93,8 +91,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7f61024c-a511-4771-8345-dbf81b261ef6
-          stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+          columnCounter: 95efd9ad-0d5c-4c0d-bcd6-428051ff4a2c
+          stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -107,8 +105,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 554851d2-ba83-43ac-90f0-bcc4ee852beb
-          stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+          columnCounter: c40cf658-fa28-4c46-b5f8-d0ae0ff30edd
+          stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -121,8 +119,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7edd9ec2-2fe8-46e3-99cd-4576ee0088a1
-          stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+          columnCounter: fb4a2909-f0d2-44c7-8a7d-9799d151b867
+          stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -135,8 +133,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: da3fe76d-7828-4d79-a552-97cce9190d41
-          stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+          columnCounter: 813753f7-d381-4c8b-9510-2403be70815f
+          stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -152,8 +150,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a1fa89f1-0f8b-40e4-a3a5-c88c945ac1a4
-          stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+          columnCounter: dac8d4f7-ef0a-4102-ad6b-78043f3000e4
+          stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -169,8 +167,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e8352376-7fed-44f6-9630-c5caf34eb366
-          stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
+          columnCounter: 4a9004dc-6861-42ba-8250-2852d9a5de9f
+          stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -193,9 +191,9 @@ operation:
             nodeName: EMP_SOURCE
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} "EMP_SOURCE"
-        name: SIM_EMP_SOURCE
+        name: SIM_EMP_SOURCE_new2
         noLinkRefs: []
-  name: SIM_EMP_SOURCE
+  name: SIM_EMP_SOURCE_new2
   overrideSQL: false
   schema: ""
   sqlType: "152"
