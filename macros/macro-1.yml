@@ -339,23 +339,27 @@ macroString: |-
 
       {%- if desiredState.config.primary == true %}
 
-          {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
-                                   | selectattr('primaryKey', 'defined')
-                                   | selectattr('primaryKey', 'ne', none)
-                                   | map(attribute='primaryKey')
-                                   | selectattr('name', 'defined')
-                                   | map(attribute='name')
-                                   | list %}
+          {%- if desiredState.config.useTableKeyAsPrimary == true %}
 
-      {%- elif desiredState.config.useTableKeyAsPrimary == true %}
+              {%- set primaryKeyList = desiredState.config.partitionBy.get('items', [])
+                                       | selectattr('partColName', 'defined')
+                                       | selectattr('partColName', 'ne', none)
+                                       | map(attribute='partColName')
+                                       | selectattr('name', 'defined')
+                                       | map(attribute='name')
+                                       | list %}
 
-          {%- set primaryKeyList = desiredState.config.partitionBy.get('items', [])
-                                   | selectattr('partColName', 'defined')
-                                   | selectattr('partColName', 'ne', none)
-                                   | map(attribute='partColName')
-                                   | selectattr('name', 'defined')
-                                   | map(attribute='name')
-                                   | list %}
+          {%- else %}
+
+              {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                                       | selectattr('primaryKey', 'defined')
+                                       | selectattr('primaryKey', 'ne', none)
+                                       | map(attribute='primaryKey')
+                                       | selectattr('name', 'defined')
+                                       | map(attribute='name')
+                                       | list %}
+
+          {%- endif %}
 
       {%- else %}
           {%- set primaryKeyList = [] %}

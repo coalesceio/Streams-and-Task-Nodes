@@ -33,7 +33,6 @@ metadata:
       - displayName: Add a Primary Key
         attributeName: primary
         type: toggleButton
-        enableIf: "{% if config.useTableKeyAsPrimary == false %} true {% else %} false {% endif %}"
 
       - type: tabular   
         displayName: Primary Key Columns
@@ -45,18 +44,19 @@ metadata:
            attributeName: primaryKey
 
         isRequired: false
-        enableIf: "{% if (config.primary == true) and config.useTableKeyAsPrimary == false  %} true {% else %} false {% endif %}"
-
-      - type: toggleButton
-        displayName: Use Selected Table Key as Primary Key
-        attributeName: useTableKeyAsPrimary
-        enableIf: "{% if config.primary == false %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.primary == true %} true {% else %} false {% endif %}"
 
       - type: textBox
         displayName: Primary Key Name (Default:- pk_nodename)
         attributeName: primaryKeyName
         default: ''
-        enableIf: "{% if (config.primary == true or config.useTableKeyAsPrimary == true) %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.primary == true %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        displayName: Use Selected Table Key as Primary Key
+        attributeName: useTableKeyAsPrimary
+        enableIf: "{% if config.primary == true %} true {% else %} false {% endif %}"
+        default: true
      
     - groupName: Stream Options
       items:
