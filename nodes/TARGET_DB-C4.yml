@@ -34,6 +34,7 @@ operation:
           NATION_TEST: 9f53467a-0f64-4e7d-8b13-c7368c8c8b64
         customSQL:
           customSQL: |-
+            --FROM {{ ref('TARGET_DB', 'C3') }} "NATION_TEST"
             CREATE OR REPLACE VIEW  {{ ref('TARGET_DB', 'VW_DUMMY4') }} AS
             SELECT
                 1 AS ID,
@@ -49,7 +50,7 @@ operation:
   name: C4
   overrideSQL: true
   schema: ""
-  sqlType: "697"
+  sqlType: "677"
   type: sql
   version: 1
 type: Node

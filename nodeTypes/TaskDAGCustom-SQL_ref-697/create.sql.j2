@@ -49,7 +49,7 @@ does not permit copying or modification for any other purpose.
             
             {# Task Info - Use ref() #}
             {%- set taskName = desiredState.node.name + '_TASK' %}
-            {%- set fullyQualifiedTaskName = ref(desiredState.node.location.name, taskName) %}
+            {%- set fullyQualifiedTaskName = ref_no_link(desiredState.node.location.name, taskName) %}
 
             {# Task Type #}
             {%- if desiredState.config.schedulingMode == 'Warehouse Task' -%} 
