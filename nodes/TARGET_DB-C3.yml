@@ -43,7 +43,7 @@ operation:
           - locationName: TARGET_DB
             nodeName: Root
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'Root') }} "NATION_TEST"
+          joinCondition: FROM {{ ref_link('TARGET_DB', 'Root') }} "NATION_TEST"
         name: C3
         noLinkRefs: []
   name: C3
