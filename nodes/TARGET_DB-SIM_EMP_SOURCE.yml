@@ -42,10 +42,12 @@ operation:
             columnCounter: 1a11df4a-c777-4260-8d70-83006b5fe8e6
             stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: false
+    primary: true
     primaryKeyCol:
       items:
-        - {}
+        - primaryKey:
+            columnCounter: 7f61024c-a511-4771-8345-dbf81b261ef6
+            stepCounter: c3d21985-bd2f-4345-92e5-325380fd471d
     primaryKeyName: ""
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
@@ -63,7 +65,7 @@ operation:
     successNotifyToggle: false
     taskGraphToggle: false
     timeOut: 60000
-    useTableKeyAsPrimary: true
+    useTableKeyAsPrimary: false
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
