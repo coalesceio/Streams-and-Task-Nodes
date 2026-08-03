@@ -42,10 +42,12 @@ operation:
             columnCounter: 86b8fcc0-88cd-43f7-a963-93254cd5e30c
             stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: false
+    primary: true
     primaryKeyCol:
       items:
-        - primaryKey: null
+        - primaryKey:
+            columnCounter: 95efd9ad-0d5c-4c0d-bcd6-428051ff4a2c
+            stepCounter: 4e41d2f6-ef8a-4da8-9d95-8a905717fbf0
     primaryKeyName: ""
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
