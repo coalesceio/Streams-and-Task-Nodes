@@ -20,7 +20,7 @@ does not permit copying or modification for any other purpose.
     {%- endif %}
 
     {# Create Task #}
-    {%- if desiredState != currentState and desiredState.node.override.create.enabled %}
+    {%- if desiredState.node.override.create.enabled %}
 
         {# Target Table Info #}
         {%- set targetTableDatabase = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0] %} 
