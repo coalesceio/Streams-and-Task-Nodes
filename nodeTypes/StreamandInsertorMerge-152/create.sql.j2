@@ -487,6 +487,7 @@ does not permit copying or modification for any other purpose.
             {% set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol %}
             {% set useTableKeyAsPrimaryTest = currentState.config.useTableKeyAsPrimary | default(true) == desiredState.config.useTableKeyAsPrimary | default(true) %}
             {% set tableKeyForPkTest = currentState.config.partitionBy | default({'items': [{}]}) == desiredState.config.partitionBy %}
+            {% set loadTypeTest = currentState.config.loadType | default('') == desiredState.config.loadType %}
             {% set currentPkName = currentState.config.primaryKeyName | default('') | trim %}
             {% set desiredPkName = desiredState.config.primaryKeyName | default('') | trim %}
 
@@ -494,29 +495,40 @@ does not permit copying or modification for any other purpose.
                   or primaryKeyNameTest == false
                   or primaryKeyColList == false
                   or useTableKeyAsPrimaryTest == false
+                  or loadTypeTest == false
                   or (desiredState.config.useTableKeyAsPrimary | default(true) == true and tableKeyForPkTest == false) %}
 
-                {% if not desiredState.config.primary and not desiredState.config.useTableKeyAsPrimary %}
+                {% if not (desiredState.config.primary | default(false)) %}
                     {{ stage('Drop Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP PRIMARY KEY
 
-                {% elif primaryKeyNameTest == false and (currentState.config.primary or currentState.config.useTableKeyAsPrimary) %}
+                {% elif primaryKeyNameTest == false and (currentState.config.primary | default(false)) %}
                     {{ stage('Rename Primary Key') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     RENAME CONSTRAINT {{ currentPkName if currentPkName != '' else 'pk_' + currentState.node.name }} TO {{ desiredPkName if desiredPkName != '' else 'pk_' + desiredState.node.name }}
 
                 {% else %}
-                    {# Only drop if one exists currently #}
-                    {% if currentState.config.primary == true or currentState.config.useTableKeyAsPrimary == true %}
-                        {{ stage('Drop Primary Key Constraint') }}
-                        ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        DROP PRIMARY KEY
-                    {% endif %}
 
-                    {{ stage('Add Primary Key Constraint') }}
-                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                    ADD {{ generatePrimaryKeyConstraint(desiredState) }}
+                    {% set currentPkNs = namespace(effectiveColumns=[]) %}
+                    {% set desiredPkNs = namespace(effectiveColumns=[]) %}
+                    {{ resolveEffectivePkColumns('current', currentPkNs) }}
+                    {{ resolveEffectivePkColumns('desired', desiredPkNs) }}
+                    {% set columnsMatch = currentPkNs.effectiveColumns == desiredPkNs.effectiveColumns %}
+
+                    {% if columnsMatch %}
+                        {# Effective columns identical regardless of source - nothing to change #}
+                    {% else %}
+                        {% if (currentState.config.primary | default(false)) == true %}
+                            {{ stage('Drop Primary Key Constraint') }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                            DROP PRIMARY KEY
+                        {% endif %}
+
+                        {{ stage('Add Primary Key Constraint') }}
+                        ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                        ADD {{ generatePrimaryKeyConstraint(desiredState) }}
+                    {% endif %}
                 {% endif %}
             {% endif %}
            
