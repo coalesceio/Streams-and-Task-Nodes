@@ -42,6 +42,13 @@ operation:
             columnCounter: c32d5d44-f6fa-4262-b016-6f6507d9c350
             stepCounter: 630c519f-873a-46d4-9500-cc6eec48fd86
     predTask: DATA_TRANSFORMATION_ROOT_TASK
+    primary: true
+    primaryKeyCol:
+      items:
+        - primaryKey:
+            columnCounter: d757e248-6b85-4ff3-a848-1a0963344636
+            stepCounter: 630c519f-873a-46d4-9500-cc6eec48fd86
+    primaryKeyName: ""
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
     retryAttmpt: "0"
@@ -58,6 +65,7 @@ operation:
     successNotifyToggle: false
     taskGraphToggle: false
     timeOut: 60000
+    useTableKeyAsPrimary: false
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
@@ -139,16 +147,12 @@ operation:
               - columnCounter: 49c872da-ad58-436f-a85e-4d26d4e426b1
                 stepCounter: 3f07140c-793d-4ace-8b26-520615de2a6d
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 72230599-bf8a-4f27-8793-22fd91913cb1
+          columnCounter: f07de662-2692-4d9e-8899-33d39ad0cb6e
           stepCounter: 630c519f-873a-46d4-9500-cc6eec48fd86
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -156,16 +160,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 349e6807-8b21-4c3b-bc06-ef3aa747346b
+          columnCounter: 9b0872c9-7002-4d29-b1e6-ae791233c385
           stepCounter: 630c519f-873a-46d4-9500-cc6eec48fd86
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -190,7 +190,7 @@ operation:
   name: SIM_EMP_SOURCE_OLD_TO_NEW
   overrideSQL: false
   schema: ""
-  sqlType: streams-and-tasks:::152
+  sqlType: "152"
   type: sql
   version: 1
 type: Node

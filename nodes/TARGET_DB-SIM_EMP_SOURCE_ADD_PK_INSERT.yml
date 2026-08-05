@@ -37,10 +37,12 @@ operation:
       items:
         - {}
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: false
+    primary: true
     primaryKeyCol:
       items:
-        - {}
+        - primaryKey:
+            columnCounter: b65e0f85-21ae-430a-82d0-020050bb061c
+            stepCounter: c0b22546-7d66-40be-a596-a146276233de
     primaryKeyName: ""
     propagateDeletes: false
     redeploymentBehavior: Create or Replace

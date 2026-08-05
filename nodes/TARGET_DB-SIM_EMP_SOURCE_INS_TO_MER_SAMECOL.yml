@@ -25,7 +25,7 @@ operation:
     flagSrcStream: true
     groupByAll: false
     initialRows: true
-    loadType: Merge
+    loadType: Insert
     maxServerlessSize: 6. XXLARGE
     minServerlessSize: 1. XSMALL
     numFailures: "10"
@@ -45,7 +45,9 @@ operation:
     primary: true
     primaryKeyCol:
       items:
-        - {}
+        - primaryKey:
+            columnCounter: c6e4f675-b542-4c5d-a8ad-79766ba813e6
+            stepCounter: b69362c7-42e4-4245-808b-265a4aa8fca4
     primaryKeyName: PK_COL
     propagateDeletes: false
     redeploymentBehavior: Create or Replace

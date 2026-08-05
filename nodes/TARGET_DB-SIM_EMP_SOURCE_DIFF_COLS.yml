@@ -48,9 +48,6 @@ operation:
         - primaryKey:
             columnCounter: 32de3c35-96be-40ba-b65d-e797c9056b04
             stepCounter: c09285d4-9bc5-496a-94c8-d3a700d371b3
-        - primaryKey:
-            columnCounter: 3ceacdf4-c5eb-4238-97b9-bb60883ce6ed
-            stepCounter: c09285d4-9bc5-496a-94c8-d3a700d371b3
     primaryKeyName: ""
     propagateDeletes: false
     redeploymentBehavior: Create or Replace

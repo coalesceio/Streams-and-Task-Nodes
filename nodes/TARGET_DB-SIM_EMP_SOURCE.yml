@@ -43,7 +43,7 @@ operation:
         - primaryKey:
             columnCounter: b3bb3a9e-f274-45b3-ad89-86a9d70826e9
             stepCounter: 05bc5df3-19c0-4c4f-a5ea-10f37ddbb27a
-    primaryKeyName: PK_COL
+    primaryKeyName: PK_COL_001
     propagateDeletes: false
     redeploymentBehavior: Create or Replace
     retryAttmpt: "0"
