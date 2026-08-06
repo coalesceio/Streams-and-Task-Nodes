@@ -77,7 +77,7 @@ metadata:
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
 
-      - displayName: Add a Primary Key
+      - displayName: Primary Key
         attributeName: primary
         type: toggleButton
 
@@ -91,7 +91,8 @@ metadata:
            attributeName: primaryKey
 
         isRequired: false
-        enableIf: "{% if config.primary == true %} true {% else %} false {% endif %}"
+        
+        enableIf: "{% if config.primary == true and (config.loadType == 'Insert' or config.useTableKeyAsPrimary == false) %} true {% else %} false {% endif %}"
 
       - type: textBox
         displayName: Primary Key Name (Default:- pk_nodename)
