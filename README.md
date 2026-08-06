@@ -868,6 +868,8 @@ The Task DAG Custom-SQL node has two configuration groups:
 | **Execute As Specific User** | Toggle to run on behalf of another user. Requires `GRANT IMPERSONATE` privileges. |
 | **User Name** | The specific user account name used when **Execute As Specific User** is enabled. |
 
+> Note: To establish the correct dependencies within the DAG pipeline, add the commented **ref() function in the Override SQL** immediately before the SQL statement to be executed. Although the ref() call is commented and does not affect execution, it ensures that the dependency is recognized and the DAG is built correctly.
+
 ### Task DAG Custom-SQL Deployment
 
 refer to [this section](#Prerequisites-to-Use-Task-Scheduling-Options) for more details on the prerequisites required to set up tasks.
