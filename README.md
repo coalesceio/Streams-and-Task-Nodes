@@ -1084,7 +1084,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 | **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
 | **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
 | **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_TABLENAME** |
-| **Use Selected Table Key as Primary Key** | The PK constraint is built from the node's existing Table Key selection. |
+| **Use Selected Table Key as Primary Key** | The PK constraint is built from the node's existing Table Key selection. Visible when Primary Key toggle is enabled and Load Type is Merge.|
 
 #### Stream and Insert or Merge Stream Options
 
@@ -1358,7 +1358,7 @@ The Stream and Insert or Merge node has the following configuration groups:
 | **DISTINCT** | True/False toggle for DISTINCT in SQL Query<br/>**True** - Group by All invisible, DISTINCT used<br/>**False** - Group by All visible |
 | **GROUP BY ALL** | True/False toggle for GROUP BY ALL in SQL Query<br/>**True** - DISTINCT invisible, group by all columns<br/>**False** - DISTINCT visible |
 | **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_TABLENAME** |
-| **Use Selected Table Key as Primary Key** | The PK constraint is built from the node's existing Table Key selection. |
+| **Use Selected Table Key as Primary Key** | The PK constraint is built from the node's existing Table Key selection. Visible when Primary Key toggle is enabled. |
 
 #### Delta Stream Merge Stream Options
 
@@ -1536,7 +1536,7 @@ The Insert or Merge with Task node has the following configuration groups:
 | **CREATE AS** | Choose target object type:<br/>- Table - Permanent table with data retention and fail-safe<br/>- Transient Table - Temporary table without data retention |
 | **Cluster key** | True/False toggle for clustering<br/>**True** - Specify clustering column and expressions. - **Allow Expressions Cluster Key**: Add an expression to the specified cluster key.<br/>**False** - No clustering |
 | **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_TABLENAME** |
-| **Use Selected Table Key as Primary Key** | The PK constraint is built from the node's existing Table Key selection. |
+| **Use Selected Table Key as Primary Key** | The PK constraint is built from the node's existing Table Key selection. Visible when Primary Key toggle is enabled and Load Type is Merge. |
 
 #### Insert or Merge with Task Target Loading Options
 
