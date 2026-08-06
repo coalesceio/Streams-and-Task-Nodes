@@ -1,6 +1,5 @@
 fileVersion: 1
 id: 379fb1e7-ac56-41aa-8f75-c16976b84d57
 name: Custom-SQL Pipeline
-steps:
-  - de8e9148-ca5d-4161-8dd7-4658c7ea9740
+steps: []
 type: Subgraph
