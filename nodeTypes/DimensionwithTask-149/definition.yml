@@ -32,6 +32,28 @@ metadata:
         - "UNION ALL"
         isRequired: true
         enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+
+      - displayName: Add a Primary Key
+        attributeName: primary
+        type: toggleButton
+
+      - type: tabular   
+        displayName: Primary Key Columns
+        attributeName: primaryKeyCol
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Primary Key Columns
+           attributeName: primaryKey
+
+        isRequired: false
+        enableIf: "{% if config.primary == true  %} true {% else %} false {% endif %}"
+
+      - type: textBox
+        displayName: Primary Key Name (Default:- pk_nodename)
+        attributeName: primaryKeyName
+        default: ''
+        enableIf: "{% if config.primary == true %} true {% else %} false {% endif %}"
         
       - type: businessKeyColumns
         isRequired: true

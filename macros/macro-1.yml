@@ -321,5 +321,89 @@ macroString: |-
       {%- endif %}
 
   {%- endmacro %}
+
+  {###############################################################################################
+     Macro: generatePrimaryKeyConstraint
+     Purpose: Builds the CONSTRAINT ... PRIMARY KEY (...) clause
+                - Streams/Tasks keyed nodes (manual OR "use table key")
+     Params:
+       desiredState      - the node's desiredState object (as used today)
+       tableKeyColumns    - (optional) list of column names from the
+                            node's existing Table Key selection.
+                            Pass this in only for nodes that support
+                            "Use Selected Table Key as Primary Key".
+                            Leave as none for Advanced Deploy nodes.
+  ##############################################################################################}
+
+  {%- macro generatePrimaryKeyConstraint(desiredState) %}
+      {%- set tableKeyColumns = desiredState.config.partitionBy.get('items', [])
+                               | selectattr('partColName', 'defined')
+                               | selectattr('partColName', 'ne', none)
+                               | map(attribute='partColName')
+                               | selectattr('name', 'defined')
+                               | map(attribute='name')
+                               | list %}
+      {%- if desiredState.config.primary == true %}
+          {%- if desiredState.config.useTableKeyAsPrimary == true and desiredState.config.loadType != 'Insert' %}
+              {%- set primaryKeyList = tableKeyColumns %}
+          {%- else %}
+              {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                                       | selectattr('primaryKey', 'defined')
+                                       | selectattr('primaryKey', 'ne', none)
+                                       | map(attribute='primaryKey')
+                                       | selectattr('name', 'defined')
+                                       | map(attribute='name')
+                                       | list %}
+          {%- endif %}
+      {%- else %}
+          {%- set primaryKeyList = [] %}
+      {%- endif %}
+      {%- if primaryKeyList | length > 0 %}
+          {%- set pkName = desiredState.config.primaryKeyName | default('') | trim %}
+  CONSTRAINT {{ pkName if pkName != '' else 'pk_' + desiredState.node.name }} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+      {%- endif %}
+  {%- endmacro %}
+
+
+  {####################################################################################################################################
+  Input: state (object), ns (namespace)
+
+  Output: Populates ns.effectiveColumns with the column names forming the effective Primary Key.
+
+  Description:
+      Returns [] if Primary Key is off.
+      If "Use Table Key as Primary Key" is on (and Load Type is not 'Insert'), pulls columns
+      from Table Key (config.partitionBy). Otherwise pulls from the manual picker
+      (config.primaryKeyCol). Called for both currentState and desiredState so the two
+      results can be compared to detect real PK changes.
+  ######################################################################################################################################}
+  {%- macro resolveEffectivePkColumns(state, ns) %}
+      {%- if state == 'current' %}
+          {%- set nsConfig = currentState %}
+      {%- else %}
+          {%- set nsConfig = desiredState %}
+      {%- endif %}
+      {%- if nsConfig.config.primary == true %}
+          {%- if nsConfig.config.useTableKeyAsPrimary == true and nsConfig.config.loadType != 'Insert' %}
+              {%- set ns.effectiveColumns = nsConfig.config.partitionBy.get('items', [])
+                                            | selectattr('partColName', 'defined')
+                                            | selectattr('partColName', 'ne', none)
+                                            | map(attribute='partColName')
+                                            | selectattr('name', 'defined')
+                                            | map(attribute='name')
+                                            | list %}
+          {%- else %}
+              {%- set ns.effectiveColumns = nsConfig.config.primaryKeyCol.get('items', [])
+                                            | selectattr('primaryKey', 'defined')
+                                            | selectattr('primaryKey', 'ne', none)
+                                            | map(attribute='primaryKey')
+                                            | selectattr('name', 'defined')
+                                            | map(attribute='name')
+                                            | list %}
+          {%- endif %}
+      {%- else %}
+          {%- set ns.effectiveColumns = [] %}
+      {%- endif %}
+  {%- endmacro %}
 name: macro
 type: Macro

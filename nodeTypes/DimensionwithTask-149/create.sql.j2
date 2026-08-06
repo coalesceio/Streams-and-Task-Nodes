@@ -125,6 +125,8 @@ does not permit copying or modification for any other purpose.
                 {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
                 {%- if not loop.last -%}, {% endif %}
             {% endfor %}
+            {% set pkConstraint = generatePrimaryKeyConstraint(desiredState) %}
+            {% if pkConstraint | trim != '' %}, {{ pkConstraint }}{% endif %}
         )
         {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
@@ -425,6 +427,47 @@ does not permit copying or modification for any other purpose.
             {%endif%}
 
         {% endif %}
+
+            {# =========================================================
+               Primary Key Name and Column List Test
+            ========================================================= #}
+            {% set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary %}
+            {% set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName | default('') %}
+            {% set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol %}
+            {% set useTableKeyAsPrimaryTest = currentState.config.useTableKeyAsPrimary | default(true) == desiredState.config.useTableKeyAsPrimary | default(true) %}
+            {% set tableKeyForPkTest = currentState.config.partitionBy | default({'items': [{}]}) == desiredState.config.partitionBy %}
+            {% set currentPkName = currentState.config.primaryKeyName | default('') | trim %}
+            {% set desiredPkName = desiredState.config.primaryKeyName | default('') | trim %}
+
+            {% if primaryKeyTest == false
+                  or primaryKeyNameTest == false
+                  or primaryKeyColList == false
+                  or useTableKeyAsPrimaryTest == false
+                  or (desiredState.config.useTableKeyAsPrimary | default(true) == true and tableKeyForPkTest == false) %}
+
+                {% if not desiredState.config.primary and not desiredState.config.useTableKeyAsPrimary %}
+                    {{ stage('Drop Primary Key Constraint') }}
+                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                    DROP PRIMARY KEY
+
+                {% elif primaryKeyNameTest == false and (currentState.config.primary or currentState.config.useTableKeyAsPrimary) %}
+                    {{ stage('Rename Primary Key') }}
+                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                    RENAME CONSTRAINT {{ currentPkName if currentPkName != '' else 'pk_' + currentState.node.name }} TO {{ desiredPkName if desiredPkName != '' else 'pk_' + desiredState.node.name }}
+
+                {% else %}
+                    {# Only drop if one exists currently #}
+                    {% if currentState.config.primary == true or currentState.config.useTableKeyAsPrimary == true %}
+                        {{ stage('Drop Primary Key Constraint') }}
+                        ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                        DROP PRIMARY KEY
+                    {% endif %}
+
+                    {{ stage('Add Primary Key Constraint') }}
+                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                    ADD {{ generatePrimaryKeyConstraint(desiredState) }}
+                {% endif %}
+            {% endif %}
 
         {% if desiredState.config.devMode %}
             {% if nsMetaVariables.metaDataChanged == false %}

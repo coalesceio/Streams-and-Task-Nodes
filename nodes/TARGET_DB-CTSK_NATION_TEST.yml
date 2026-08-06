@@ -15,6 +15,7 @@ operation:
     serverlessSize: 3. MEDIUM
     sizeBoundToggle: false
     spfcUserToggle: true
+    timeOut: "60000"
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
