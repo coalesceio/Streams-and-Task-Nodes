@@ -23,11 +23,14 @@ operation:
     flagSrcStream: true
     groupByAll: false
     insertStrategy: UNION
-    loadType: Insert
+    loadType: Merge
     maxServerlessSize: 6. XXLARGE
     mergeOrderBy:
       items:
-        - {}
+        - colName:
+            columnCounter: 4d18ec3c-ac80-4675-aa42-228e10ce6530
+            stepCounter: 7de55063-ed6a-4da7-8f0a-250a7c6ba0a8
+          sortOrd: desc
     minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
     numFailures: "10"
@@ -38,7 +41,9 @@ operation:
     overlapExecToggle: false
     partitionBy:
       items:
-        - {}
+        - partColName:
+            columnCounter: c05b59e2-5117-40e3-9b7e-2a97db543f0f
+            stepCounter: 7de55063-ed6a-4da7-8f0a-250a7c6ba0a8
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     primary: true
     primaryKeyCol:

@@ -45,10 +45,12 @@ operation:
             columnCounter: 0512c10f-d629-4737-9f00-6680077e6815
             stepCounter: 9c0d2e7a-2b18-4d02-bcc8-5dfe3f8abb5f
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: false
+    primary: true
     primaryKeyCol:
       items:
-        - {}
+        - primaryKey:
+            columnCounter: 51e4bb78-17eb-4ee6-a92c-a6a66b3f533a
+            stepCounter: 9c0d2e7a-2b18-4d02-bcc8-5dfe3f8abb5f
     primaryKeyName: ""
     retryAttmpt: "0"
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
@@ -64,7 +66,7 @@ operation:
     taskGraphToggle: false
     timeOut: 60000
     truncateBefore: true
-    useTableKeyAsPrimary: true
+    useTableKeyAsPrimary: false
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
