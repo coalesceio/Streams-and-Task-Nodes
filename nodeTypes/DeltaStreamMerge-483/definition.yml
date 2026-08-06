@@ -30,7 +30,7 @@ metadata:
         - transient table
         isRequired: true
 
-      - displayName: Add a Primary Key
+      - displayName: Primary Key
         attributeName: primary
         type: toggleButton
 
