@@ -47,9 +47,6 @@ operation:
         - primaryKey:
             columnCounter: ad0cdcaf-4de5-4a03-bd31-eacfd79dfc0b
             stepCounter: 66ba1aa5-b2f6-4326-a78b-5259315210a1
-        - primaryKey:
-            columnCounter: ce6bbc22-cae3-4353-b839-d5c07ac50d1f
-            stepCounter: 66ba1aa5-b2f6-4326-a78b-5259315210a1
     primaryKeyName: ""
     redeploymentBehavior: Create or Replace
     retryAttmpt: "0"

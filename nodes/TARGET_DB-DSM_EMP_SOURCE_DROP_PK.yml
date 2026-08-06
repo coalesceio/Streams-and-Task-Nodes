@@ -41,7 +41,7 @@ operation:
             columnCounter: 6965ee12-df3d-4090-a3b6-8084c0f4f7e0
             stepCounter: a60b5b13-45f5-4aaf-9fee-aa8298c04ef5
     predTask: DATA_TRANSFORMATION_ROOT_TASK
-    primary: true
+    primary: false
     primaryKeyCol:
       items:
         - primaryKey:

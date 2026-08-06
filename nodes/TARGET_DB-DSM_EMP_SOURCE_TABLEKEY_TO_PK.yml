@@ -44,7 +44,9 @@ operation:
     primary: true
     primaryKeyCol:
       items:
-        - {}
+        - primaryKey:
+            columnCounter: 81582481-89f6-4bac-bc08-eb22d8bafd31
+            stepCounter: 1fc26dc7-929d-4149-9aa6-115270751526
     primaryKeyName: ""
     redeploymentBehavior: Create or Replace
     retryAttmpt: "0"
@@ -60,7 +62,7 @@ operation:
     successNotifyToggle: false
     taskGraphToggle: false
     timeOut: 60000
-    useTableKeyAsPrimary: true
+    useTableKeyAsPrimary: false
     userName: ""
     whName: <WAREHOUSE_NAME>
   database: ""
