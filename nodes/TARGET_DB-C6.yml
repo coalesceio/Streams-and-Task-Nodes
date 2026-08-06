@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 0468e4ac-c78a-4004-bda9-9ff1455c9093
-name: C5
+id: 32ed2215-5bab-4552-908d-bb01cb090853
+name: C6
 operation:
   config:
     devMode: false
@@ -8,7 +8,7 @@ operation:
     maxServerlessSize: 6. XXLARGE
     minServerlessSize: 1. XSMALL
     multiStreamBehavior: AND
-    predTask: C4_TASK, C2_TASK
+    predTask: C1_TASK
     rootTask: Root
     schedulePeriodOption: Predecessor
     schedulingMode: Serverless Task
@@ -31,36 +31,23 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          NATION_TEST: 7f405760-150b-4d56-9a61-10123af5df41
+          NATION_TEST: 89f12bbb-36a5-4e7f-8eda-603b59a8f474
         customSQL:
           customSQL: |-
-            --FROM {{ ref('TARGET_DB', 'C2') }} "NATION_TEST"
-            --FROM {{ ref('TARGET_DB', 'C4') }} "NATION_TEST"
-            --FROM {{ ref('TARGET_DB', 'C6') }} "NATION_TEST"
-            --FROM {{ ref('TARGET_DB', 'C7') }} "NATION_TEST"
-            CREATE OR REPLACE VIEW  {{ ref('TARGET_DB', 'VW_DUMMY5') }} AS
+            -- FROM {{ ref('TARGET_DB', 'C1') }} "NATION_TEST"
+            CREATE OR REPLACE VIEW  {{ ref('TARGET_DB', 'C6') }} AS
             SELECT
                 1 AS ID,
                 'TEST' AS NAME,
                 CURRENT_TIMESTAMP() AS CREATED_DATE;
         dependencies:
           - locationName: TARGET_DB
-            nodeName: C2
-          - locationName: TARGET_DB
-            nodeName: C4
-          - locationName: TARGET_DB
-            nodeName: C6
-          - locationName: TARGET_DB
-            nodeName: C7
+            nodeName: C1
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET_DB', 'C2') }} "NATION_TEST"
-            --FROM {{ ref('TARGET_DB', 'C4') }} "NATION_TEST"
-            --FROM {{ ref('TARGET_DB', 'C6') }} "NATION_TEST"
-            --FROM {{ ref('TARGET_DB', 'C7') }} "NATION_TEST"
-        name: C5
+          joinCondition: FROM {{ ref('TARGET_DB', 'C1') }} "NATION_TEST"
+        name: C6
         noLinkRefs: []
-  name: C5
+  name: C6
   overrideSQL: true
   schema: ""
   sqlType: "677"
