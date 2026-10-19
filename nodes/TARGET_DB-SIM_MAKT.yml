@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 97869cd8-48ed-4058-9008-12d09653e298
+id: 84a5749b-3968-4927-8cc9-930e797f720a
 name: SIM_MAKT
 operation:
   config:
@@ -72,8 +72,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 433a952b-c182-4d5b-a1cd-3463b926bd69
-          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+          columnCounter: fe9944f7-1c6f-4eb2-a83e-2d4afdd59f67
+          stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
         config: {}
         dataType: VARCHAR(20)
         description: ""
@@ -86,8 +86,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e3a17817-8961-4d3c-a832-5ac11a507b2a
-          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+          columnCounter: a2608898-3098-4331-bffb-add770216f90
+          stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
         config: {}
         dataType: VARCHAR(10)
         description: ""
@@ -100,8 +100,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bff51b9b-23db-4368-99d0-a15fe6aab1d6
-          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+          columnCounter: 24c42f9c-4941-489a-9cd7-a403e2957808
+          stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
         config: {}
         dataType: VARCHAR(200)
         description: ""
@@ -114,8 +114,8 @@ operation:
             transform: "\"MAKTX\""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a00a5467-01d5-422c-b850-a0e528174ffa
-          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+          columnCounter: 9bd74d2d-b420-4051-9d92-19cc9910044c
+          stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
         config: {}
         dataType: VARCHAR(200)
         description: ""
@@ -131,8 +131,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e0fbc215-dd79-46f3-b746-ba4cbc78a16c
-          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+          columnCounter: bd69e352-895b-48d6-9fa9-02ecfd38b580
+          stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -148,8 +148,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 2f5626a8-f134-4325-9c36-4d3982e97426
-          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+          columnCounter: 7c354bd3-1ace-4f1e-8260-a34abad2d2e2
+          stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
