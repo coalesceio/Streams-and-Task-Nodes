@@ -673,7 +673,10 @@ does not permit copying or modification for any other purpose.
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
                     {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                   {{ columnTransformation
+                    | replace('"' ~ ns.sourceTableName ~ '".', '"' ~ streamName ~ '".')
+                    | replace(ns.sourceTableName ~ '.', streamName ~ '.')
+                   }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}              
             FROM {{ ref(streamTargetLocationName, streamName) }}
@@ -699,7 +702,10 @@ does not permit copying or modification for any other purpose.
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
                     {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {{ columnTransformation
+    | replace('"' ~ ns.sourceTableName ~ '".', '"' ~ streamName ~ '".')
+    | replace(ns.sourceTableName ~ '.', streamName ~ '.')
+}} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
             FROM {{ ref(streamTargetLocationName, streamName) }}
@@ -941,7 +947,10 @@ does not permit copying or modification for any other purpose.
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
                     {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {{ columnTransformation
+    | replace('"' ~ ns.sourceTableName ~ '".', '"' ~ streamName ~ '".')
+    | replace(ns.sourceTableName ~ '.', streamName ~ '.')
+}} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}              
             FROM {{ ref(streamTargetLocationName, streamName) }}
@@ -967,7 +976,10 @@ does not permit copying or modification for any other purpose.
                     "{{ col }}" as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- else -%}
                     {% set col = desiredState.sources[0].columns | selectattr('id', 'equalto', id) | map(attribute='name') | first -%}
-                    {{ columnTransformation | replace(ns.sourceTableName, streamName) }} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
+                    {{ columnTransformation
+    | replace('"' ~ ns.sourceTableName ~ '".', '"' ~ streamName ~ '".')
+    | replace(ns.sourceTableName ~ '.', streamName ~ '.')
+}} as "{{ col }}" {%- if not loop.last -%}, {%- endif -%}
                     {%- endif %}
                 {%- endfor %}
             FROM {{ ref(streamTargetLocationName, streamName) }}

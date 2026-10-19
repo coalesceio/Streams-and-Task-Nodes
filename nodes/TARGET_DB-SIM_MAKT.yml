@@ -1,0 +1,183 @@
+fileVersion: 1
+id: 97869cd8-48ed-4058-9008-12d09653e298
+name: SIM_MAKT
+operation:
+  config:
+    appendOnly: false
+    autoRetryToggle: false
+    autoSuspendToggle: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    configJSON: ""
+    createas: table
+    devMode: true
+    errIntName: ""
+    errNotifyToggle: false
+    execTime:
+      items:
+        - {}
+    flagSrcStream: true
+    groupByAll: false
+    initialRows: true
+    loadType: Insert
+    maxServerlessSize: 6. XXLARGE
+    minServerlessSize: 1. XSMALL
+    numFailures: "10"
+    orderBy:
+      items:
+        - {}
+    overlapExecToggle: false
+    partitionBy:
+      items:
+        - {}
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
+    propagateDeletes: false
+    redeploymentBehavior: Create or Replace
+    retryAttmpt: "0"
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    selectDistinct: false
+    serverlessSize: 3. MEDIUM
+    sizeBoundToggle: false
+    sourceType: Table
+    spfcUserToggle: false
+    succIntName: ""
+    successNotifyToggle: false
+    taskGraphToggle: false
+    timeOut: 60000
+    useTableKeyAsPrimary: true
+    userName: ""
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 433a952b-c182-4d5b-a1cd-3463b926bd69
+          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MATNR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b3641eb6-4938-4221-8079-9c0b8159b9b7
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3a17817-8961-4d3c-a832-5ac11a507b2a
+          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: SPRAS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b1a473dd-2675-4c96-861d-18e9934f55f6
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bff51b9b-23db-4368-99d0-a15fe6aab1d6
+          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+        config: {}
+        dataType: VARCHAR(200)
+        description: ""
+        name: MATERIAL_DESCRIPTION_TEXT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bb84e3c3-9ec0-4473-aeb3-3146141d431c
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: "\"MAKTX\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a00a5467-01d5-422c-b850-a0e528174ffa
+          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+        config: {}
+        dataType: VARCHAR(200)
+        description: ""
+        name: MATERIAL_DESCRIPTION_UPPERCASE_TEXT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c7a15587-249e-4629-adac-be12366ce9f7
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: "\"MAKTG\""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e0fbc215-dd79-46f3-b746-ba4cbc78a16c
+          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2f5626a8-f134-4325-9c36-4d3982e97426
+          stepCounter: 97869cd8-48ed-4058-9008-12d09653e298
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          MAKT: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: MAKT
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'MAKT') }} "MAKT"
+        name: SIM_MAKT
+        noLinkRefs: []
+  name: SIM_MAKT
+  overrideSQL: false
+  schema: ""
+  sqlType: "152"
+  type: sql
+  version: 1
+type: Node
