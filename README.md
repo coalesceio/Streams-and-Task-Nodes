@@ -995,7 +995,7 @@ The Stream has two configuration groups:
 | **Option** | **Description** |
 |------------|----------------|
 | **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>**Append Only Stream**: <br/>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**Dynamic Table**:<br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**View**:<br/>**Append Only Stream**: <br/>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/>**True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**External table**:<br/>Redeployment Behavior: Options for redeployment<br/><hr/>**External iceberg table**:<br/>Redeployment Behavior: Options for redeployment |
-| **Recreate Stream When Source Is Rebuilt** | Default **True**. If the source object was dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), the stream can no longer be read (`Base table ... dropped, cannot read from stream`). When enabled, the stream (or a stale stream) is recreated with `CREATE OR REPLACE STREAM ... COPY GRANTS` during deployment and job runs, whatever the Redeployment Behavior. The recreated stream starts a new offset: unconsumed changes are lost and, with Show Initial Rows on, the next read returns every row in the source. |
+| **Recreate Stream When Source Is Rebuilt** | Default **True**. If the source object was dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), the stream can no longer be read (`Base table ... dropped, cannot read from stream`).<br/>**True**: Redeploying an existing stream checks it and recreates it with `CREATE OR REPLACE STREAM ... COPY GRANTS` if its source was rebuilt or the stream is stale. Changes to stream options are **not** applied and Redeployment Behavior is not used.<br/>**False**: Redeployment Behavior is applied when the stream changes. A rebuilt source leaves the stream unreadable until it is recreated.<br/>A recreated stream starts a new offset: unconsumed changes are lost and, with Show Initial Rows on, the next read returns every row in the source. |
 
 ### Stream System Columns
 
@@ -1023,7 +1023,9 @@ When deployed for the first time into an environment the Stream node executes:
 
 #### Stream Redeployment
 
-After initial deployment, subsequent deployments will create a new stream based on the selected redeployment behavior:
+After initial deployment, the stages executed on redeployment depend on **Recreate Stream When Source Is Rebuilt**.
+
+When **Recreate Stream When Source Is Rebuilt** is **False**, subsequent deployments of a changed stream run the selected redeployment behavior:
 
 | **Redeployment Behavior** | **Stage Executed** |
 |--------------------------|-------------------|
@@ -1033,13 +1035,15 @@ After initial deployment, subsequent deployments will create a new stream based 
 
 #### Stream Recreate When Source Is Rebuilt
 
-When **Recreate Stream When Source Is Rebuilt** is enabled, a redeployment of an existing Stream, and every job run that includes it, executes:
+When **Recreate Stream When Source Is Rebuilt** is **True** (default), every redeployment of an existing Stream executes:
 
 | **Stage** | **Description** |
 |-----------|----------------|
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 
-The Stream node is only redeployed when it changes, so if a deploy rebuilds the source but not the Stream, the stream is repaired at the next job run that includes the Stream node, or by redeploying the Stream node.
+The stage runs after the source object in the same deployment, so a deployment that rebuilds the source also repairs the stream.
+
+> **Note:** With this option on, changes to the stream's own options (for example Show Initial Rows or Append Only) are not applied on redeployment, and Redeployment Behavior is not used. To apply them, turn the option off and redeploy. Node type switching always creates the stream.
 
 #### Node Type Switching
 
