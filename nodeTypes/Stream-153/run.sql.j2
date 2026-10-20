@@ -39,23 +39,20 @@ does not permit copying or modification for any other purpose.
     {{ stage('Recreate Stream If Source Was Rebuilt') }}
     EXECUTE IMMEDIATE $$
     DECLARE
-        stream_error STRING DEFAULT '';
         base_object STRING;
     BEGIN
-        BEGIN
-            EXECUTE IMMEDIATE 'SELECT 1 FROM {{ streamFqn }} LIMIT 0';
-        EXCEPTION
-            WHEN OTHER THEN
-                stream_error := SQLERRM;
-        END;
-        IF (CONTAINS(LOWER(stream_error), 'dropped, cannot read from stream')) THEN
-            {# The stream still records the source by name; that name now resolves to the rebuilt object #}
-            DESCRIBE STREAM {{ streamFqn }};
-            SELECT "table_name" INTO :base_object FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()));
-            EXECUTE IMMEDIATE 'CREATE OR REPLACE STREAM {{ streamFqn }} ON {{ streamType }} ' || base_object || '{{ streamOptions }}';
-            RETURN 'Stream recreated on ' || base_object || ': source object was rebuilt. Offset reset{% if config.initialRows == true and config.sourceType in ['Table', 'View', 'Dynamic Table'] %}, next read returns all rows in the source{% endif %}.';
-        END IF;
+        EXECUTE IMMEDIATE 'SELECT 1 FROM {{ streamFqn }} LIMIT 0';
         RETURN 'Stream is readable: no recreate needed';
+    EXCEPTION
+        WHEN OTHER THEN
+            IF (CONTAINS(LOWER(SQLERRM), 'dropped, cannot read from stream') OR CONTAINS(LOWER(SQLERRM), 'stale')) THEN
+                {# The stream still records the source by name; that name now resolves to the rebuilt object #}
+                DESCRIBE STREAM {{ streamFqn }};
+                SELECT "table_name" INTO :base_object FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()));
+                EXECUTE IMMEDIATE 'CREATE OR REPLACE STREAM {{ streamFqn }} COPY GRANTS ON {{ streamType }} ' || base_object || '{{ streamOptions }}';
+                RETURN 'Stream recreated on ' || base_object || ': source object was rebuilt or stream was stale. Offset reset{% if config.initialRows == true and config.sourceType in ['Table', 'View', 'Dynamic Table'] %}, next read returns all rows in the source{% endif %}.';
+            END IF;
+            RAISE;
     END;
     $$
 

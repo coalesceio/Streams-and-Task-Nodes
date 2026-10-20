@@ -127,28 +127,25 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
     {# Source rebuilt: a CREATE OR REPLACE / DROP+CREATE of the source leaves the stream attached to the dropped object.
-       Recreate it whatever the Redeployment Behavior, since IF NOT EXISTS / AT(STREAM => ...) cannot repair it. #}
+       Recreate it whatever the Redeployment Behavior, since IF NOT EXISTS / AT(STREAM => ...) cannot repair it.
+       Also recreate a stale stream. Any other read error is re-raised. #}
     {% elif desiredState.config.recreateOnSourceRebuild != false %}
         {{ stage('Recreate Stream If Source Was Rebuilt',true,"sql","create") }}
         EXECUTE IMMEDIATE $$
-        DECLARE
-            stream_error STRING DEFAULT '';
         BEGIN
-            BEGIN
-                EXECUTE IMMEDIATE 'SELECT 1 FROM {{ ref_no_link(streamTargetLocationName, streamName) }} LIMIT 0';
-            EXCEPTION
-                WHEN OTHER THEN
-                    stream_error := SQLERRM;
-            END;
-            IF (CONTAINS(LOWER(stream_error), 'dropped, cannot read from stream')) THEN
-                CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-                    ON {{ streamType }} {{ refLink }}
-                    {{ streamAppendMode }}
-                    {{ streamInitialRowsMode }}
-                    {{ streamInsertOnlyMode }};
-                RETURN 'Stream recreated: source object was rebuilt. Offset reset{% if streamInitialRowsMode == 'SHOW_INITIAL_ROWS = TRUE' %}, next read returns all rows in the source{% endif %}.';
-            END IF;
+            EXECUTE IMMEDIATE 'SELECT 1 FROM {{ ref_no_link(streamTargetLocationName, streamName) }} LIMIT 0';
             RETURN 'Stream is readable: no recreate needed';
+        EXCEPTION
+            WHEN OTHER THEN
+                IF (CONTAINS(LOWER(SQLERRM), 'dropped, cannot read from stream') OR CONTAINS(LOWER(SQLERRM), 'stale')) THEN
+                    CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }} COPY GRANTS
+                        ON {{ streamType }} {{ refLink }}
+                        {{ streamAppendMode }}
+                        {{ streamInitialRowsMode }}
+                        {{ streamInsertOnlyMode }};
+                    RETURN 'Stream recreated: source object was rebuilt or stream was stale. Offset reset{% if streamInitialRowsMode == 'SHOW_INITIAL_ROWS = TRUE' %}, next read returns all rows in the source{% endif %}.';
+                END IF;
+                RAISE;
         END;
         $$
     {% endif %}
