@@ -51,6 +51,12 @@ metadata:
           - Create At Existing Stream
         isRequired: true
 
+      - displayName: Recreate Stream When Source Is Rebuilt
+        attributeName: recreateOnSourceRebuild
+        type: toggleButton
+        default: true
+        isRequired: false
+
     - groupName: Hidden Config
       enableIf: "false"
       items:
