@@ -31,11 +31,18 @@ operation:
     numFailures: "10"
     orderBy:
       items:
-        - {}
+        - colName:
+            columnCounter: bd69e352-895b-48d6-9fa9-02ecfd38b580
+            name: SYSTEM_CREATE_DATE
+            stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
+          sortOrd: asc
     overlapExecToggle: false
     partitionBy:
       items:
-        - {}
+        - partColName:
+            columnCounter: fe9944f7-1c6f-4eb2-a83e-2d4afdd59f67
+            name: MATNR
+            stepCounter: 84a5749b-3968-4927-8cc9-930e797f720a
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     primary: false
     primaryKeyCol:
