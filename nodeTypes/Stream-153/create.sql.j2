@@ -100,7 +100,7 @@ does not permit copying or modification for any other purpose.
     {%- endif -%}
 
     
-	{% if currentState == undefined or currentState.storageLocations | length == 0 or (currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType) or (currentState.node.materializationType != desiredState.node.materializationType) %}
+	{% if currentState == undefined or currentState.storageLocations | length == 0 or (currentState != undefined and currentState != desiredState and desiredState.config.recreateOnSourceRebuild == false)  %}
 
         {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
             {{ stage('Create Stream',true,"sql","create") }}
