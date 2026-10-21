@@ -108,8 +108,7 @@ does not permit copying or modification for any other purpose.
         or currentState.node.materializationType != desiredState.node.materializationType %}
     {% set isChanged = currentState != undefined and desiredState != currentState %}
 
-    {% if isNewOrSwitch or (isChanged and desiredState.config.redeploymentBehavior == 'Create or Replace') %}
-        {# Also repairs a stream whose source was rebuilt, so no check is needed #}
+    {% if isNewOrSwitch %}
         {{ stage('Create Stream',true,"sql","create") }}
         CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
             ON {{ streamType }} {{ refLink }}
@@ -119,43 +118,65 @@ does not permit copying or modification for any other purpose.
 
     {% else %}
 
-        {# Source rebuilt: a CREATE OR REPLACE / DROP+CREATE of the source leaves the stream attached to the dropped object.
-           Recreate it whatever the Redeployment Behavior, since IF NOT EXISTS / AT(STREAM => ...) cannot repair it.
-           Also recreate a stale stream. Any other read error is re-raised.
-           Runs on every redeployment, before the redeploy stages below so AT(STREAM => ...) reads a working stream. #}
-        {{ stage('Recreate Stream If Source Was Rebuilt',true,"sql","create") }}
-        EXECUTE IMMEDIATE $$
-        BEGIN
-            EXECUTE IMMEDIATE 'SELECT 1 FROM {{ ref_no_link(streamTargetLocationName, streamName) }} LIMIT 0';
-            RETURN 'Stream is readable: no recreate needed';
-        EXCEPTION
-            WHEN OTHER THEN
-                IF (CONTAINS(LOWER(SQLERRM), 'dropped, cannot read from stream') OR CONTAINS(LOWER(SQLERRM), 'stale')) THEN
-                    CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }} COPY GRANTS
-                        ON {{ streamType }} {{ refLink }}
-                        {{ streamAppendMode }}
-                        {{ streamInitialRowsMode }}
-                        {{ streamInsertOnlyMode }};
-                    RETURN 'Stream recreated: source object was rebuilt or stream was stale. Offset reset{% if streamInitialRowsMode == 'SHOW_INITIAL_ROWS = TRUE' %}, next read returns all rows in the source{% endif %}.';
-                END IF;
-                RAISE;
-        END;
-        $$
+        {# Rename / Move Stream: keeps the offset and grants, so the stages below run against the stream at its new location #}
+        {% set currentDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | first %}
+        {% set currentSchemaName = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | first %}
+        {% if currentDatabaseName != streamTargetDatabaseName or currentSchemaName != streamTargetSchemaName or currentState.node.name != streamName %}
+            {{ stage('Rename and / or Move Stream',true,"sql","create") }}
+            ALTER STREAM "{{ currentDatabaseName }}"."{{ currentSchemaName }}"."{{ currentState.node.name }}"
+                RENAME TO {{ ref_no_link(streamTargetLocationName, streamName) }}
+        {% endif %}
 
-        {% if isChanged and desiredState.config.redeploymentBehavior == 'Create If Not Exists' %}
-            {{ stage('Create Stream If Not Exists',true,"sql","create") }}
-            CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
+        {% if isChanged and desiredState.config.redeploymentBehavior == 'Create or Replace' %}
+            {# Also repairs a stream whose source was rebuilt, so no check is needed #}
+            {{ stage('Create Stream',true,"sql","create") }}
+            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
                 ON {{ streamType }} {{ refLink }}
                 {{ streamAppendMode }}
                 {{ streamInitialRowsMode }}
                 {{ streamInsertOnlyMode }}
 
-        {% elif isChanged and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' %}
-            {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
-            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-                ON {{ streamType }} {{ refLink }}
-                AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
+        {% else %}
 
+            {# Source rebuilt: a CREATE OR REPLACE / DROP+CREATE of the source leaves the stream attached to the dropped object.
+               Recreate it whatever the Redeployment Behavior, since IF NOT EXISTS / AT(STREAM => ...) cannot repair it.
+               Also recreate a stale stream. Any other read error is re-raised.
+               Runs before the redeploy stages below so AT(STREAM => ...) reads a working stream.
+               Always runs for this node type. #}
+            {{ stage('Recreate Stream If Source Was Rebuilt',true,"sql","create") }}
+            EXECUTE IMMEDIATE $$
+            BEGIN
+                EXECUTE IMMEDIATE 'SELECT 1 FROM {{ ref_no_link(streamTargetLocationName, streamName) }} LIMIT 0';
+                RETURN 'Stream is readable: no recreate needed';
+            EXCEPTION
+                WHEN OTHER THEN
+                    IF (CONTAINS(LOWER(SQLERRM), 'dropped, cannot read from stream') OR CONTAINS(LOWER(SQLERRM), 'stale')) THEN
+                        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }} COPY GRANTS
+                            ON {{ streamType }} {{ refLink }}
+                            {{ streamAppendMode }}
+                            {{ streamInitialRowsMode }}
+                            {{ streamInsertOnlyMode }};
+                        RETURN 'Stream recreated: source object was rebuilt or stream was stale. Offset reset{% if streamInitialRowsMode == 'SHOW_INITIAL_ROWS = TRUE' %}, next read returns all rows in the source{% endif %}.';
+                    END IF;
+                    RAISE;
+            END;
+            $$
+
+            {% if isChanged and desiredState.config.redeploymentBehavior == 'Create If Not Exists' %}
+                {{ stage('Create Stream If Not Exists',true,"sql","create") }}
+                CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
+                    ON {{ streamType }} {{ refLink }}
+                    {{ streamAppendMode }}
+                    {{ streamInitialRowsMode }}
+                    {{ streamInsertOnlyMode }}
+
+            {% elif isChanged and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' %}
+                {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
+                CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+                    ON {{ streamType }} {{ refLink }}
+                    AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
+
+            {% endif %}
         {% endif %}
     {% endif %}
 

@@ -995,7 +995,7 @@ The Stream has two configuration groups:
 | **Option** | **Description** |
 |------------|----------------|
 | **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>**Append Only Stream**: <br/>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**Dynamic Table**:<br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**View**:<br/>**Append Only Stream**: <br/>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/>**True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**External table**:<br/>Redeployment Behavior: Options for redeployment<br/><hr/>**External iceberg table**:<br/>Redeployment Behavior: Options for redeployment |
-| **Recreate Stream When Source Is Rebuilt** | Default **True**. If the source object was dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), the stream can no longer be read (`Base table ... dropped, cannot read from stream`).<br/>**True**: Redeploying an existing stream checks it and recreates it with `CREATE OR REPLACE STREAM ... COPY GRANTS` if its source was rebuilt or the stream is stale. Changes to stream options are **not** applied and Redeployment Behavior is not used.<br/>**False**: Redeployment Behavior is applied when the stream changes. A rebuilt source leaves the stream unreadable until it is recreated.<br/>A recreated stream starts a new offset: unconsumed changes are lost and, with Show Initial Rows on, the next read returns every row in the source. |
+| **Recreate Stream When Source Is Rebuilt** | Default **True**. If the source object was dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), the stream can no longer be read (`Base table ... dropped, cannot read from stream`).<br/>**True**: Every redeployment of an existing stream checks it and recreates it with `CREATE OR REPLACE STREAM ... COPY GRANTS` if its source was rebuilt or the stream is stale.<br/>**False**: The check is skipped. A rebuilt source leaves the stream unreadable until it is recreated.<br/>Either way, changes to the stream are applied according to Redeployment Behavior. A recreated stream starts a new offset: unconsumed changes are lost and, with Show Initial Rows on, the next read returns every row in the source. |
 
 ### Stream System Columns
 
@@ -1023,27 +1023,29 @@ When deployed for the first time into an environment the Stream node executes:
 
 #### Stream Redeployment
 
-After initial deployment, the stages executed on redeployment depend on **Recreate Stream When Source Is Rebuilt**.
+After initial deployment, subsequent deployments run the following stages. **Recreate Stream When Source Is Rebuilt** only controls whether the **Recreate Stream If Source Was Rebuilt** check runs.
 
-When **Recreate Stream When Source Is Rebuilt** is **False**, subsequent deployments of a changed stream run the selected redeployment behavior:
+**Recreate Stream When Source Is Rebuilt = True** (default):
 
-| **Redeployment Behavior** | **Stage Executed** |
-|--------------------------|-------------------|
-| Create Stream if not exists | Create Stream if not exists |
-| Create or Replace | Create Stream |
-| Create at existing stream | Re-Create Stream at existing offset |
-
-#### Stream Recreate When Source Is Rebuilt
-
-When **Recreate Stream When Source Is Rebuilt** is **True** (default), every redeployment of an existing Stream executes:
+| **Situation** | **Stages Executed** |
+|---------------|-------------------|
+| Stream unchanged | Recreate Stream If Source Was Rebuilt |
+| Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
+| Stream changed, Create If Not Exists | Recreate Stream If Source Was Rebuilt, then Create Stream If Not Exists |
+| Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
+| Stream storage location or name changed | Rename and / or Move Stream, then the stages above for the selected Redeployment Behavior |
+| Node type or materialization switch | Create Stream |
 
 | **Stage** | **Description** |
 |-----------|----------------|
+| **Rename and / or Move Stream** | Runs `ALTER STREAM ... RENAME TO` to move the existing stream to its new name or storage location. The offset and grants are kept |
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 
-The stage runs after the source object in the same deployment, so a deployment that rebuilds the source also repairs the stream.
+**Recreate Stream When Source Is Rebuilt = False**: the same stages without **Recreate Stream If Source Was Rebuilt**. An unchanged stream runs nothing, so a rebuilt source leaves the stream unreadable until it is recreated.
 
-> **Note:** With this option on, changes to the stream's own options (for example Show Initial Rows or Append Only) are not applied on redeployment, and Redeployment Behavior is not used. To apply them, turn the option off and redeploy. Node type switching always creates the stream.
+The check runs after the source object in the same deployment, so a deployment that rebuilds the source also repairs the stream.
+
+> **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source.
 
 #### Node Type Switching
 
@@ -1065,7 +1067,7 @@ When a Stream Node is deleted from a Workspace and that commit is deployed, the 
 
 ## Stream with Source Rebuild Check
 
-A copy of the [Stream](#stream) node type with the same options, except that it has no **Recreate Stream When Source Is Rebuilt** toggle: the source rebuild check always runs on redeployment, and changes to the stream are applied according to Redeployment Behavior.
+A copy of the [Stream](#stream) node type with the same options, except that it has no **Recreate Stream When Source Is Rebuilt** toggle: the source rebuild check always runs on redeployment. Its redeployment stages are the same as a [Stream](#stream-redeployment) with that toggle on.
 
 If the stream's source object is dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), Snowflake keeps the stream attached to the dropped object and reading it fails with `Base table ... dropped, cannot read from stream`. This node type repairs the stream in the next deployment.
 
@@ -1085,10 +1087,12 @@ If the stream's source object is dropped and recreated (for example `CREATE OR R
 | Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
 | Stream changed, Create If Not Exists | Recreate Stream If Source Was Rebuilt, then Create Stream If Not Exists |
 | Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
+| Stream storage location or name changed | Rename and / or Move Stream, then the stages above for the selected Redeployment Behavior |
 | Node type or materialization switch | Create Stream |
 
 | **Stage** | **Description** |
 |-----------|----------------|
+| **Rename and / or Move Stream** | Runs `ALTER STREAM ... RENAME TO` to move the existing stream to its new name or storage location. The offset and grants are kept |
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 
 > **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source. Switching an existing Stream node to this node type recreates the stream.

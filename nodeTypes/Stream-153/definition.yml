@@ -56,7 +56,7 @@ metadata:
         type: toggleButton
         default: true
         isRequired: false
-        description: "When on, redeploying an existing stream only checks it and recreates it (CREATE OR REPLACE STREAM ... COPY GRANTS) if its source object was rebuilt or the stream is stale. Changes to stream options are not applied and Redeployment Behavior is not used. Turn off to apply Redeployment Behavior when the stream changes; a rebuilt source then leaves the stream unreadable until it is recreated."
+        description: "When on, every redeployment of an existing stream checks it and recreates it (CREATE OR REPLACE STREAM ... COPY GRANTS) if its source object was rebuilt or the stream is stale. Changes to the stream are applied according to Redeployment Behavior either way. Turn off to skip the check; a rebuilt source then leaves the stream unreadable until it is recreated."
 
     - groupName: Hidden Config
       enableIf: "false"
