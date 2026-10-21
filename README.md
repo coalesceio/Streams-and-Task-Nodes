@@ -1063,6 +1063,44 @@ When a Stream Node is deleted from a Workspace and that commit is deployed, the 
 
 ---
 
+## Stream with Source Rebuild Check
+
+A copy of the [Stream](#stream) node type with the same options, except that it has no **Recreate Stream When Source Is Rebuilt** toggle: the source rebuild check always runs on redeployment, and changes to the stream are applied according to Redeployment Behavior.
+
+If the stream's source object is dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), Snowflake keeps the stream attached to the dropped object and reading it fails with `Base table ... dropped, cannot read from stream`. This node type repairs the stream in the next deployment.
+
+### Stream with Source Rebuild Check Deployment
+
+#### Stream with Source Rebuild Check Initial Deployment
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Stream** | Executes a CREATE OR REPLACE statement to create a Stream in the target environment |
+
+#### Stream with Source Rebuild Check Redeployment
+
+| **Situation** | **Stages Executed** |
+|---------------|-------------------|
+| Stream unchanged | Recreate Stream If Source Was Rebuilt |
+| Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
+| Stream changed, Create If Not Exists | Recreate Stream If Source Was Rebuilt, then Create Stream If Not Exists |
+| Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
+| Node type or materialization switch | Create Stream |
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
+
+> **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source. Switching an existing Stream node to this node type recreates the stream.
+
+### Stream with Source Rebuild Check Undeployment
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Stream** | Removes the stream from the target environment |
+
+---
+
 ## Stream and Insert or Merge
 
 The Coalesce Streams and Insert or Merge UDN is a node that allows you to develop and deploy a stream on top of a table, view or external table. Also, provides option to create a target table to insert or merge data from source with a task on top of it.
