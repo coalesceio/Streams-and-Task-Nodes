@@ -1033,12 +1033,14 @@ After initial deployment, subsequent deployments run the following stages. **Rec
 | Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
 | Stream changed, Create If Not Exists | Recreate Stream If Source Was Rebuilt, then Create Stream If Not Exists |
 | Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
-| Stream storage location or name changed | Rename and / or Move Stream, then the stages above for the selected Redeployment Behavior |
+| Stream storage location or name changed, Create or Replace / Create If Not Exists | Create Stream at the new location, then Drop Previous Stream |
+| Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
 | Node type or materialization switch | Create Stream |
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| **Rename and / or Move Stream** | Runs `ALTER STREAM ... RENAME TO` to move the existing stream to its new name or storage location. The offset and grants are kept |
+| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)`, keeping the previous stream's offset |
+| **Drop Previous Stream** | Drops the stream at its previous name or storage location. Grants on the previous stream are not copied to the new one |
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 
 **Recreate Stream When Source Is Rebuilt = False**: the same stages without **Recreate Stream If Source Was Rebuilt**. An unchanged stream runs nothing, so a rebuilt source leaves the stream unreadable until it is recreated.
@@ -1087,12 +1089,14 @@ If the stream's source object is dropped and recreated (for example `CREATE OR R
 | Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
 | Stream changed, Create If Not Exists | Recreate Stream If Source Was Rebuilt, then Create Stream If Not Exists |
 | Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
-| Stream storage location or name changed | Rename and / or Move Stream, then the stages above for the selected Redeployment Behavior |
+| Stream storage location or name changed, Create or Replace / Create If Not Exists | Create Stream at the new location, then Drop Previous Stream |
+| Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
 | Node type or materialization switch | Create Stream |
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| **Rename and / or Move Stream** | Runs `ALTER STREAM ... RENAME TO` to move the existing stream to its new name or storage location. The offset and grants are kept |
+| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)`, keeping the previous stream's offset |
+| **Drop Previous Stream** | Drops the stream at its previous name or storage location. Grants on the previous stream are not copied to the new one |
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 
 > **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source. Switching an existing Stream node to this node type recreates the stream.
