@@ -1,6 +1,6 @@
 fileVersion: 1
 id: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
-name: DT_WRK_MAKT
+name: DT_WRK_MAKT1
 operation:
   config:
     advanceWarehouse: false
@@ -100,9 +100,9 @@ operation:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'MAKT') }} "MAKT"
             WHERE "MAKTG" like '%BOLT%'
-        name: DT_WRK_MAKT
+        name: DT_WRK_MAKT1
         noLinkRefs: []
-  name: DT_WRK_MAKT
+  name: DT_WRK_MAKT1
   overrideSQL: false
   schema: ""
   sqlType: DT:::347
