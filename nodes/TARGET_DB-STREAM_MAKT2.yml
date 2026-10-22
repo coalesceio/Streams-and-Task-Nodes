@@ -1,0 +1,146 @@
+fileVersion: 1
+id: 35b69f01-f60e-4d6e-9928-019151a64dd6
+name: STREAM_MAKT2
+operation:
+  config:
+    appendOnly: false
+    initialRows: true
+    redeploymentBehavior: Create At Existing Stream
+    sourceType: Dynamic Table
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: stream
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9c67c181-d76e-48e7-b393-d8c0174e637a
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MATNR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 03369b1c-56ad-42c8-b194-09aa1c8b21d6
+                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0d040926-2938-4019-abab-ecd0016870e0
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: SPRAS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fd0bf05b-afd6-4d11-a702-e44f2a83f919
+                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5447edb9-5a7e-4197-81ac-74bd1dc34532
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
+        config: {}
+        dataType: VARCHAR(200)
+        description: ""
+        name: MAKTX
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a3c9eea5-1b3f-41ac-b08a-ddb4fe5bb694
+                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a4de6bf-e662-40b3-a46b-cd396d2d4994
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
+        config: {}
+        dataType: VARCHAR(200)
+        description: ""
+        name: MAKTG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 74a7bec9-651d-4423-aace-02eea8c475a4
+                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 98a5b369-1759-499a-adff-ec3d4d69eb3d
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataAction: true
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8cc0dc61-3666-4f60-93be-d2ad3db79522
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
+        config: {}
+        dataType: boolean
+        defaultValue: ""
+        description: ""
+        metadataIsUpdate: true
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1ca72c96-be34-4c0c-be1b-f579d06f93cf
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataRowID: true
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DT_WRK_MAKT: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: DT_WRK_MAKT
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_MAKT') }} "DT_WRK_MAKT"
+        name: STREAM_MAKT2
+        noLinkRefs: []
+  name: STREAM_MAKT2
+  overrideSQL: false
+  schema: ""
+  sqlType: "9153"
+  type: sql
+  version: 1
+type: Node
