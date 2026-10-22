@@ -1,11 +1,10 @@
 fileVersion: 1
-id: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
-name: STREAM_MAKT1
+id: 35b69f01-f60e-4d6e-9928-019151a64dd6
+name: STREAM_MAKT213
 operation:
   config:
     appendOnly: false
     initialRows: true
-    recreateOnSourceRebuild: true
     redeploymentBehavior: Create At Existing Stream
     sourceType: Dynamic Table
   database: ""
@@ -19,8 +18,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d9baab90-757b-4a46-a8d6-b2ecea796291
-          stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
+          columnCounter: 9c67c181-d76e-48e7-b393-d8c0174e637a
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: VARCHAR(20)
         description: ""
@@ -33,8 +32,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c59de75d-1feb-491e-b899-6f50d4b9c53e
-          stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
+          columnCounter: 5447edb9-5a7e-4197-81ac-74bd1dc34532
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: VARCHAR(200)
         description: ""
@@ -47,8 +46,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 81099c4e-98b1-4efb-acdd-c27c60c4bd9b
-          stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
+          columnCounter: 2a4de6bf-e662-40b3-a46b-cd396d2d4994
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: VARCHAR(200)
         description: ""
@@ -64,8 +63,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 5de87107-9099-41db-ac45-d45453a2e1cf
-          stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
+          columnCounter: 98a5b369-1759-499a-adff-ec3d4d69eb3d
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -81,8 +80,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 4e9cd5c4-3ca7-4585-8bc7-e6a968e7c084
-          stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
+          columnCounter: 8cc0dc61-3666-4f60-93be-d2ad3db79522
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: boolean
         defaultValue: ""
@@ -98,8 +97,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 39c5a44c-eeb4-4bdf-84da-e8e387798347
-          stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
+          columnCounter: 1ca72c96-be34-4c0c-be1b-f579d06f93cf
+          stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -122,12 +121,12 @@ operation:
             nodeName: DT_WRK_MAKT1
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_MAKT1') }} "DT_WRK_MAKT1"
-        name: STREAM_MAKT1
+        name: STREAM_MAKT213
         noLinkRefs: []
-  name: STREAM_MAKT1
+  name: STREAM_MAKT213
   overrideSQL: false
   schema: ""
-  sqlType: "153"
+  sqlType: "9153"
   type: sql
   version: 1
 type: Node
