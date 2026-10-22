@@ -33,20 +33,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 93f97aa9-88bb-40c7-9139-093d3c1fef5a
-          stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
-        config: {}
-        dataType: VARCHAR(10)
-        description: ""
-        name: SPRAS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: fd0bf05b-afd6-4d11-a702-e44f2a83f919
-                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: c59de75d-1feb-491e-b899-6f50d4b9c53e
           stepCounter: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
         config: {}
