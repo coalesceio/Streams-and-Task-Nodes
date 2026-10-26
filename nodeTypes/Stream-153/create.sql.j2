@@ -100,6 +100,19 @@ does not permit copying or modification for any other purpose.
     {%- endif -%}
 
     
+    {# Create If Not Exists was removed: nodes that still have it saved are redeployed as Create or Replace.
+       The warning is shown only when the node has other stages to run, so an unchanged stream with the check off stays out of the deploy #}
+    {% if desiredState.config.redeploymentBehavior == 'Create If Not Exists' %}
+        {% set redeploymentBehavior = 'Create or Replace' %}
+        {% if currentState == undefined or desiredState != currentState or desiredState.config.recreateOnSourceRebuild != false %}
+        {{ stage('WARNING') }}
+        /* Redeployment Behavior 'Create If Not Exists' is no longer supported. This deployment uses 'Create or Replace' instead.
+           Select 'Create or Replace' or 'Create At Existing Stream' in the node's Redeployment Behavior to remove this warning. */
+        {% endif %}
+    {% else %}
+        {% set redeploymentBehavior = desiredState.config.redeploymentBehavior %}
+    {% endif %}
+
     {# New stream, or node type / materialization switch: there is no stream to keep, so always create it #}
     {% set isNewOrSwitch = currentState == undefined or currentState.storageLocations | length == 0
         or currentState.node.nodeType != desiredState.node.nodeType
@@ -122,7 +135,6 @@ does not permit copying or modification for any other purpose.
         {% set currentSchemaName = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | first %}
         {% set previousStreamName = '"' + currentDatabaseName + '"."' + currentSchemaName + '"."' + currentState.node.name + '"' %}
         {% set isMoved = currentDatabaseName != streamTargetDatabaseName or currentSchemaName != streamTargetSchemaName or currentState.node.name != streamName %}
-        {% set redeploymentBehavior = desiredState.config.redeploymentBehavior %}
 
         {# Source object changed (renamed, moved, repointed or different type): AT(STREAM => ...) cannot carry an offset
            over to a different object, so the stream is created fresh #}

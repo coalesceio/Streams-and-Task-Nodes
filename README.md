@@ -1051,6 +1051,8 @@ The check runs after the source object in the same deployment, so a deployment t
 
 > **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source.
 
+> **Note:** **Create If Not Exists** is no longer a Redeployment Behavior option. A node that still has it saved is redeployed as **Create or Replace**, and the deployment shows a **WARNING** stage until another option is selected.
+
 #### Node Type Switching
 
 Node Type switching is supported starting from Coalesce version **7.28+**.
@@ -1103,7 +1105,9 @@ If the stream's source object is dropped and recreated (for example `CREATE OR R
 | **Drop Previous Stream** | Drops the stream at its previous name or storage location. Grants on the previous stream are not copied to the new one |
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 
-> **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source. Switching an existing Stream node to this node type recreates the stream.
+> **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source.
+
+> **Note:** **Create If Not Exists** is no longer a Redeployment Behavior option. A node that still has it saved is redeployed as **Create or Replace**, and the deployment shows a **WARNING** stage until another option is selected. Switching an existing Stream node to this node type recreates the stream.
 
 ### Stream with Source Rebuild Check Undeployment
 
