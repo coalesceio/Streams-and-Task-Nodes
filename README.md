@@ -1031,6 +1031,7 @@ After initial deployment, subsequent deployments run the following stages. **Rec
 |---------------|-------------------|
 | Stream unchanged | Recreate Stream If Source Was Rebuilt |
 | Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
+| Source object changed (renamed, moved, a different source node, or a different Source Object type), any Redeployment Behavior | Create Stream. An offset cannot be carried over to a different object |
 | Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
 | Stream storage location or name changed, Create or Replace | Create Stream at the new location, then Drop Previous Stream |
 | Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
@@ -1038,7 +1039,9 @@ After initial deployment, subsequent deployments run the following stages. **Rec
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)`, keeping the previous stream's offset |
+| **Create Stream** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS` with the current options. For an existing stream, grants are kept and the offset is reset |
+| **Re-Create Stream at existing offset** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS ... AT(STREAM => <stream>)` with the current Append Only setting, keeping the offset and grants. Show Initial Rows is not applied, since it would return every row again |
+| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)` and the current Append Only setting, keeping the previous stream's offset |
 | **Drop Previous Stream** | Drops the stream at its previous name or storage location. Grants on the previous stream are not copied to the new one |
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 
@@ -1086,6 +1089,7 @@ If the stream's source object is dropped and recreated (for example `CREATE OR R
 |---------------|-------------------|
 | Stream unchanged | Recreate Stream If Source Was Rebuilt |
 | Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
+| Source object changed (renamed, moved, a different source node, or a different Source Object type), any Redeployment Behavior | Create Stream. An offset cannot be carried over to a different object |
 | Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
 | Stream storage location or name changed, Create or Replace | Create Stream at the new location, then Drop Previous Stream |
 | Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
@@ -1093,7 +1097,9 @@ If the stream's source object is dropped and recreated (for example `CREATE OR R
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)`, keeping the previous stream's offset |
+| **Create Stream** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS` with the current options. For an existing stream, grants are kept and the offset is reset |
+| **Re-Create Stream at existing offset** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS ... AT(STREAM => <stream>)` with the current Append Only setting, keeping the offset and grants. Show Initial Rows is not applied, since it would return every row again |
+| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)` and the current Append Only setting, keeping the previous stream's offset |
 | **Drop Previous Stream** | Drops the stream at its previous name or storage location. Grants on the previous stream are not copied to the new one |
 | **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
 

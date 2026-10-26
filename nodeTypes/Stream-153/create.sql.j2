@@ -124,10 +124,19 @@ does not permit copying or modification for any other purpose.
         {% set isMoved = currentDatabaseName != streamTargetDatabaseName or currentSchemaName != streamTargetSchemaName or currentState.node.name != streamName %}
         {% set redeploymentBehavior = desiredState.config.redeploymentBehavior %}
 
-        {% if (isChanged and redeploymentBehavior == 'Create or Replace') or (isMoved and redeploymentBehavior != 'Create At Existing Stream') %}
-            {# Also repairs a stream whose source was rebuilt, so no check is needed #}
+        {# Source object changed (renamed, moved, repointed or different type): AT(STREAM => ...) cannot carry an offset
+           over to a different object, so the stream is created fresh #}
+        {% set currentSourceNode = currentState.sources[0].dependencies[0].node %}
+        {% set currentSourceDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='database') | first %}
+        {% set currentSourceSchemaName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='schema') | first %}
+        {% set isSourceChanged = currentSourceDatabaseName != sourceDatabaseName or currentSourceSchemaName != sourceSchemaName
+            or currentSourceNode.name != sourceTableName or currentState.config.sourceType != desiredState.config.sourceType %}
+
+        {% if (isChanged and redeploymentBehavior == 'Create or Replace') or (isMoved and redeploymentBehavior != 'Create At Existing Stream') or isSourceChanged %}
+            {# Also repairs a stream whose source was rebuilt, so no check is needed.
+               COPY GRANTS keeps the grants of a stream replaced under the same name #}
             {{ stage('Create Stream',true,"sql","create") }}
-            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }} COPY GRANTS
                 ON {{ streamType }} {{ refLink }}
                 {{ streamAppendMode }}
                 {{ streamInitialRowsMode }}
@@ -164,16 +173,22 @@ does not permit copying or modification for any other purpose.
             {% endif %}
 
             {% if isMoved %}
+                {# SHOW_INITIAL_ROWS is left out: it would make the stream return every row again instead of resuming at the offset #}
                 {{ stage('Move Stream at existing offset',true,"sql","create") }}
                 CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
                     ON {{ streamType }} {{ refLink }}
-                    AT(STREAM => '{{ previousStreamName }}');
+                    AT(STREAM => '{{ previousStreamName }}')
+                    {{ streamAppendMode }}
+                    {{ streamInsertOnlyMode }}
 
             {% elif isChanged and redeploymentBehavior == 'Create At Existing Stream' %}
+                {# SHOW_INITIAL_ROWS is left out: it would make the stream return every row again instead of resuming at the offset #}
                 {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
-                CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+                CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }} COPY GRANTS
                     ON {{ streamType }} {{ refLink }}
-                    AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
+                    AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}')
+                    {{ streamAppendMode }}
+                    {{ streamInsertOnlyMode }}
 
             {% endif %}
         {% endif %}
