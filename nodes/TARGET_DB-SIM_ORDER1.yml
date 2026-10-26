@@ -190,20 +190,6 @@ operation:
               - columnCounter: 3359fa03-c85d-4495-98e8-62dc996608ae
                 stepCounter: c6cb3823-5671-4375-8fa2-85a4dbd15f8b
             transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: a068c076-8e0d-43c3-9777-b70e31db60dd
-          stepCounter: 4d2a44e2-00aa-440d-8b3f-923dbd844818
-        config: {}
-        dataType: TIMESTAMP_LTZ(9)
-        description: ""
-        name: O_LOAD_TIMESTAMP
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: b8e27d1c-b5df-4359-8b10-278c13730456
-                stepCounter: c6cb3823-5671-4375-8fa2-85a4dbd15f8b
-            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []

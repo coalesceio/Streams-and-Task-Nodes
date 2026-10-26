@@ -1,6 +1,6 @@
 fileVersion: 1
 id: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
-name: STREAM_PRODUCTS1
+name: STREAM_PRODUCTS23
 operation:
   config:
     appendOnly: false
@@ -138,9 +138,9 @@ operation:
             FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
 
             latteral FLATTEN()
-        name: STREAM_PRODUCTS1
+        name: STREAM_PRODUCTS23
         noLinkRefs: []
-  name: STREAM_PRODUCTS1
+  name: STREAM_PRODUCTS23
   overrideSQL: false
   schema: ""
   sqlType: "153"
