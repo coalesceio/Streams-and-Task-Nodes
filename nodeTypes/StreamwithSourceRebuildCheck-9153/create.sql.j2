@@ -137,11 +137,19 @@ does not permit copying or modification for any other purpose.
 
         {# Source object changed (renamed, moved, repointed or different type): AT(STREAM => ...) cannot carry an offset
            over to a different object, so the stream is created fresh #}
-        {% set currentSourceNode = currentState.sources[0].dependencies[0].node %}
-        {% set currentSourceDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='database') | first %}
-        {% set currentSourceSchemaName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='schema') | first %}
-        {% set isSourceChanged = currentSourceDatabaseName != sourceDatabaseName or currentSourceSchemaName != sourceSchemaName
-            or currentSourceNode.name != sourceTableName or currentState.config.sourceType != desiredState.config.sourceType %}
+        {# The previously deployed state may have no source dependency (e.g. deployed without a ref() in the join):
+           then the source cannot be compared and is treated as unchanged #}
+        {% set currentSources = currentState.sources | default([]) %}
+        {% set currentDependencies = (currentSources[0].dependencies | default([])) if currentSources | length > 0 else [] %}
+        {% if currentDependencies | length > 0 %}
+            {% set currentSourceNode = currentDependencies[0].node %}
+            {% set currentSourceDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='database') | first %}
+            {% set currentSourceSchemaName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='schema') | first %}
+            {% set isSourceChanged = currentSourceDatabaseName != sourceDatabaseName or currentSourceSchemaName != sourceSchemaName
+                or currentSourceNode.name != sourceTableName or currentState.config.sourceType != desiredState.config.sourceType %}
+        {% else %}
+            {% set isSourceChanged = false %}
+        {% endif %}
 
         {% if (isChanged and redeploymentBehavior == 'Create or Replace') or (isMoved and redeploymentBehavior != 'Create At Existing Stream') or isSourceChanged %}
             {# Also repairs a stream whose source was rebuilt, so no check is needed.
