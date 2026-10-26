@@ -5,6 +5,7 @@ operation:
   config:
     appendOnly: false
     initialRows: true
+    recreateOnSourceRebuild: true
     redeploymentBehavior: Create or Replace
     sourceType: Dynamic Table
   database: ""
@@ -58,16 +59,12 @@ operation:
               - columnCounter: 74a7bec9-651d-4423-aace-02eea8c475a4
                 stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 98a5b369-1759-499a-adff-ec3d4d69eb3d
+          columnCounter: 1da3ddc4-b538-4f2a-9d56-c357352c4513
           stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: STRING
-        defaultValue: ""
         description: ""
         metadataAction: true
         name: METADATA$ACTION
@@ -75,16 +72,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8cc0dc61-3666-4f60-93be-d2ad3db79522
+          columnCounter: 8421d51e-68dd-4918-878a-9a9b6e7d392d
           stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: boolean
-        defaultValue: ""
         description: ""
         metadataIsUpdate: true
         name: METADATA$ISUPDATE
@@ -92,16 +85,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1ca72c96-be34-4c0c-be1b-f579d06f93cf
+          columnCounter: 933d86c9-b982-4b25-9dcc-e874009902f9
           stepCounter: 35b69f01-f60e-4d6e-9928-019151a64dd6
         config: {}
         dataType: STRING
-        defaultValue: ""
         description: ""
         metadataRowID: true
         name: METADATA$ROW_ID
@@ -126,7 +115,7 @@ operation:
   name: STREAM_MAKT213
   overrideSQL: false
   schema: ""
-  sqlType: "9153"
+  sqlType: "153"
   type: sql
   version: 1
 type: Node
