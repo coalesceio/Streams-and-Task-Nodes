@@ -47,7 +47,6 @@ metadata:
         default: Create At Existing Stream
         options:
           - Create or Replace
-          - Create If Not Exists
           - Create At Existing Stream
         isRequired: true
 

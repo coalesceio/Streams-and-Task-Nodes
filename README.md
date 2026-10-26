@@ -1031,9 +1031,8 @@ After initial deployment, subsequent deployments run the following stages. **Rec
 |---------------|-------------------|
 | Stream unchanged | Recreate Stream If Source Was Rebuilt |
 | Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
-| Stream changed, Create If Not Exists | Recreate Stream If Source Was Rebuilt, then Create Stream If Not Exists |
 | Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
-| Stream storage location or name changed, Create or Replace / Create If Not Exists | Create Stream at the new location, then Drop Previous Stream |
+| Stream storage location or name changed, Create or Replace | Create Stream at the new location, then Drop Previous Stream |
 | Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
 | Node type or materialization switch | Create Stream |
 
@@ -1087,9 +1086,8 @@ If the stream's source object is dropped and recreated (for example `CREATE OR R
 |---------------|-------------------|
 | Stream unchanged | Recreate Stream If Source Was Rebuilt |
 | Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
-| Stream changed, Create If Not Exists | Recreate Stream If Source Was Rebuilt, then Create Stream If Not Exists |
 | Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
-| Stream storage location or name changed, Create or Replace / Create If Not Exists | Create Stream at the new location, then Drop Previous Stream |
+| Stream storage location or name changed, Create or Replace | Create Stream at the new location, then Drop Previous Stream |
 | Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
 | Node type or materialization switch | Create Stream |
 

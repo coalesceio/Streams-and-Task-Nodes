@@ -138,7 +138,7 @@ does not permit copying or modification for any other purpose.
         {% else %}
 
             {# Source rebuilt: a CREATE OR REPLACE / DROP+CREATE of the source leaves the stream attached to the dropped object.
-               Recreate it whatever the Redeployment Behavior, since IF NOT EXISTS / AT(STREAM => ...) cannot repair it.
+               Recreate it whatever the Redeployment Behavior, since AT(STREAM => ...) cannot repair it.
                Also recreate a stale stream. Any other read error is re-raised.
                Checks the stream where it currently exists (its previous location when moved), before the stages below,
                so AT(STREAM => ...) reads a working stream.
@@ -168,14 +168,6 @@ does not permit copying or modification for any other purpose.
                 CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
                     ON {{ streamType }} {{ refLink }}
                     AT(STREAM => '{{ previousStreamName }}');
-
-            {% elif isChanged and redeploymentBehavior == 'Create If Not Exists' %}
-                {{ stage('Create Stream If Not Exists',true,"sql","create") }}
-                CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
-                    ON {{ streamType }} {{ refLink }}
-                    {{ streamAppendMode }}
-                    {{ streamInitialRowsMode }}
-                    {{ streamInsertOnlyMode }}
 
             {% elif isChanged and redeploymentBehavior == 'Create At Existing Stream' %}
                 {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
