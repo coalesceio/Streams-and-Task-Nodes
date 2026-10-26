@@ -108,6 +108,7 @@ does not permit copying or modification for any other purpose.
         {{ stage('WARNING') }}
         /* Redeployment Behavior 'Create If Not Exists' is no longer supported. This deployment uses 'Create or Replace' instead.
            Select 'Create or Replace' or 'Create At Existing Stream' in the node's Redeployment Behavior to remove this warning. */
+           select 1=1
         {% endif %}
     {% else %}
         {% set redeploymentBehavior = desiredState.config.redeploymentBehavior %}

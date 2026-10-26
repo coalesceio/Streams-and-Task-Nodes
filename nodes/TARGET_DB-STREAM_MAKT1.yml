@@ -1,12 +1,13 @@
 fileVersion: 1
-id: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
-name: STREAM_PRODUCTS23
+id: 133b176e-f812-41bb-b586-33f938beb248
+name: STREAM_MAKT1
 operation:
   config:
     appendOnly: false
     initialRows: true
+    recreateOnSourceRebuild: true
     redeploymentBehavior: Create If Not Exists
-    sourceType: Table
+    sourceType: Dynamic Table
   database: ""
   deployEnabled: true
   description: ""
@@ -18,67 +19,53 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1ed37959-3e13-4711-9f3d-d8ac8d803612
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 8b082478-2804-4c9e-a2bb-cba41cdaa887
+          stepCounter: 133b176e-f812-41bb-b586-33f938beb248
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(20)
         description: ""
-        name: PRODUCT_ID
+        name: MATNR
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b87ff9fa-9ccf-4c89-b845-56cd186eadb4
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 03369b1c-56ad-42c8-b194-09aa1c8b21d6
+                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 295094a3-af7e-407f-8d20-c578b44637fb
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 1b745288-5f06-4f4b-b23b-51623a34f6cb
+          stepCounter: 133b176e-f812-41bb-b586-33f938beb248
         config: {}
-        dataType: VARCHAR(255)
+        dataType: VARCHAR(200)
         description: ""
-        name: PRODUCT_NAME
+        name: MAKTX
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9387a4b6-9ea5-4aed-aea5-825ca5580423
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: a3c9eea5-1b3f-41ac-b08a-ddb4fe5bb694
+                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: faaeca02-7116-49d2-b2e7-cf3fed448d99
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 46359d2c-b8e9-45cf-89c9-38ba006eee18
+          stepCounter: 133b176e-f812-41bb-b586-33f938beb248
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(200)
         description: ""
-        name: BRAND
+        name: MAKTG
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 8bab2f06-a97d-439b-99d6-ee84b0fd4eee
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 469fb294-876f-4112-8d4b-5021da4b3e20
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
-        config: {}
-        dataType: VARCHAR(50)
-        description: ""
-        name: COLOUR
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 355579b4-a094-443f-907e-0ccd4a23452a
-                stepCounter: f7525a7e-96bd-4514-b428-c468312550a0
+              - columnCounter: 74a7bec9-651d-4423-aace-02eea8c475a4
+                stepCounter: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8bacd8b0-85f7-4b1c-ad04-dbb8599b63b6
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 7357d8a6-688b-4dfd-bcc1-6b0333230ff5
+          stepCounter: 133b176e-f812-41bb-b586-33f938beb248
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -94,8 +81,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7b498327-6729-498a-872f-1d9e62f9cf48
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 26236ca9-8882-4e34-913b-d991b677067e
+          stepCounter: 133b176e-f812-41bb-b586-33f938beb248
         config: {}
         dataType: boolean
         defaultValue: ""
@@ -111,8 +98,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 86427171-05ac-4153-88a6-5733b506c3d2
-          stepCounter: fc0e1ab1-13d1-4bc8-99fc-bbc011da6384
+          columnCounter: 3ec63e8c-70d0-46d3-9a09-1a8bb25a8342
+          stepCounter: 133b176e-f812-41bb-b586-33f938beb248
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -127,20 +114,17 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          PRODUCTS: f7525a7e-96bd-4514-b428-c468312550a0
+          DT_WRK_MAKT1: cb9c6a6e-fcde-48af-a2a1-a36ab15b0e69
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SOURCE_DATA
-            nodeName: PRODUCTS
+          - locationName: TARGET_DB
+            nodeName: DT_WRK_MAKT1
         join:
-          joinCondition: |-
-            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-
-            latteral FLATTEN()
-        name: STREAM_PRODUCTS23
+          joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_MAKT1') }} "DT_WRK_MAKT1"
+        name: STREAM_MAKT1
         noLinkRefs: []
-  name: STREAM_PRODUCTS23
+  name: STREAM_MAKT1
   overrideSQL: false
   schema: ""
   sqlType: "153"
