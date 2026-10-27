@@ -6,11 +6,11 @@ operation:
     appendOnly: false
     initialRows: true
     recreateOnSourceRebuild: false
-    redeploymentBehavior: Create or Replace
+    redeploymentBehavior: Create At Existing Stream
     sourceType: Dynamic Table
   database: ""
   deployEnabled: true
-  description: ""
+  description: Stream with source rebuilt check off
   isMultisource: false
   locationName: TARGET_DB
   materializationType: stream

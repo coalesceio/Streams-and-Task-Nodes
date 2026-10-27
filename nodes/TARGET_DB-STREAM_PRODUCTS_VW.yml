@@ -3,14 +3,14 @@ id: 5a7e8c49-c4d5-4445-b566-30769166f171
 name: STREAM_PRODUCTS_VW
 operation:
   config:
-    appendOnly: false
+    appendOnly: true
     initialRows: true
     recreateOnSourceRebuild: true
-    redeploymentBehavior: Create or Replace
+    redeploymentBehavior: Create At Existing Stream
     sourceType: View
   database: ""
   deployEnabled: true
-  description: ""
+  description: Stream -source rebulit check toggle ON
   isMultisource: false
   locationName: TARGET_DB
   materializationType: stream
