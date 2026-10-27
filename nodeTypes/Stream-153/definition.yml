@@ -44,7 +44,7 @@ metadata:
       - displayName: Redeployment Behavior
         attributeName: redeploymentBehavior
         type: dropdownSelector
-        default: Create At Existing Stream
+        default: Create or Replace
         options:
           - Create or Replace
           - Create At Existing Stream
@@ -53,7 +53,7 @@ metadata:
       - displayName: Recreate Stream When Source Is Rebuilt
         attributeName: recreateOnSourceRebuild
         type: toggleButton
-        default: true
+        default: false
         isRequired: false
         description: "When on, every redeployment of an existing stream checks it and recreates it (CREATE OR REPLACE STREAM ... COPY GRANTS) if its source object was rebuilt or the stream is stale. Changes to the stream are applied according to Redeployment Behavior either way. Turn off to skip the check; a rebuilt source then leaves the stream unreadable until it is recreated."
 
