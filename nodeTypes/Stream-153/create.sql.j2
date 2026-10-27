@@ -174,7 +174,7 @@ does not permit copying or modification for any other purpose.
             {% set checkStreamName = previousStreamName if isMoved else ref_no_link(streamTargetLocationName, streamName) %}
             {% if desiredState.config.recreateOnSourceRebuild != false %}
             {{ stage('Recreate Stream If Source Was Rebuilt',true,"sql","create") }}
-            --{{refLink}}
+            /* To check if source {{refLink}} is rebuilt */
             EXECUTE IMMEDIATE $$
             BEGIN
                 EXECUTE IMMEDIATE 'SELECT 1 FROM {{ checkStreamName }} LIMIT 0';
