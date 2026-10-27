@@ -173,7 +173,7 @@ does not permit copying or modification for any other purpose.
                Skipped when Recreate Stream When Source Is Rebuilt is off. #}
             {% set checkStreamName = previousStreamName if isMoved else ref_no_link(streamTargetLocationName, streamName) %}
             {% if desiredState.config.recreateOnSourceRebuild != false %}
-            {{ stage('Recreate Stream If Source Was Rebuilt',true,"sql","create") }}
+            {{ stage('Recreate Stream If Source Was Rebuilt') }}
             EXECUTE IMMEDIATE $$
             BEGIN
                 EXECUTE IMMEDIATE 'SELECT 1 FROM {{ checkStreamName }} LIMIT 0';
@@ -215,7 +215,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {% if isMoved %}
-            {{ stage('Drop Previous Stream',true,"sql","create") }}
+            {{ stage('Drop Previous Stream',true,"sql","drop") }}
             DROP STREAM IF EXISTS {{ previousStreamName }}
         {% endif %}
     {% endif %}
