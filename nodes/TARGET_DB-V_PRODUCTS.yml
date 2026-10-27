@@ -85,7 +85,9 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: PRODUCTS
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+            WHERE PRODUCT_ID
         name: V_PRODUCTS
         noLinkRefs: []
   name: V_PRODUCTS
