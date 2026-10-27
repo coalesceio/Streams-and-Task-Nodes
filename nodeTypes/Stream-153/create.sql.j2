@@ -237,7 +237,9 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {% if isMoved %}
-            {{ stage('Drop Previous Stream',true,"sql","drop") }}
+            {# Same "create" stage type as the stages above, so it runs after them: a "drop" stage runs earlier and
+               would remove the previous stream before the check and Move Stream at existing offset read it #}
+            {{ stage('Drop Previous Stream',true,"sql","create") }}
             DROP STREAM IF EXISTS {{ previousStreamName }}
         {% endif %}
     {% endif %}
