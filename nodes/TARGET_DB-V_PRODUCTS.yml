@@ -3,8 +3,12 @@ id: bee70f5c-9b5d-4e3d-9215-97d689a1ddbc
 name: V_PRODUCTS
 operation:
   config:
+    OverrideSQLCreate: false
+    groupByAll: false
     insertStrategy: UNION
+    secureoption: false
     selectDistinct: false
+    testsEnabled: false
   database: ""
   deployEnabled: true
   description: ""
@@ -87,7 +91,7 @@ operation:
   name: V_PRODUCTS
   overrideSQL: false
   schema: ""
-  sqlType: View
+  sqlType: bnt1:::188
   type: sql
   version: 1
 type: Node
