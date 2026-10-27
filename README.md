@@ -995,7 +995,8 @@ The Stream has two configuration groups:
 | **Option** | **Description** |
 |------------|----------------|
 | **Source Object** | Type of object for stream creation:<br/>**Table**:<br/>**Append Only Stream**: <br/>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**Dynamic Table**:<br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/> **True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**View**:<br/>**Append Only Stream**: <br/>True: Append-only stream <br/>False: Standard stream <br/><br/>**Show Initial Rows**: Specify the records to return the first time the stream is consumed.<br/>**True**: The stream returns only the rows that existed in the source object at the moment when the stream was created. Subsequently, the stream returns any DML changes to the source object since the most recent offset - the normal stream behavior.<br/> **False**: The stream returns any DML changes to the source object since the most recent offset.<br/><br/>**Redeployment Behavior**: Options for redeployment<br/><hr/>**External table**:<br/>Redeployment Behavior: Options for redeployment<br/><hr/>**External iceberg table**:<br/>Redeployment Behavior: Options for redeployment |
-| **Recreate Stream When Source Is Rebuilt** | Default **True**. If the source object was dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), the stream can no longer be read (`Base table ... dropped, cannot read from stream`).<br/>**True**: Every redeployment of an existing stream checks it and recreates it with `CREATE OR REPLACE STREAM ... COPY GRANTS` if its source was rebuilt or the stream is stale.<br/>**False**: The check is skipped. A rebuilt source leaves the stream unreadable until it is recreated.<br/>Either way, changes to the stream are applied according to Redeployment Behavior. A recreated stream starts a new offset: unconsumed changes are lost and, with Show Initial Rows on, the next read returns every row in the source. |
+| **Redeployment Behavior** | Default **Create At Existing Stream**. How a changed stream is redeployed:<br/>**Create or Replace**: Recreates the stream with the current options. The offset is reset.<br/>**Create At Existing Stream**: Recreates the stream at the existing stream's offset, so changes not yet consumed are kept. Show Initial Rows changes are not applied.<br/>See [Stream Redeployment](#stream-redeployment). |
+| **Recreate Stream When Source Is Rebuilt** | Default **True**. If the source object was dropped and recreated (for example `CREATE OR REPLACE DYNAMIC TABLE`), the stream can no longer be read (`Base table ... dropped, cannot read from stream`).<br/>**True**: Every redeployment of an existing stream checks it and recreates it with `CREATE OR REPLACE STREAM ... COPY GRANTS` if its source was rebuilt or the stream is stale.<br/>**False**: The check is skipped, so an unchanged stream is not redeployed. A rebuilt source leaves the stream unreadable until it is recreated.<br/>Either way, changes to the stream are applied according to Redeployment Behavior, and turning this option on or off does not recreate the stream. |
 
 ### Stream System Columns
 
@@ -1023,35 +1024,33 @@ When deployed for the first time into an environment the Stream node executes:
 
 #### Stream Redeployment
 
-After initial deployment, subsequent deployments run the following stages. **Recreate Stream When Source Is Rebuilt** only controls whether the **Recreate Stream If Source Was Rebuilt** check runs.
+After initial deployment, subsequent deployments run the following stages. **Recreate Stream When Source Is Rebuilt** only controls whether the **Recreate Stream If Source Was Rebuilt** check runs; changes to the stream are applied according to Redeployment Behavior either way.
 
-**Recreate Stream When Source Is Rebuilt = True** (default):
+| **#** | **Situation** | **Recreate Stream When Source Is Rebuilt = True** (default) | **Recreate Stream When Source Is Rebuilt = False** |
+|---|---|---|---|
+| 1 | Stream unchanged (whether or not its source was rebuilt) | Recreate Stream If Source Was Rebuilt | Nothing |
+| 2 | Only **Recreate Stream When Source Is Rebuilt** changed, or first deployment after upgrading to this version | Recreate Stream If Source Was Rebuilt (when the option is now on) | Nothing (when the option is now off) |
+| 3 | Stream changed (Append Only, Show Initial Rows, Redeployment Behavior, columns, description or join), **Create or Replace** | Create Stream | Create Stream |
+| 4 | Stream changed, **Create At Existing Stream** | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset | Re-Create Stream at existing offset |
+| 5 | Stream storage location or name changed, **Create or Replace** | Create Stream (at the new location), then Drop Previous Stream | Create Stream (at the new location), then Drop Previous Stream |
+| 6 | Stream storage location or name changed, **Create At Existing Stream** | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream | Move Stream at existing offset, then Drop Previous Stream |
+| 7 | Source object changed (renamed, moved, a different source node, or a different Source Object type), any Redeployment Behavior | Create Stream. An offset cannot be carried over to a different object | Create Stream |
+| 8 | Node type or materialization switch | Create Stream (preceded by a Drop stage when the previous object was not a stream) | Create Stream (preceded by a Drop stage when the previous object was not a stream) |
 
-| **Situation** | **Stages Executed** |
-|---------------|-------------------|
-| Stream unchanged | Recreate Stream If Source Was Rebuilt |
-| Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
-| Source object changed (renamed, moved, a different source node, or a different Source Object type), any Redeployment Behavior | Create Stream. An offset cannot be carried over to a different object |
-| Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
-| Stream storage location or name changed, Create or Replace | Create Stream at the new location, then Drop Previous Stream |
-| Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
-| Node type or materialization switch | Create Stream |
+| **Stage** | **SQL** | **Offset** | **Grants** |
+|---|---|---|---|
+| **Create Stream** | `CREATE OR REPLACE STREAM ... COPY GRANTS ON <source>` with all current options | Reset | Kept when an existing stream is replaced under the same name |
+| **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing | Kept if readable, reset if recreated | Kept |
+| **Re-Create Stream at existing offset** | `CREATE OR REPLACE STREAM ... COPY GRANTS ON <source> AT(STREAM => <stream>)` with the current Append Only setting. Show Initial Rows is not applied, since it would return every row again | Kept | Kept |
+| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this runs `CREATE OR REPLACE STREAM <new name> ON <source> AT(STREAM => <previous stream>)` with the current Append Only setting | Kept | Not copied from the previous stream |
+| **Drop Previous Stream** | `DROP STREAM IF EXISTS <previous stream>`, after the stages above | n/a | n/a |
+| **WARNING** | Shown when the node still has the removed **Create If Not Exists** Redeployment Behavior saved. The deployment continues as **Create or Replace** | n/a | n/a |
 
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Create Stream** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS` with the current options. For an existing stream, grants are kept and the offset is reset |
-| **Re-Create Stream at existing offset** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS ... AT(STREAM => <stream>)` with the current Append Only setting, keeping the offset and grants. Show Initial Rows is not applied, since it would return every row again |
-| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)` and the current Append Only setting, keeping the previous stream's offset |
-| **Drop Previous Stream** | Drops the stream at its previous name or storage location. Grants on the previous stream are not copied to the new one |
-| **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
-
-**Recreate Stream When Source Is Rebuilt = False**: the same stages without **Recreate Stream If Source Was Rebuilt**. An unchanged stream runs nothing, so a rebuilt source leaves the stream unreadable until it is recreated.
-
-The check runs after the source object in the same deployment, so a deployment that rebuilds the source also repairs the stream.
+The check runs after the source object in the same deployment, so a deployment that rebuilds the source also repairs the stream. With the option off, a rebuilt source leaves the stream unreadable until it is recreated, and a later **Create At Existing Stream** change or move fails because it reads the unreadable stream. Use **Create or Replace** to recreate it.
 
 > **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source.
 
-> **Note:** **Create If Not Exists** is no longer a Redeployment Behavior option. A node that still has it saved is redeployed as **Create or Replace**, and the deployment shows a **WARNING** stage until another option is selected.
+> **Note:** **Create If Not Exists** is no longer a Redeployment Behavior option. A node that still has it saved runs a **WARNING** stage and is redeployed as **Create or Replace** until another option is selected. With **Recreate Stream When Source Is Rebuilt** off, the warning appears only when the stream has other stages to run.
 
 #### Node Type Switching
 
@@ -1087,27 +1086,30 @@ If the stream's source object is dropped and recreated (for example `CREATE OR R
 
 #### Stream with Source Rebuild Check Redeployment
 
-| **Situation** | **Stages Executed** |
-|---------------|-------------------|
-| Stream unchanged | Recreate Stream If Source Was Rebuilt |
-| Stream changed, Create or Replace | Create Stream (this also repairs a broken stream) |
-| Source object changed (renamed, moved, a different source node, or a different Source Object type), any Redeployment Behavior | Create Stream. An offset cannot be carried over to a different object |
-| Stream changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
-| Stream storage location or name changed, Create or Replace | Create Stream at the new location, then Drop Previous Stream |
-| Stream storage location or name changed, Create At Existing Stream | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
-| Node type or materialization switch | Create Stream |
+| **#** | **Situation** | **Stages Executed** |
+|---|---|---|
+| 1 | Stream unchanged (whether or not its source was rebuilt) | Recreate Stream If Source Was Rebuilt |
+| 2 | Stream changed (Append Only, Show Initial Rows, Redeployment Behavior, columns, description or join), **Create or Replace** | Create Stream |
+| 3 | Stream changed, **Create At Existing Stream** | Recreate Stream If Source Was Rebuilt, then Re-Create Stream at existing offset |
+| 4 | Stream storage location or name changed, **Create or Replace** | Create Stream (at the new location), then Drop Previous Stream |
+| 5 | Stream storage location or name changed, **Create At Existing Stream** | Recreate Stream If Source Was Rebuilt (on the previous stream), then Move Stream at existing offset, then Drop Previous Stream |
+| 6 | Source object changed (renamed, moved, a different source node, or a different Source Object type), any Redeployment Behavior | Create Stream. An offset cannot be carried over to a different object |
+| 7 | Node type or materialization switch | Create Stream (preceded by a Drop stage when the previous object was not a stream) |
 
-| **Stage** | **Description** |
-|-----------|----------------|
-| **Create Stream** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS` with the current options. For an existing stream, grants are kept and the offset is reset |
-| **Re-Create Stream at existing offset** | Runs `CREATE OR REPLACE STREAM ... COPY GRANTS ... AT(STREAM => <stream>)` with the current Append Only setting, keeping the offset and grants. Show Initial Rows is not applied, since it would return every row again |
-| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this creates the stream at its new name or storage location with `AT(STREAM => <previous stream>)` and the current Append Only setting, keeping the previous stream's offset |
-| **Drop Previous Stream** | Drops the stream at its previous name or storage location. Grants on the previous stream are not copied to the new one |
-| **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing |
+| **Stage** | **SQL** | **Offset** | **Grants** |
+|---|---|---|---|
+| **Create Stream** | `CREATE OR REPLACE STREAM ... COPY GRANTS ON <source>` with all current options | Reset | Kept when an existing stream is replaced under the same name |
+| **Recreate Stream If Source Was Rebuilt** | Test-reads the stream. If Snowflake reports that the base object was dropped or the stream is stale, runs `CREATE OR REPLACE STREAM ... COPY GRANTS` on the current source object. Any other read error fails the stage. If the stream is readable, does nothing | Kept if readable, reset if recreated | Kept |
+| **Re-Create Stream at existing offset** | `CREATE OR REPLACE STREAM ... COPY GRANTS ON <source> AT(STREAM => <stream>)` with the current Append Only setting. Show Initial Rows is not applied, since it would return every row again | Kept | Kept |
+| **Move Stream at existing offset** | Snowflake cannot rename or move a stream, so this runs `CREATE OR REPLACE STREAM <new name> ON <source> AT(STREAM => <previous stream>)` with the current Append Only setting | Kept | Not copied from the previous stream |
+| **Drop Previous Stream** | `DROP STREAM IF EXISTS <previous stream>`, after the stages above | n/a | n/a |
+| **WARNING** | Shown when the node still has the removed **Create If Not Exists** Redeployment Behavior saved. The deployment continues as **Create or Replace** | n/a | n/a |
+
+The check runs after the source object in the same deployment, so a deployment that rebuilds the source also repairs the stream.
 
 > **Note:** A recreated stream starts a new offset: changes not yet consumed are lost and, with Show Initial Rows on, the next read returns every row in the source.
 
-> **Note:** **Create If Not Exists** is no longer a Redeployment Behavior option. A node that still has it saved is redeployed as **Create or Replace**, and the deployment shows a **WARNING** stage until another option is selected. Switching an existing Stream node to this node type recreates the stream.
+> **Note:** **Create If Not Exists** is no longer a Redeployment Behavior option. A node that still has it saved runs a **WARNING** stage and is redeployed as **Create or Replace** until another option is selected. Switching an existing Stream node to this node type recreates the stream.
 
 ### Stream with Source Rebuild Check Undeployment
 
