@@ -100,30 +100,147 @@ does not permit copying or modification for any other purpose.
     {%- endif -%}
 
     
-	{% if currentState == undefined or currentState.storageLocations | length == 0 or (currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType) or (currentState.node.materializationType != desiredState.node.materializationType) %}
+    {# Stream changed: compares everything except Recreate Stream When Source Is Rebuilt, which only decides whether the
+       check stage runs. Turning it on or off, or deploying a stream saved before the option existed, is not a change #}
+    {% set nsChange = namespace(isChanged=false) %}
+    {% if currentState != undefined %}
+        {% for key, value in desiredState | dictsort %}
+            {% if key != 'config' and value != currentState[key] %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+        {% for key, value in desiredState.config | dictsort %}
+            {% if key != 'recreateOnSourceRebuild' and value != currentState.config[key] %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+        {% for key, value in currentState.config | dictsort %}
+            {% if key != 'recreateOnSourceRebuild' and key not in desiredState.config %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% set isChanged = nsChange.isChanged %}
 
-        {% if currentState == undefined or desiredState.config.redeploymentBehavior == 'Create or Replace'  and desiredState !=currentState %}
+    {# Create If Not Exists was removed: nodes that still have it saved are redeployed as Create or Replace.
+       The warning is shown only when the node has other stages to run, so an unchanged stream with the check off stays out of the deploy #}
+    {% if desiredState.config.redeploymentBehavior == 'Create If Not Exists' %}
+        {% set redeploymentBehavior = 'Create or Replace' %}
+        {% if currentState == undefined or isChanged or desiredState.config.recreateOnSourceRebuild != false %}
+        {{ stage('WARNING') }}
+        /* Redeployment Behavior 'Create If Not Exists' is no longer supported. This deployment uses 'Create or Replace' instead.
+           Select 'Create or Replace' or 'Create At Existing Stream' in the node's Redeployment Behavior to remove this warning. */
+           select 1=1
+        {% endif %}
+    {% else %}
+        {% set redeploymentBehavior = desiredState.config.redeploymentBehavior %}
+    {% endif %}
+
+    {# New stream, or node type / materialization switch: there is no stream to keep, so always create it #}
+    {% set isNewOrSwitch = currentState == undefined or currentState.storageLocations | length == 0
+        or currentState.node.nodeType != desiredState.node.nodeType
+        or currentState.node.materializationType != desiredState.node.materializationType %}
+
+    {% if isNewOrSwitch %}
+        {{ stage('Create Stream',true,"sql","create") }}
+        CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+            ON {{ streamType }} {{ refLink }}
+            {{ streamAppendMode }}
+            {{ streamInitialRowsMode }}
+            {{ streamInsertOnlyMode }}
+
+    {% else %}
+
+        {# Location / name change: Snowflake cannot rename or move a stream, so the stream is created at its
+           new location (at the previous stream's offset for Create At Existing Stream) and the previous one is dropped #}
+        {% set currentDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | first %}
+        {% set currentSchemaName = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | first %}
+        {% set previousStreamName = '"' + currentDatabaseName + '"."' + currentSchemaName + '"."' + currentState.node.name + '"' %}
+        {% set isMoved = currentDatabaseName != streamTargetDatabaseName or currentSchemaName != streamTargetSchemaName or currentState.node.name != streamName %}
+
+        {# Source object changed (renamed, moved, repointed or different type): AT(STREAM => ...) cannot carry an offset
+           over to a different object, so the stream is created fresh #}
+        {# The previously deployed state may have no source dependency (e.g. deployed without a ref() in the join):
+           then the source cannot be compared and is treated as unchanged #}
+        {% set currentSources = currentState.sources | default([]) %}
+        {% set currentDependencies = (currentSources[0].dependencies | default([])) if currentSources | length > 0 else [] %}
+        {% if currentDependencies | length > 0 %}
+            {% set currentSourceNode = currentDependencies[0].node %}
+            {% set currentSourceDatabaseName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='database') | first %}
+            {% set currentSourceSchemaName = currentState.storageLocations | selectattr('name', 'equalto', currentSourceNode.location.name) | map(attribute='schema') | first %}
+            {% set isSourceChanged = currentSourceDatabaseName != sourceDatabaseName or currentSourceSchemaName != sourceSchemaName
+                or currentSourceNode.name != sourceTableName or currentState.config.sourceType != desiredState.config.sourceType %}
+        {% else %}
+            {% set isSourceChanged = false %}
+        {% endif %}
+
+        {% if (isChanged and redeploymentBehavior == 'Create or Replace') or (isMoved and redeploymentBehavior != 'Create At Existing Stream') or isSourceChanged %}
+            {# Also repairs a stream whose source was rebuilt, so no check is needed.
+               COPY GRANTS keeps the grants of a stream replaced under the same name #}
             {{ stage('Create Stream',true,"sql","create") }}
-            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }} COPY GRANTS
                 ON {{ streamType }} {{ refLink }}
                 {{ streamAppendMode }}
                 {{ streamInitialRowsMode }}
                 {{ streamInsertOnlyMode }}
 
-        {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create If Not Exists' and desiredState !=currentState %}
-            {{ stage('Create Stream If Not Exists',true,"sql","create") }}
-            CREATE STREAM IF NOT EXISTS {{ ref(streamTargetLocationName, streamName) }}
-                ON {{ streamType }} {{ refLink }}
-                {{ streamAppendMode }}
-                {{ streamInitialRowsMode }}
-                {{ streamInsertOnlyMode }}
+        {% else %}
 
-        {% elif currentState != undefined and desiredState.config.redeploymentBehavior == 'Create At Existing Stream' and desiredState !=currentState %}
-            {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
-            CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
-                ON {{ streamType }} {{ refLink }}
-                AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}');
+            {# Source rebuilt: a CREATE OR REPLACE / DROP+CREATE of the source leaves the stream attached to the dropped object.
+               Recreate it whatever the Redeployment Behavior, since AT(STREAM => ...) cannot repair it.
+               Also recreate a stale stream. Any other read error is re-raised.
+               Checks the stream where it currently exists (its previous location when moved), before the stages below,
+               so AT(STREAM => ...) reads a working stream.
+               Skipped when Recreate Stream When Source Is Rebuilt is off. #}
+            {% set checkStreamName = previousStreamName if isMoved else ref_no_link(streamTargetLocationName, streamName) %}
+            {% if desiredState.config.recreateOnSourceRebuild != false %}
+            {{ stage('Recreate Stream If Source Was Rebuilt',true,"sql","create") }}
+            /* To check if source {{refLink}} is rebuilt */
+            EXECUTE IMMEDIATE $$
+            BEGIN
+                EXECUTE IMMEDIATE 'SELECT 1 FROM {{ checkStreamName }} LIMIT 0';
+                RETURN 'Stream is readable: no recreate needed';
+            EXCEPTION
+                WHEN OTHER THEN
+                    IF (CONTAINS(LOWER(SQLERRM), 'dropped, cannot read from stream') OR CONTAINS(LOWER(SQLERRM), 'stale')) THEN
+                        CREATE OR REPLACE STREAM {{ checkStreamName }} COPY GRANTS
+                            ON {{ streamType }} {{ refLink }}
+                            {{ streamAppendMode }}
+                            {{ streamInitialRowsMode }}
+                            {{ streamInsertOnlyMode }};
+                        RETURN 'Stream recreated: source object was rebuilt or stream was stale. Offset reset{% if streamInitialRowsMode == 'SHOW_INITIAL_ROWS = TRUE' %}, next read returns all rows in the source{% endif %}.';
+                    END IF;
+                    RAISE;
+            END;
+            $$
+            {% endif %}
 
+            {% if isMoved %}
+                {# SHOW_INITIAL_ROWS is left out: it would make the stream return every row again instead of resuming at the offset #}
+                {{ stage('Move Stream at existing offset',true,"sql","create") }}
+                CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }}
+                    ON {{ streamType }} {{ refLink }}
+                    AT(STREAM => '{{ previousStreamName }}')
+                    {{ streamAppendMode }}
+                    {{ streamInsertOnlyMode }}
+
+            {% elif isChanged and redeploymentBehavior == 'Create At Existing Stream' %}
+                {# SHOW_INITIAL_ROWS is left out: it would make the stream return every row again instead of resuming at the offset #}
+                {{ stage('Re-Create Stream at existing offset',true,"sql","create") }}
+                CREATE OR REPLACE STREAM {{ ref(streamTargetLocationName, streamName) }} COPY GRANTS
+                    ON {{ streamType }} {{ refLink }}
+                    AT(STREAM => '{{ ref(streamTargetLocationName, streamName) }}')
+                    {{ streamAppendMode }}
+                    {{ streamInsertOnlyMode }}
+
+            {% endif %}
+        {% endif %}
+
+        {% if isMoved %}
+            {# Same "create" stage type as the stages above, so it runs after them: a "drop" stage runs earlier and
+               would remove the previous stream before the check and Move Stream at existing offset read it #}
+            {{ stage('Drop Previous Stream',true,"sql","create") }}
+            DROP STREAM IF EXISTS {{ previousStreamName }}
         {% endif %}
     {% endif %}
 
