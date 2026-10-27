@@ -3,7 +3,7 @@ id: 3c021aaa-5a22-459c-98af-e1180fe94cc0
 name: STREAM_PRODUCTS_TWO
 operation:
   config:
-    appendOnly: true
+    appendOnly: false
     initialRows: true
     recreateOnSourceRebuild: true
     redeploymentBehavior: Create At Existing Stream

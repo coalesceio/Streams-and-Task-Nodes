@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 72cfd306-3f11-40a0-80c3-0dfd9f00f853
-name: STREAM_MAKT123
+name: STREAM_MAKT1234
 operation:
   config:
     appendOnly: false
@@ -122,9 +122,9 @@ operation:
             nodeName: DT_WRK_MAKT1
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_MAKT1') }} "DT_WRK_MAKT1"
-        name: STREAM_MAKT123
+        name: STREAM_MAKT1234
         noLinkRefs: []
-  name: STREAM_MAKT123
+  name: STREAM_MAKT1234
   overrideSQL: false
   schema: ""
   sqlType: "153"

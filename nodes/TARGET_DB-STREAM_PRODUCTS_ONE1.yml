@@ -1,6 +1,6 @@
 fileVersion: 1
 id: d695b423-d11f-44ce-92a4-f6e30ec7cda6
-name: STREAM_PRODUCTS_ONE
+name: STREAM_PRODUCTS_ONE1
 operation:
   config:
     appendOnly: false
@@ -136,9 +136,9 @@ operation:
             nodeName: STG_PRODUCTS
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'STG_PRODUCTS') }} "STG_PRODUCTS"
-        name: STREAM_PRODUCTS_ONE
+        name: STREAM_PRODUCTS_ONE1
         noLinkRefs: []
-  name: STREAM_PRODUCTS_ONE
+  name: STREAM_PRODUCTS_ONE1
   overrideSQL: false
   schema: ""
   sqlType: "153"

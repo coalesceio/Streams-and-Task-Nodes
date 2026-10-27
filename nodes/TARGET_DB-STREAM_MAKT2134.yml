@@ -1,11 +1,11 @@
 fileVersion: 1
 id: 35b69f01-f60e-4d6e-9928-019151a64dd6
-name: STREAM_MAKT213
+name: STREAM_MAKT2134
 operation:
   config:
     appendOnly: false
     initialRows: true
-    recreateOnSourceRebuild: false
+    recreateOnSourceRebuild: true
     redeploymentBehavior: Create or Replace
     sourceType: Dynamic Table
   database: ""
@@ -110,9 +110,9 @@ operation:
             nodeName: DT_WRK_MAKT1
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_MAKT1') }} "DT_WRK_MAKT1"
-        name: STREAM_MAKT213
+        name: STREAM_MAKT2134
         noLinkRefs: []
-  name: STREAM_MAKT213
+  name: STREAM_MAKT2134
   overrideSQL: false
   schema: ""
   sqlType: "153"
