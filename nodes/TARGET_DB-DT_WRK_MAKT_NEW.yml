@@ -1,0 +1,123 @@
+fileVersion: 1
+id: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
+name: DT_WRK_MAKT_NEW
+operation:
+  config:
+    advanceWarehouse: false
+    backfill: false
+    backfillSource: ""
+    backfillSourceSchema: ""
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    cpygrants: false
+    downstreamOption: false
+    groupByAll: false
+    immutabilityConstraint: false
+    immutableExpression: ""
+    initialize: ON_CREATE
+    initializeWarehouseSize: ""
+    insertStrategy: UNION ALL
+    lagSpecification:
+      items:
+        - lagPeriod: Minutes
+          lagValue: "6000"
+    refreshWarehouseSize: ""
+    refresh_mode: AUTO
+    selectDistinct: false
+    timeTravel: false
+    timeTravelreference: ""
+    timeTraveltype: ""
+    timeTravelvalue: ""
+    warehouseName: dev_wh_xs
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: dynamic table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f564f37b-7e10-46b6-9c45-0360cc9e1ef3
+          stepCounter: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: MATNR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b3641eb6-4938-4221-8079-9c0b8159b9b7
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cb721d6a-e7a6-496d-b9a7-8da4c223375c
+          stepCounter: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: SPRAS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b1a473dd-2675-4c96-861d-18e9934f55f6
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 102dc9e3-b1c5-45d1-b345-409c6d4b3034
+          stepCounter: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
+        config: {}
+        dataType: VARCHAR(200)
+        description: ""
+        name: MAKTX
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bb84e3c3-9ec0-4473-aeb3-3146141d431c
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9fdd7eb1-6933-4fc4-b5ca-4cb7c0f5913c
+          stepCounter: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
+        config: {}
+        dataType: VARCHAR(200)
+        description: ""
+        name: MAKTG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c7a15587-249e-4629-adac-be12366ce9f7
+                stepCounter: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          MAKT: 318fb33d-c3fb-49b0-8c6f-4ce51c4fe9a5
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: MAKT
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'MAKT') }} "MAKT"
+        name: DT_WRK_MAKT_NEW
+        noLinkRefs: []
+  name: DT_WRK_MAKT_NEW
+  overrideSQL: false
+  schema: ""
+  sqlType: DT:::347
+  type: sql
+  version: 1
+type: Node

@@ -99,7 +99,7 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'MAKT') }} "MAKT"
-            WHERE "MAKTG" like '%BOLT%'
+            WHERE "MAKTG" like '%BOLT%' OR "MAKTG" like '%GLOVES%'
             ORDER BY "SPRAS"
         name: DT_WRK_MAKT1
         noLinkRefs: []
