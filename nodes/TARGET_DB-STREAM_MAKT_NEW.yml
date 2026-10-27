@@ -47,20 +47,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: cfb96849-bca6-443f-abcb-74fee91270fd
-          stepCounter: 21a38bb6-49fd-4ab1-827c-fbeb7d602e67
-        config: {}
-        dataType: VARCHAR(200)
-        description: ""
-        name: MAKTX
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 102dc9e3-b1c5-45d1-b345-409c6d4b3034
-                stepCounter: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 7cf350cd-a018-448e-a573-419b8607d19b
           stepCounter: 21a38bb6-49fd-4ab1-827c-fbeb7d602e67
         config: {}
