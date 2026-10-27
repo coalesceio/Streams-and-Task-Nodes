@@ -1,13 +1,13 @@
 fileVersion: 1
 id: 5a7e8c49-c4d5-4445-b566-30769166f171
-name: STREAM_PRODUCTS
+name: STREAM_PRODUCTS_VW
 operation:
   config:
     appendOnly: false
     initialRows: true
     recreateOnSourceRebuild: false
     redeploymentBehavior: Create or Replace
-    sourceType: Table
+    sourceType: View
   database: ""
   deployEnabled: true
   description: ""
@@ -136,9 +136,9 @@ operation:
             nodeName: V_PRODUCTS
         join:
           joinCondition: FROM {{ ref('TARGET_DB', 'V_PRODUCTS') }} "V_PRODUCTS"
-        name: STREAM_PRODUCTS
+        name: STREAM_PRODUCTS_VW
         noLinkRefs: []
-  name: STREAM_PRODUCTS
+  name: STREAM_PRODUCTS_VW
   overrideSQL: false
   schema: ""
   sqlType: "153"
