@@ -88,6 +88,7 @@ operation:
           joinCondition: |-
             FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
             WHERE "PRODUCT_ID" > 3
+            ORDER BY "PRODUCT_NAME"
         name: V_PRODUCTS
         noLinkRefs: []
   name: V_PRODUCTS
