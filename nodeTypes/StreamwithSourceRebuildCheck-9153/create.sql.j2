@@ -102,12 +102,35 @@ does not permit copying or modification for any other purpose.
     {%- endif -%}
 
     
+    {# Stream changed: compares everything except Recreate Stream When Source Is Rebuilt, which only decides whether the
+       check stage runs. Turning it on or off, or deploying a stream saved before the option existed, is not a change #}
+    {% set nsChange = namespace(isChanged=false) %}
+    {% if currentState != undefined %}
+        {% for key, value in desiredState | dictsort %}
+            {% if key != 'config' and value != currentState[key] %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+        {% for key, value in desiredState.config | dictsort %}
+            {% if key != 'recreateOnSourceRebuild' and value != currentState.config[key] %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+        {% for key, value in currentState.config | dictsort %}
+            {% if key != 'recreateOnSourceRebuild' and key not in desiredState.config %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% set isChanged = nsChange.isChanged %}
+
     {# Create If Not Exists was removed: nodes that still have it saved are redeployed as Create or Replace #}
     {% if desiredState.config.redeploymentBehavior == 'Create If Not Exists' %}
         {% set redeploymentBehavior = 'Create or Replace' %}
         {{ stage('WARNING') }}
         /* Redeployment Behavior 'Create If Not Exists' is no longer supported. This deployment uses 'Create or Replace' instead.
            Select 'Create or Replace' or 'Create At Existing Stream' in the node's Redeployment Behavior to remove this warning. */
+           select 1=1
     {% else %}
         {% set redeploymentBehavior = desiredState.config.redeploymentBehavior %}
     {% endif %}
@@ -116,7 +139,6 @@ does not permit copying or modification for any other purpose.
     {% set isNewOrSwitch = currentState == undefined or currentState.storageLocations | length == 0
         or currentState.node.nodeType != desiredState.node.nodeType
         or currentState.node.materializationType != desiredState.node.materializationType %}
-    {% set isChanged = currentState != undefined and desiredState != currentState %}
 
     {% if isNewOrSwitch %}
         {{ stage('Create Stream',true,"sql","create") }}
@@ -171,6 +193,7 @@ does not permit copying or modification for any other purpose.
                Always runs for this node type. #}
             {% set checkStreamName = previousStreamName if isMoved else ref_no_link(streamTargetLocationName, streamName) %}
             {{ stage('Recreate Stream If Source Was Rebuilt',true,"sql","create") }}
+            /* To check if source {{refLink}} is rebuilt */
             EXECUTE IMMEDIATE $$
             BEGIN
                 EXECUTE IMMEDIATE 'SELECT 1 FROM {{ checkStreamName }} LIMIT 0';
@@ -211,7 +234,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
         {% if isMoved %}
-            {{ stage('Drop Previous Stream',true,"sql","create") }}
+            {{ stage('Drop Previous Stream',true,"sql","drop") }}
             DROP STREAM IF EXISTS {{ previousStreamName }}
         {% endif %}
     {% endif %}

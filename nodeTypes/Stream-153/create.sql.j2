@@ -100,11 +100,33 @@ does not permit copying or modification for any other purpose.
     {%- endif -%}
 
     
+    {# Stream changed: compares everything except Recreate Stream When Source Is Rebuilt, which only decides whether the
+       check stage runs. Turning it on or off, or deploying a stream saved before the option existed, is not a change #}
+    {% set nsChange = namespace(isChanged=false) %}
+    {% if currentState != undefined %}
+        {% for key, value in desiredState | dictsort %}
+            {% if key != 'config' and value != currentState[key] %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+        {% for key, value in desiredState.config | dictsort %}
+            {% if key != 'recreateOnSourceRebuild' and value != currentState.config[key] %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+        {% for key, value in currentState.config | dictsort %}
+            {% if key != 'recreateOnSourceRebuild' and key not in desiredState.config %}
+                {% set nsChange.isChanged = true %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% set isChanged = nsChange.isChanged %}
+
     {# Create If Not Exists was removed: nodes that still have it saved are redeployed as Create or Replace.
        The warning is shown only when the node has other stages to run, so an unchanged stream with the check off stays out of the deploy #}
     {% if desiredState.config.redeploymentBehavior == 'Create If Not Exists' %}
         {% set redeploymentBehavior = 'Create or Replace' %}
-        {% if currentState == undefined or desiredState != currentState or desiredState.config.recreateOnSourceRebuild != false %}
+        {% if currentState == undefined or isChanged or desiredState.config.recreateOnSourceRebuild != false %}
         {{ stage('WARNING') }}
         /* Redeployment Behavior 'Create If Not Exists' is no longer supported. This deployment uses 'Create or Replace' instead.
            Select 'Create or Replace' or 'Create At Existing Stream' in the node's Redeployment Behavior to remove this warning. */
@@ -118,7 +140,6 @@ does not permit copying or modification for any other purpose.
     {% set isNewOrSwitch = currentState == undefined or currentState.storageLocations | length == 0
         or currentState.node.nodeType != desiredState.node.nodeType
         or currentState.node.materializationType != desiredState.node.materializationType %}
-    {% set isChanged = currentState != undefined and desiredState != currentState %}
 
     {% if isNewOrSwitch %}
         {{ stage('Create Stream',true,"sql","create") }}
