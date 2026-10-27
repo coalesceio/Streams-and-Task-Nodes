@@ -6,7 +6,7 @@ operation:
     appendOnly: false
     initialRows: true
     recreateOnSourceRebuild: false
-    redeploymentBehavior: Create At Existing Stream
+    redeploymentBehavior: Create or Replace
     sourceType: Dynamic Table
   database: ""
   deployEnabled: true
