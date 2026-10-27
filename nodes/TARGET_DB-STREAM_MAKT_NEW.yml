@@ -128,14 +128,14 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          DT_WRK_MAKT_NEW: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
+          DT_WRK_MAKT_NEW12: 7d3e9fba-f9e9-4261-bc9e-4288a95a4091
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: DT_WRK_MAKT_NEW
+            nodeName: DT_WRK_MAKT_NEW12
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_MAKT_NEW') }} "DT_WRK_MAKT_NEW"
+          joinCondition: FROM {{ ref('TARGET_DB', 'DT_WRK_MAKT_NEW12') }} "DT_WRK_MAKT_NEW12"
         name: STREAM_MAKT_NEW
         noLinkRefs: []
   name: STREAM_MAKT_NEW
