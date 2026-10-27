@@ -111,7 +111,9 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: MAKT
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'MAKT') }} "MAKT"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'MAKT') }} "MAKT"
+            WHERE "MAKTG" like '%GLOVES%'
         name: DT_WRK_MAKT_NEW
         noLinkRefs: []
   name: DT_WRK_MAKT_NEW

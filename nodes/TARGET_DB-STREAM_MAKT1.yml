@@ -6,7 +6,7 @@ operation:
     appendOnly: false
     initialRows: true
     recreateOnSourceRebuild: true
-    redeploymentBehavior: Create If Not Exists
+    redeploymentBehavior: Create or Replace
     sourceType: Dynamic Table
   database: ""
   deployEnabled: true
