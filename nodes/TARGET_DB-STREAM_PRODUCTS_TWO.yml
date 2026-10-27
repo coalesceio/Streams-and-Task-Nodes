@@ -1,0 +1,147 @@
+fileVersion: 1
+id: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+name: STREAM_PRODUCTS_TWO
+operation:
+  config:
+    appendOnly: false
+    initialRows: true
+    recreateOnSourceRebuild: true
+    redeploymentBehavior: Create or Replace
+    sourceType: Table
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: stream
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a7424f8e-5d03-4443-ab39-fb2f28811879
+          stepCounter: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 163efd64-3485-45af-8d30-42ef0c12760b
+                stepCounter: 8c527258-9fb2-4936-aa2c-75518d175502
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7bd9b184-0c29-4a4e-9195-4925fac8b038
+          stepCounter: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a64872dc-75ae-43f6-844e-497c446db8d0
+                stepCounter: 8c527258-9fb2-4936-aa2c-75518d175502
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6373df09-366c-486b-89e6-c45f92eea09c
+          stepCounter: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 35b45583-5ec0-43dc-b80e-189c3c2a91fe
+                stepCounter: 8c527258-9fb2-4936-aa2c-75518d175502
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95625ade-7972-4f08-ba87-cb4b66c46783
+          stepCounter: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a4037475-63d2-4656-b0be-294f406c88cf
+                stepCounter: 8c527258-9fb2-4936-aa2c-75518d175502
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6b39a6d2-a1ae-49ee-b0bb-3ec0c28d1126
+          stepCounter: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataAction: true
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8c9db38-db08-49ac-a7c8-c10a68cff073
+          stepCounter: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+        config: {}
+        dataType: boolean
+        defaultValue: ""
+        description: ""
+        metadataIsUpdate: true
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a87d7bf1-4aa9-49c2-9d06-3a96510b616b
+          stepCounter: 3c021aaa-5a22-459c-98af-e1180fe94cc0
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        metadataRowID: true
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STG_PRODUCTS: 8c527258-9fb2-4936-aa2c-75518d175502
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: STG_PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'STG_PRODUCTS') }} "STG_PRODUCTS"
+        name: STREAM_PRODUCTS_TWO
+        noLinkRefs: []
+  name: STREAM_PRODUCTS_TWO
+  overrideSQL: false
+  schema: ""
+  sqlType: "153"
+  type: sql
+  version: 1
+type: Node
