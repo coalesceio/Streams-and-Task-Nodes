@@ -4,7 +4,7 @@ name: STREAM_CUSTOMER
 operation:
   config:
     appendOnly: false
-    initialRows: true
+    initialRows: false
     recreateOnSourceRebuild: false
     redeploymentBehavior: Create or Replace
     sourceType: Table
