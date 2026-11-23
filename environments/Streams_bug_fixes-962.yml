@@ -1,8 +1,5 @@
 fileVersion: 1
 id: "962"
-mappingDefinitions:
-  TARGET_EXTRA:
-    database: ""
-    schema: ""
+mappingDefinitions: {}
 name: Streams_bug_fixes
 type: Environment

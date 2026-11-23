@@ -1,8 +1,5 @@
 fileVersion: 1
 id: "823"
-mappingDefinitions:
-  TARGET_EXTRA:
-    database: ""
-    schema: ""
+mappingDefinitions: {}
 name: "[NM-252]-UserTaskAddition"
 type: Environment
