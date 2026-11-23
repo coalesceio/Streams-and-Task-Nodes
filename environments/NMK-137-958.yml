@@ -10,5 +10,8 @@ mappingDefinitions:
   TARGET_DB:
     database: TARGET
     schema: TARGET_QA
+  TARGET_EXTRA:
+    database: TARGET
+    schema: EXTRA
 name: "[NMK-137]"
 type: Environment

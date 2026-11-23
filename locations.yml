@@ -4,3 +4,4 @@ locations:
   - SOURCE_DATA
   - TARGET_ACC
   - TARGET_DB
+  - TARGET_EXTRA
