@@ -5,7 +5,7 @@ operation:
   config:
     appendOnly: false
     initialRows: false
-    recreateOnSourceRebuild: false
+    recreateOnSourceRebuild: true
     redeploymentBehavior: Create or Replace
     sourceType: Table
   database: ""
