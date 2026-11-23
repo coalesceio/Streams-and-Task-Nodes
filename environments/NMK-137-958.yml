@@ -1,6 +1,9 @@
 fileVersion: 1
 id: "958"
 mappingDefinitions:
+  NEW_SOURCE:
+    database: SOURCE
+    schema: PUBLIC
   SOURCE_DATA:
     database: SOURCE
     schema: SRC

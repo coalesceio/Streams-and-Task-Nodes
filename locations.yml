@@ -1,6 +1,7 @@
 defaultStorageMapping: TARGET_DB
 fileVersion: 1
 locations:
+  - NEW_SOURCE
   - SOURCE_DATA
   - TARGET_ACC
   - TARGET_DB

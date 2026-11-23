@@ -188,10 +188,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SOURCE_DATA
+          - locationName: NEW_SOURCE
             nodeName: CUSTOMER
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
+          joinCondition: FROM {{ ref('NEW_SOURCE', 'CUSTOMER') }} "CUSTOMER"
         name: STREAM_CUSTOMER
         noLinkRefs: []
   name: STREAM_CUSTOMER
