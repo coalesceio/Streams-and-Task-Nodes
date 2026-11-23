@@ -1,0 +1,14 @@
+fileVersion: 1
+id: "958"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: SOURCE
+    schema: SRC
+  TARGET_ACC:
+    database: TARGET
+    schema: TARGET_NEW
+  TARGET_DB:
+    database: TARGET
+    schema: TARGET_QA
+name: "[NMK-137]"
+type: Environment
