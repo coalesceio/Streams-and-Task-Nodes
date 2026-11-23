@@ -105,7 +105,7 @@ does not permit copying or modification for any other purpose.
     {% set nsChange = namespace(isChanged=false) %}
     {% if currentState != undefined %}
         {% for key, value in desiredState | dictsort %}
-            {% if key != 'config' and value != currentState[key] %}
+            {% if key not in ['config', 'storageLocations'] and value != currentState[key] %}
                 {% set nsChange.isChanged = true %}
             {% endif %}
         {% endfor %}
