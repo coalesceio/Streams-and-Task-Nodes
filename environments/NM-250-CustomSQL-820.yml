@@ -1,8 +1,5 @@
 fileVersion: 1
 id: "820"
-mappingDefinitions:
-  TARGET_EXTRA:
-    database: ""
-    schema: ""
+mappingDefinitions: {}
 name: "[NM-250]-CustomSQL"
 type: Environment

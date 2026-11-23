@@ -1,8 +1,5 @@
 fileVersion: 1
 id: "580"
-mappingDefinitions:
-  TARGET_EXTRA:
-    database: ""
-    schema: ""
+mappingDefinitions: {}
 name: DT_QA1
 type: Environment

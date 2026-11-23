@@ -1,8 +1,5 @@
 fileVersion: 1
 id: "836"
-mappingDefinitions:
-  TARGET_EXTRA:
-    database: ""
-    schema: ""
+mappingDefinitions: {}
 name: "[NM-251]OptionalPrimaryKey"
 type: Environment
