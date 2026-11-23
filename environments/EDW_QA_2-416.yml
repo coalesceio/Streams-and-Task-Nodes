@@ -10,5 +10,8 @@ mappingDefinitions:
   TARGET_DB:
     database: ANANDHIS_DEV
     schema: TARGET_DEV
+  TARGET_EXTRA:
+    database: ""
+    schema: ""
 name: EDW_QA_2
 type: Environment
